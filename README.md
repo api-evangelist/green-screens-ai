@@ -1,41 +1,33 @@
-# Green Screens AI (green-screens-ai)
+# Green Screens AI
+
 Green Screens AI provides predictive freight rate and capacity intelligence APIs, offering real-time market insights and price predictions for transportation and logistics.
-
-**URL:** [Visit APIs.json URL](https://connect.greenscreens.ai)
-
-## Scope
-
-- **Type:** Index 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
-
-## Tags:
-
- - Freight, Logistics, Transportation, Pricing, AI, Machine Learning
-
-## Timestamps
-
-- **Created:** 2024-07-02 
-- **Modified:** 2026-03-16 
 
 ## APIs
 
 ### Green Screens AI Prediction API
-Predictive freight rate and capacity intelligence for transportation and logistics.
+Predictive freight rate and capacity intelligence for transportation and logistics. Provides real-time market rate predictions, lane pricing, and capacity insights.
 
-**Human URL:** [https://connect.greenscreens.ai/prediction/v3/swagger/index.html](https://connect.greenscreens.ai/prediction/v3/swagger/index.html)
+- **Human URL:** https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+- **Base URL:** https://connect.greenscreens.ai/prediction/v3
+- **Documentation:** https://connect.greenscreens.ai/prediction/v3/swagger/index.html
 
-#### Properties
+## Tags
 
-- [Documentation](https://connect.greenscreens.ai/prediction/v3/swagger/index.html)
+- AI
+- Freight
+- Logistics
+- Machine Learning
+- Pricing
+- Transportation
 
 ## Common Properties
 
-- [Portal](https://www.greenscreens.ai)
-- [Documentation](https://connect.greenscreens.ai/prediction/v3/swagger/index.html)
+| Property | URL |
+|----------|-----|
+| Website | https://www.greenscreens.ai |
+| Portal | https://www.greenscreens.ai |
+| Documentation | https://connect.greenscreens.ai/prediction/v3/swagger/index.html |
 
 ## Maintainers
 
-**FN:** Kin Lane
-
-**Email:** kin@apievangelist.com
+- **Kin Lane** - kin@apievangelist.com
