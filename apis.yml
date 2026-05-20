@@ -34,6 +34,8 @@ apis:
       - type: Portal
         url: https://www.greenscreens.ai
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/greenscreensai
   - type: Website
     url: https://www.greenscreens.ai
   - type: Portal
