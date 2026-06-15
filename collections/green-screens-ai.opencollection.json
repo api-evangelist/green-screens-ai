@@ -1,0 +1,1039 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Auth token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "grant_type",
+                  "value": ""
+                },
+                {
+                  "name": "client_id",
+                  "value": ""
+                },
+                {
+                  "name": "client_secret",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "The request for the access token should look like this.\n```\ncurl -X POST \"https://testapi.greenscreens.ai/v1/auth/token\" -H \"accept: application/json\" \\\n-H \"Content-Type: application/x-www-form-urlencoded\" \\\n-d \"grant_type=client_credentials&client_id=external-app&client_secret=78aaff56-7b86-4c92-9a1d-355f167c0619\"\n```\nYou should replace `client_id` and `client_secret` with id and secret provided to you by greenscreens. \n\n---\nIf an access_token that you use expires, or you receive an `unauthenti"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Top carriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/lane-top-carriers",
+            "params": [
+              {
+                "name": "transportType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCountry",
+                "value": "",
+                "type": "query",
+                "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "originState",
+                "value": "",
+                "type": "query",
+                "description": "Origin state"
+              },
+              {
+                "name": "originCity",
+                "value": "",
+                "type": "query",
+                "description": "Origin city"
+              },
+              {
+                "name": "originZip",
+                "value": "",
+                "type": "query",
+                "description": "Origin area zip"
+              },
+              {
+                "name": "destinationCountry",
+                "value": "",
+                "type": "query",
+                "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "destinationState",
+                "value": "",
+                "type": "query",
+                "description": "Destination state"
+              },
+              {
+                "name": "destinationCity",
+                "value": "",
+                "type": "query",
+                "description": "Destination city"
+              },
+              {
+                "name": "destinationZip",
+                "value": "",
+                "type": "query",
+                "description": "Destination area zip"
+              },
+              {
+                "name": "hasExtraStops",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Start date of a period for which you want to calculate top carriers. \nIn ISO format (YYYY-MM-DD). \n\nEnd date of this period is the current date.\n"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Code of the currency that you want the response to be in.\nFormat is ISO 4217.\nIf not provided, defaults to the currency set in the profile of currently authenticated user.\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting descriptor in format `?sort={field},{asc|desc}`. \n\nMultiple sort parameters are allowed and should look like this \n`?sort=name,asc&sort=email,desc`.\n\nIf multiple sort parameters are passed, the results will be sorted by all of them, \nwith priority decreasing from left to right.\n\nSo in case of `?sort=name,asc&sort=volume,desc` results will be first sorted by \nname in ascending order, and in cases where names are equal \nresults will be sorted by volume in descending order.\n\nBy default carriers are sorted like this: \n`numberOfLoads,desc & lastShippedDate,desc`.\n\nThese response fields support sorting:\n```\ncarrierName\ncarrierPhone\ncarrierEmail\ncarrierMC\ncarrierDOT\ncarrierSCAC\nnumberOfLoads\nlastShippedDate\naverageCarrierRate\nminCarrierRate\nmaxCarrierRate\naverageCarrierFlatRate\nminCarrierFlatRate\nmaxCarrierFlatRate\naverageCarrierMarginPercent\n```\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of top carriers for a provided lane"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Bids",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current user bids",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids",
+            "params": [
+              {
+                "name": "createdDateFrom",
+                "value": "",
+                "type": "query",
+                "description": "bid created date >= value"
+              },
+              {
+                "name": "createdDateTo",
+                "value": "",
+                "type": "query",
+                "description": "bid created date <= value"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get current user bids"
+        },
+        {
+          "info": {
+            "name": "Save bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/bids",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save bid"
+        },
+        {
+          "info": {
+            "name": "Update bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/bids/:bidId",
+            "params": [
+              {
+                "name": "bidId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the bid that you want updated"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update bid"
+        },
+        {
+          "info": {
+            "name": "Delete bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/bids/:bidId",
+            "params": [
+              {
+                "name": "bidId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the bid that you want deleted"
+              }
+            ]
+          },
+          "docs": "Delete bid"
+        },
+        {
+          "info": {
+            "name": "Search carriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids/carriers",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Query string. Names are first checked using case insensitive startsWith  and then case insensitive contains.\n"
+              }
+            ]
+          },
+          "docs": "Search carriers"
+        },
+        {
+          "info": {
+            "name": "Accept bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/bids/accept",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Accept bid"
+        },
+        {
+          "info": {
+            "name": "Send bid request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/bids/send",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send bid request to a carrier"
+        },
+        {
+          "info": {
+            "name": "Get ten most recent bids for a lane",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids/recent",
+            "params": [
+              {
+                "name": "transportType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCountry",
+                "value": "",
+                "type": "query",
+                "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "originState",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originZip",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "destinationCountry",
+                "value": "",
+                "type": "query",
+                "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "destinationState",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "destinationCity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "destinationZip",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "hasExtraStops",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get ten most recent bids for a lane"
+        },
+        {
+          "info": {
+            "name": "Get bid information by key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids/by-key/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the requested bid"
+              }
+            ]
+          },
+          "docs": "Get bid information by key"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Load history search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/history/loads",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns loads matching the search criteria\n"
+        },
+        {
+          "info": {
+            "name": "Recent customer's rate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/history/recent",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provides recent rate for route. Returns aggregated rate statistics\nfor three time periods: last 7, 15, and 30 days.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MarketIntelligence",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Negotiation advice for provided lane",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/marketintelligence/negotiation-advice",
+            "params": [
+              {
+                "name": "transportType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCountry",
+                "value": "",
+                "type": "query",
+                "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "originState",
+                "value": "",
+                "type": "query",
+                "description": "Origin state"
+              },
+              {
+                "name": "originCity",
+                "value": "",
+                "type": "query",
+                "description": "Origin city"
+              },
+              {
+                "name": "originZip",
+                "value": "",
+                "type": "query",
+                "description": "Origin area zip"
+              },
+              {
+                "name": "destinationCountry",
+                "value": "",
+                "type": "query",
+                "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "destinationState",
+                "value": "",
+                "type": "query",
+                "description": "Destination state"
+              },
+              {
+                "name": "destinationCity",
+                "value": "",
+                "type": "query",
+                "description": "Destination city"
+              },
+              {
+                "name": "destinationZip",
+                "value": "",
+                "type": "query",
+                "description": "Destination area zip"
+              },
+              {
+                "name": "hasExtraStops",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pickUpDateTime",
+                "value": "",
+                "type": "query",
+                "description": "PickUp date time"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Code of the currency that you want the response to be in. Format is ISO 4217"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Negotiation advice for provided lane\n\nParameter notes:\n* __region__ - defaults to ZIP if not provided\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Prediction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lane rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate prediction"
+        },
+        {
+          "info": {
+            "name": "Batch lane rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/batch-rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate predictions in batches"
+        },
+        {
+          "info": {
+            "name": "Lane rate prediction history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/prediction/history",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lane rate prediction request/response history on the given date.\nDue to resource limitation search is restricted to the last 30 days period.\nRequests outside of this period will return 400 response code with corresponding error code.\nResults sorted from newest to oldest.\n"
+        },
+        {
+          "info": {
+            "name": "Lane network rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/network-rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate prediction based on \nthe full network of load data available to us.\n"
+        },
+        {
+          "info": {
+            "name": "Batch lane network rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/batch-network-rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate predictions based on \nthe full network of load data available to us, in batches.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pricing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get priority rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/priority-rules",
+            "params": [
+              {
+                "name": "pricingTypeGroup",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get priority rules"
+        },
+        {
+          "info": {
+            "name": "Create a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/priority-rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a priority rule"
+        },
+        {
+          "info": {
+            "name": "Get a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/priority-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the priority rule to get"
+              }
+            ]
+          },
+          "docs": "Get a priority rule"
+        },
+        {
+          "info": {
+            "name": "Update a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/pricing/priority-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the priority rule to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a priority rule"
+        },
+        {
+          "info": {
+            "name": "Delete a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/pricing/priority-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the priority rule to delete"
+              }
+            ]
+          },
+          "docs": "Delete a priority rule"
+        },
+        {
+          "info": {
+            "name": "Get combination rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/combination-rules",
+            "params": [
+              {
+                "name": "pricingTypeGroup",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get combination rules"
+        },
+        {
+          "info": {
+            "name": "Create a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/combination-rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a combination rule"
+        },
+        {
+          "info": {
+            "name": "Get a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/combination-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the combination rule to get"
+              }
+            ]
+          },
+          "docs": "Get a combination rule"
+        },
+        {
+          "info": {
+            "name": "Update a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/pricing/combination-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the combination rule to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a combination rule"
+        },
+        {
+          "info": {
+            "name": "Delete a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/pricing/combination-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the combination rule to delete"
+              }
+            ]
+          },
+          "docs": "Delete a combination rule"
+        },
+        {
+          "info": {
+            "name": "Calculate pricing, based on TPL data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/tpl-pricing",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all pricing suggestions: statistical, rule related, etc. \nintended for TPL pricing and calculated using TPL data.\n\nMost of the fields in the request and response are optional.\n\nResponse fields are related to request fields e.g. if you do not provide\nthe customer name in the request, there will be no customer related\npricing data in the response, and the pricing rules that use customer name predicates\nwill not be found.\n\nTo get the most possible data in the response, provide all the data "
+        },
+        {
+          "info": {
+            "name": "Get sell rates of partner brokers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/marketplace/my-broker-partners",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Intended to be used by a shipper-broker marketplace (a.k.a Shipper TMS).\n\nReturns a list of brokers that confirmed that they want to work with\nthe marketplace that is requesting the rates.\n\nEach broker in the list will contain a sell rate that they are\nwilling to move the load for\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Quotes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get quotes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/quotes",
+            "params": [
+              {
+                "name": "createdDateFrom",
+                "value": "",
+                "type": "query",
+                "description": "\\'quote created date >= value\\' filter"
+              },
+              {
+                "name": "createdDateTo",
+                "value": "",
+                "type": "query",
+                "description": "\\'quote created date <= value\\' filter"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to return items from. \nUsed for pagination\n"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "The amount of items per page. \nUsed for pagination\n"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get quotes"
+        },
+        {
+          "info": {
+            "name": "Import a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/quotes/import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import an external quote"
+        },
+        {
+          "info": {
+            "name": "Import quotes in a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/quotes/batch/import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import quotes in a batch"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "TMS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Import load",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/import-load",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a new load or update an existing one"
+        },
+        {
+          "info": {
+            "name": "Imports loads in batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/batch/import-load",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to import and/or update loads in batches"
+        },
+        {
+          "info": {
+            "name": "Import carrier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/import-carrier",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a new carrier or update an existing one"
+        },
+        {
+          "info": {
+            "name": "Import carriers in batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/batch/import-carrier",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a batch of carrier profiles"
+        },
+        {
+          "info": {
+            "name": "Import shipper",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/import-shipper",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a new shipper or update an existing one"
+        },
+        {
+          "info": {
+            "name": "Import shippers in batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/batch/import-shipper",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a batch of shipper profiles"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
