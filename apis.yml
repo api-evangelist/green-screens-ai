@@ -34,6 +34,8 @@ apis:
       - type: Portal
         url: https://www.greenscreens.ai
 common:
+  - type: AgenticAccess
+    url: agentic-access/green-screens-ai-agentic-access.yml
   - type: DomainSecurity
     url: security/green-screens-ai-domain-security.yml
   - type: LinkedIn
