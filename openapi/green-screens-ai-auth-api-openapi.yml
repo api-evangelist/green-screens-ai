@@ -1,0 +1,148 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics Auth API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: Auth
+  description: Authentication service
+  x-displayName: Auth
+paths:
+  /auth/token:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Auth
+      security: []
+      summary: Auth token
+      description: "The request for the access token should look like this.\n```\ncurl -X POST \"https://testapi.greenscreens.ai/v1/auth/token\" -H \"accept: application/json\" \\\n-H \"Content-Type: application/x-www-form-urlencoded\" \\\n-d \"grant_type=client_credentials&client_id=external-app&client_secret=78aaff56-7b86-4c92-9a1d-355f167c0619\"\n```\nYou should replace `client_id` and `client_secret` with id and secret provided to you by greenscreens. \n\n---\nIf an access_token that you use expires, or you receive an `unauthenticated` error,\nyour application will need to obtain a new access_token.\n"
+      operationId: authToken
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - client_credentials
+                  description: Type of authorization flow, in this case should always be `client_credentials`
+                  example: client_credentials
+                client_id:
+                  type: string
+                  description: Client id provided by greenscreens
+                  example: external-app
+                client_secret:
+                  type: string
+                  description: Client secret provided by greenscreens
+                  example: 78aaff56-7b86-4c92-9a1d-355f167c0619
+              required:
+              - grant_type
+              - client_id
+              - client_secret
+            example:
+              grant_type: client_credentials
+              client_id: external-app
+              client_secret: 78aaff56-7b86-4c92-9a1d-355f167c0619
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: Access token
+                  expires_in:
+                    type: integer
+                    description: Expiration of access token
+                  refresh_expires_in:
+                    type: integer
+                    description: Expiration of refresh token
+                  token_type:
+                    type: string
+                    description: Token type
+                  not-before-policy:
+                    type: integer
+                    description: Not before policy
+                  scope:
+                    type: string
+                    description: scope
+                required:
+                - access_token
+                - expires_in
+                - token_type
+                - not-before-policy
+                - scope
+              example:
+                access_token: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3cmFncld0MlJuVjZaeFdZa2JLZDktOGZYV202UlRCU3Q0WE1IYWdpZFQwIn0.eyJqdGkiOiIyM2VjNzg3Ny0yMzBjLTRkODktYmYyNy0zMWFmZWQ5MDMyYjciLCJleHAiOjE1NzU0ODEwMTMsIm5iZiI6MCwiaWF0IjoxNTc1NDc3NDEzLCJpc3MiOiJodHRwOi8vdGVzdGluZy5rZXkuY2FyZ2dvLmludC9hdXRoL3JlYWxtcy9DYXJnZ29TZWN1cml0eVJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjhhYzNjYjljLTA1MGQtNDUzZS1hNGRhLTEzOGE5MmZlZmExNCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNhcmdnby1tZG0tYXBwIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiN2Q4YmFhMTAtNWQwNy00ZTZmLWE3OTctOTAzMzZjOGY4MWRiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJUcGxNYW5hZ2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJTaGlwcGVyTWFuYWdlciIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJwcmltYXJ5Um9sZSI6IlRwbE1hbmFnZXIiLCJjb21wYW55SWQiOiIxNWNlM2Q3Yi1kYjA3LTRkOTgtYmE3Zi1hNGYxYWNmMWY3ODIiLCJjaGlsZHJlbkNvbXBhbmllcyI6WyI3NDYyOGNkZS1jMzc0LTRmOTctYThiYS1lZDFjMGIzOTdhYzQiLCI2M2Y1MWM3ZC0yYjg1LTQwMWEtYWYwMS02NTQ3YzY3ZTlkOWIiLCI3YWY0MzRmZS00Mzg5LTQ5ZDQtYTM1Ni02NjlkZGNiMDIwMDgiXSwidXNlcklkIjoiZDMzMWVhZTEtMjU4Ni00YmFlLTgxODMtN2QyZmY5ZTJmYzQ2In0.ngQ15qlArqFyQ-fRJZcHGBFZQBWsG2oXgJqsOpY8ECpQN5-VgX2zlWPATZ469qXEmFEdwGfsadk62T6fu7Qxf1elTFSw5OqXHAWKPs1myB3E-wxDe9zRZdnFm72G5uoVHyLhPwbInWTTZNzCrISQVUQq1UbcQ5K0OZxQSThTgh232qPNjl6J1KekjvAkottMTCugv0Rl1MxvCnLyyYPyKl2EACCJShJ0-xjLaU1sH68Jnt7kPC8HCfqvZUj2c9YtBKwBTkOhriPQWHEQLC8g0GMSV3Q19_fCuAkqo9qd2spLyi7K9hNI1PNSESOSPBVNPqVmip712YdtlEUE8OQ0wQ
+                expires_in: 3600
+                refresh_expires_in: 0
+                token_type: Bearer
+                not-before-policy: 1631698006
+                scope: ''
+        '401':
+          description: Authorization information is missing or invalid
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2

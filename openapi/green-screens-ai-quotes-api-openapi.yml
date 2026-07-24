@@ -1,0 +1,1132 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics Quotes API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: Quotes
+  description: 'Quotes service v2
+
+
+    <a href="/quotes/v2/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/quotes/v2/swagger/index.html" target="_blank">Try it in swagger</a>
+
+
+    Older version of this api exists. <a href="/quotes/v1/redoc/" target="_blank">View v1 here</a>'
+  x-displayName: Quotes
+paths:
+  /quotes:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    get:
+      tags:
+      - Quotes
+      summary: Get quotes
+      description: Get quotes
+      operationId: quotesGetAll
+      security:
+      - Quotes_bearerAuth: []
+      parameters:
+      - in: query
+        name: createdDateFrom
+        description: \'quote created date >= value\' filter
+        schema:
+          type: string
+          format: date
+          example: '2019-09-30'
+      - in: query
+        name: createdDateTo
+        description: \'quote created date <= value\' filter
+        schema:
+          type: string
+          format: date
+          example: '2019-12-30'
+      - in: query
+        name: page
+        description: "The page to return items from. \nUsed for pagination\n"
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          example: 5
+      - in: query
+        name: perPage
+        description: "The amount of items per page. \nUsed for pagination\n"
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 500
+          default: 20
+          example: 30
+      - in: query
+        name: currency
+        schema:
+          type: string
+          enum:
+          - USD
+          - CAD
+          description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+          example: USD
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_QuotesResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_Error'
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_Error'
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_Error'
+              examples:
+                error404Example:
+                  value:
+                    code: item_not_found
+                    message: Item not found
+        '422':
+          description: Unprocessable Entity with multiple errors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_Error422UnprocessableEntityMulti'
+              examples:
+                error422MultiExample:
+                  value:
+                    code: request_validation
+                    message: You have one or more errors in request structure
+                    errors:
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: '22'
+                    - field: shipperId
+                      message: 'shipperId: must not be null'
+                      value: null
+                    - field: loadSource.loadId
+                      message: 'loadId: must not be null'
+                      value: null
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_Error'
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_Error'
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v2/quotes',\n  qs: {\n    createdDateFrom: '2019-09-30',\n    createdDateTo: '2019-12-30',\n    page: '5',\n    perPage: '30',\n    currency: 'USD'\n  },\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v2/quotes"
+
+
+          querystring = {"createdDateFrom":"2019-09-30","createdDateTo":"2019-12-30","page":"5","perPage":"30","currency":"USD"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/quotes?createdDateFrom=2019-09-30&createdDateTo=2019-12-30&page=5&perPage=30&currency=USD\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /quotes/import:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Quotes
+      summary: Import a quote
+      description: Import an external quote
+      operationId: quotesImport
+      security:
+      - Quotes_bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotes_QuotesImportRequest'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_QuotesImportResponse'
+        '400':
+          $ref: '#/paths/~1quotes/get/responses/400'
+        '401':
+          $ref: '#/paths/~1quotes/get/responses/401'
+        '403':
+          $ref: '#/paths/~1quotes/get/responses/403'
+        '422':
+          $ref: '#/paths/~1quotes/get/responses/422'
+        '429':
+          $ref: '#/paths/~1quotes/get/responses/429'
+        '500':
+          $ref: '#/paths/~1quotes/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/quotes/import',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    quoteId: 'Q#54321',\n    loadId: '12345',\n    userEmail: 'buddy@greenscreens.ai',\n    transportType: 'VR',\n    transportTypeGroup: 'VAN',\n    stops: [\n      {\n        order: 0,\n        address: {country: 'US', city: 'Red Bluff', state: 'CA', zip: '96080'},\n        type: 'LOAD',\n        appointmentDateTime: '2020-10-13T16:00:00Z'\n      },\n      {\n        order: 1,\n        address: {country: 'US', city: 'Redding', state: 'CA', zip: '96002'},\n        type: 'UNLOAD',\n        appointmentDateTime: '2020-10-14T16:00:00Z'\n      }\n    ],\n    distance: 289,\n    pickupDateTime: '2020-10-13T16:00:00Z',\n    deliveredDateTime: '2020-10-14T16:00:00Z',\n    expirationDateTime: '2020-10-12T16:00:00+05:00',\n    quoteDateTime: '2020-10-13T16:00:00Z',\n    status: 'WON',\n    rejectionReason: 'Rejecting, because price is too high',\n    weight: 22000,\n    shipper: {\n      id: '64378901',\n      name: 'Walmart',\n      phone: '4112228888',\n      email: 'test@greenscreens.ai'\n    },\n    pricingType: 'SPOT',\n    pricingTypeGroup: 'SPOT',\n    contractDuration: 5,\n    numberOfLoads: 10,\n    costs: {linehaul: 1200, accessorials: [{name: 'Overweight', cost: 200.5}], total: 1500},\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/quotes/import\"\n\npayload = {\n    \"quoteId\": \"Q#54321\",\n    \"loadId\": \"12345\",\n    \"userEmail\": \"buddy@greenscreens.ai\",\n    \"transportType\": \"VR\",\n    \"transportTypeGroup\": \"VAN\",\n    \"stops\": [\n        {\n            \"order\": 0,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Red Bluff\",\n                \"state\": \"CA\",\n                \"zip\": \"96080\"\n            },\n            \"type\": \"LOAD\",\n            \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n            \"order\": 1,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\",\n                \"zip\": \"96002\"\n            },\n            \"type\": \"UNLOAD\",\n            \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n    ],\n    \"distance\": 289,\n    \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n    \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n    \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n    \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n    \"status\": \"WON\",\n    \"rejectionReason\": \"Rejecting, because price is too high\",\n    \"weight\": 22000,\n    \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n    },\n    \"pricingType\": \"SPOT\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"contractDuration\": 5,\n    \"numberOfLoads\": 10,\n    \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n            {\n                \"name\": \"Overweight\",\n                \"cost\": 200.5\n            }\n        ],\n        \"total\": 1500\n    },\n    \"currency\": \"USD\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/quotes/import\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"quoteId\\\":\\\"Q#54321\\\",\\\"loadId\\\":\\\"12345\\\",\\\"userEmail\\\":\\\"buddy@greenscreens.ai\\\",\\\"transportType\\\":\\\"VR\\\",\\\"transportTypeGroup\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"},\\\"type\\\":\\\"LOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-13T16:00:00Z\\\"},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"},\\\"type\\\":\\\"UNLOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-14T16:00:00Z\\\"}],\\\"distance\\\":289,\\\"pickupDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"deliveredDateTime\\\":\\\"2020-10-14T16:00:00Z\\\",\\\"expirationDateTime\\\":\\\"2020-10-12T16:00:00+05:00\\\",\\\"quoteDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"status\\\":\\\"WON\\\",\\\"rejectionReason\\\":\\\"Rejecting, because price is too high\\\",\\\"weight\\\":22000,\\\"shipper\\\":{\\\"id\\\":\\\"64378901\\\",\\\"name\\\":\\\"Walmart\\\",\\\"phone\\\":\\\"4112228888\\\",\\\"email\\\":\\\"test@greenscreens.ai\\\"},\\\"pricingType\\\":\\\"SPOT\\\",\\\"pricingTypeGroup\\\":\\\"SPOT\\\",\\\"contractDuration\\\":5,\\\"numberOfLoads\\\":10,\\\"costs\\\":{\\\"linehaul\\\":1200,\\\"accessorials\\\":[{\\\"name\\\":\\\"Overweight\\\",\\\"cost\\\":200.5}],\\\"total\\\":1500},\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /quotes/batch/import:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Quotes
+      summary: Import quotes in a batch
+      description: Import quotes in a batch
+      operationId: quotesBatchImport
+      security:
+      - Quotes_bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Quotes_QuotesBatchImportRequest'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes_QuotesBatchImportResponse'
+        '400':
+          $ref: '#/paths/~1quotes/get/responses/400'
+        '401':
+          $ref: '#/paths/~1quotes/get/responses/401'
+        '403':
+          $ref: '#/paths/~1quotes/get/responses/403'
+        '422':
+          $ref: '#/paths/~1quotes/get/responses/422'
+        '429':
+          $ref: '#/paths/~1quotes/get/responses/429'
+        '500':
+          $ref: '#/paths/~1quotes/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/quotes/batch/import',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    quotes: [\n      {\n        quoteId: 'Q#54321',\n        loadId: '12345',\n        userEmail: 'buddy@greenscreens.ai',\n        transportType: 'VR',\n        transportTypeGroup: 'VAN',\n        stops: [\n          {\n            order: 0,\n            address: {country: 'US', city: 'Red Bluff', state: 'CA', zip: '96080'},\n            type: 'LOAD',\n            appointmentDateTime: '2020-10-13T16:00:00Z'\n          },\n          {\n            order: 1,\n            address: {country: 'US', city: 'Redding', state: 'CA', zip: '96002'},\n            type: 'UNLOAD',\n            appointmentDateTime: '2020-10-14T16:00:00Z'\n          }\n        ],\n        distance: 289,\n        pickupDateTime: '2020-10-13T16:00:00Z',\n        deliveredDateTime: '2020-10-14T16:00:00Z',\n        expirationDateTime: '2020-10-12T16:00:00+05:00',\n        quoteDateTime: '2020-10-13T16:00:00Z',\n        status: 'WON',\n        rejectionReason: 'Rejecting, because price is too high',\n        weight: 22000,\n        shipper: {\n          id: '64378901',\n          name: 'Walmart',\n          phone: '4112228888',\n          email: 'test@greenscreens.ai'\n        },\n        pricingType: 'SPOT',\n        pricingTypeGroup: 'SPOT',\n        contractDuration: 5,\n        numberOfLoads: 10,\n        costs: {linehaul: 1200, accessorials: [{name: 'Overweight', cost: 200.5}], total: 1500},\n        currency: 'USD'\n      }\n    ]\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/quotes/batch/import\"\n\npayload = {\"quotes\": [\n        {\n            \"quoteId\": \"Q#54321\",\n            \"loadId\": \"12345\",\n            \"userEmail\": \"buddy@greenscreens.ai\",\n            \"transportType\": \"VR\",\n            \"transportTypeGroup\": \"VAN\",\n            \"stops\": [\n                {\n                    \"order\": 0,\n                    \"address\": {\n                        \"country\": \"US\",\n                        \"city\": \"Red Bluff\",\n                        \"state\": \"CA\",\n                        \"zip\": \"96080\"\n                    },\n                    \"type\": \"LOAD\",\n                    \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n                },\n                {\n                    \"order\": 1,\n                    \"address\": {\n                        \"country\": \"US\",\n                        \"city\": \"Redding\",\n                        \"state\": \"CA\",\n                        \"zip\": \"96002\"\n                    },\n                    \"type\": \"UNLOAD\",\n                    \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n                }\n            ],\n            \"distance\": 289,\n            \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n            \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n            \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n            \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n            \"status\": \"WON\",\n            \"rejectionReason\": \"Rejecting, because price is too high\",\n            \"weight\": 22000,\n            \"shipper\": {\n                \"id\": \"64378901\",\n                \"name\": \"Walmart\",\n                \"phone\": \"4112228888\",\n                \"email\": \"test@greenscreens.ai\"\n            },\n            \"pricingType\": \"SPOT\",\n            \"pricingTypeGroup\": \"SPOT\",\n            \"contractDuration\": 5,\n            \"numberOfLoads\": 10,\n            \"costs\": {\n                \"linehaul\": 1200,\n                \"accessorials\": [\n                    {\n                        \"name\": \"Overweight\",\n                        \"cost\": 200.5\n                    }\n                ],\n                \"total\": 1500\n            },\n            \"currency\": \"USD\"\n        }\n    ]}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/quotes/batch/import\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"quotes\\\":[{\\\"quoteId\\\":\\\"Q#54321\\\",\\\"loadId\\\":\\\"12345\\\",\\\"userEmail\\\":\\\"buddy@greenscreens.ai\\\",\\\"transportType\\\":\\\"VR\\\",\\\"transportTypeGroup\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"},\\\"type\\\":\\\"LOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-13T16:00:00Z\\\"},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"},\\\"type\\\":\\\"UNLOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-14T16:00:00Z\\\"}],\\\"distance\\\":289,\\\"pickupDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"deliveredDateTime\\\":\\\"2020-10-14T16:00:00Z\\\",\\\"expirationDateTime\\\":\\\"2020-10-12T16:00:00+05:00\\\",\\\"quoteDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"status\\\":\\\"WON\\\",\\\"rejectionReason\\\":\\\"Rejecting, because price is too high\\\",\\\"weight\\\":22000,\\\"shipper\\\":{\\\"id\\\":\\\"64378901\\\",\\\"name\\\":\\\"Walmart\\\",\\\"phone\\\":\\\"4112228888\\\",\\\"email\\\":\\\"test@greenscreens.ai\\\"},\\\"pricingType\\\":\\\"SPOT\\\",\\\"pricingTypeGroup\\\":\\\"SPOT\\\",\\\"contractDuration\\\":5,\\\"numberOfLoads\\\":10,\\\"costs\\\":{\\\"linehaul\\\":1200,\\\"accessorials\\\":[{\\\"name\\\":\\\"Overweight\\\",\\\"cost\\\":200.5}],\\\"total\\\":1500},\\\"currency\\\":\\\"USD\\\"}]}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+components:
+  schemas:
+    Quotes_AccessorialsInput:
+      type: array
+      description: Quote accessorial list
+      items:
+        $ref: '#/components/schemas/Quotes_AccessorialInput'
+    Quotes_StopInput:
+      type: object
+      description: Contains the quote stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/Quotes_AddressInput'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop.
+
+
+            Leave this field empty if you do not know the stop type.
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+    Quotes_Predictions:
+      type: object
+      description: 'Predictions made for this quote.
+
+
+        The fields in this object are populated asynchronously,
+
+        so there might be a period in time when you will not see any values.
+
+        '
+      properties:
+        company:
+          type: object
+          description: Company specific predictions
+          properties:
+            buy:
+              type: object
+              description: Buy cost related properties
+              properties:
+                target:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use for buying such a load
+                  example: 1200
+                start:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use as the lower limit during bargaining with the carrier
+                  example: 1200
+                high:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use as the upper limit during bargaining with the carrier
+                  example: 1200
+                confidenceLevel:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+                  description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
+                  example: 65
+            sell:
+              type: object
+              description: Sell cost related properties
+              properties:
+                target:
+                  type: number
+                  description: Flat sell cost that our system would suggest to use for this quote
+                  example: 1200
+        network:
+          type: object
+          description: Network predictions
+          properties:
+            buy:
+              type: object
+              description: Buy cost related properties
+              properties:
+                target:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use for buying such a load
+                  example: 1200
+                confidenceLevel:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+                  description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
+                  example: 65
+        distance:
+          type: number
+          format: float
+          description: Distance of the route (in miles)
+          example: 289
+    Quotes_CostsInput:
+      type: object
+      description: "Quote costs. \n\n**Linehaul cost and either total cost or acessorials have to be provided \nfor this object to be valid.**\n"
+      properties:
+        linehaul:
+          type: number
+          description: Flat linehaul cost that the customer was quoted
+          example: 1200
+        accessorials:
+          $ref: '#/components/schemas/Quotes_AccessorialsInput'
+        total:
+          type: number
+          description: "Flat total cost that the customer was quoted \n(linehaul + accessorials)\n"
+          example: 1500
+      required:
+      - linehaul
+    Quotes_QuotesResponse:
+      type: object
+      description: Object containing an array of quotes
+      properties:
+        pagination:
+          type: object
+          description: Response pagination data
+          properties:
+            page:
+              type: integer
+              description: The number of the currently returned page
+              minimum: 0
+              example: 12
+            perPage:
+              type: integer
+              description: The maximum number of items per page
+              minimum: 1
+              maximum: 500
+              example: 20
+          required:
+          - page
+          - perPage
+        items:
+          type: array
+          description: Array of quotes
+          items:
+            $ref: '#/components/schemas/Quotes_QuoteObject'
+      required:
+      - pagination
+      - items
+    Quotes_QuotesBatchImportRequest:
+      type: object
+      properties:
+        quotes:
+          type: array
+          description: List of quotes to import
+          items:
+            $ref: '#/components/schemas/Quotes_QuotesImportRequest'
+          maxItems: 1000
+      required:
+      - quotes
+    Quotes_Accessorials:
+      type: array
+      description: Quote accessorial list
+      items:
+        $ref: '#/components/schemas/Quotes_Accessorial'
+    Quotes_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    Quotes_Shipper:
+      type: object
+      description: Shipper data
+      properties:
+        id:
+          type: string
+          description: Customer TMS ID of the shipper profile associated with this quote
+          example: '64378901'
+        name:
+          type: string
+          description: Shipper company name
+          example: Walmart
+        phone:
+          type: string
+          description: Shipper contact phone number
+          example: '4112228888'
+        email:
+          type: string
+          description: Shipper contact email
+          example: test@greenscreens.ai
+    Quotes_Error422UnprocessableEntityMulti:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          description: list of errors
+          items:
+            $ref: '#/components/schemas/Quotes_RequestValidationError'
+      required:
+      - code
+      - message
+      - errors
+      example:
+        code: request_validation
+        message: You have one or more errors in request structure
+        errors:
+        - field: carrierName
+          message: field contains wrong data type (int), should be string
+          value: '22'
+        - field: shipperId
+          message: 'shipperId: must not be null'
+          value: null
+        - field: loadSource.loadId
+          message: 'loadId: must not be null'
+          value: null
+    Quotes_Stop:
+      type: object
+      description: Contains the quote stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/Quotes_Address'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+    Quotes_AccessorialInput:
+      type: object
+      description: Contains the quote accessorial information e.g. name and cost
+      nullable: true
+      properties:
+        name:
+          type: string
+          description: Accessorial name
+          example: Overweight
+        cost:
+          type: number
+          description: Flat accessorial cost
+          example: 200.5
+      required:
+      - name
+      - cost
+    Quotes_Address:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+        type:
+          type: string
+          enum:
+          - CITY
+          - ZIP
+          example: ZIP
+          description: Type of address. Defaults to ZIP if not provided.
+          default: ZIP
+      required:
+      - country
+      - type
+    Quotes_QuotesImportResponse:
+      type: object
+      description: Quote import response
+      properties:
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          description: "Quote creation status. \n* CREATED - a new quote was created\n* UPDATED - an existing quote was updated\n"
+          example: CREATED
+      required:
+      - status
+    Quotes_RequestValidationError:
+      type: object
+      description: Request validation error
+      properties:
+        field:
+          type: string
+          description: Name of the field that did not pass validation
+          example: transportType
+        message:
+          type: string
+          description: Human readable error mesage explaining why validation failed
+          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+        value:
+          type: string
+          nullable: true
+          description: Value of the field that did not pass validation
+          example: SpaceXDragon
+      required:
+      - field
+      - message
+    Quotes_Stops:
+      type: array
+      description: Quote stop list
+      minItems: 2
+      items:
+        $ref: '#/components/schemas/Quotes_Stop'
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+          type: CITY
+        type: LOAD
+        appointmentDateTime: '2020-10-13T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+          type: ZIP
+        type: UNLOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+    Quotes_Costs:
+      type: object
+      description: "Quote costs. \n\n**Linehaul cost and either total cost or acessorials have to be provided \nfor this object to be valid.**\n"
+      properties:
+        linehaul:
+          type: number
+          description: Flat linehaul cost that the customer was quoted
+          example: 1200
+        accessorials:
+          $ref: '#/components/schemas/Quotes_Accessorials'
+        total:
+          type: number
+          description: "Flat total cost that the customer was quoted \n(linehaul + accessorials)\n"
+          example: 1500
+      required:
+      - linehaul
+      - accessorials
+      - total
+    Quotes_QuotesImportRequest:
+      type: object
+      description: A body of the request to import a quote
+      properties:
+        quoteId:
+          type: string
+          description: "Unique quote id from the customers system. \n\nIf a quote with the same quoteId will be found in our platform, \nit will be updated. Otherwise a new quote will be created\n"
+          example: Q#54321
+        loadId:
+          type: string
+          description: Id of the load associated with this quote
+          example: '12345'
+        userEmail:
+          type: string
+          description: Email of the user who will be the owner/creator of the quote
+          example: buddy@greenscreens.ai
+        transportType:
+          type: string
+          description: Transport type (original transport type used in provider TMS)
+          example: VR
+        transportTypeGroup:
+          $ref: '#/components/schemas/Quotes_TransportTypeGroup'
+        stops:
+          $ref: '#/components/schemas/Quotes_StopsInput'
+        distance:
+          type: number
+          format: float
+          description: Distance of the route (in miles)
+          example: 289
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Related load pickup date
+          example: '2020-10-13T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: '2020-10-14T16:00:00Z'
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Quote expiration date and time in time zone of the user
+          example: '2020-10-12T16:00:00+05:00'
+        quoteDateTime:
+          type: string
+          format: date-time
+          description: When the quote was sent to the customer
+          example: '2020-10-13T16:00:00Z'
+        status:
+          $ref: '#/components/schemas/Quotes_QuoteStatus'
+        rejectionReason:
+          type: string
+          description: Comment about why the quote was rejected
+          example: Rejecting, because price is too high
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 22000
+        shipper:
+          $ref: '#/components/schemas/Quotes_Shipper'
+        pricingType:
+          type: string
+          description: "How this shipment was priced to the shipper according to your methodology \n(Primary, Backup, Spot, Spot_api, Spot_EDI, Primary_cost_plus, etc.)\n"
+          example: SPOT
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Quotes_PricingTypeGroup'
+        contractDuration:
+          type: integer
+          description: Contract duration in weeks, if applicable
+          example: 5
+        numberOfLoads:
+          type: integer
+          description: 'Number of loads on the lane quoted or won:
+
+            * for the day if a spot quote
+
+            * for the duration of the contract if a primary or backup quote
+
+            '
+          example: 10
+        costs:
+          $ref: '#/components/schemas/Quotes_CostsInput'
+        currency:
+          $ref: '#/components/schemas/Quotes_Currency'
+      required:
+      - quoteId
+      - userEmail
+      - transportType
+      - transportTypeGroup
+      - stops
+      - pickupDateTime
+      - status
+      - shipper
+      - pricingType
+      - pricingTypeGroup
+      - costs
+      - currency
+    Quotes_PricingTypeGroup:
+      type: string
+      description: 'How this shipment was priced to the shipper in the following groupings
+
+        (CONTRACT, SPOT, or OTHER)
+
+        '
+      enum:
+      - CONTRACT
+      - SPOT
+      - OTHER
+      example: SPOT
+    Quotes_StopsInput:
+      type: array
+      description: Quote stop list
+      minItems: 2
+      items:
+        $ref: '#/components/schemas/Quotes_StopInput'
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+        type: LOAD
+        appointmentDateTime: '2020-10-13T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+        type: UNLOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+    Quotes_QuotesBatchImportResponseItem:
+      type: object
+      description: 'Response for this particular quote import attempt
+
+        '
+      properties:
+        quoteId:
+          type: string
+          description: Unique quote id from the customers system
+          example: Q#54321
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          - ERROR
+          description: "Quote import status. \n* CREATED - a new quote was created\n* UPDATED - an existing quote was updated\n* ERROR - an error occurred during quote import\n"
+          example: CREATED
+        error:
+          type: object
+          description: "Import attempt error data. \nAvailable when the import attempt was unsuccessful \nand status is ERROR\n"
+          properties:
+            code:
+              type: string
+              description: Unique string identifier of the error
+              example: validation_errors_occured
+            message:
+              type: string
+              description: Human readable error message
+              example: Validation errors occured, check errors array for details
+            errors:
+              type: array
+              description: A list of validation errors that occurred during the import attempt.
+              items:
+                $ref: '#/components/schemas/Quotes_RequestValidationError'
+          required:
+          - code
+          - message
+          - errors
+      required:
+      - quoteId
+      - status
+    Quotes_Accessorial:
+      type: object
+      description: Contains the quote accessorial information e.g. name and cost
+      properties:
+        name:
+          type: string
+          description: Accessorial name
+          example: Overweight
+        cost:
+          type: number
+          description: Flat accessorial cost
+          example: 200.5
+      required:
+      - name
+      - cost
+    Quotes_AddressInput:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+      required:
+      - country
+    Quotes_QuoteObject:
+      type: object
+      description: Object representing a quote in our system
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the quote. Specific to our system and unique for every quote.
+          example: 12345
+        key:
+          type: string
+          description: Unique key used to create a link to the quote in the platform
+          example: afd124faf-12raf-qfa2q-afvawf
+        quoteId:
+          type: string
+          description: Unique quote id from the customers system
+          example: Q#54321
+        loadId:
+          type: string
+          description: Id of the load associated with this quote
+          example: '12345'
+        userEmail:
+          type: string
+          description: Email of the user who is the owner/creator of the quote
+          example: buddy@greenscreens.ai
+        transportType:
+          type: string
+          description: Transport type (original transport type used in provider TMS)
+          example: VR
+        transportTypeGroup:
+          $ref: '#/components/schemas/Quotes_TransportTypeGroup'
+        stops:
+          $ref: '#/components/schemas/Quotes_Stops'
+        distance:
+          type: number
+          format: float
+          description: Distance of the route (in miles)
+          example: 289
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Related load pickup date
+          example: '2020-09-14T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: '2020-09-14T16:00:00Z'
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Expiration date and time in UTC time zone
+          example: '2020-09-14T16:00:00Z'
+        quoteDateTime:
+          type: string
+          format: date-time
+          description: When the quote was sent to the customer
+          example: '2020-10-13T16:00:00Z'
+        defaultedQuoteDateTime:
+          type: string
+          format: date-time
+          description: "Same as `quoteDateTime` but defaulted to `createdDateTime`, \nif `quoteDateTime` is not available \n"
+          example: '2020-09-14T16:00:00Z'
+        createdDateTime:
+          type: string
+          format: date-time
+          description: Quote creation date
+          example: '2020-09-14T16:00:00Z'
+        status:
+          $ref: '#/components/schemas/Quotes_QuoteStatus'
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 22000
+        predictions:
+          $ref: '#/components/schemas/Quotes_Predictions'
+        wasViewed:
+          type: boolean
+          description: "Signifies whether the quote was viewed by a broker after being \naccepted or rejected by a customer.\n"
+          example: false
+        rejectionReason:
+          type: string
+          description: Comment about why the quote was rejected
+          example: Rejecting, because price is too high
+        shipper:
+          $ref: '#/components/schemas/Quotes_Shipper'
+        pricingType:
+          type: string
+          description: "How this shipment was priced to the shipper according to your methodology \n(Primary, Backup, Spot, Spot_api, Spot_EDI, Primary_cost_plus, etc.)\n"
+          example: SPOT
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Quotes_PricingTypeGroup'
+        contractDuration:
+          type: integer
+          description: Contract duration in weeks, if applicable
+          example: 5
+        numberOfLoads:
+          type: integer
+          description: 'Number of loads on the lane quoted or won:
+
+            * for the day if a spot quote
+
+            * for the duration of the contract if a primary or backup quote
+
+            '
+          example: 10
+        costs:
+          $ref: '#/components/schemas/Quotes_Costs'
+        currency:
+          type: string
+          description: 'Currency of any monetary fields in this object (Three letter code, ISO 4217)
+
+            '
+          example: USD
+        notes:
+          type: string
+          description: 'Optional free-text notes associated with this quote
+
+            '
+          example: Do not dispatch before Monday
+      required:
+      - id
+      - key
+      - userEmail
+      - transportTypeGroup
+      - stops
+      - pickupDateTime
+      - defaultedQuoteDateTime
+      - createdDateTime
+      - status
+      - wasViewed
+      - costs
+      - currency
+    Quotes_TransportTypeGroup:
+      type: string
+      description: Transport type group
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      - OTHER
+      example: VAN
+    Quotes_Currency:
+      type: string
+      enum:
+      - USD
+      - CAD
+      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+      example: USD
+    Quotes_QuoteStatus:
+      type: string
+      description: Quote lifecycle stage
+      enum:
+      - WON
+      - LOST
+      - SENT
+      - EXPIRED
+      example: WON
+    Quotes_QuotesBatchImportResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of quote import responses
+          items:
+            $ref: '#/components/schemas/Quotes_QuotesBatchImportResponseItem'
+      required:
+      - responses
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2

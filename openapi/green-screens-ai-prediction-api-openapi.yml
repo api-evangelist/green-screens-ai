@@ -1,0 +1,882 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics Prediction API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: Prediction
+  description: 'Prediction service v3
+
+
+    <a href="/prediction/v3/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/prediction/v3/swagger/index.html" target="_blank">Try it in swagger</a>
+
+
+    Older version of this api exists. <a href="/prediction/v2/redoc/" target="_blank">View v2 here</a>'
+  x-displayName: Prediction
+paths:
+  /prediction/rates:
+    servers:
+    - url: https://testapi.greenscreens.ai/v3
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v3
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v3
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Prediction
+      summary: Lane rate prediction
+      description: Used to request lane rate prediction
+      security:
+      - Prediction_bearerAuth: []
+      operationId: predictionRates
+      parameters:
+      - $ref: '#/components/parameters/Prediction_UserHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prediction_PredictionRatesRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_PredictionRatesResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_Error'
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_Error'
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        '422':
+          description: Unprocessable Entity with multiple errors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_Error422UnprocessableEntityMulti'
+              examples:
+                error422MultiExample:
+                  value:
+                    code: request_validation
+                    message: You have one or more errors in request structure
+                    errors:
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: '22'
+                    - field: shipperId
+                      message: 'shipperId: must not be null'
+                      value: null
+                    - field: loadSource.loadId
+                      message: 'loadId: must not be null'
+                      value: null
+        '424':
+          description: Failed Dependency.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_Error'
+              examples:
+                error424Example:
+                  value:
+                    code: distance_calculation_error
+                    message: 'Unable to calculate distance between zips {key}, reason:  {exc}'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_Error'
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_Error'
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v3/prediction/rates',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    pickupDateTime: '2021-09-21T13:00:00Z',\n    transportType: 'VAN',\n    stops: [\n      {order: 0, country: 'US', city: 'Chicago', state: 'IL', zip: '60611'},\n      {order: 1, country: 'US', city: 'Dallas', state: 'TX', zip: '75204'}\n    ],\n    commodity: 'Racks',\n    tag: 'Pro#1234',\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v3/prediction/rates\"\n\npayload = {\n    \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n    \"transportType\": \"VAN\",\n    \"stops\": [\n        {\n            \"order\": 0,\n            \"country\": \"US\",\n            \"city\": \"Chicago\",\n            \"state\": \"IL\",\n            \"zip\": \"60611\"\n        },\n        {\n            \"order\": 1,\n            \"country\": \"US\",\n            \"city\": \"Dallas\",\n            \"state\": \"TX\",\n            \"zip\": \"75204\"\n        }\n    ],\n    \"commodity\": \"Racks\",\n    \"tag\": \"Pro#1234\",\n    \"currency\": \"USD\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v3/prediction/rates\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"pickupDateTime\\\":\\\"2021-09-21T13:00:00Z\\\",\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Chicago\\\",\\\"state\\\":\\\"IL\\\",\\\"zip\\\":\\\"60611\\\"},{\\\"order\\\":1,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Dallas\\\",\\\"state\\\":\\\"TX\\\",\\\"zip\\\":\\\"75204\\\"}],\\\"commodity\\\":\\\"Racks\\\",\\\"tag\\\":\\\"Pro#1234\\\",\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /prediction/batch-rates:
+    servers:
+    - url: https://testapi.greenscreens.ai/v3
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v3
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v3
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Prediction
+      summary: Batch lane rate prediction
+      description: Used to request lane rate predictions in batches
+      security:
+      - Prediction_bearerAuth: []
+      operationId: predictionBatchRates
+      parameters:
+      - $ref: '#/components/parameters/Prediction_UserHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prediction_PredictionBatchRatesRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_PredictionBatchRatesResponse'
+        '400':
+          $ref: '#/paths/~1prediction~1rates/post/responses/400'
+        '401':
+          $ref: '#/paths/~1prediction~1rates/post/responses/401'
+        '403':
+          $ref: '#/paths/~1prediction~1rates/post/responses/403'
+        '422':
+          $ref: '#/paths/~1prediction~1rates/post/responses/422'
+        '424':
+          $ref: '#/paths/~1prediction~1rates/post/responses/424'
+        '429':
+          $ref: '#/paths/~1prediction~1rates/post/responses/429'
+        '500':
+          $ref: '#/paths/~1prediction~1rates/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v3/prediction/batch-rates',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    requests: [\n      {\n        pickupDateTime: '2021-09-21T13:00:00Z',\n        transportType: 'VAN',\n        stops: [\n          {order: 0, country: 'US', city: 'Chicago', state: 'IL', zip: '60611'},\n          {order: 1, country: 'US', city: 'Dallas', state: 'TX', zip: '75204'}\n        ],\n        commodity: 'Racks',\n        tag: 'Pro#1234',\n        currency: 'USD'\n      }\n    ]\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v3/prediction/batch-rates\"\n\npayload = {\"requests\": [\n        {\n            \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n            \"transportType\": \"VAN\",\n            \"stops\": [\n                {\n                    \"order\": 0,\n                    \"country\": \"US\",\n                    \"city\": \"Chicago\",\n                    \"state\": \"IL\",\n                    \"zip\": \"60611\"\n                },\n                {\n                    \"order\": 1,\n                    \"country\": \"US\",\n                    \"city\": \"Dallas\",\n                    \"state\": \"TX\",\n                    \"zip\": \"75204\"\n                }\n            ],\n            \"commodity\": \"Racks\",\n            \"tag\": \"Pro#1234\",\n            \"currency\": \"USD\"\n        }\n    ]}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v3/prediction/batch-rates\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"requests\\\":[{\\\"pickupDateTime\\\":\\\"2021-09-21T13:00:00Z\\\",\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Chicago\\\",\\\"state\\\":\\\"IL\\\",\\\"zip\\\":\\\"60611\\\"},{\\\"order\\\":1,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Dallas\\\",\\\"state\\\":\\\"TX\\\",\\\"zip\\\":\\\"75204\\\"}],\\\"commodity\\\":\\\"Racks\\\",\\\"tag\\\":\\\"Pro#1234\\\",\\\"currency\\\":\\\"USD\\\"}]}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /prediction/history:
+    servers:
+    - url: https://testapi.greenscreens.ai/v3
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v3
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v3
+      description: Production server (uses live data)
+    get:
+      tags:
+      - Prediction
+      summary: Lane rate prediction history
+      description: 'Lane rate prediction request/response history on the given date.
+
+        Due to resource limitation search is restricted to the last 30 days period.
+
+        Requests outside of this period will return 400 response code with corresponding error code.
+
+        Results sorted from newest to oldest.
+
+        '
+      security:
+      - Prediction_bearerAuth: []
+      operationId: predictionHistory
+      parameters:
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+          description: All rate requests made on this day will be returned. The date must be within the last 30 days from today. ISO date format (YYYY-MM-DD).
+          example: '2021-09-21'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_PredictionHistoryResponse'
+        '400':
+          $ref: '#/paths/~1prediction~1rates/post/responses/400'
+        '401':
+          $ref: '#/paths/~1prediction~1rates/post/responses/401'
+        '403':
+          $ref: '#/paths/~1prediction~1rates/post/responses/403'
+        '422':
+          $ref: '#/paths/~1prediction~1rates/post/responses/422'
+        '424':
+          $ref: '#/paths/~1prediction~1rates/post/responses/424'
+        '429':
+          $ref: '#/paths/~1prediction~1rates/post/responses/429'
+        '500':
+          $ref: '#/paths/~1prediction~1rates/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v3/prediction/history',\n  qs: {date: '2021-09-21'},\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v3/prediction/history"
+
+
+          querystring = {"date":"2021-09-21"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v3/prediction/history?date=2021-09-21\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /prediction/network-rates:
+    servers:
+    - url: https://testapi.greenscreens.ai/v3
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v3
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v3
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Prediction
+      summary: Lane network rate prediction
+      description: "Used to request lane rate prediction based on \nthe full network of load data available to us.\n"
+      security:
+      - Prediction_bearerAuth: []
+      operationId: predictionNetworkRates
+      parameters:
+      - $ref: '#/components/parameters/Prediction_UserHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prediction_PredictionRatesRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_PredictionRatesResponse'
+        '400':
+          $ref: '#/paths/~1prediction~1rates/post/responses/400'
+        '401':
+          $ref: '#/paths/~1prediction~1rates/post/responses/401'
+        '403':
+          $ref: '#/paths/~1prediction~1rates/post/responses/403'
+        '422':
+          $ref: '#/paths/~1prediction~1rates/post/responses/422'
+        '424':
+          $ref: '#/paths/~1prediction~1rates/post/responses/424'
+        '429':
+          $ref: '#/paths/~1prediction~1rates/post/responses/429'
+        '500':
+          $ref: '#/paths/~1prediction~1rates/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v3/prediction/network-rates',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    pickupDateTime: '2021-09-21T13:00:00Z',\n    transportType: 'VAN',\n    stops: [\n      {order: 0, country: 'US', city: 'Chicago', state: 'IL', zip: '60611'},\n      {order: 1, country: 'US', city: 'Dallas', state: 'TX', zip: '75204'}\n    ],\n    commodity: 'Racks',\n    tag: 'Pro#1234',\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v3/prediction/network-rates\"\n\npayload = {\n    \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n    \"transportType\": \"VAN\",\n    \"stops\": [\n        {\n            \"order\": 0,\n            \"country\": \"US\",\n            \"city\": \"Chicago\",\n            \"state\": \"IL\",\n            \"zip\": \"60611\"\n        },\n        {\n            \"order\": 1,\n            \"country\": \"US\",\n            \"city\": \"Dallas\",\n            \"state\": \"TX\",\n            \"zip\": \"75204\"\n        }\n    ],\n    \"commodity\": \"Racks\",\n    \"tag\": \"Pro#1234\",\n    \"currency\": \"USD\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v3/prediction/network-rates\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"pickupDateTime\\\":\\\"2021-09-21T13:00:00Z\\\",\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Chicago\\\",\\\"state\\\":\\\"IL\\\",\\\"zip\\\":\\\"60611\\\"},{\\\"order\\\":1,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Dallas\\\",\\\"state\\\":\\\"TX\\\",\\\"zip\\\":\\\"75204\\\"}],\\\"commodity\\\":\\\"Racks\\\",\\\"tag\\\":\\\"Pro#1234\\\",\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /prediction/batch-network-rates:
+    servers:
+    - url: https://testapi.greenscreens.ai/v3
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v3
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v3
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Prediction
+      summary: Batch lane network rate prediction
+      description: "Used to request lane rate predictions based on \nthe full network of load data available to us, in batches.\n"
+      security:
+      - Prediction_bearerAuth: []
+      operationId: predictionBatchNetworkRates
+      parameters:
+      - $ref: '#/components/parameters/Prediction_UserHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prediction_PredictionBatchRatesRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prediction_PredictionBatchRatesResponse'
+        '400':
+          $ref: '#/paths/~1prediction~1rates/post/responses/400'
+        '401':
+          $ref: '#/paths/~1prediction~1rates/post/responses/401'
+        '403':
+          $ref: '#/paths/~1prediction~1rates/post/responses/403'
+        '422':
+          $ref: '#/paths/~1prediction~1rates/post/responses/422'
+        '424':
+          $ref: '#/paths/~1prediction~1rates/post/responses/424'
+        '429':
+          $ref: '#/paths/~1prediction~1rates/post/responses/429'
+        '500':
+          $ref: '#/paths/~1prediction~1rates/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v3/prediction/batch-network-rates',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    requests: [\n      {\n        pickupDateTime: '2021-09-21T13:00:00Z',\n        transportType: 'VAN',\n        stops: [\n          {order: 0, country: 'US', city: 'Chicago', state: 'IL', zip: '60611'},\n          {order: 1, country: 'US', city: 'Dallas', state: 'TX', zip: '75204'}\n        ],\n        commodity: 'Racks',\n        tag: 'Pro#1234',\n        currency: 'USD'\n      }\n    ]\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v3/prediction/batch-network-rates\"\n\npayload = {\"requests\": [\n        {\n            \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n            \"transportType\": \"VAN\",\n            \"stops\": [\n                {\n                    \"order\": 0,\n                    \"country\": \"US\",\n                    \"city\": \"Chicago\",\n                    \"state\": \"IL\",\n                    \"zip\": \"60611\"\n                },\n                {\n                    \"order\": 1,\n                    \"country\": \"US\",\n                    \"city\": \"Dallas\",\n                    \"state\": \"TX\",\n                    \"zip\": \"75204\"\n                }\n            ],\n            \"commodity\": \"Racks\",\n            \"tag\": \"Pro#1234\",\n            \"currency\": \"USD\"\n        }\n    ]}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v3/prediction/batch-network-rates\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"requests\\\":[{\\\"pickupDateTime\\\":\\\"2021-09-21T13:00:00Z\\\",\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Chicago\\\",\\\"state\\\":\\\"IL\\\",\\\"zip\\\":\\\"60611\\\"},{\\\"order\\\":1,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Dallas\\\",\\\"state\\\":\\\"TX\\\",\\\"zip\\\":\\\"75204\\\"}],\\\"commodity\\\":\\\"Racks\\\",\\\"tag\\\":\\\"Pro#1234\\\",\\\"currency\\\":\\\"USD\\\"}]}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+components:
+  schemas:
+    Prediction_PredictionBatchRatesResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of prediction responses
+          items:
+            $ref: '#/components/schemas/Prediction_PredictionBatchRatesObject'
+      required:
+      - responses
+    Prediction_PredictionBatchRatesRequest:
+      type: object
+      properties:
+        requests:
+          type: array
+          description: List of prediction requests
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/Prediction_PredictionRatesRequest'
+      required:
+      - requests
+    Prediction_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    Prediction_PredictionRatesRequest:
+      type: object
+      x-parent: true
+      properties:
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: 'Load pick up date and time in ISO date format. Time zone is ignored.
+
+
+            **Earliest allowed** pickup date is 2015-01-01T00:00:00Z.
+
+            '
+          example: '2021-09-21T13:00:00Z'
+        transportType:
+          $ref: '#/components/schemas/Prediction_TransportType'
+        stops:
+          $ref: '#/components/schemas/Prediction_RateStopArray'
+        commodity:
+          type: string
+          description: Commodity description in free form
+          example: Racks
+        tag:
+          type: string
+          description: 'An optional parameter that can be used to identify the prediction response
+
+            '
+          example: Pro#1234
+        currency:
+          type: string
+          description: "Code of the currency that you want the response to be in. \nFormat is ISO 4217. \n\nIf not provided, defaults to the currency set in the profile of currently authenticated user.\n"
+          example: USD
+      required:
+      - pickupDateTime
+      - transportType
+      - stops
+    Prediction_Error422UnprocessableEntityMulti:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          description: list of errors
+          items:
+            type: object
+            description: Request validation error
+            properties:
+              field:
+                type: string
+                description: Name of the field that did not pass validation
+                example: transportType
+              message:
+                type: string
+                description: Human readable error mesage explaining why validation failed
+                example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+              value:
+                type: string
+                nullable: true
+                description: Value of the field that did not pass validation
+                example: SpaceXDragon
+            required:
+            - field
+            - message
+      required:
+      - code
+      - message
+      - errors
+      example:
+        code: request_validation
+        message: You have one or more errors in request structure
+        errors:
+        - field: carrierName
+          message: field contains wrong data type (int), should be string
+          value: '22'
+        - field: shipperId
+          message: 'shipperId: must not be null'
+          value: null
+        - field: loadSource.loadId
+          message: 'loadId: must not be null'
+          value: null
+    Prediction_RateStop:
+      type: object
+      description: Load stop data
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        city:
+          type: string
+          description: City name
+          example: Chicago
+        state:
+          type: string
+          description: Two letter state code
+          example: IL
+        zip:
+          type: string
+          description: "Zip code. \n\n*Not required, but should be provided if possible, as it will improve prediction accuracy.*\n"
+          example: '60636'
+      example:
+        order: 0
+        country: US
+        city: Chicago
+        state: IL
+        zip: '60611'
+      required:
+      - order
+      - city
+      - state
+    Prediction_PredictionHistoryResponseItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Prediction id in the form of an UUID
+          example: 83e60ba0-389c-401a-8a7a-a879a2838d6e
+        dateTime:
+          type: string
+          format: date-time
+          description: Date and time when the request was made
+          example: '2021-09-21T13:00:00Z'
+        userEmail:
+          type: string
+          description: Email of the user that made the rate request
+          example: test@carrier.com
+        transportType:
+          $ref: '#/components/schemas/Prediction_TransportType'
+        originCity:
+          type: string
+          description: Origin city
+          example: Chicago
+        originState:
+          type: string
+          description: Origin state
+          example: IL
+        originZip:
+          type: string
+          description: Origin zip
+          example: '60636'
+        destinationCity:
+          type: string
+          description: Destination city
+          example: Houston
+        destinationState:
+          type: string
+          description: Destination state
+          example: TX
+        destinationZip:
+          type: string
+          description: Destination zip
+          example: '73264'
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Load pick up date and time in ISO date format
+          example: '2021-09-21T13:00:00Z'
+        tag:
+          type: string
+          description: Rate request tag
+          example: Pro#1234
+        currency:
+          type: string
+          description: Requested currency. Format is ISO 4217.
+          example: USD
+        targetBuyRate:
+          type: number
+          description: Target buy rate (per mile, fuel included).
+          example: 2.24
+        lowBuyRate:
+          type: number
+          description: Low boundary of the buy rate (per mile, fuel included)
+          example: 2.11
+        highBuyRate:
+          type: number
+          description: High boundary of the buy rate (per mile, fuel included)
+          example: 2.5
+        startBuyRate:
+          type: number
+          description: "Suggested starting buy rate \nfor negotiations with the carrier (per mile, fuel included)\n"
+          example: 2.07
+        distance:
+          type: number
+          description: Total distance of the trip (in miles)
+          example: 289
+        confidenceLevel:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
+          example: 65
+        notes:
+          $ref: '#/components/schemas/Prediction_RateNotes'
+      required:
+      - id
+      - dateTime
+      - userEmail
+      - transportType
+      - originCity
+      - originState
+      - destinationCity
+      - destinationState
+      - pickupDateTime
+      - tag
+      - currency
+      - targetBuyRate
+      - lowBuyRate
+      - highBuyRate
+      - startBuyRate
+      - distance
+      - confidenceLevel
+    Prediction_ErrorObject:
+      type: object
+      description: Error/Exception description
+      properties:
+        httpCode:
+          type: integer
+          description: Response code
+          example: 424
+        code:
+          type: string
+          description: unique string identifier of the error
+          example: not_found_distance
+        message:
+          type: string
+          description: Readable error message
+          example: Not found route between locations
+      required:
+      - httpCode
+      - code
+      - message
+    Prediction_RateStopArray:
+      type: array
+      description: List of load stops
+      minItems: 2
+      items:
+        $ref: '#/components/schemas/Prediction_RateStop'
+      example:
+      - order: 0
+        country: US
+        city: Chicago
+        state: IL
+        zip: '60611'
+      - order: 1
+        country: US
+        city: Dallas
+        state: TX
+        zip: '75204'
+    Prediction_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    Prediction_RateNotes:
+      type: object
+      description: "Map of notes about the rate. \nThis is used to return additional information (notes/comments) about the rate, \nthat is difficult to convey otherwise.\n\nIf a property of this object is present and it's value is not null \nthen the note is considered applicable\n"
+      properties:
+        shortHaulRateInaccurate:
+          type: object
+          description: "Signifies that the predicted rate might be inaccurate \nbecause short hauls, are not supported well\n"
+          properties:
+            distanceLessThan:
+              type: number
+              description: "A load is considered a Short Haul \nif it's mileage is lower than this number\n"
+              example: 30
+          required:
+          - distanceLessThan
+        multistopDistanceOutlierRateInaccurate:
+          type: object
+          description: "Signifies that the predicted rate might be inaccurate \nbecause multistop hauls with distance much bigger or less than \nthe distance for the same lane single stop haul, are not supported well\n"
+          properties:
+            allowedDistanceDifferenceRange:
+              type: object
+              description: "Describes the range of distance values that should not trigger this warning.\nAnything outside the minimum and the maximum \nwill be considered inaccurate. And will trigger this warning as a result\n"
+              properties:
+                minimumPercentage:
+                  type: number
+                  description: "Minimum distance difference percentage \nallowed for the prediction to be considered accurate.\nIf not present then there is no lower bound\n"
+                  example: 0
+                maximumPercentage:
+                  type: number
+                  description: 'Maximum distance difference percentage
+
+                    allowed for the prediction to be considered accurate.
+
+                    If not present then there is no upper bound
+
+                    '
+                  example: 100
+            singleStopDistance:
+              type: number
+              description: Distance (in miles) of a single stop haul for the same lane
+              example: 570
+          required:
+          - allowedDistanceDifferenceRange
+          - singleStopDistance
+    Prediction_PredictionBatchRatesObject:
+      allOf:
+      - $ref: '#/components/schemas/Prediction_PredictionRatesObject'
+      - type: object
+        properties:
+          status:
+            type: string
+            enum:
+            - OK
+            - ERROR
+            description: Prediction status
+            example: OK
+          errorObject:
+            $ref: '#/components/schemas/Prediction_ErrorObject'
+      required:
+      - status
+    Prediction_PredictionHistoryResponse:
+      type: object
+      description: Contains a list of prediction requests and their responses
+      properties:
+        items:
+          type: array
+          description: List of prediction requests and their responses
+          items:
+            $ref: '#/components/schemas/Prediction_PredictionHistoryResponseItem'
+      required:
+      - items
+    Prediction_PredictionRatesResponse:
+      allOf:
+      - $ref: '#/components/schemas/Prediction_PredictionRatesObject'
+    Prediction_PredictionRatesObject:
+      type: object
+      x-parent: true
+      properties:
+        id:
+          type: string
+          description: Prediction id in the form of an UUID
+          example: 83e60ba0-389c-401a-8a7a-a879a2838d6e
+        targetBuyRate:
+          type: number
+          description: Target buy rate (per mile, fuel included).
+          example: 2.24
+        lowBuyRate:
+          type: number
+          description: Low boundary of the buy rate (per mile, fuel included)
+          example: 2.11
+        highBuyRate:
+          type: number
+          description: High boundary of the buy rate (per mile, fuel included)
+          example: 2.5
+        startBuyRate:
+          type: number
+          description: "Suggested starting buy rate \nfor negotiations with the carrier (per mile, fuel included)\n"
+          example: 2.07
+        fuelRate:
+          type: number
+          description: Fuel surcharge (per mile)
+          example: 0.33
+        distance:
+          type: number
+          description: Total distance of the trip (in miles)
+          example: 289
+        confidenceLevel:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
+          example: 65
+        acceptanceRates:
+          type: array
+          items:
+            type: number
+          description: 'List of buy rates (per mile). Each rate should be thought of as a rate at which
+
+            the chance of carrier accepting it is X%. X ranges from 0% to 100%, and
+
+            the rates are equally distributed between and including 0% and 100%.
+
+
+            For example 11 items in this array would mean 11 rates at which the chance
+
+            of carrier acceptance is [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100] percent.
+
+
+            Might be empty if acceptance rates could not be calculated.
+
+            '
+        tag:
+          type: string
+          description: "Tag for prediction identification. \n\nIf you passed a tag parameter in the request body, \nit will have the same value as in the request. \n\nIf not, then it will be generated by us.\n"
+          example: 78206219-883b-4e1a-bd42-4010d3cc21c1
+        currency:
+          type: string
+          description: The currency that the prediction values are in (ISO 4217 format)
+          example: USD
+        notes:
+          $ref: '#/components/schemas/Prediction_RateNotes'
+      required:
+      - id
+      - targetBuyRate
+      - startBuyRate
+      - lowBuyRate
+      - highBuyRate
+      - distance
+      - confidenceLevel
+      - acceptanceRates
+      - tag
+      - currency
+  parameters:
+    Prediction_UserHeader:
+      in: header
+      name: X-GS-User
+      schema:
+        type: string
+      description: "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n"
+      example: kalex@greenscreens.ai
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2

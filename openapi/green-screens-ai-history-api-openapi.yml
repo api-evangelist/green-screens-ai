@@ -1,0 +1,892 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics History API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: History
+  description: 'Historical rate data and similar lanes analysis v1
+
+
+    <a href="/history/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/history/v1/swagger/index.html" target="_blank">Try it in swagger</a>'
+  x-displayName: History
+paths:
+  /history/loads:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - History
+      operationId: loadsHistory
+      summary: Load history search
+      description: 'Returns loads matching the search criteria
+
+        '
+      security:
+      - History_bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/History_LoadsHistoryRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_LoadsHistoryResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_Error'
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_Error'
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_Error'
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_Error'
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/history/loads',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    originCountry: 'US',\n    originState: 'NY',\n    originCity: 'Schenectady',\n    originZip: '12345',\n    destinationCountry: 'US',\n    destinationState: 'IL',\n    destinationCity: 'Chicago',\n    destinationZip: '12345',\n    extraStops: [\n      {\n        order: 0,\n        type: 'LOAD',\n        address: {country: 'US', city: 'Red Bluff', state: 'CA', zip: '96080'}\n      },\n      {\n        order: 1,\n        type: 'UNLOAD',\n        address: {country: 'US', city: 'Redding', state: 'CA', zip: '96002'}\n      }\n    ],\n    dateFrom: '2020-07-21',\n    dateTo: '2020-07-21',\n    transportType: 'VAN',\n    region: 'ZIP',\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/history/loads\"\n\npayload = {\n    \"originCountry\": \"US\",\n    \"originState\": \"NY\",\n    \"originCity\": \"Schenectady\",\n    \"originZip\": \"12345\",\n    \"destinationCountry\": \"US\",\n    \"destinationState\": \"IL\",\n    \"destinationCity\": \"Chicago\",\n    \"destinationZip\": \"12345\",\n    \"extraStops\": [\n        {\n            \"order\": 0,\n            \"type\": \"LOAD\",\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Red Bluff\",\n                \"state\": \"CA\",\n                \"zip\": \"96080\"\n            }\n        },\n        {\n            \"order\": 1,\n            \"type\": \"UNLOAD\",\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\",\n                \"zip\": \"96002\"\n            }\n        }\n    ],\n    \"dateFrom\": \"2020-07-21\",\n    \"dateTo\": \"2020-07-21\",\n    \"transportType\": \"VAN\",\n    \"region\": \"ZIP\",\n    \"currency\": \"USD\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/history/loads\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"originCountry\\\":\\\"US\\\",\\\"originState\\\":\\\"NY\\\",\\\"originCity\\\":\\\"Schenectady\\\",\\\"originZip\\\":\\\"12345\\\",\\\"destinationCountry\\\":\\\"US\\\",\\\"destinationState\\\":\\\"IL\\\",\\\"destinationCity\\\":\\\"Chicago\\\",\\\"destinationZip\\\":\\\"12345\\\",\\\"extraStops\\\":[{\\\"order\\\":0,\\\"type\\\":\\\"LOAD\\\",\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"}},{\\\"order\\\":1,\\\"type\\\":\\\"UNLOAD\\\",\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"}}],\\\"dateFrom\\\":\\\"2020-07-21\\\",\\\"dateTo\\\":\\\"2020-07-21\\\",\\\"transportType\\\":\\\"VAN\\\",\\\"region\\\":\\\"ZIP\\\",\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /history/recent:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - History
+      summary: Recent customer's rate
+      description: 'Provides recent rate for route. Returns aggregated rate statistics
+
+        for three time periods: last 7, 15, and 30 days.
+
+        '
+      security:
+      - History_bearerAuth: []
+      operationId: recentRates
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/History_RecentRatesRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_RecentRatesResponse'
+        '400':
+          $ref: '#/paths/~1history~1loads/post/responses/400'
+        '401':
+          $ref: '#/paths/~1history~1loads/post/responses/401'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_Error'
+              examples:
+                error404Example:
+                  value:
+                    code: item_not_found
+                    message: Item not found
+        '422':
+          description: Unprocessable Entity with multiple errors.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                  errors:
+                    type: array
+                    description: list of errors
+                    items:
+                      type: object
+                      description: Request validation error
+                      properties:
+                        field:
+                          type: string
+                          description: Name of the field that did not pass validation
+                          example: transportType
+                        message:
+                          type: string
+                          description: Human readable error mesage explaining why validation failed
+                          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+                        value:
+                          type: string
+                          nullable: true
+                          description: Value of the field that did not pass validation
+                          example: SpaceXDragon
+                      required:
+                      - field
+                      - message
+                required:
+                - code
+                - message
+                - errors
+                example:
+                  code: request_validation
+                  message: You have one or more errors in request structure
+                  errors:
+                  - field: carrierName
+                    message: field contains wrong data type (int), should be string
+                    value: '22'
+                  - field: shipperId
+                    message: 'shipperId: must not be null'
+                    value: null
+                  - field: loadSource.loadId
+                    message: 'loadId: must not be null'
+                    value: null
+              examples:
+                error422MultiExample:
+                  value:
+                    code: request_validation
+                    message: You have one or more errors in request structure
+                    errors:
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: '22'
+                    - field: shipperId
+                      message: 'shipperId: must not be null'
+                      value: null
+                    - field: loadSource.loadId
+                      message: 'loadId: must not be null'
+                      value: null
+        '424':
+          description: Failed Dependency.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/History_Error'
+              examples:
+                error424Example:
+                  value:
+                    code: distance_calculation_error
+                    message: 'Unable to calculate distance between zips {key}, reason:  {exc}'
+        '429':
+          $ref: '#/paths/~1history~1loads/post/responses/429'
+        '500':
+          $ref: '#/paths/~1history~1loads/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/history/recent',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    originCountry: 'US',\n    originState: 'NY',\n    originCity: 'Schenectady',\n    originZip: '12345',\n    destinationCountry: 'US',\n    destinationState: 'IL',\n    destinationCity: 'Chicago',\n    destinationZip: '60636',\n    extraStops: [\n      {\n        order: 0,\n        type: 'LOAD',\n        address: {country: 'US', state: 'CA', city: 'Red Bluff', zip: '96080'}\n      },\n      {\n        order: 1,\n        type: 'UNLOAD',\n        address: {country: 'US', state: 'CA', city: 'Redding', zip: '96002'}\n      }\n    ],\n    transportType: 'VAN',\n    region: 'ZIP',\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/history/recent\"\n\npayload = {\n    \"originCountry\": \"US\",\n    \"originState\": \"NY\",\n    \"originCity\": \"Schenectady\",\n    \"originZip\": \"12345\",\n    \"destinationCountry\": \"US\",\n    \"destinationState\": \"IL\",\n    \"destinationCity\": \"Chicago\",\n    \"destinationZip\": \"60636\",\n    \"extraStops\": [\n        {\n            \"order\": 0,\n            \"type\": \"LOAD\",\n            \"address\": {\n                \"country\": \"US\",\n                \"state\": \"CA\",\n                \"city\": \"Red Bluff\",\n                \"zip\": \"96080\"\n            }\n        },\n        {\n            \"order\": 1,\n            \"type\": \"UNLOAD\",\n            \"address\": {\n                \"country\": \"US\",\n                \"state\": \"CA\",\n                \"city\": \"Redding\",\n                \"zip\": \"96002\"\n            }\n        }\n    ],\n    \"transportType\": \"VAN\",\n    \"region\": \"ZIP\",\n    \"currency\": \"USD\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/history/recent\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"originCountry\\\":\\\"US\\\",\\\"originState\\\":\\\"NY\\\",\\\"originCity\\\":\\\"Schenectady\\\",\\\"originZip\\\":\\\"12345\\\",\\\"destinationCountry\\\":\\\"US\\\",\\\"destinationState\\\":\\\"IL\\\",\\\"destinationCity\\\":\\\"Chicago\\\",\\\"destinationZip\\\":\\\"60636\\\",\\\"extraStops\\\":[{\\\"order\\\":0,\\\"type\\\":\\\"LOAD\\\",\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"CA\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"zip\\\":\\\"96080\\\"}},{\\\"order\\\":1,\\\"type\\\":\\\"UNLOAD\\\",\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"CA\\\",\\\"city\\\":\\\"Redding\\\",\\\"zip\\\":\\\"96002\\\"}}],\\\"transportType\\\":\\\"VAN\\\",\\\"region\\\":\\\"ZIP\\\",\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+components:
+  schemas:
+    History_RecentRatesRequest:
+      type: object
+      properties:
+        originCountry:
+          type: string
+          description: 'Origin country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        originState:
+          type: string
+          description: Origin state
+          example: NY
+        originCity:
+          type: string
+          description: Origin city
+          example: Schenectady
+        originZip:
+          type: string
+          description: Origin zip
+          example: '12345'
+        destinationCountry:
+          type: string
+          description: 'Destination country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        destinationState:
+          type: string
+          description: Destination state
+          example: IL
+        destinationCity:
+          type: string
+          description: Destination city
+          example: Chicago
+        destinationZip:
+          type: string
+          description: Destination zip
+          example: '60636'
+        extraStops:
+          $ref: '#/components/schemas/History_StopsInputRecentRates'
+        transportType:
+          $ref: '#/components/schemas/History_TransportType'
+        region:
+          $ref: '#/components/schemas/History_GeographicalArea'
+        currency:
+          type: string
+          description: Code of the currency that you want the response to be in. Format is ISO 4217.
+          example: USD
+      required:
+      - originZip
+      - originCity
+      - originState
+      - destinationZip
+      - destinationCity
+      - destinationState
+      - transportType
+      - region
+    History_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    History_GeographicalArea:
+      type: string
+      enum:
+      - CITY
+      - CITY_ZIP
+      - ZIP_CITY
+      - ZIP
+      - 3DZIP
+      - KMA
+      description: "Determines the size of the area around the origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* 3DZIP - medium, short zip, area\n* KMA - big, market wide, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
+      example: ZIP
+    History_StopInput:
+      type: object
+      description: Contains the stop information e.g. address
+      nullable: true
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/History_AddressInput'
+      required:
+      - order
+      - address
+    History_RecentRatesResponse:
+      type: object
+      description: rates for three periods
+      properties:
+        last7Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+        last15Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+        last30Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+    History_AddressInputRecentRates:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+      required:
+      - country
+      - state
+      - city
+      - zip
+    History_StopsInputRecentRates:
+      type: array
+      description: Extra stops between origin and destination
+      items:
+        $ref: '#/components/schemas/History_StopInputRecentRates'
+      example:
+      - order: 0
+        type: LOAD
+        address:
+          country: US
+          state: CA
+          city: Red Bluff
+          zip: '96080'
+      - order: 1
+        type: UNLOAD
+        address:
+          country: US
+          state: CA
+          city: Redding
+          zip: '96002'
+    History_AddressInput:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+      required:
+      - country
+      - zip
+    History_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    History_LoadsHistoryRequest:
+      type: object
+      properties:
+        originCountry:
+          type: string
+          description: 'Origin country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        originState:
+          type: string
+          description: Origin state
+          example: NY
+        originCity:
+          type: string
+          description: Origin city
+          example: Schenectady
+        originZip:
+          type: string
+          description: Origin zip
+          example: '12345'
+        destinationCountry:
+          type: string
+          description: 'Destination country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        destinationState:
+          type: string
+          description: Destination state
+          example: IL
+        destinationCity:
+          type: string
+          description: Destination city
+          example: Chicago
+        destinationZip:
+          type: string
+          description: Destination zip
+          example: '12345'
+        extraStops:
+          $ref: '#/components/schemas/History_StopsInput'
+        dateFrom:
+          type: string
+          format: date
+          description: Pickup date range start date
+          example: '2020-07-21'
+        dateTo:
+          type: string
+          format: date
+          description: Pickup date range end date
+          example: '2020-07-21'
+        transportType:
+          $ref: '#/components/schemas/History_TransportType'
+        region:
+          $ref: '#/components/schemas/History_GeographicalArea'
+        currency:
+          type: string
+          description: 'Code of the currency that you want the response to be in.
+
+            Format is ISO 4217.
+
+
+            If not provided, defaults to the currency set in the profile of currently authenticated user.
+
+            '
+          example: USD
+      required:
+      - originZip
+      - destinationZip
+      - transportType
+      - dateFrom
+      - dateTo
+      - region
+    History_StopsInput:
+      type: array
+      description: Extra stops between origin and destination
+      items:
+        $ref: '#/components/schemas/History_StopInput'
+      example:
+      - order: 0
+        type: LOAD
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+      - order: 1
+        type: UNLOAD
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+    History_LoadRateObject:
+      type: object
+      description: Load data
+      properties:
+        totalCarrierCost:
+          type: number
+          description: Total carrier rate (flat, including fuel)
+          example: 1765.13
+        totalCarrierRate:
+          type: number
+          description: Total carrier rate (per mile, including fuel)
+          example: 2.58
+        loadPickupDate:
+          type: string
+          format: date
+          description: 'Pickup date of the load.
+
+
+            **Deprecated.** Use `pickupDateTime` instead
+
+            '
+          example: '2020-07-21'
+          deprecated: true
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Pickup date and time of the load
+          example: '2020-07-21T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Delivery date and time of the load
+          example: '2020-10-14T16:00:00Z'
+        transportTypeTms:
+          type: string
+          description: Transport type (original transport type used in provider TMS)
+          example: VR
+        distance:
+          type: number
+          description: Distance that the load covered (in miles)
+          example: 689
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 22000
+        commodity:
+          type: string
+          description: Commodity description in free form
+          example: Racks
+        originCountry:
+          type: string
+          description: 'Origin country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        originState:
+          type: string
+          description: Origin state
+          example: IL
+        originCity:
+          type: string
+          description: Origin city
+          example: Chicago
+        originZip:
+          type: string
+          description: Origin zip
+          example: '60636'
+        destinationCountry:
+          type: string
+          description: 'Destination country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        destinationState:
+          type: string
+          description: Destination state
+          example: TX
+        destinationCity:
+          type: string
+          description: Destination city
+          example: Houston
+        destinationZip:
+          type: string
+          description: Destination zip
+          example: '73264'
+        extraStops:
+          $ref: '#/components/schemas/History_ExtraStops'
+        carrierName:
+          type: string
+          description: Carrier company name
+          example: JB Hunt
+        carrierPhoneNumber:
+          type: string
+          description: Carrier contact number
+          example: '121331343'
+        carrierEmail:
+          type: string
+          description: Carrier contact email
+          example: my@carrieremail.com
+        customerName:
+          type: string
+          description: Shipper company name
+          example: BP
+        customerPhoneNumber:
+          type: string
+          description: Customer contact number
+          example: '121331343'
+        customerEmail:
+          type: string
+          description: Customer contact email
+          example: my@customeremail.com
+        sellRate:
+          type: number
+          description: Total shipper rate (flat, including fuel)
+          example: 1900.5
+        buySideRep:
+          type: string
+          description: Carrier contact manager
+          example: Jon Johnson
+        sellSideRep:
+          type: string
+          description: Shipper contact manager
+          example: Deny Williams
+        loadProNumber:
+          type: string
+          description: Load PRO number in broker TMS
+          example: 0-5428
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+      required:
+      - loadPickupDate
+      - originState
+      - originCity
+      - destinationState
+      - destinationCity
+      - currency
+      - extraStops
+    History_ExtraStops:
+      type: array
+      items:
+        $ref: '#/components/schemas/History_ExtraStop'
+      description: 'Any extra stops along the route between the origin and destination points
+
+        '
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
+    History_ExtraStopAddress:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        city:
+          type: string
+          description: City name
+          example: Sacramento
+        state:
+          type: string
+          description: Two letter state code
+          example: CA
+        zip:
+          type: string
+          description: Zip code
+          example: '95814'
+      required:
+      - country
+    History_StopInputRecentRates:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/History_AddressInputRecentRates'
+      required:
+      - order
+      - address
+    History_RecentRateObject:
+      type: object
+      properties:
+        maxLineHaulFlatRate:
+          type: number
+          description: Max flat rate for period
+          example: 1208.54
+        maxLineHaulRate:
+          type: number
+          description: Max per-mile rate for period
+          example: 2.568
+        minLineHaulFlatRate:
+          type: number
+          description: Min flat rate for period
+          example: 1001.92
+        minLineHaulRate:
+          type: number
+          description: Min per-mile rate for period
+          example: 1.981
+        averageLineHaulFlatRate:
+          type: number
+          description: Flat rate for period
+          example: 1200.12
+        averageLineHaulRate:
+          type: number
+          description: Per-mile rate for period
+          example: 2.1254
+        numberOfReports:
+          type: integer
+          description: number of reports in period
+          example: 7
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+      required:
+      - maxLineHaulFlatRate
+      - maxLineHaulRate
+      - minLineHaulFlatRate
+      - minLineHaulRate
+      - averageLineHaulFlatRate
+      - averageLineHaulRate
+      - numberOfReports
+      - currency
+    History_LoadsHistoryResponse:
+      type: object
+      description: list of rates
+      properties:
+        items:
+          type: array
+          description: 'List of rate objects that are deemed valid and
+
+            used during ML training
+
+            '
+          items:
+            $ref: '#/components/schemas/History_LoadRateObject'
+        outlierItems:
+          type: array
+          description: 'List of outlier rate objects that are deemed invalid and
+
+            ignored during ML training
+
+            '
+          items:
+            $ref: '#/components/schemas/History_LoadRateObject'
+      required:
+      - items
+      - outlierItems
+    History_ExtraStop:
+      type: object
+      description: Extra stop
+      properties:
+        order:
+          type: integer
+          description: Extra stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/History_ExtraStopAddress'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop.
+
+            Leave this field empty if you do not know the stop type.
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2

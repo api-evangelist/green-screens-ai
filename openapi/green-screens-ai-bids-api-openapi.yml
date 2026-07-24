@@ -1,0 +1,1590 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics Bids API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: Bids
+  description: 'Carrier bids service v1
+
+
+    <a href="/bids/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/bids/v1/swagger/index.html" target="_blank">Try it in swagger</a>'
+  x-displayName: Bids
+paths:
+  /bids:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Bids
+      summary: Save bid
+      description: Save bid
+      security:
+      - Bids_bearerAuth: []
+      operationId: saveBid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bids_BidsRequest'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_BidResponse'
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '422':
+          $ref: '#/paths/~1bids/get/responses/422'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/bids',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    userEmail: 'buddy@greenscreens.ai',\n    carrierName: 'CarrierCompany',\n    carrierMC: '888015',\n    carrierDOT: '87650005',\n    carrierEmail: 'carrier@mail.com',\n    carrierPhone: '4112228888',\n    origin: {country: 'US', state: 'NY', city: 'Schenectady', zip: '12345', type: 'ZIP'},\n    destination: {country: 'US', state: 'NY', city: 'Schenectady', zip: '12345', type: 'ZIP'},\n    extraStops: [\n      {\n        order: 0,\n        address: {country: 'US', zip: '96080'},\n        type: 'LOAD',\n        appointmentDateTime: '2020-10-14T16:00:00Z'\n      },\n      {\n        order: 1,\n        address: {country: 'US', city: 'Redding', state: 'CA'},\n        type: 'UNLOAD',\n        appointmentDateTime: '2020-10-15T16:00:00Z'\n      }\n    ],\n    transportType: 'VAN',\n    pickupDateTime: '2020-10-13T16:00:00Z',\n    deliveredDateTime: '2020-10-13T16:00:00Z',\n    bidDateTime: '2020-10-11T16:00:00Z',\n    bidCost: 1000.5,\n    loadProNumber: 'Pro#111111',\n    weight: 20000,\n    commodity: 'Steel racks',\n    brokerComment: 'Something a broker would comment',\n    carrierComment: 'Looks good',\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/bids\"\n\npayload = {\n    \"userEmail\": \"buddy@greenscreens.ai\",\n    \"carrierName\": \"CarrierCompany\",\n    \"carrierMC\": \"888015\",\n    \"carrierDOT\": \"87650005\",\n    \"carrierEmail\": \"carrier@mail.com\",\n    \"carrierPhone\": \"4112228888\",\n    \"origin\": {\n        \"country\": \"US\",\n        \"state\": \"NY\",\n        \"city\": \"Schenectady\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\"\n    },\n    \"destination\": {\n        \"country\": \"US\",\n        \"state\": \"NY\",\n        \"city\": \"Schenectady\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\"\n    },\n    \"extraStops\": [\n        {\n            \"order\": 0,\n            \"address\": {\n                \"country\": \"US\",\n                \"zip\": \"96080\"\n            },\n            \"type\": \"LOAD\",\n            \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n            \"order\": 1,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\"\n            },\n            \"type\": \"UNLOAD\",\n            \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n    ],\n    \"transportType\": \"VAN\",\n    \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n    \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n    \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n    \"bidCost\": 1000.5,\n    \"loadProNumber\": \"Pro#111111\",\n    \"weight\": 20000,\n    \"commodity\": \"Steel racks\",\n    \"brokerComment\": \"Something a broker would comment\",\n    \"carrierComment\": \"Looks good\",\n    \"currency\": \"USD\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"userEmail\\\":\\\"buddy@greenscreens.ai\\\",\\\"carrierName\\\":\\\"CarrierCompany\\\",\\\"carrierMC\\\":\\\"888015\\\",\\\"carrierDOT\\\":\\\"87650005\\\",\\\"carrierEmail\\\":\\\"carrier@mail.com\\\",\\\"carrierPhone\\\":\\\"4112228888\\\",\\\"origin\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"NY\\\",\\\"city\\\":\\\"Schenectady\\\",\\\"zip\\\":\\\"12345\\\",\\\"type\\\":\\\"ZIP\\\"},\\\"destination\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"NY\\\",\\\"city\\\":\\\"Schenectady\\\",\\\"zip\\\":\\\"12345\\\",\\\"type\\\":\\\"ZIP\\\"},\\\"extraStops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"zip\\\":\\\"96080\\\"},\\\"type\\\":\\\"LOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-14T16:00:00Z\\\"},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\"},\\\"type\\\":\\\"UNLOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-15T16:00:00Z\\\"}],\\\"transportType\\\":\\\"VAN\\\",\\\"pickupDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"deliveredDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"bidDateTime\\\":\\\"2020-10-11T16:00:00Z\\\",\\\"bidCost\\\":1000.5,\\\"loadProNumber\\\":\\\"Pro#111111\\\",\\\"weight\\\":20000,\\\"commodity\\\":\\\"Steel racks\\\",\\\"brokerComment\\\":\\\"Something a broker would comment\\\",\\\"carrierComment\\\":\\\"Looks good\\\",\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    get:
+      tags:
+      - Bids
+      summary: Get current user bids
+      description: Get current user bids
+      security:
+      - Bids_bearerAuth: []
+      operationId: getBids
+      parameters:
+      - in: query
+        name: createdDateFrom
+        description: bid created date >= value
+        required: true
+        schema:
+          type: string
+          format: date
+          example: '2019-09-30'
+      - in: query
+        name: createdDateTo
+        description: bid created date <= value
+        schema:
+          type: string
+          format: date
+          example: '2019-12-30'
+      - in: query
+        name: currency
+        schema:
+          type: string
+          enum:
+          - USD
+          - CAD
+          description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+          example: USD
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_BidsResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_Error'
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_Error'
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_Error'
+              examples:
+                error404Example:
+                  value:
+                    code: item_not_found
+                    message: Item not found
+        '422':
+          description: Unprocessable Entity with multiple errors.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                  errors:
+                    type: array
+                    description: list of errors
+                    items:
+                      $ref: '#/components/schemas/Bids_RequestValidationError'
+                required:
+                - code
+                - message
+                - errors
+                example:
+                  code: request_validation
+                  message: You have one or more errors in request structure
+                  errors:
+                  - field: carrierName
+                    message: field contains wrong data type (int), should be string
+                    value: '22'
+                  - field: shipperId
+                    message: 'shipperId: must not be null'
+                    value: null
+                  - field: loadSource.loadId
+                    message: 'loadId: must not be null'
+                    value: null
+              examples:
+                error422MultiExample:
+                  value:
+                    code: request_validation
+                    message: You have one or more errors in request structure
+                    errors:
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: '22'
+                    - field: shipperId
+                      message: 'shipperId: must not be null'
+                      value: null
+                    - field: loadSource.loadId
+                      message: 'loadId: must not be null'
+                      value: null
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_Error'
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_Error'
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/bids',\n  qs: {createdDateFrom: '2019-09-30', createdDateTo: '2019-12-30', currency: 'USD'},\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/bids"
+
+
+          querystring = {"createdDateFrom":"2019-09-30","createdDateTo":"2019-12-30","currency":"USD"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids?createdDateFrom=2019-09-30&createdDateTo=2019-12-30&currency=USD\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /bids/{bidId}:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    patch:
+      tags:
+      - Bids
+      summary: Update bid
+      description: Update bid
+      security:
+      - Bids_bearerAuth: []
+      operationId: updateBid
+      parameters:
+      - in: path
+        name: bidId
+        description: Id of the bid that you want updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bids_BidsUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_BidObject'
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '404':
+          $ref: '#/paths/~1bids/get/responses/404'
+        '422':
+          $ref: '#/paths/~1bids/get/responses/422'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'PATCH',\n  url: 'https://testapi.greenscreens.ai/v1/bids/%7BbidId%7D',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    carrierName: 'CarrierCompany',\n    carrierMC: '888015',\n    carrierEmail: 'carrier@mail.com',\n    carrierPhone: '4112228888',\n    origin: {country: 'US', state: 'NY', city: 'Schenectady', zip: '12345', type: 'ZIP'},\n    destination: {country: 'US', state: 'NY', city: 'Schenectady', zip: '12345', type: 'ZIP'},\n    extraStops: [\n      {\n        order: 0,\n        address: {country: 'US', zip: '96080'},\n        type: 'LOAD',\n        appointmentDateTime: '2020-10-14T16:00:00Z'\n      },\n      {\n        order: 1,\n        address: {country: 'US', city: 'Redding', state: 'CA'},\n        type: 'UNLOAD',\n        appointmentDateTime: '2020-10-15T16:00:00Z'\n      }\n    ],\n    transportType: 'VAN',\n    pickupDateTime: '2020-10-13T16:00:00Z',\n    deliveredDateTime: '2020-10-13T16:00:00Z',\n    bidDateTime: '2020-10-11T16:00:00Z',\n    bidCost: 1000.5,\n    loadProNumber: 'Pro#111111',\n    weight: 20000,\n    commodity: 'Steel racks',\n    brokerComment: 'Something a broker would comment',\n    carrierComment: 'Looks good',\n    wasViewed: false,\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/bids/%7BbidId%7D\"\n\npayload = {\n    \"carrierName\": \"CarrierCompany\",\n    \"carrierMC\": \"888015\",\n    \"carrierEmail\": \"carrier@mail.com\",\n    \"carrierPhone\": \"4112228888\",\n    \"origin\": {\n        \"country\": \"US\",\n        \"state\": \"NY\",\n        \"city\": \"Schenectady\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\"\n    },\n    \"destination\": {\n        \"country\": \"US\",\n        \"state\": \"NY\",\n        \"city\": \"Schenectady\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\"\n    },\n    \"extraStops\": [\n        {\n            \"order\": 0,\n            \"address\": {\n                \"country\": \"US\",\n                \"zip\": \"96080\"\n            },\n            \"type\": \"LOAD\",\n            \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n            \"order\": 1,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\"\n            },\n            \"type\": \"UNLOAD\",\n            \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n    ],\n    \"transportType\": \"VAN\",\n    \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n    \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n    \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n    \"bidCost\": 1000.5,\n    \"loadProNumber\": \"Pro#111111\",\n    \"weight\": 20000,\n    \"commodity\": \"Steel racks\",\n    \"brokerComment\": \"Something a broker would comment\",\n    \"carrierComment\": \"Looks good\",\n    \"wasViewed\": False,\n    \"currency\": \"USD\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"PATCH\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/%7BbidId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"PATCH\",\n  CURLOPT_POSTFIELDS => \"{\\\"carrierName\\\":\\\"CarrierCompany\\\",\\\"carrierMC\\\":\\\"888015\\\",\\\"carrierEmail\\\":\\\"carrier@mail.com\\\",\\\"carrierPhone\\\":\\\"4112228888\\\",\\\"origin\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"NY\\\",\\\"city\\\":\\\"Schenectady\\\",\\\"zip\\\":\\\"12345\\\",\\\"type\\\":\\\"ZIP\\\"},\\\"destination\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"NY\\\",\\\"city\\\":\\\"Schenectady\\\",\\\"zip\\\":\\\"12345\\\",\\\"type\\\":\\\"ZIP\\\"},\\\"extraStops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"zip\\\":\\\"96080\\\"},\\\"type\\\":\\\"LOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-14T16:00:00Z\\\"},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\"},\\\"type\\\":\\\"UNLOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-15T16:00:00Z\\\"}],\\\"transportType\\\":\\\"VAN\\\",\\\"pickupDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"deliveredDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"bidDateTime\\\":\\\"2020-10-11T16:00:00Z\\\",\\\"bidCost\\\":1000.5,\\\"loadProNumber\\\":\\\"Pro#111111\\\",\\\"weight\\\":20000,\\\"commodity\\\":\\\"Steel racks\\\",\\\"brokerComment\\\":\\\"Something a broker would comment\\\",\\\"carrierComment\\\":\\\"Looks good\\\",\\\"wasViewed\\\":false,\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    delete:
+      tags:
+      - Bids
+      summary: Delete bid
+      description: Delete bid
+      security:
+      - Bids_bearerAuth: []
+      operationId: deleteBid
+      parameters:
+      - in: path
+        name: bidId
+        description: Id of the bid that you want deleted
+        required: true
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '404':
+          $ref: '#/paths/~1bids/get/responses/404'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'DELETE',\n  url: 'https://testapi.greenscreens.ai/v1/bids/%7BbidId%7D',\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/bids/%7BbidId%7D"
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("DELETE", url, headers=headers)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/%7BbidId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"DELETE\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /bids/carriers:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    get:
+      tags:
+      - Bids
+      summary: Search carriers
+      description: Search carriers
+      security:
+      - Bids_bearerAuth: []
+      operationId: carrierInfo
+      parameters:
+      - in: query
+        name: query
+        description: 'Query string. Names are first checked using case insensitive startsWith  and then case insensitive contains.
+
+          '
+        schema:
+          type: string
+          example: Joe
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_CarrierInfoResponse'
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '404':
+          $ref: '#/paths/~1bids/get/responses/404'
+        '422':
+          $ref: '#/paths/~1bids/get/responses/422'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/bids/carriers',\n  qs: {query: 'Joe'},\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/bids/carriers"
+
+
+          querystring = {"query":"Joe"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/carriers?query=Joe\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /bids/accept:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Bids
+      summary: Accept bid
+      description: Accept bid
+      operationId: acceptBid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bids_BidActionRequest'
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '404':
+          $ref: '#/paths/~1bids/get/responses/404'
+        '422':
+          $ref: '#/paths/~1bids/get/responses/422'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/bids/accept',\n  headers: {'content-type': 'application/json'},\n  body: {\n    key: 'c5d1cfa8-228b-11eb-adc1-0242ac120002',\n    bidCost: 1000.5,\n    carrierName: 'Carrierr Transportation',\n    carrierMC: '888015',\n    carrierComment: 'Looks good',\n    currency: 'USD'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/bids/accept\"\n\npayload = {\n    \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n    \"bidCost\": 1000.5,\n    \"carrierName\": \"Carrierr Transportation\",\n    \"carrierMC\": \"888015\",\n    \"carrierComment\": \"Looks good\",\n    \"currency\": \"USD\"\n}\nheaders = {\"content-type\": \"application/json\"}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/accept\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"key\\\":\\\"c5d1cfa8-228b-11eb-adc1-0242ac120002\\\",\\\"bidCost\\\":1000.5,\\\"carrierName\\\":\\\"Carrierr Transportation\\\",\\\"carrierMC\\\":\\\"888015\\\",\\\"carrierComment\\\":\\\"Looks good\\\",\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /bids/send:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Bids
+      summary: Send bid request
+      description: Send bid request to a carrier
+      security:
+      - Bids_bearerAuth: []
+      operationId: requestBid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bids_BidsSendRequest'
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '404':
+          $ref: '#/paths/~1bids/get/responses/404'
+        '422':
+          $ref: '#/paths/~1bids/get/responses/422'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/bids/send',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    userEmail: 'buddy@greenscreens.ai',\n    carriers: [\n      {\n        carrierInfo: {\n          name: 'CarrierCompany',\n          mc: '888015',\n          dot: '87650005',\n          phone: '4112228888',\n          email: 'carrier@mail.com'\n        },\n        carrierInfoSource: 'HIGHWAY',\n        sendRequestTo: ['CARRIER_INFO_EMAIL']\n      }\n    ],\n    carrierEmailList: ['carrier1@mail.com', 'carrier2@mail.com', 'carrier3@mail.com'],\n    carrierPhoneList: ['8456951387', '7456951583', '2458951391'],\n    origin: {country: 'US', state: 'NY', city: 'Schenectady', zip: '12345', type: 'ZIP'},\n    destination: {country: 'US', state: 'NY', city: 'Schenectady', zip: '12345', type: 'ZIP'},\n    extraStops: [\n      {\n        order: 0,\n        address: {country: 'US', zip: '96080'},\n        type: 'LOAD',\n        appointmentDateTime: '2020-10-14T16:00:00Z'\n      },\n      {\n        order: 1,\n        address: {country: 'US', city: 'Redding', state: 'CA'},\n        type: 'UNLOAD',\n        appointmentDateTime: '2020-10-15T16:00:00Z'\n      }\n    ],\n    pickupDateTime: '2020-10-13T16:00:00Z',\n    deliveredDateTime: '2020-10-13T16:00:00Z',\n    loadProNumber: 'Pro#111111',\n    weight: 20000,\n    commodity: 'Steel racks',\n    brokerComment: 'Please, be carefully with my load',\n    transportType: 'VAN'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/bids/send\"\n\npayload = {\n    \"userEmail\": \"buddy@greenscreens.ai\",\n    \"carriers\": [\n        {\n            \"carrierInfo\": {\n                \"name\": \"CarrierCompany\",\n                \"mc\": \"888015\",\n                \"dot\": \"87650005\",\n                \"phone\": \"4112228888\",\n                \"email\": \"carrier@mail.com\"\n            },\n            \"carrierInfoSource\": \"HIGHWAY\",\n            \"sendRequestTo\": [\"CARRIER_INFO_EMAIL\"]\n        }\n    ],\n    \"carrierEmailList\": [\"carrier1@mail.com\", \"carrier2@mail.com\", \"carrier3@mail.com\"],\n    \"carrierPhoneList\": [\"8456951387\", \"7456951583\", \"2458951391\"],\n    \"origin\": {\n        \"country\": \"US\",\n        \"state\": \"NY\",\n        \"city\": \"Schenectady\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\"\n    },\n    \"destination\": {\n        \"country\": \"US\",\n        \"state\": \"NY\",\n        \"city\": \"Schenectady\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\"\n    },\n    \"extraStops\": [\n        {\n            \"order\": 0,\n            \"address\": {\n                \"country\": \"US\",\n                \"zip\": \"96080\"\n            },\n            \"type\": \"LOAD\",\n            \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n            \"order\": 1,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\"\n            },\n            \"type\": \"UNLOAD\",\n            \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n    ],\n    \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n    \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n    \"loadProNumber\": \"Pro#111111\",\n    \"weight\": 20000,\n    \"commodity\": \"Steel racks\",\n    \"brokerComment\": \"Please, be carefully with my load\",\n    \"transportType\": \"VAN\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/send\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"userEmail\\\":\\\"buddy@greenscreens.ai\\\",\\\"carriers\\\":[{\\\"carrierInfo\\\":{\\\"name\\\":\\\"CarrierCompany\\\",\\\"mc\\\":\\\"888015\\\",\\\"dot\\\":\\\"87650005\\\",\\\"phone\\\":\\\"4112228888\\\",\\\"email\\\":\\\"carrier@mail.com\\\"},\\\"carrierInfoSource\\\":\\\"HIGHWAY\\\",\\\"sendRequestTo\\\":[\\\"CARRIER_INFO_EMAIL\\\"]}],\\\"carrierEmailList\\\":[\\\"carrier1@mail.com\\\",\\\"carrier2@mail.com\\\",\\\"carrier3@mail.com\\\"],\\\"carrierPhoneList\\\":[\\\"8456951387\\\",\\\"7456951583\\\",\\\"2458951391\\\"],\\\"origin\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"NY\\\",\\\"city\\\":\\\"Schenectady\\\",\\\"zip\\\":\\\"12345\\\",\\\"type\\\":\\\"ZIP\\\"},\\\"destination\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"NY\\\",\\\"city\\\":\\\"Schenectady\\\",\\\"zip\\\":\\\"12345\\\",\\\"type\\\":\\\"ZIP\\\"},\\\"extraStops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"zip\\\":\\\"96080\\\"},\\\"type\\\":\\\"LOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-14T16:00:00Z\\\"},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\"},\\\"type\\\":\\\"UNLOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-15T16:00:00Z\\\"}],\\\"pickupDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"deliveredDateTime\\\":\\\"2020-10-13T16:00:00Z\\\",\\\"loadProNumber\\\":\\\"Pro#111111\\\",\\\"weight\\\":20000,\\\"commodity\\\":\\\"Steel racks\\\",\\\"brokerComment\\\":\\\"Please, be carefully with my load\\\",\\\"transportType\\\":\\\"VAN\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /bids/recent:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    get:
+      tags:
+      - Bids
+      summary: Get ten most recent bids for a lane
+      description: Get ten most recent bids for a lane
+      operationId: recentBids
+      security:
+      - Bids_bearerAuth: []
+      parameters:
+      - in: query
+        name: transportType
+        schema:
+          type: string
+          enum:
+          - VAN
+          - REEFER
+          - FLATBED
+          - HOTSHOT
+          description: Transport type
+          example: VAN
+        required: true
+      - in: query
+        name: originCountry
+        schema:
+          type: string
+          example: US
+        description: "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+      - in: query
+        name: originState
+        schema:
+          type: string
+          description: Origin state
+          example: NY
+      - in: query
+        name: originCity
+        schema:
+          type: string
+          description: Origin city
+          example: Schenectady
+      - in: query
+        name: originZip
+        schema:
+          type: string
+          example: '12345'
+          description: Origin area zip
+        required: true
+      - in: query
+        name: destinationCountry
+        schema:
+          type: string
+          example: US
+        description: "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+      - in: query
+        name: destinationState
+        schema:
+          type: string
+          description: Destination state
+          example: IL
+      - in: query
+        name: destinationCity
+        schema:
+          type: string
+          description: Destination city
+          example: Chicago
+      - in: query
+        name: destinationZip
+        schema:
+          type: string
+          example: '60636'
+          description: Destination area zip
+        required: true
+      - in: query
+        name: hasExtraStops
+        schema:
+          type: boolean
+          example: true
+          description: 'Signifies whether the requested lane has extra stops or not.
+
+
+            If true, multistop loads will be included during calculations.
+
+            '
+          default: false
+      - in: query
+        name: dateFrom
+        schema:
+          type: string
+          format: date
+          example: '2019-09-30'
+          description: Date range for bids created from
+        required: true
+      - in: query
+        name: region
+        schema:
+          type: string
+          enum:
+          - CITY
+          - CITY_ZIP
+          - ZIP_CITY
+          - ZIP
+          - 3DZIP
+          - KMA
+          description: "Determines the size of the area around the origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* 3DZIP - medium, short zip, area\n* KMA - big, market wide, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
+          example: ZIP
+        required: true
+      - in: query
+        name: currency
+        schema:
+          type: string
+          enum:
+          - USD
+          - CAD
+          description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+          example: USD
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_RecentBidsResponse'
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '404':
+          $ref: '#/paths/~1bids/get/responses/404'
+        '422':
+          $ref: '#/paths/~1bids/get/responses/422'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/bids/recent',\n  qs: {\n    transportType: 'VAN',\n    originCountry: 'US',\n    originState: 'NY',\n    originCity: 'Schenectady',\n    originZip: '12345',\n    destinationCountry: 'US',\n    destinationState: 'IL',\n    destinationCity: 'Chicago',\n    destinationZip: '60636',\n    hasExtraStops: 'true',\n    dateFrom: '2019-09-30',\n    region: 'ZIP',\n    currency: 'USD'\n  },\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/bids/recent"
+
+
+          querystring = {"transportType":"VAN","originCountry":"US","originState":"NY","originCity":"Schenectady","originZip":"12345","destinationCountry":"US","destinationState":"IL","destinationCity":"Chicago","destinationZip":"60636","hasExtraStops":"true","dateFrom":"2019-09-30","region":"ZIP","currency":"USD"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/recent?transportType=VAN&originCountry=US&originState=NY&originCity=Schenectady&originZip=12345&destinationCountry=US&destinationState=IL&destinationCity=Chicago&destinationZip=60636&hasExtraStops=true&dateFrom=2019-09-30&region=ZIP&currency=USD\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /bids/by-key/{key}:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    get:
+      tags:
+      - Bids
+      summary: Get bid information by key
+      description: Get bid information by key
+      operationId: getBidByKey
+      parameters:
+      - in: path
+        name: key
+        description: Key of the requested bid
+        required: true
+        schema:
+          type: string
+          example: 69bb0a85-f0d0-4d40-abb5-b0e6d82cd234
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bids_BidByKeyResponse'
+        '400':
+          $ref: '#/paths/~1bids/get/responses/400'
+        '401':
+          $ref: '#/paths/~1bids/get/responses/401'
+        '403':
+          $ref: '#/paths/~1bids/get/responses/403'
+        '404':
+          $ref: '#/paths/~1bids/get/responses/404'
+        '422':
+          $ref: '#/paths/~1bids/get/responses/422'
+        '429':
+          $ref: '#/paths/~1bids/get/responses/429'
+        '500':
+          $ref: '#/paths/~1bids/get/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {method: 'GET', url: 'https://testapi.greenscreens.ai/v1/bids/by-key/%7Bkey%7D'};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/bids/by-key/%7Bkey%7D"
+
+
+          response = requests.request("GET", url)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/by-key/%7Bkey%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+components:
+  schemas:
+    Bids_StopAddress:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        zip:
+          type: string
+          description: Zip
+          example: '12345'
+        type:
+          type: string
+          enum:
+          - CITY
+          - ZIP
+          example: ZIP
+          description: Type of address
+      required:
+      - country
+      - state
+      - city
+      - zip
+      - type
+    Bids_BidsUpdateRequest:
+      type: object
+      properties:
+        carrierName:
+          type: string
+          description: Carrier company name
+          example: CarrierCompany
+        carrierMC:
+          type: string
+          description: Carrier MC number
+          example: '888015'
+        carrierEmail:
+          type: string
+          nullable: true
+          description: User email
+          example: carrier@mail.com
+        carrierPhone:
+          type: string
+          nullable: true
+          description: Carrier contact phone number
+          example: '4112228888'
+        origin:
+          $ref: '#/components/schemas/Bids_Address'
+        destination:
+          $ref: '#/components/schemas/Bids_Address'
+        extraStops:
+          $ref: '#/components/schemas/Bids_StopsInput'
+        transportType:
+          $ref: '#/components/schemas/Bids_TransportType'
+        pickupDateTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Pick up date with time in time zone of the pick up location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00\n"
+          example: '2020-10-13T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Delivered date with time in time zone of drop off location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00\n"
+          example: '2020-10-13T16:00:00Z'
+        bidDateTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date and time when the bid was created
+          example: '2020-10-11T16:00:00Z'
+        bidCost:
+          type: number
+          description: Bid rate
+          example: 1000.5
+        loadProNumber:
+          type: string
+          nullable: true
+          description: Internal load pro number
+          example: Pro#111111
+        weight:
+          type: number
+          format: float
+          nullable: true
+          description: Total cargo weight in lb
+          example: 20000
+        commodity:
+          type: string
+          nullable: true
+          description: Commodity description in free form
+          example: Steel racks
+        brokerComment:
+          type: string
+          nullable: true
+          description: Comment for carrier
+          example: Something a broker would comment
+        carrierComment:
+          type: string
+          nullable: true
+          description: Comment from carrier
+          example: Looks good
+        wasViewed:
+          type: boolean
+          description: States whether the bid was viewed by the broker after being accepted by carrier
+          example: false
+        currency:
+          $ref: '#/components/schemas/Bids_Currency'
+      required:
+      - carrierName
+      - origin
+      - destination
+      - transportType
+      - bidCost
+    Bids_BidActionRequest:
+      type: object
+      description: Carries data necessary for accepting a bid
+      properties:
+        key:
+          type: string
+          description: Key of the bid which you want to accept
+          example: c5d1cfa8-228b-11eb-adc1-0242ac120002
+        bidCost:
+          type: number
+          description: Bid rate from user
+          example: 1000.5
+        carrierName:
+          type: string
+          description: Carrier company name
+          example: Carrierr Transportation
+        carrierMC:
+          type: string
+          description: Carrier MC number
+          example: '888015'
+        carrierComment:
+          type: string
+          description: Comment for broker
+          example: Looks good
+        currency:
+          $ref: '#/components/schemas/Bids_Currency'
+      required:
+      - key
+      - bidCost
+      - carrierName
+    Bids_BidsResponse:
+      type: object
+      description: Object containing an array of bids
+      properties:
+        items:
+          type: array
+          description: Array of bids
+          items:
+            $ref: '#/components/schemas/Bids_BidObject'
+      required:
+      - items
+    Bids_BidsSendRequestCarrierCarrierInfo:
+      type: object
+      description: Describes the carrier to whom the bid request is sent
+      properties:
+        name:
+          type: string
+          description: Carrier company name
+          example: CarrierCompany
+        mc:
+          type: string
+          description: Carrier MC number
+          example: '888015'
+        dot:
+          type: string
+          description: Carrier DOT number
+          example: '87650005'
+        phone:
+          type: string
+          description: Carrier contact phone number
+          example: '4112228888'
+        email:
+          type: string
+          description: Carrier contact email address
+          example: carrier@mail.com
+    Bids_BidResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Bid ID in the platform
+          example: 12345
+        key:
+          type: string
+          description: Unique key used to create a link to the bid in the platform
+          example: deedc41f-7eb2-4c36-9d35-fb6958a43771
+      required:
+      - id
+      - key
+    Bids_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    Bids_BidObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: id of the bid
+          example: 23456
+        userEmail:
+          type: string
+          description: Email of the owner of the bid
+          example: buddy@greenscreens.ai
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Related load pickup date
+          example: '2020-09-14T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: '2020-09-14T16:00:00Z'
+        createdDate:
+          type: string
+          format: date-time
+          description: Bid creation date
+          example: '2020-09-14T16:00:00Z'
+        bidStatus:
+          $ref: '#/components/schemas/Bids_BidStatus'
+        bidCost:
+          type: number
+          description: Bid rate
+          example: 1000.5
+        wasViewed:
+          type: boolean
+          description: States whether the bid was viewed by the broker after being accepted by carrier
+          example: false
+        carrierName:
+          type: string
+          description: Carrier company name
+          example: Carrierr Transportation
+        carrierMC:
+          type: string
+          description: Carrier MC number
+          example: '888015'
+        carrierPhone:
+          type: string
+          description: Carrier contact phone number
+          example: '4112228888'
+        carrierEmail:
+          type: string
+          description: Carrier contact email
+          example: test@greenscreens.ai
+        transportType:
+          $ref: '#/components/schemas/Bids_TransportType'
+        origin:
+          $ref: '#/components/schemas/Bids_Address'
+        destination:
+          $ref: '#/components/schemas/Bids_Address'
+        extraStops:
+          $ref: '#/components/schemas/Bids_Stops'
+        loadProNumber:
+          type: string
+          description: Internal load pro number
+        weight:
+          description: Total cargo weight in lb
+          type: number
+          format: float
+          example: 20000
+        commodity:
+          type: string
+          description: Commodity description in free form
+          example: Very important load
+        brokerComment:
+          type: string
+          description: Comment for carrier
+          example: Please, be carefully with my load
+        carrierComment:
+          type: string
+          description: Comment for broker
+          example: Looks good
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+      required:
+      - userEmail
+      - bidStatus
+      - pickupDate
+      - deliveredDate
+      - bidCost
+      - carrierName
+      - carrierEmail
+      - transportType
+      - origin
+      - destination
+      - extraStops
+      - wasViewed
+      - currency
+    Bids_StopInput:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/Bids_StopAddressInput'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop.
+
+
+            Leave this field empty if you do not know the stop type.
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+    Bids_Stops:
+      type: array
+      description: Stops list
+      items:
+        $ref: '#/components/schemas/Bids_Stop'
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+          type: ZIP
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+          type: CITY
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
+    Bids_StopsInput:
+      type: array
+      description: Stops list
+      items:
+        $ref: '#/components/schemas/Bids_StopInput'
+      example:
+      - order: 0
+        address:
+          country: US
+          zip: '96080'
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
+    Bids_Address:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+        type:
+          type: string
+          enum:
+          - CITY
+          - ZIP
+          example: ZIP
+          description: Type of address
+      required:
+      - city
+      - state
+      - zip
+      - type
+    Bids_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    Bids_BidStatus:
+      type: string
+      enum:
+      - SENT
+      - RECEIVED
+      - FAILED
+      - AWARDED
+      description: Bid status
+      example: SENT
+    Bids_CarrierInfoObject:
+      type: object
+      properties:
+        companyName:
+          type: string
+          description: Carrier company name
+          example: Carrier Company
+        email:
+          type: string
+          description: Carrier contact email
+          example: test@greenscreens.ai
+        phoneNumber:
+          type: string
+          description: Carrier contact phone number
+          example: '4112228888'
+      required:
+      - companyName
+    Bids_StopAddressInput:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        zip:
+          type: string
+          description: Zip
+          example: '12345'
+      required:
+      - country
+    Bids_RequestValidationError:
+      type: object
+      description: Request validation error
+      properties:
+        field:
+          type: string
+          description: Name of the field that did not pass validation
+          example: transportType
+        message:
+          type: string
+          description: Human readable error mesage explaining why validation failed
+          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+        value:
+          type: string
+          nullable: true
+          description: Value of the field that did not pass validation
+          example: SpaceXDragon
+      required:
+      - field
+      - message
+    Bids_CarrierInfoResponse:
+      type: object
+      description: Contains a list of carriers
+      properties:
+        items:
+          type: array
+          description: List of carriers
+          items:
+            $ref: '#/components/schemas/Bids_CarrierInfoObject'
+      required:
+      - items
+    Bids_Stop:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/Bids_StopAddress'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+    Bids_BidByKeyResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Bids_BidObject'
+      properties:
+        distance:
+          type: number
+          description: Total distance of the trip (in miles)
+          example: 289
+      required:
+      - distance
+    Bids_Currency:
+      type: string
+      enum:
+      - USD
+      - CAD
+      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+      example: USD
+    Bids_BidsSendRequestCarrier:
+      type: object
+      description: "Describes a carrier \nand how a bid request to that carrier should be made\n"
+      properties:
+        carrierInfo:
+          $ref: '#/components/schemas/Bids_BidsSendRequestCarrierCarrierInfo'
+        carrierInfoSource:
+          type: string
+          description: The source of the carrier info
+          enum:
+          - MANUAL_ENTRY
+          - CLIENT_DATA_CARRIER_SEARCH
+          - CLIENT_DATA_BIDS
+          - CLIENT_DATA_TOP_CARRIERS
+          - STRATEGIC_CAPACITY
+          - HIGHWAY
+          - CARGO_CHIEF
+          - YAT
+          - TRUCKSTOP
+          - CARRIER_SOURCE
+          - CHAINE
+          - OTHER
+          example: HIGHWAY
+        sendRequestTo:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          description: "List of channels that bid requests should be sent through.\n\n* CARRIER_INFO_PHONE - a bid request will be sent to\nthe phone number provided in the `carrierInfo.phone` field. \n__This only works if you have SMS bids functionality enabled for your company__\n* CARRIER_INFO_EMAIL - a bid request will be sent to\nthe email address provided in the `carrierInfo.email` field\n\nIf several values are provided then several bid requests will be\ncreated and sent through appropriate channels\n"
+          items:
+            type: string
+            description: The channel that the bid request can be sent through
+            enum:
+            - CARRIER_INFO_EMAIL
+            - CARRIER_INFO_PHONE
+            example: CARRIER_INFO_EMAIL
+      required:
+      - sendRequestTo
+    Bids_BidsSendRequest:
+      type: object
+      properties:
+        userEmail:
+          type: string
+          description: Email of the user who will be the owner/creator of the bid
+          example: buddy@greenscreens.ai
+        carriers:
+          type: array
+          description: 'List of carriers to whom the bid request should be sent to
+
+            '
+          items:
+            $ref: '#/components/schemas/Bids_BidsSendRequestCarrier'
+        carrierEmailList:
+          type: array
+          items:
+            type: string
+            nullable: true
+          deprecated: true
+          minItems: 0
+          maxItems: 500
+          description: 'List of emails that the bid request should be sent to
+
+
+            __Deprecated: use `carriers` field instead__
+
+            '
+          example:
+          - carrier1@mail.com
+          - carrier2@mail.com
+          - carrier3@mail.com
+        carrierPhoneList:
+          type: array
+          items:
+            type: string
+            nullable: true
+          deprecated: true
+          minItems: 0
+          maxItems: 500
+          description: 'List of phone numbers that the bid request should be sent to as a message.
+
+
+            __This feature only works if you have ''TextLocate'' integration enabled for your company.__
+
+
+            _Valid phone number is a string with ten digits in it._
+
+
+            __Deprecated: use `carriers` field instead__
+
+            '
+          example:
+          - '8456951387'
+          - '7456951583'
+          - '2458951391'
+        origin:
+          $ref: '#/components/schemas/Bids_Address'
+        destination:
+          $ref: '#/components/schemas/Bids_Address'
+        extraStops:
+          $ref: '#/components/schemas/Bids_StopsInput'
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: "Pick up date with time in time zone of the pick up location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00.\n"
+          example: '2020-10-13T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: "Delivered date with time in time zone of drop off location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00\n"
+          example: '2020-10-13T16:00:00Z'
+        loadProNumber:
+          type: string
+          description: Internal load pro number
+          example: Pro#111111
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 20000
+        commodity:
+          type: string
+          description: commodity description in free form
+          example: Steel racks
+        brokerComment:
+          type: string
+          description: Comment for carrier
+          example: Please, be carefully with my load
+        transportType:
+          $ref: '#/components/schemas/Bids_TransportType'
+      required:
+      - carrierName
+      - origin
+      - destination
+      - transportType
+    Bids_BidsRequest:
+      type: object
+      properties:
+        userEmail:
+          type: string
+          description: Email of the user who will be the owner/creator of the bid
+          example: buddy@greenscreens.ai
+        carrierName:
+          type: string
+          description: Carrier company name
+          example: CarrierCompany
+        carrierMC:
+          type: string
+          description: Carrier MC number
+          example: '888015'
+        carrierDOT:
+          type: string
+          description: Carrier DOT number
+          example: '87650005'
+        carrierEmail:
+          type: string
+          nullable: true
+          description: User email
+          example: carrier@mail.com
+        carrierPhone:
+          type: string
+          nullable: true
+          description: Carrier contact phone number
+          example: '4112228888'
+        origin:
+          $ref: '#/components/schemas/Bids_Address'
+        destination:
+          $ref: '#/components/schemas/Bids_Address'
+        extraStops:
+          $ref: '#/components/schemas/Bids_StopsInput'
+        transportType:
+          $ref: '#/components/schemas/Bids_TransportType'
+        pickupDateTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Pick up date with time in time zone of the pick up location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00\n"
+          example: '2020-10-13T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Delivered date with time in time zone of drop off location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00\n"
+          example: '2020-10-13T16:00:00Z'
+        bidDateTime:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date and time when the bid was created
+          example: '2020-10-11T16:00:00Z'
+        bidCost:
+          type: number
+          description: Bid rate
+          example: 1000.5
+        loadProNumber:
+          type: string
+          nullable: true
+          description: Internal load pro number
+          example: Pro#111111
+        weight:
+          type: number
+          format: float
+          nullable: true
+          description: Total cargo weight in lb
+          example: 20000
+        commodity:
+          type: string
+          nullable: true
+          description: Commodity description in free form
+          example: Steel racks
+        brokerComment:
+          type: string
+          nullable: true
+          description: Comment for carrier
+          example: Something a broker would comment
+        carrierComment:
+          type: string
+          nullable: true
+          description: Comment from carrier
+          example: Looks good
+        currency:
+          $ref: '#/components/schemas/Bids_Currency'
+      required:
+      - carrierName
+      - origin
+      - destination
+      - transportType
+      - bidCost
+    Bids_RecentBidsResponse:
+      type: object
+      description: Contains an array of bids
+      properties:
+        items:
+          type: array
+          description: bids
+          items:
+            $ref: '#/components/schemas/Bids_BidObject'
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2

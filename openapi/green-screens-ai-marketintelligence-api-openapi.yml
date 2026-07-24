@@ -1,0 +1,662 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics MarketIntelligence API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: MarketIntelligence
+  description: 'Market Intelligence service v1
+
+
+    <a href="/marketintelligence/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/marketintelligence/v1/swagger/index.html" target="_blank">Try it in swagger</a>'
+  x-displayName: MarketIntelligence
+paths:
+  /marketintelligence/negotiation-advice:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    get:
+      tags:
+      - MarketIntelligence
+      summary: Negotiation advice for provided lane
+      description: 'Negotiation advice for provided lane
+
+
+        Parameter notes:
+
+        * __region__ - defaults to ZIP if not provided
+
+        '
+      security:
+      - MarketIntelligence_bearerAuth: []
+      operationId: negotiation
+      parameters:
+      - in: query
+        name: transportType
+        schema:
+          type: string
+          enum:
+          - VAN
+          - REEFER
+          - FLATBED
+          - HOTSHOT
+          description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+          example: VAN
+        required: true
+      - in: query
+        name: originCountry
+        schema:
+          type: string
+          example: US
+        description: "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+      - in: query
+        name: originState
+        schema:
+          type: string
+          example: NY
+        description: Origin state
+      - in: query
+        name: originCity
+        schema:
+          type: string
+          example: Schenectady
+        description: Origin city
+      - in: query
+        name: originZip
+        schema:
+          type: string
+          example: '12345'
+        description: Origin area zip
+        required: true
+      - in: query
+        name: destinationCountry
+        schema:
+          type: string
+          example: US
+        description: "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+      - in: query
+        name: destinationState
+        schema:
+          type: string
+          example: IL
+        description: Destination state
+      - in: query
+        name: destinationCity
+        schema:
+          type: string
+          example: Chicago
+        description: Destination city
+      - in: query
+        name: destinationZip
+        schema:
+          type: string
+          example: '60636'
+        description: Destination area zip
+        required: true
+      - in: query
+        name: hasExtraStops
+        schema:
+          type: boolean
+          example: true
+          description: 'Signifies whether the requested lane has extra stops or not.
+
+
+            If true, multistop loads will be included during calculations.
+
+            '
+          default: false
+      - in: query
+        name: pickUpDateTime
+        schema:
+          type: string
+          format: date-time
+          example: '2020-01-11T16:00:00Z'
+        description: PickUp date time
+        required: false
+      - in: query
+        name: currency
+        schema:
+          type: string
+          example: USD
+        description: Code of the currency that you want the response to be in. Format is ISO 4217
+        required: false
+      - in: query
+        name: region
+        schema:
+          type: string
+          enum:
+          - CITY
+          - CITY_ZIP
+          - ZIP_CITY
+          - ZIP
+          - 3DZIP
+          - KMA
+          description: "Determines the size of the area around the origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* 3DZIP - medium, short zip, area\n* KMA - big, market wide, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
+          example: ZIP
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketIntelligence_NegotiationResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketIntelligence_Error'
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketIntelligence_Error'
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketIntelligence_Error'
+              examples:
+                error404Example:
+                  value:
+                    code: item_not_found
+                    message: Item not found
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketIntelligence_Error'
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketIntelligence_Error'
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/marketintelligence/negotiation-advice',\n  qs: {\n    transportType: 'VAN',\n    originCountry: 'US',\n    originState: 'NY',\n    originCity: 'Schenectady',\n    originZip: '12345',\n    destinationCountry: 'US',\n    destinationState: 'IL',\n    destinationCity: 'Chicago',\n    destinationZip: '60636',\n    hasExtraStops: 'true',\n    pickUpDateTime: '2020-01-11T16:00:00Z',\n    currency: 'USD',\n    region: 'ZIP'\n  },\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/marketintelligence/negotiation-advice"
+
+
+          querystring = {"transportType":"VAN","originCountry":"US","originState":"NY","originCity":"Schenectady","originZip":"12345","destinationCountry":"US","destinationState":"IL","destinationCity":"Chicago","destinationZip":"60636","hasExtraStops":"true","pickUpDateTime":"2020-01-11T16:00:00Z","currency":"USD","region":"ZIP"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/marketintelligence/negotiation-advice?transportType=VAN&originCountry=US&originState=NY&originCity=Schenectady&originZip=12345&destinationCountry=US&destinationState=IL&destinationCity=Chicago&destinationZip=60636&hasExtraStops=true&pickUpDateTime=2020-01-11T16%3A00%3A00Z&currency=USD&region=ZIP\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+components:
+  schemas:
+    MarketIntelligence_NegotiationResponse:
+      type: object
+      description: 'Object with negotiation advice descriptors as properties.
+
+
+        Structure is that of a map <advice_code, advice_data_object>
+
+        '
+      properties:
+        lastPaid:
+          type: object
+          description: 'Last rate paid on this lane
+
+
+            How we word it in our app:
+
+            ```
+
+            The last time we moved this load, we paid ${amount} to the ${carrier}
+
+
+            Last Move: ${amount} on ${date}; ${carrier}
+
+            ```
+
+            '
+          properties:
+            amount:
+              type: number
+              format: float
+              description: cost
+              example: 12345.67
+            date:
+              type: string
+              format: date-time
+              description: date
+              example: '2020-01-13T16:00:00Z'
+            days:
+              type: integer
+              description: Number of days used to calculate 'amount' and 'date'
+              example: 30
+            carrier:
+              type: string
+              description: Carrier name which got paid last time on this line
+              example: Horns and hooves trucks
+          required:
+          - amount
+          - date
+          - days
+        minPaid:
+          type: object
+          description: 'Minimum rate paid on this lane
+
+
+            How we word it in our app:
+
+            ```
+
+            The lowest we''ve moved this load in the last ${days} days is ${amount}
+
+
+            Lowest Move: ${amount} on ${date}
+
+            ```
+
+            '
+          properties:
+            amount:
+              type: number
+              format: float
+              description: cost
+              example: 12345.67
+            date:
+              type: string
+              format: date-time
+              description: date
+              example: '2020-01-13T16:00:00Z'
+            days:
+              type: integer
+              description: Number of days used to calculate 'amount' and 'date'
+              example: 30
+          required:
+          - amount
+          - date
+          - days
+        maxPaid:
+          type: object
+          description: 'Maximum rate paid on this lane
+
+
+            How we word it in our app:
+
+            ```
+
+            The most we have paid for this in the last ${days} days is ${amount}
+
+
+            Max paid rate: ${amount} on ${date}
+
+            ```
+
+            '
+          properties:
+            amount:
+              type: number
+              format: float
+              description: cost
+              example: 12345.67
+            date:
+              type: string
+              format: date-time
+              description: date
+              example: '2020-01-13T16:00:00Z'
+            days:
+              type: integer
+              description: Number of days used to calculate 'amount' and 'date'
+              example: 30
+          required:
+          - amount
+          - date
+          - days
+        avgShipperCost:
+          type: object
+          description: 'Average shipper cost invoiced on this lane
+
+
+            How we word it in our app:
+
+            ```
+
+            Over the last ${days} days our customer has been paying us ${amount}
+
+
+            Days: ${days}. Average sell rate: ${amount}
+
+            ```
+
+            '
+          properties:
+            amount:
+              type: number
+              format: float
+              description: cost
+              example: 12345.67
+            days:
+              type: integer
+              description: Number of days used to calculate 'amount'
+              example: 30
+          required:
+          - amount
+          - days
+        rateDiff:
+          type: object
+          description: "Difference between rates\n\nHow we word it in our app:\n```\nRates are ${trendMain} by ${diff}% based on our data for this lane \nin the last ${days} days\n\nRates ${trendSub}: ${diff}%\n```\n"
+          properties:
+            diff:
+              type: number
+              format: float
+              description: Difference between rates
+              example: 12345.67
+            days:
+              type: integer
+              description: Number of days used to calculate 'rateDiff'
+              example: 30
+          required:
+          - diff
+          - days
+        laneLoadCount:
+          type: object
+          description: 'Count of moves on this lane
+
+
+            How we word it in our app:
+
+            ```
+
+            We have moved this lane ${loadCount} times in the last ${days} days
+
+
+            Moves: ${loadCount}; Average rate: ${averageFlatRate}
+
+            ```
+
+            '
+          properties:
+            loadCount:
+              type: integer
+              description: Number of loads on this lane during 'days'
+              example: 12345
+            averageFlatRate:
+              type: number
+              format: float
+              description: Average flat rate of all loads during 'days'
+              example: 12345.67
+            days:
+              type: integer
+              description: Number of days used to calculate 'loadCount'
+              example: 30
+          required:
+          - loadCount
+          - averageFlatRate
+          - days
+        destinationNearHotMarket:
+          type: object
+          description: 'Destination market is hot
+
+
+            How we word it in our app:
+
+            ```
+
+            This load is delivering near a healthy market
+
+
+            ${distance} to a red hot market
+
+            ```
+
+            '
+          properties:
+            distance:
+              type: number
+              format: float
+              description: Distance in miles from destination area to a healthy market
+              example: 12345.67
+          required:
+          - distance
+        destinationNearCarrierDomicile:
+          type: object
+          description: "Destination is near the carrier domicile\n\nHow we word it in our app:\n```\nIt's likely that the carrier is trying to get home. Their headquarters \nare ${distance} from delivery\n\n${distance} to carrier domicile\n```\n"
+          properties:
+            distance:
+              type: number
+              format: float
+              description: Distance in miles from destination area to carriers domicile
+              example: 12345.67
+          required:
+          - distance
+        nearTheEndOfThePeriod:
+          type: object
+          description: "This load is scheduled for pickup at the end \nof the month / quarter / year\n\nHow we word it in our app:\n```\nThis load is scheduled for pickup at the end of the ${period}. This \nmay increase carrier rates and make this load more difficult to cover\n\nEnd of ${period} pickup. Increased rates\n```\n"
+          properties:
+            period:
+              type: string
+              enum:
+              - MONTH
+              - FIRST_QUARTER
+              - SECOND_QUARTER
+              - THIRD_QUARTER
+              - YEAR
+              example: YEAR
+          required:
+          - period
+        irregularBussinesHours:
+          type: object
+          description: "This load is scheduled for pickup outside of regular business hours\n\nHow we word it in our app:\n```\nThis load is scheduled for pickup outside of regular \nbusiness hours (8am-6pm), this may increase carrier rates \nand make this load more difficult to cover\n\nIrregular pickup hours. Increased rates\n```\n"
+          properties:
+            pickUptime:
+              type: string
+              format: time
+              example: 43200
+          required:
+          - pickUptime
+        holidayIsComing:
+          type: object
+          deprecated: true
+          description: "A holiday was found close to the pickup date\n\nHow we word it in our app:\n```\nif (days < 1) {\n  The pickup date is scheduled for ${holiday}. This \n  may increase carrier rates and make loads more difficult to cover\n  \n  ${holiday} pickup. Increased rates\n} else {\n  Remember, ${holiday} is coming up in ${days} day(s). This \n  may increase carrier rates and make loads more difficult to cover\n  \n  ${holiday} pickup. Increased rates\n}\n```\n\n**deprecated** - use `comingEvents` instead\n"
+          properties:
+            days:
+              type: integer
+              example: 3
+            holiday:
+              type: string
+              enum:
+              - CHRISTMAS
+              - NEW_YEAR
+              - MEMORIAL_DAY
+              - WASHINGTONS_BIRTHDAY
+              - MARTIN_LUTHER_KING
+              - VETERANS_DAY
+              - LABOR_DAY
+              - INDEPENDENCE_DAYS
+              - JUNETEENTH_INDEPENDENCE_DAY
+              - COLUMBUS_DAY
+              - THANKSGIVING
+              - EASTER_WEEKEND
+              - VICTORIA_DAY
+              - CANADA_DAY
+              - PROVINCIAL_DAY
+              - NATIONAL_DAY_FOR_TRUTH_AND_RECONCILIATION
+              - REMEMBRANCE_DAY
+              example: CHRISTMAS
+          required:
+          - holiday
+          - days
+        inspectionWeeks:
+          type: object
+          deprecated: true
+          description: "Pickup date is during inspection weeks\n\nHow we word it in our app:\n```\nThe pickup date is scheduled for ${week}. This \nmay increase carrier rates and make loads more difficult to cover\n\n${week} pickup. Increased rates\n```\n\n**deprecated** - use `comingEvents` instead\n"
+          properties:
+            name:
+              type: string
+              enum:
+              - INTERNATIONAL_ROADCHECK
+              - OPERATION_SAFE_DRIVER
+              - BRAKE_SAFETY_WEEK
+              example: BRAKE_SAFETY_WEEK
+          required:
+          - name
+        comingEvents:
+          type: array
+          description: 'A list of events that are beginning soon after the pickup date
+
+            e.g. holidays or inspection weeks
+
+            '
+          items:
+            $ref: '#/components/schemas/MarketIntelligence_ComingEvent'
+        originLtrLow:
+          type: object
+          deprecated: true
+          description: Deprecated
+          properties:
+            ltr:
+              type: number
+              format: float
+              description: Origin area LTR
+              example: 12345.67
+          required:
+          - ltr
+        destinationLtrHigh:
+          type: object
+          deprecated: true
+          description: Deprecated
+          properties:
+            ltr:
+              type: number
+              format: float
+              description: Destination area LTR
+              example: 12345.67
+          required:
+          - ltr
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217
+          example: USD
+    MarketIntelligence_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    MarketIntelligence_ComingEvent:
+      type: object
+      description: 'A descriptor of an event that is beginning soon after the pickup date
+
+        '
+      properties:
+        name:
+          type: string
+          description: "Human readable name of the event \ne.g. a holiday called 'Washington's Birthday'\n"
+          example: Washington's Birthday
+        daysToBeginning:
+          type: integer
+          description: "The number of days left until the beginning of the event \nstarting from the pick up date\n"
+          example: 3
+      required:
+      - name
+      - daysToBeginning
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2

@@ -1,0 +1,1910 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics Pricing API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: Pricing
+  description: 'Pricing service v1
+
+
+    <a href="/pricing/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/pricing/v1/swagger/index.html" target="_blank">Try it in swagger</a>'
+  x-displayName: Pricing
+paths:
+  /pricing/priority-rules:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Pricing
+      summary: Create a priority rule
+      description: Create a priority rule
+      operationId: pricingPriorityRulesCreate
+      security:
+      - Pricing_bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pricing_PricingPriorityRuleRequest'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_PriorityRule'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/priority-rules',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    name: 'Customer`s rule',\n    priority: 3,\n    active: false,\n    conditions: {\n      commodity: ['Apples'],\n      confidenceLevel: {from: 50, to: 250},\n      customers: ['LTR and Co', 'CocaCola', 'Walmart'],\n      lanes: [\n        {\n          origins: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ],\n          destinations: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ]\n        }\n      ],\n      lengthOfHaul: {from: 50, to: 250},\n      matchingTime: {from: 20, to: 30},\n      transitTime: {from: 20, to: 30},\n      transportTypes: ['VAN'],\n      users: ['string'],\n      weight: {from: 50, to: 250},\n      stopsCount: {from: 50, to: 250},\n      mileageDifference: {from: 50, to: 250}\n    },\n    effects: {\n      percentageAdjustment: {percentage: 15},\n      flatAdjustment: {amount: 15, currency: 'USD'},\n      setSellCost: {amount: 15, currency: 'USD'}\n    },\n    pricingTypeGroup: 'SPOT'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/pricing/priority-rules\"\n\npayload = {\n    \"name\": \"Customer`s rule\",\n    \"priority\": 3,\n    \"active\": False,\n    \"conditions\": {\n        \"commodity\": [\"Apples\"],\n        \"confidenceLevel\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"customers\": [\"LTR and Co\", \"CocaCola\", \"Walmart\"],\n        \"lanes\": [\n            {\n                \"origins\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ],\n                \"destinations\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ]\n            }\n        ],\n        \"lengthOfHaul\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"matchingTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transitTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transportTypes\": [\"VAN\"],\n        \"users\": [\"string\"],\n        \"weight\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"stopsCount\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"mileageDifference\": {\n            \"from\": 50,\n            \"to\": 250\n        }\n    },\n    \"effects\": {\n        \"percentageAdjustment\": {\"percentage\": 15},\n        \"flatAdjustment\": {\n            \"amount\": 15,\n            \"currency\": \"USD\"\n        },\n        \"setSellCost\": {\n            \"amount\": 15,\n            \"currency\": \"USD\"\n        }\n    },\n    \"pricingTypeGroup\": \"SPOT\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/priority-rules\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"name\\\":\\\"Customer`s rule\\\",\\\"priority\\\":3,\\\"active\\\":false,\\\"conditions\\\":{\\\"commodity\\\":[\\\"Apples\\\"],\\\"confidenceLevel\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"customers\\\":[\\\"LTR and Co\\\",\\\"CocaCola\\\",\\\"Walmart\\\"],\\\"lanes\\\":[{\\\"origins\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}],\\\"destinations\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}]}],\\\"lengthOfHaul\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"matchingTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transitTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transportTypes\\\":[\\\"VAN\\\"],\\\"users\\\":[\\\"string\\\"],\\\"weight\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"stopsCount\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"mileageDifference\\\":{\\\"from\\\":50,\\\"to\\\":250}},\\\"effects\\\":{\\\"percentageAdjustment\\\":{\\\"percentage\\\":15},\\\"flatAdjustment\\\":{\\\"amount\\\":15,\\\"currency\\\":\\\"USD\\\"},\\\"setSellCost\\\":{\\\"amount\\\":15,\\\"currency\\\":\\\"USD\\\"}},\\\"pricingTypeGroup\\\":\\\"SPOT\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    get:
+      tags:
+      - Pricing
+      summary: Get priority rules
+      description: Get priority rules
+      operationId: pricingPriorityRulesGetAll
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: query
+        name: pricingTypeGroup
+        schema:
+          type: string
+          description: Pricing rule group filter. If not specified, all rules are returned.
+          enum:
+          - SPOT
+          - CONTRACT
+        required: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_PricingPriorityRulesResponse'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_Error'
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/priority-rules',\n  qs: {pricingTypeGroup: 'SOME_STRING_VALUE'},\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/pricing/priority-rules"
+
+
+          querystring = {"pricingTypeGroup":"SOME_STRING_VALUE"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/priority-rules?pricingTypeGroup=SOME_STRING_VALUE\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /pricing/priority-rules/{ruleId}:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    get:
+      tags:
+      - Pricing
+      summary: Get a priority rule
+      description: Get a priority rule
+      operationId: pricingPriorityRuleGet
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        description: Id of the priority rule to get
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_PriorityRule'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D',\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D"
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    put:
+      tags:
+      - Pricing
+      summary: Update a priority rule
+      description: Update a priority rule
+      operationId: pricingPriorityRuleUpdate
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        description: Id of the priority rule to update
+        required: true
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pricing_PricingPriorityRuleRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_PriorityRule'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'PUT',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    name: 'Customer`s rule',\n    priority: 3,\n    active: false,\n    conditions: {\n      commodity: ['Apples'],\n      confidenceLevel: {from: 50, to: 250},\n      customers: ['LTR and Co', 'CocaCola', 'Walmart'],\n      lanes: [\n        {\n          origins: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ],\n          destinations: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ]\n        }\n      ],\n      lengthOfHaul: {from: 50, to: 250},\n      matchingTime: {from: 20, to: 30},\n      transitTime: {from: 20, to: 30},\n      transportTypes: ['VAN'],\n      users: ['string'],\n      weight: {from: 50, to: 250},\n      stopsCount: {from: 50, to: 250},\n      mileageDifference: {from: 50, to: 250}\n    },\n    effects: {\n      percentageAdjustment: {percentage: 15},\n      flatAdjustment: {amount: 15, currency: 'USD'},\n      setSellCost: {amount: 15, currency: 'USD'}\n    },\n    pricingTypeGroup: 'SPOT'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D\"\n\npayload = {\n    \"name\": \"Customer`s rule\",\n    \"priority\": 3,\n    \"active\": False,\n    \"conditions\": {\n        \"commodity\": [\"Apples\"],\n        \"confidenceLevel\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"customers\": [\"LTR and Co\", \"CocaCola\", \"Walmart\"],\n        \"lanes\": [\n            {\n                \"origins\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ],\n                \"destinations\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ]\n            }\n        ],\n        \"lengthOfHaul\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"matchingTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transitTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transportTypes\": [\"VAN\"],\n        \"users\": [\"string\"],\n        \"weight\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"stopsCount\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"mileageDifference\": {\n            \"from\": 50,\n            \"to\": 250\n        }\n    },\n    \"effects\": {\n        \"percentageAdjustment\": {\"percentage\": 15},\n        \"flatAdjustment\": {\n            \"amount\": 15,\n            \"currency\": \"USD\"\n        },\n        \"setSellCost\": {\n            \"amount\": 15,\n            \"currency\": \"USD\"\n        }\n    },\n    \"pricingTypeGroup\": \"SPOT\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"PUT\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"PUT\",\n  CURLOPT_POSTFIELDS => \"{\\\"name\\\":\\\"Customer`s rule\\\",\\\"priority\\\":3,\\\"active\\\":false,\\\"conditions\\\":{\\\"commodity\\\":[\\\"Apples\\\"],\\\"confidenceLevel\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"customers\\\":[\\\"LTR and Co\\\",\\\"CocaCola\\\",\\\"Walmart\\\"],\\\"lanes\\\":[{\\\"origins\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}],\\\"destinations\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}]}],\\\"lengthOfHaul\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"matchingTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transitTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transportTypes\\\":[\\\"VAN\\\"],\\\"users\\\":[\\\"string\\\"],\\\"weight\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"stopsCount\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"mileageDifference\\\":{\\\"from\\\":50,\\\"to\\\":250}},\\\"effects\\\":{\\\"percentageAdjustment\\\":{\\\"percentage\\\":15},\\\"flatAdjustment\\\":{\\\"amount\\\":15,\\\"currency\\\":\\\"USD\\\"},\\\"setSellCost\\\":{\\\"amount\\\":15,\\\"currency\\\":\\\"USD\\\"}},\\\"pricingTypeGroup\\\":\\\"SPOT\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    delete:
+      tags:
+      - Pricing
+      summary: Delete a priority rule
+      description: Delete a priority rule
+      operationId: pricingPriorityRuleDelete
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        description: Id of the priority rule to delete
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'DELETE',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D',\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D"
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("DELETE", url, headers=headers)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/priority-rules/%7BruleId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"DELETE\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /pricing/combination-rules:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Pricing
+      summary: Create a combination rule
+      description: Create a combination rule
+      operationId: pricingCombinationRuleCreate
+      security:
+      - Pricing_bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pricing_PricingCombinationRuleRequest'
+        required: true
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_CombinationRule'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/combination-rules',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    name: 'Customer`s rule',\n    active: false,\n    conditions: {\n      commodity: ['Apples'],\n      confidenceLevel: {from: 50, to: 250},\n      customers: ['LTR and Co', 'CocaCola', 'Walmart'],\n      lanes: [\n        {\n          origins: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ],\n          destinations: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ]\n        }\n      ],\n      lengthOfHaul: {from: 50, to: 250},\n      matchingTime: {from: 20, to: 30},\n      transitTime: {from: 20, to: 30},\n      transportTypes: ['VAN'],\n      users: ['string'],\n      weight: {from: 50, to: 250},\n      stopsCount: {from: 50, to: 250},\n      mileageDifference: {from: 50, to: 250}\n    },\n    effects: {\n      percentageAdjustment: {percentage: 15},\n      flatAdjustment: {amount: 15, currency: 'USD'}\n    },\n    pricingTypeGroup: 'SPOT'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/pricing/combination-rules\"\n\npayload = {\n    \"name\": \"Customer`s rule\",\n    \"active\": False,\n    \"conditions\": {\n        \"commodity\": [\"Apples\"],\n        \"confidenceLevel\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"customers\": [\"LTR and Co\", \"CocaCola\", \"Walmart\"],\n        \"lanes\": [\n            {\n                \"origins\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ],\n                \"destinations\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ]\n            }\n        ],\n        \"lengthOfHaul\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"matchingTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transitTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transportTypes\": [\"VAN\"],\n        \"users\": [\"string\"],\n        \"weight\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"stopsCount\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"mileageDifference\": {\n            \"from\": 50,\n            \"to\": 250\n        }\n    },\n    \"effects\": {\n        \"percentageAdjustment\": {\"percentage\": 15},\n        \"flatAdjustment\": {\n            \"amount\": 15,\n            \"currency\": \"USD\"\n        }\n    },\n    \"pricingTypeGroup\": \"SPOT\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/combination-rules\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"name\\\":\\\"Customer`s rule\\\",\\\"active\\\":false,\\\"conditions\\\":{\\\"commodity\\\":[\\\"Apples\\\"],\\\"confidenceLevel\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"customers\\\":[\\\"LTR and Co\\\",\\\"CocaCola\\\",\\\"Walmart\\\"],\\\"lanes\\\":[{\\\"origins\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}],\\\"destinations\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}]}],\\\"lengthOfHaul\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"matchingTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transitTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transportTypes\\\":[\\\"VAN\\\"],\\\"users\\\":[\\\"string\\\"],\\\"weight\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"stopsCount\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"mileageDifference\\\":{\\\"from\\\":50,\\\"to\\\":250}},\\\"effects\\\":{\\\"percentageAdjustment\\\":{\\\"percentage\\\":15},\\\"flatAdjustment\\\":{\\\"amount\\\":15,\\\"currency\\\":\\\"USD\\\"}},\\\"pricingTypeGroup\\\":\\\"SPOT\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    get:
+      tags:
+      - Pricing
+      summary: Get combination rules
+      description: Get combination rules
+      operationId: pricingCombinationRulesGetAll
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: query
+        name: pricingTypeGroup
+        schema:
+          type: string
+          description: Pricing rule group filter. If not specified, all rules are returned.
+          enum:
+          - SPOT
+          - CONTRACT
+        required: false
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_PricingCombinationRulesResponse'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/combination-rules',\n  qs: {pricingTypeGroup: 'SOME_STRING_VALUE'},\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/pricing/combination-rules"
+
+
+          querystring = {"pricingTypeGroup":"SOME_STRING_VALUE"}
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers, params=querystring)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/combination-rules?pricingTypeGroup=SOME_STRING_VALUE\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /pricing/combination-rules/{ruleId}:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    get:
+      tags:
+      - Pricing
+      summary: Get a combination rule
+      description: Get a combination rule
+      operationId: pricingCombinationRuleGet
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        description: Id of the combination rule to get
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_CombinationRule'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D',\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D"
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("GET", url, headers=headers)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    put:
+      tags:
+      - Pricing
+      summary: Update a combination rule
+      description: Update a combination rule
+      operationId: pricingCombinationRuleUpdate
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        description: Id of the combination rule to update
+        required: true
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pricing_PricingCombinationRuleRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_CombinationRule'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'PUT',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    name: 'Customer`s rule',\n    active: false,\n    conditions: {\n      commodity: ['Apples'],\n      confidenceLevel: {from: 50, to: 250},\n      customers: ['LTR and Co', 'CocaCola', 'Walmart'],\n      lanes: [\n        {\n          origins: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ],\n          destinations: [\n            {type: 'ANYWHERE'},\n            {type: 'STATE', country: 'US', state: 'IL'},\n            {type: 'CITY', country: 'US', state: 'IL', city: 'Chicago'},\n            {type: 'MARKET', country: 'US', marketCode: 'NY_ALB'}\n          ]\n        }\n      ],\n      lengthOfHaul: {from: 50, to: 250},\n      matchingTime: {from: 20, to: 30},\n      transitTime: {from: 20, to: 30},\n      transportTypes: ['VAN'],\n      users: ['string'],\n      weight: {from: 50, to: 250},\n      stopsCount: {from: 50, to: 250},\n      mileageDifference: {from: 50, to: 250}\n    },\n    effects: {\n      percentageAdjustment: {percentage: 15},\n      flatAdjustment: {amount: 15, currency: 'USD'}\n    },\n    pricingTypeGroup: 'SPOT'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D\"\n\npayload = {\n    \"name\": \"Customer`s rule\",\n    \"active\": False,\n    \"conditions\": {\n        \"commodity\": [\"Apples\"],\n        \"confidenceLevel\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"customers\": [\"LTR and Co\", \"CocaCola\", \"Walmart\"],\n        \"lanes\": [\n            {\n                \"origins\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ],\n                \"destinations\": [\n                    {\"type\": \"ANYWHERE\"},\n                    {\n                        \"type\": \"STATE\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\"\n                    },\n                    {\n                        \"type\": \"CITY\",\n                        \"country\": \"US\",\n                        \"state\": \"IL\",\n                        \"city\": \"Chicago\"\n                    },\n                    {\n                        \"type\": \"MARKET\",\n                        \"country\": \"US\",\n                        \"marketCode\": \"NY_ALB\"\n                    }\n                ]\n            }\n        ],\n        \"lengthOfHaul\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"matchingTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transitTime\": {\n            \"from\": 20,\n            \"to\": 30\n        },\n        \"transportTypes\": [\"VAN\"],\n        \"users\": [\"string\"],\n        \"weight\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"stopsCount\": {\n            \"from\": 50,\n            \"to\": 250\n        },\n        \"mileageDifference\": {\n            \"from\": 50,\n            \"to\": 250\n        }\n    },\n    \"effects\": {\n        \"percentageAdjustment\": {\"percentage\": 15},\n        \"flatAdjustment\": {\n            \"amount\": 15,\n            \"currency\": \"USD\"\n        }\n    },\n    \"pricingTypeGroup\": \"SPOT\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"PUT\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"PUT\",\n  CURLOPT_POSTFIELDS => \"{\\\"name\\\":\\\"Customer`s rule\\\",\\\"active\\\":false,\\\"conditions\\\":{\\\"commodity\\\":[\\\"Apples\\\"],\\\"confidenceLevel\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"customers\\\":[\\\"LTR and Co\\\",\\\"CocaCola\\\",\\\"Walmart\\\"],\\\"lanes\\\":[{\\\"origins\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}],\\\"destinations\\\":[{\\\"type\\\":\\\"ANYWHERE\\\"},{\\\"type\\\":\\\"STATE\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\"},{\\\"type\\\":\\\"CITY\\\",\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"IL\\\",\\\"city\\\":\\\"Chicago\\\"},{\\\"type\\\":\\\"MARKET\\\",\\\"country\\\":\\\"US\\\",\\\"marketCode\\\":\\\"NY_ALB\\\"}]}],\\\"lengthOfHaul\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"matchingTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transitTime\\\":{\\\"from\\\":20,\\\"to\\\":30},\\\"transportTypes\\\":[\\\"VAN\\\"],\\\"users\\\":[\\\"string\\\"],\\\"weight\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"stopsCount\\\":{\\\"from\\\":50,\\\"to\\\":250},\\\"mileageDifference\\\":{\\\"from\\\":50,\\\"to\\\":250}},\\\"effects\\\":{\\\"percentageAdjustment\\\":{\\\"percentage\\\":15},\\\"flatAdjustment\\\":{\\\"amount\\\":15,\\\"currency\\\":\\\"USD\\\"}},\\\"pricingTypeGroup\\\":\\\"SPOT\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+    delete:
+      tags:
+      - Pricing
+      summary: Delete a combination rule
+      description: Delete a combination rule
+      operationId: pricingCombinationRuleDelete
+      security:
+      - Pricing_bearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        description: Id of the combination rule to delete
+        schema:
+          type: integer
+          format: int64
+          example: 12345
+        required: true
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '403':
+          $ref: '#/paths/~1pricing~1priority-rules/get/responses/403'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'DELETE',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D',\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: 'import requests
+
+
+          url = "https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D"
+
+
+          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
+
+
+          response = requests.request("DELETE", url, headers=headers)
+
+
+          print(response.text)'
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/combination-rules/%7BruleId%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"DELETE\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /pricing/tpl-pricing:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Pricing
+      summary: Calculate pricing, based on TPL data
+      description: "Returns all pricing suggestions: statistical, rule related, etc. \nintended for TPL pricing and calculated using TPL data.\n\nMost of the fields in the request and response are optional.\n\nResponse fields are related to request fields e.g. if you do not provide\nthe customer name in the request, there will be no customer related\npricing data in the response, and the pricing rules that use customer name predicates\nwill not be found.\n\nTo get the most possible data in the response, provide all the data you can \nin the request. However if for example you only need customer related pricing data,\nyou can provide only the customer name in the request.\n\nAlso note that if providing addresses, \norigin and destination country is required.\nThe state code can be provided without city and zip, \nand the city name can be provided without a zip code,\nand the zip code can be provided without a city or a state.\nThis will also affect what kind of rules are found and what statistical data\nis calculated and returned.\n\nParameter notes:\n* __region__ - defaults to ZIP if not provided\n"
+      operationId: pricingTplPricing
+      security:
+      - Pricing_bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pricing_PricingRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_PricingResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_Error'
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        '401':
+          description: Unauthenticated
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_Error'
+              examples:
+                error404Example:
+                  value:
+                    code: item_not_found
+                    message: Item not found
+        '422':
+          description: Unprocessable Entity with multiple errors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_Error422UnprocessableEntityMulti'
+              examples:
+                error422MultiExample:
+                  value:
+                    code: request_validation
+                    message: You have one or more errors in request structure
+                    errors:
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: '22'
+                    - field: shipperId
+                      message: 'shipperId: must not be null'
+                      value: null
+                    - field: loadSource.loadId
+                      message: 'loadId: must not be null'
+                      value: null
+        '424':
+          description: Failed Dependency.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_Error'
+              examples:
+                error424Example:
+                  value:
+                    code: distance_calculation_error
+                    message: 'Unable to calculate distance between zips {key}, reason:  {exc}'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_Error'
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_Error'
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/tpl-pricing',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    transportType: 'VAN',\n    stops: [\n      {\n        order: 0,\n        address: {country: 'US', city: 'Red Bluff', state: 'CA', zip: '96080'}\n      },\n      {order: 1, address: {country: 'US', city: 'Redding', state: 'CA', zip: '96002'}}\n    ],\n    region: 'ZIP',\n    customerName: 'Test Customer',\n    pickupDate: '2020-01-13T16:00:00Z',\n    deliveryDate: '2020-01-13T16:00:00Z',\n    weight: 10000,\n    commodity: 'Apples',\n    targetBuyCost: 1000,\n    confidenceLevel: 65,\n    currency: 'USD',\n    pricingTypeGroup: 'SPOT'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/pricing/tpl-pricing\"\n\npayload = {\n    \"transportType\": \"VAN\",\n    \"stops\": [\n        {\n            \"order\": 0,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Red Bluff\",\n                \"state\": \"CA\",\n                \"zip\": \"96080\"\n            }\n        },\n        {\n            \"order\": 1,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\",\n                \"zip\": \"96002\"\n            }\n        }\n    ],\n    \"region\": \"ZIP\",\n    \"customerName\": \"Test Customer\",\n    \"pickupDate\": \"2020-01-13T16:00:00Z\",\n    \"deliveryDate\": \"2020-01-13T16:00:00Z\",\n    \"weight\": 10000,\n    \"commodity\": \"Apples\",\n    \"targetBuyCost\": 1000,\n    \"confidenceLevel\": 65,\n    \"currency\": \"USD\",\n    \"pricingTypeGroup\": \"SPOT\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/tpl-pricing\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"}},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"}}],\\\"region\\\":\\\"ZIP\\\",\\\"customerName\\\":\\\"Test Customer\\\",\\\"pickupDate\\\":\\\"2020-01-13T16:00:00Z\\\",\\\"deliveryDate\\\":\\\"2020-01-13T16:00:00Z\\\",\\\"weight\\\":10000,\\\"commodity\\\":\\\"Apples\\\",\\\"targetBuyCost\\\":1000,\\\"confidenceLevel\\\":65,\\\"currency\\\":\\\"USD\\\",\\\"pricingTypeGroup\\\":\\\"SPOT\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /pricing/marketplace/my-broker-partners:
+    servers:
+    - url: https://testapi.greenscreens.ai/v1
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v1
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v1
+      description: Production server (uses live data)
+    post:
+      tags:
+      - Pricing
+      summary: Get sell rates of partner brokers
+      description: 'Intended to be used by a shipper-broker marketplace (a.k.a Shipper TMS).
+
+
+        Returns a list of brokers that confirmed that they want to work with
+
+        the marketplace that is requesting the rates.
+
+
+        Each broker in the list will contain a sell rate that they are
+
+        willing to move the load for
+
+        '
+      operationId: pricingMarketplaceMyBrokerPartners
+      security:
+      - Pricing_bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pricing_PricingMarketplaceMyBrokerPartnersRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pricing_PricingMarketplaceMyBrokerPartnersResponse'
+        '400':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/400'
+        '401':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/401'
+        '404':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/404'
+        '422':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/422'
+        '424':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/424'
+        '429':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/429'
+        '500':
+          $ref: '#/paths/~1pricing~1tpl-pricing/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v1/pricing/marketplace/my-broker-partners',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    transportType: 'VAN',\n    stops: [\n      {\n        order: 0,\n        address: {country: 'US', city: 'Red Bluff', state: 'CA', zip: '96080'}\n      },\n      {order: 1, address: {country: 'US', city: 'Redding', state: 'CA', zip: '96002'}}\n    ],\n    region: 'ZIP',\n    customerName: 'Test Customer',\n    pickupDate: '2020-01-13T16:00:00Z',\n    deliveryDate: '2020-01-13T16:00:00Z',\n    weight: 10000,\n    commodity: 'Apples',\n    currency: 'USD',\n    pricingTypeGroup: 'SPOT'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v1/pricing/marketplace/my-broker-partners\"\n\npayload = {\n    \"transportType\": \"VAN\",\n    \"stops\": [\n        {\n            \"order\": 0,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Red Bluff\",\n                \"state\": \"CA\",\n                \"zip\": \"96080\"\n            }\n        },\n        {\n            \"order\": 1,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\",\n                \"zip\": \"96002\"\n            }\n        }\n    ],\n    \"region\": \"ZIP\",\n    \"customerName\": \"Test Customer\",\n    \"pickupDate\": \"2020-01-13T16:00:00Z\",\n    \"deliveryDate\": \"2020-01-13T16:00:00Z\",\n    \"weight\": 10000,\n    \"commodity\": \"Apples\",\n    \"currency\": \"USD\",\n    \"pricingTypeGroup\": \"SPOT\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/marketplace/my-broker-partners\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"}},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"}}],\\\"region\\\":\\\"ZIP\\\",\\\"customerName\\\":\\\"Test Customer\\\",\\\"pickupDate\\\":\\\"2020-01-13T16:00:00Z\\\",\\\"deliveryDate\\\":\\\"2020-01-13T16:00:00Z\\\",\\\"weight\\\":10000,\\\"commodity\\\":\\\"Apples\\\",\\\"currency\\\":\\\"USD\\\",\\\"pricingTypeGroup\\\":\\\"SPOT\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+components:
+  schemas:
+    Pricing_TransitTimeRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_FloatRange'
+      description: "Transit time range to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: number
+          format: float
+          description: Minimum transit time in hours
+          minimum: 0
+          example: 10
+        to:
+          type: number
+          format: float
+          description: Maximum transit time in hours
+          minimum: 0
+          example: 24
+    Pricing_PricingMarketplaceMyBrokerPartnersResponse:
+      type: object
+      description: A response with a list of brokers and their sell rates
+      properties:
+        brokers:
+          type: array
+          description: 'Array of brokers that signified that they want to work with you
+
+            (participate in your marketplace)
+
+            '
+          items:
+            $ref: '#/components/schemas/Pricing_PricingMarketplaceMyBrokerPartnersResponseBroker'
+        currency:
+          type: string
+          description: "Code of the currency of any monetary values in the response. \n\nFormat is ISO 4217 (a three letter code e.g. 'USD')\n"
+          example: USD
+      required:
+      - brokers
+      - currency
+    Pricing_RuleRequestConditions:
+      type: object
+      description: "Conditions in which this rule is applicable.\n\nWhen multuple conditions are provided the rule is only applied \nif all of them are met.\n"
+      properties:
+        commodity:
+          type: array
+          description: 'List of commodities to which the rule is applicable.
+
+            At least one commodity from this list has to match for the rule to apply
+
+            '
+          items:
+            type: string
+          example:
+          - Apples
+        confidenceLevel:
+          $ref: '#/components/schemas/Pricing_ConfidenceLevelRange'
+        customers:
+          type: array
+          description: "List of customers to which the rule is applicable. \nAt least one customer from this list has to match for the rule to apply.\n"
+          items:
+            type: string
+            description: Customer name
+          example:
+          - LTR and Co
+          - CocaCola
+          - Walmart
+        lanes:
+          type: array
+          description: "List of lanes to which the rule is applicable. \nAt least one lane from this list has to match for the rule to apply.\n"
+          items:
+            $ref: '#/components/schemas/Pricing_RuleRequestLane'
+        lengthOfHaul:
+          $ref: '#/components/schemas/Pricing_LengthOfHaulRange'
+        matchingTime:
+          $ref: '#/components/schemas/Pricing_MatchingTimeRange'
+        transitTime:
+          $ref: '#/components/schemas/Pricing_TransitTimeRange'
+        transportTypes:
+          type: array
+          maxItems: 3
+          description: 'List of transport types to which the rule is applicable.
+
+            At least one transport type from this list has to match for the rule to apply
+
+            '
+          items:
+            $ref: '#/components/schemas/Pricing_TransportType'
+        users:
+          type: array
+          description: "List of users to whom the rule is applicable. \nAt least one user from this list has to match for the rule to apply\n"
+          items:
+            type: string
+        weight:
+          $ref: '#/components/schemas/Pricing_WeightRange'
+        stopsCount:
+          $ref: '#/components/schemas/Pricing_StopsCountRange'
+        mileageDifference:
+          $ref: '#/components/schemas/Pricing_MileageDifferenceRange'
+    Pricing_GeographicalAreaLane:
+      type: string
+      enum:
+      - CITY
+      - CITY_ZIP
+      - ZIP_CITY
+      - ZIP
+      description: "Determines the size of the area around origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
+      example: ZIP
+    Pricing_FlatAdjustmentEffectInput:
+      type: object
+      description: 'In the default interpretation this effect increases the buy cost
+
+        by a flat `amount` of the specified `currency` to get the sell cost
+
+        '
+      properties:
+        amount:
+          type: number
+          description: 'The flat monetary amount by which the buy cost should be increased
+
+            '
+          example: 15
+        currency:
+          $ref: '#/components/schemas/Pricing_Currency'
+      required:
+      - amount
+    Pricing_Error422UnprocessableEntityMulti:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          description: list of errors
+          items:
+            $ref: '#/components/schemas/Pricing_RequestValidationError'
+      required:
+      - code
+      - message
+      - errors
+      example:
+        code: request_validation
+        message: You have one or more errors in request structure
+        errors:
+        - field: carrierName
+          message: field contains wrong data type (int), should be string
+          value: '22'
+        - field: shipperId
+          message: 'shipperId: must not be null'
+          value: null
+        - field: loadSource.loadId
+          message: 'loadId: must not be null'
+          value: null
+    Pricing_WeightRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_IntegerRange'
+      description: "Weight range, of the cargo, to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: integer
+          description: Minimum weight in lb
+          minimum: 0
+          example: 0
+        to:
+          type: integer
+          description: Maximum weight in lb
+          minimum: 0
+          example: 45000
+    Pricing_Currency:
+      type: string
+      enum:
+      - USD
+      - CAD
+      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+      example: USD
+    Pricing_PricingResponse:
+      type: object
+      description: A collection of all the pricing options found
+      properties:
+        default:
+          $ref: '#/components/schemas/Pricing_DefaultPricingCalculation'
+        laneHistorical:
+          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
+        customerHistorical:
+          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
+        customerOnLaneHistorical:
+          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
+        priorityRule:
+          $ref: '#/components/schemas/Pricing_PriorityRuleCalculation'
+        combinationRules:
+          $ref: '#/components/schemas/Pricing_CombinationRulesCalculation'
+        suggested:
+          $ref: '#/components/schemas/Pricing_SuggestedPricing'
+        currency:
+          type: string
+          description: "Code of the currency of any monetary values in the response. \n\n**Except flat pricing effect descriptors**, those have their own currencies. \n\nFormat is ISO 4217 (a three letter code e.g. 'USD')\n"
+          example: USD
+      required:
+      - currency
+    Pricing_StopsCountRange:
+      type: object
+      description: "Range of the stops count of the route to which the rule is applicable.\n\nStops count includes origin and destination i.e. route with one extra stop will have 3 stops in total.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      allOf:
+      - $ref: '#/components/schemas/Pricing_IntegerRange'
+      properties:
+        from:
+          type: integer
+          minimum: 0
+          description: Minimum stops count
+          example: 3
+        to:
+          type: integer
+          minimum: 0
+          description: Maximum stops count
+          example: 10
+    Pricing_MatchingTimeRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_FloatRange'
+      description: "Matching time range to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: number
+          format: float
+          description: Minimum matching time in hours
+          minimum: 0
+          example: 20
+        to:
+          type: number
+          format: float
+          description: Maximum matching time in hours
+          minimum: 0
+          example: 30
+    Pricing_CombinationRuleEffectsInput:
+      type: object
+      description: 'The effects this rule will have on the price calculation.
+
+
+        __Only one effect is allowed per rule__
+
+        '
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffectInput'
+    Pricing_DefaultPricingCalculation:
+      type: object
+      description: "Contains the default pricing effects \nand if possible a calculated `targetSellCost`\n"
+      properties:
+        effects:
+          $ref: '#/components/schemas/Pricing_DefaultPricingEffects'
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost calculated by applying the default pricing effects
+
+            to the provided flat buy cost
+
+            '
+      required:
+      - effects
+    Pricing_CombinationRuleEffects:
+      type: object
+      description: The effects this rule will have on the price calculation
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
+    Pricing_PriorityRule:
+      type: object
+      description: Priority pricing rule
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the rule
+          example: 12345
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer`s rule
+        priority:
+          type: integer
+          description: Priority of the rule
+          example: 3
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_PriorityRuleEffects'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - id
+      - name
+      - priority
+      - active
+      - conditions
+      - effects
+    Pricing_RuleRequestLocation:
+      type: object
+      description: Lane stop
+      properties:
+        type:
+          type: string
+          enum:
+          - ANYWHERE
+          - STATE
+          - CITY
+          - MARKET
+          example: ANYWHERE
+          description: "The location type. \n\nFor type ANYWHERE no fields are required.\n\nFor type STATE - \"country\" and \"state\" fields are required.\n\nFor type CITY - \"country\", \"state\" and \"city\" fields are required.\n\nFor type MARKET - \"country\" and \"marketCode\" fields are required.\n"
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        marketCode:
+          type: string
+          description: Market code
+          example: NY_ALB
+      required:
+      - type
+    Pricing_DefaultPricingEffects:
+      type: object
+      description: 'The default pricing effects that are to be used for the sell cost calculation
+
+        if no other pricing options are found
+
+        '
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
+        setSellCost:
+          $ref: '#/components/schemas/Pricing_SetSellCostEffect'
+    Pricing_Stops:
+      type: array
+      description: A list of stops
+      minItems: 2
+      maxItems: 12
+      items:
+        $ref: '#/components/schemas/Pricing_Stop'
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+    Pricing_SuggestedPricing:
+      type: object
+      description: "The pricing that we suggest to be used on this lane.\n\nThis is based off of all the other pricing options found and \ncalculated using a priority algorithm. You can either trust us and use this\nto do your quote pricing, or you can choose from any of the other fields\navailable in the response\n"
+      properties:
+        name:
+          type: string
+          enum:
+          - default
+          - laneHistorical
+          - customerHistorical
+          - customerOnLaneHistorical
+          - priorityRule
+          - combinationRules
+          description: 'The name of the pricing option suggested to be used.
+
+
+            The values are the names of the other fields of the response.
+
+            '
+          example: priorityRule
+        targetSellCost:
+          type: number
+          example: 1250
+          description: "Flat target sell cost calculated by applying the suggested pricing effect \nto the provided flat buy cost\n"
+      required:
+      - name
+    Pricing_ConfidenceLevelRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_IntegerRange'
+      description: "Confidence level range to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: integer
+          description: Minimum confidence level in miles
+          minimum: 0
+          maximum: 100
+          example: 70
+        to:
+          type: integer
+          description: Maximum confidence level in miles
+          minimum: 0
+          maximum: 100
+          example: 100
+    Pricing_Address:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        zip:
+          type: string
+          description: Zip
+          example: '12345'
+      required:
+      - country
+    Pricing_CombinationRule:
+      type: object
+      description: Combination pricing rule
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the rule
+          example: 12345
+        name:
+          type: string
+          description: Name of the pricing rule
+          example: Customer`s rule
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_CombinationRuleEffects'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - id
+      - name
+      - active
+      - conditions
+      - effects
+    Pricing_PricingPriorityRuleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer`s rule
+        priority:
+          type: integer
+          description: Priority of the rule
+          example: 3
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_PriorityRuleEffectsInput'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - name
+      - priority
+      - active
+      - conditions
+      - effects
+    Pricing_SetSellCostEffect:
+      type: object
+      description: "In the default interpretation this effect \nsets the specified `amount` of the specified `currency` \nas the final sell cost\n"
+      properties:
+        amount:
+          type: number
+          description: 'The flat monetary amount to set as the sell cost
+
+            '
+          example: 15
+        currency:
+          type: string
+          description: 'Code of the currency used in this effect.
+
+            Format is ISO 4217 (a three letter code e.g. ''USD'')
+
+            '
+          example: USD
+      required:
+      - amount
+      - currency
+    Pricing_RequestValidationError:
+      type: object
+      description: Request validation error
+      properties:
+        field:
+          type: string
+          description: Name of the field that did not pass validation
+          example: transportType
+        message:
+          type: string
+          description: Human readable error mesage explaining why validation failed
+          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+        value:
+          type: string
+          nullable: true
+          description: Value of the field that did not pass validation
+          example: SpaceXDragon
+      required:
+      - field
+      - message
+    Pricing_PricingCombinationRuleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer`s rule
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_CombinationRuleEffectsInput'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - name
+      - active
+      - conditions
+      - effects
+    Pricing_LengthOfHaulRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_IntegerRange'
+      description: "Range of the distance of the route to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: integer
+          description: Minimum distance in miles
+          minimum: 0
+          example: 50
+        to:
+          type: integer
+          description: Maximum distance in miles
+          minimum: 0
+          example: 250
+    Pricing_CombinationRulesCalculation:
+      type: object
+      description: 'Contains applicable combination rules and if possible a calculated `targetSellCost`
+
+        '
+      properties:
+        rules:
+          type: array
+          description: List of applicable combination rules
+          items:
+            $ref: '#/components/schemas/Pricing_CombinationRule'
+        targetSellCost:
+          type: number
+          example: 1250
+          description: "Flat target sell cost calculated by applying combination rules \nto the provided flat buy cost\n"
+      required:
+      - rules
+    Pricing_RuleLane:
+      type: object
+      description: Lane description object
+      properties:
+        origins:
+          $ref: '#/components/schemas/Pricing_RuleLocations'
+        destinations:
+          $ref: '#/components/schemas/Pricing_RuleLocations'
+      required:
+      - origins
+      - destinations
+    Pricing_PricingStatisticsCalculation:
+      type: object
+      description: "Contains historical pricing statistics \nand if possible a calculated `targetSellCost`\n"
+      properties:
+        pricing:
+          $ref: '#/components/schemas/Pricing_PricingStatistics'
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost calculated by applying the rule
+
+            to the provided flat buy cost
+
+            '
+      required:
+      - pricing
+    Pricing_PricingRequest:
+      type: object
+      description: A set of fields used during pricing calculation
+      properties:
+        transportType:
+          $ref: '#/components/schemas/Pricing_TransportType'
+        stops:
+          $ref: '#/components/schemas/Pricing_Stops'
+        region:
+          $ref: '#/components/schemas/Pricing_GeographicalAreaLane'
+        customerName:
+          type: string
+          description: Customer name
+          example: Test Customer
+        pickupDate:
+          type: string
+          format: date-time
+          description: Pick up date in time zone of origin
+          example: '2020-01-13T16:00:00Z'
+        deliveryDate:
+          type: string
+          format: date-time
+          description: Delivery date in time zone of the destination
+          example: '2020-01-13T16:00:00Z'
+        weight:
+          type: number
+          format: float
+          description: Weight of the cargo in lb
+          example: 10000
+        commodity:
+          type: string
+          description: Name of the commodity
+          example: Apples
+        targetBuyCost:
+          type: number
+          description: "The flat buy cost that the calculated pricing effect will be applied to, \nin order to calculate the flat target sell cost\n"
+          example: 1000
+        confidenceLevel:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: "Buy rate prediction confidence level \nfrom the rate prediction endpoint response\n"
+          example: 65
+        currency:
+          $ref: '#/components/schemas/Pricing_Currency'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+    Pricing_IntegerRange:
+      type: object
+      properties:
+        from:
+          type: integer
+          minimum: 0
+          example: 50
+        to:
+          type: integer
+          minimum: 0
+          example: 250
+    Pricing_RuleRequestLocations:
+      type: array
+      description: A list of locations that the rule is applicable to
+      items:
+        $ref: '#/components/schemas/Pricing_RuleRequestLocation'
+      example:
+      - type: ANYWHERE
+      - type: STATE
+        country: US
+        state: IL
+      - type: CITY
+        country: US
+        state: IL
+        city: Chicago
+      - type: MARKET
+        country: US
+        marketCode: NY_ALB
+    Pricing_MileageDifferenceRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_IntegerRange'
+      description: 'Range of the stops count of the route to which the rule is applicable.
+
+
+        At least one of the range boundaries has to be provided.
+
+
+        If only one range boundary is provided, it means that the range is either
+
+        `<= ''to''` or `>= ''from''`
+
+        '
+      properties:
+        from:
+          type: integer
+          description: Minimum difference in miles
+          minimum: 0
+          example: 50
+        to:
+          type: integer
+          description: Maximum difference in miles
+          minimum: 0
+          example: 250
+    Pricing_SetSellCostEffectInput:
+      type: object
+      description: "In the default interpretation this effect \nsets the specified `amount` of the specified `currency` \nas the final sell cost\n"
+      properties:
+        amount:
+          type: number
+          description: 'The flat monetary amount to set as the sell cost
+
+            '
+          example: 15
+        currency:
+          $ref: '#/components/schemas/Pricing_Currency'
+      required:
+      - amount
+    Pricing_RuleRequestLane:
+      type: object
+      description: A lane that the rule is applicable to
+      properties:
+        origins:
+          $ref: '#/components/schemas/Pricing_RuleRequestLocations'
+        destinations:
+          $ref: '#/components/schemas/Pricing_RuleRequestLocations'
+      required:
+      - origins
+      - destinations
+    Pricing_RuleConditions:
+      type: object
+      description: "Conditions in which this rule is applicable.\n\nWhen multuple conditions are provided the rule is only applied \nif all of them are met\n"
+      properties:
+        commodity:
+          type: array
+          description: 'List of commodities to which the rule is applicable.
+
+            At least one commodity from this list has to match for the rule to apply
+
+            '
+          items:
+            type: string
+          example:
+          - Apples
+        confidenceLevel:
+          $ref: '#/components/schemas/Pricing_ConfidenceLevelRange'
+        customers:
+          type: array
+          description: "List of customers to which the rule is applicable. \nAt least one customer from this list has to match for the rule to apply\n"
+          items:
+            type: string
+            description: Customer name
+          example:
+          - LTR and Co
+          - CocaCola
+          - Walmart
+        lanes:
+          type: array
+          description: "List of lanes to which the rule is applicable. \nAt least one lane from this list has to match for the rule to apply\n"
+          items:
+            $ref: '#/components/schemas/Pricing_RuleLane'
+        lengthOfHaul:
+          $ref: '#/components/schemas/Pricing_LengthOfHaulRange'
+        matchingTime:
+          $ref: '#/components/schemas/Pricing_MatchingTimeRange'
+        transitTime:
+          $ref: '#/components/schemas/Pricing_TransitTimeRange'
+        transportTypes:
+          type: array
+          maxItems: 2
+          description: 'List of transport types to which the rule is applicable.
+
+            At least one transport type from this list has to match for the rule to apply
+
+            '
+          items:
+            $ref: '#/components/schemas/Pricing_TransportType'
+        users:
+          type: array
+          description: "List of users to whom the rule is applicable. \nAt least one user from this list has to match for the rule to apply\n"
+          items:
+            type: string
+        weight:
+          $ref: '#/components/schemas/Pricing_WeightRange'
+        stopsCount:
+          $ref: '#/components/schemas/Pricing_StopsCountRange'
+        mileageDifference:
+          $ref: '#/components/schemas/Pricing_MileageDifferenceRange'
+    Pricing_PercentageAdjustmentEffect:
+      type: object
+      description: 'In the default interpretation this effect marks up the buy cost
+
+        by some `percentage` to get the sell cost
+
+        '
+      properties:
+        percentage:
+          type: number
+          description: The percentage by which the buy cost should be marked up
+          example: 15
+      required:
+      - percentage
+    Pricing_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    Pricing_FloatRange:
+      type: object
+      properties:
+        from:
+          type: number
+          format: float
+          minimum: 0
+          example: 20
+        to:
+          type: number
+          format: float
+          minimum: 0
+          example: 30
+    Pricing_PricingPriorityRulesResponse:
+      type: object
+      properties:
+        rules:
+          type: array
+          description: List of rules
+          items:
+            $ref: '#/components/schemas/Pricing_PriorityRule'
+      required:
+      - rules
+    Pricing_PricingCombinationRulesResponse:
+      type: object
+      properties:
+        rules:
+          type: array
+          description: List of combination rules
+          items:
+            $ref: '#/components/schemas/Pricing_CombinationRule'
+      required:
+      - rules
+    Pricing_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    Pricing_Stop:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+          minimum: 0
+        address:
+          $ref: '#/components/schemas/Pricing_Address'
+      required:
+      - order
+      - address
+    Pricing_PriorityRuleEffects:
+      type: object
+      description: The effects this rule will have on the price calculation
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
+        setSellCost:
+          $ref: '#/components/schemas/Pricing_SetSellCostEffect'
+    Pricing_PricingStatistics:
+      type: object
+      description: Statistical pricing percentages based on your historical load data
+      properties:
+        average:
+          type: number
+          description: Average pricing percentage
+          example: 11
+        minimum:
+          type: number
+          description: Minimum pricing percentage
+          example: 10
+        maximum:
+          type: number
+          description: Maximum pricing percentage
+          example: 13
+      required:
+      - average
+      - minimum
+      - maximum
+    Pricing_RuleLocations:
+      type: array
+      description: A list of locations that the rule is applicable to
+      items:
+        $ref: '#/components/schemas/Pricing_RuleLocation'
+      example:
+      - type: ANYWHERE
+      - type: STATE
+        country: US
+        state: IL
+      - type: CITY
+        country: US
+        state: IL
+        city: Chicago
+      - type: MARKET
+        country: US
+        marketCode: NY_ALB
+        marketName: Albany Market
+    Pricing_FlatAdjustmentEffect:
+      type: object
+      description: 'In the default interpretation this effect increases the buy cost
+
+        by a flat `amount` of the specified `currency` to get the sell cost
+
+        '
+      properties:
+        amount:
+          type: number
+          description: 'The flat monetary amount by which the buy cost should be increased
+
+            '
+          example: 15
+        currency:
+          type: string
+          description: 'Code of the currency used in this effect.
+
+            Format is ISO 4217 (a three letter code e.g. ''USD'')
+
+            '
+          example: USD
+      required:
+      - amount
+      - currency
+    Pricing_RuleLocation:
+      type: object
+      description: A location that the rule is applicable to
+      properties:
+        type:
+          type: string
+          enum:
+          - ANYWHERE
+          - STATE
+          - CITY
+          - MARKET
+          example: ANYWHERE
+          description: "The location type. \n\nFor type ANYWHERE no fields are required.\n\nFor type STATE - \"country\" and \"state\" fields are required.\n\nFor type CITY - \"country\", \"state\" and \"city\" fields are required.\n\nFor type MARKET - \"country\", \"marketCode\" and \"marketName\" fields are required.\n"
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        marketCode:
+          type: string
+          description: Market code
+          example: NY_ALB
+        marketName:
+          type: string
+          description: Market name
+          example: Albany Market
+      required:
+      - type
+    Pricing_PriorityRuleEffectsInput:
+      type: object
+      description: 'The effects this rule will have on the price calculation.
+
+
+        __Only one effect is allowed per rule__
+
+        '
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffectInput'
+        setSellCost:
+          $ref: '#/components/schemas/Pricing_SetSellCostEffectInput'
+    Pricing_PricingRuleGroup:
+      type: string
+      description: Pricing rule group filter. If not specified, all rules are returned.
+      enum:
+      - SPOT
+      - CONTRACT
+    Pricing_PricingMarketplaceMyBrokerPartnersResponseBroker:
+      type: object
+      description: A broker rate descriptor
+      properties:
+        mc:
+          type: string
+          description: Freight broker MC number
+          example: MC00334234
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost that this broker is willing to handle the load for
+
+            '
+      required:
+      - mc
+      - targetSellCost
+    Pricing_PricingMarketplaceMyBrokerPartnersRequest:
+      type: object
+      description: Data needed for calculating sell costs for a given lane
+      properties:
+        transportType:
+          $ref: '#/components/schemas/Pricing_TransportType'
+        stops:
+          $ref: '#/components/schemas/Pricing_Stops'
+        region:
+          $ref: '#/components/schemas/Pricing_GeographicalAreaLane'
+        customerName:
+          type: string
+          description: Customer name
+          example: Test Customer
+        pickupDate:
+          type: string
+          format: date-time
+          description: Pick up date in time zone of origin
+          example: '2020-01-13T16:00:00Z'
+        deliveryDate:
+          type: string
+          format: date-time
+          description: Delivery date in time zone of the destination
+          example: '2020-01-13T16:00:00Z'
+        weight:
+          type: number
+          format: float
+          description: Weight of the cargo in lb
+          example: 10000
+        commodity:
+          type: string
+          description: Name of the commodity
+          example: Apples
+        currency:
+          $ref: '#/components/schemas/Pricing_Currency'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - transportType
+      - stops
+      - pickupDateTime
+    Pricing_PriorityRuleCalculation:
+      type: object
+      description: "Contains an applicable priority rule \nand if possible a calculated `targetSellCost`\n"
+      properties:
+        rule:
+          $ref: '#/components/schemas/Pricing_PriorityRule'
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost calculated by applying the rule
+
+            to the provided flat buy cost
+
+            '
+      required:
+      - rule
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2

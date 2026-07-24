@@ -1,0 +1,1279 @@
+openapi: 3.0.2
+info:
+  title: Triumph Intelligence Connect Analytics TMS API
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: '#fafafa'
+    altText: Triumph Intelligence
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+  version: 1.3.3
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+- name: TMS
+  description: 'TmsConnector service v2
+
+
+    <a href="/tmsconnector/v2/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/tmsconnector/v2/swagger/index.html" target="_blank">Try it in swagger</a>'
+  x-displayName: TMS
+paths:
+  /tms/import-load:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - TMS
+      summary: Import load
+      security:
+      - TmsConnector_bearerAuth: []
+      description: Import a new load or update an existing one
+      operationId: tmsImportLoad
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsConnector_ImportLoadRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_ImportLoadResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_Error'
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_Error'
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        '422':
+          description: Unprocessable Entity with multiple errors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_Error422UnprocessableEntityMulti'
+              examples:
+                error422MultiExample:
+                  value:
+                    code: request_validation
+                    message: You have one or more errors in request structure
+                    errors:
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: '22'
+                    - field: shipperId
+                      message: 'shipperId: must not be null'
+                      value: null
+                    - field: loadSource.loadId
+                      message: 'loadId: must not be null'
+                      value: null
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_Error'
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        '500':
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_Error'
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/tms/import-load',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    loadId: '12345',\n    origin: {\n      country: 'US',\n      city: 'Sacramento',\n      state: 'CA',\n      zip: '95814',\n      appointmentDateTime: '2020-10-13T09:00:00Z',\n      scheduledAppointmentStartedAt: '2020-10-13T09:00:00Z',\n      scheduledAppointmentEndedAt: '2020-10-13T11:00:00Z',\n      arrivedAt: '2020-10-13T09:15:00Z',\n      departedAt: '2020-10-13T10:45:00Z'\n    },\n    destination: {\n      country: 'US',\n      city: 'Sacramento',\n      state: 'CA',\n      zip: '95814',\n      appointmentDateTime: '2020-10-13T09:00:00Z',\n      scheduledAppointmentStartedAt: '2020-10-13T09:00:00Z',\n      scheduledAppointmentEndedAt: '2020-10-13T11:00:00Z',\n      arrivedAt: '2020-10-13T09:15:00Z',\n      departedAt: '2020-10-13T10:45:00Z'\n    },\n    extraStops: [\n      {\n        order: 0,\n        address: {country: 'US', city: 'Red Bluff', state: 'CA', zip: '96080'},\n        type: 'LOAD',\n        appointmentDateTime: '2020-10-14T16:00:00Z'\n      },\n      {\n        order: 1,\n        address: {country: 'US', city: 'Redding', state: 'CA', zip: '96002'},\n        type: 'UNLOAD',\n        appointmentDateTime: '2020-10-15T16:00:00Z'\n      }\n    ],\n    rate: {\n      totalShipperLinehaulCost: 1176,\n      totalLinehaulCost: 956,\n      totalFuelCost: 45,\n      accessorials: [{name: 'Overweight', shipperCost: 200, carrierCost: 0}],\n      totalShipperCost: 1276,\n      totalCarrierCost: 1130,\n      currency: 'USD'\n    },\n    pickupDate: '2021-09-21T13:00:00-04:00',\n    deliveredDate: '2021-09-22T18:00:00-04:00',\n    transportType: 'VR',\n    transportTypeGroup: 'VAN',\n    transportMode: 'FTL',\n    status: 'OPEN',\n    details: {\n      distance: 434,\n      miles: 434,\n      commodity: 'Racks',\n      weight: 22000,\n      tenderedDate: '2020-01-11T16:00:00Z',\n      bookedDate: '2020-01-11T16:00:00Z',\n      tordFlag: false,\n      hazmat: false,\n      hotshot: false,\n      teamDrive: false,\n      overdimensional: false,\n      dedicatedCarrierContract: false,\n      asset: false,\n      pricingType: 'Spot',\n      pricingTypeGroup: 'SPOT',\n      carrierAccountManager: 'John Doe',\n      shipperAccountManager: 'John Doe',\n      salesManager: 'John Doe',\n      userGroupId: 'Main office',\n      office: 'Main office'\n    },\n    shipper: {id: '12345', name: 'Shipper company'},\n    carrier: {id: '12345', name: 'Carrier company'}\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/tms/import-load\"\n\npayload = {\n    \"loadId\": \"12345\",\n    \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n    },\n    \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n    },\n    \"extraStops\": [\n        {\n            \"order\": 0,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Red Bluff\",\n                \"state\": \"CA\",\n                \"zip\": \"96080\"\n            },\n            \"type\": \"LOAD\",\n            \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n            \"order\": 1,\n            \"address\": {\n                \"country\": \"US\",\n                \"city\": \"Redding\",\n                \"state\": \"CA\",\n                \"zip\": \"96002\"\n            },\n            \"type\": \"UNLOAD\",\n            \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n    ],\n    \"rate\": {\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalLinehaulCost\": 956,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n            {\n                \"name\": \"Overweight\",\n                \"shipperCost\": 200,\n                \"carrierCost\": 0\n            }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n    },\n    \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n    \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n    \"transportType\": \"VR\",\n    \"transportTypeGroup\": \"VAN\",\n    \"transportMode\": \"FTL\",\n    \"status\": \"OPEN\",\n    \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": False,\n        \"hazmat\": False,\n        \"hotshot\": False,\n        \"teamDrive\": False,\n        \"overdimensional\": False,\n        \"dedicatedCarrierContract\": False,\n        \"asset\": False,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n    },\n    \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n    },\n    \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n    }\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/tms/import-load\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"loadId\\\":\\\"12345\\\",\\\"origin\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Sacramento\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"95814\\\",\\\"appointmentDateTime\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentStartedAt\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentEndedAt\\\":\\\"2020-10-13T11:00:00Z\\\",\\\"arrivedAt\\\":\\\"2020-10-13T09:15:00Z\\\",\\\"departedAt\\\":\\\"2020-10-13T10:45:00Z\\\"},\\\"destination\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Sacramento\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"95814\\\",\\\"appointmentDateTime\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentStartedAt\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentEndedAt\\\":\\\"2020-10-13T11:00:00Z\\\",\\\"arrivedAt\\\":\\\"2020-10-13T09:15:00Z\\\",\\\"departedAt\\\":\\\"2020-10-13T10:45:00Z\\\"},\\\"extraStops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"},\\\"type\\\":\\\"LOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-14T16:00:00Z\\\"},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"},\\\"type\\\":\\\"UNLOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-15T16:00:00Z\\\"}],\\\"rate\\\":{\\\"totalShipperLinehaulCost\\\":1176,\\\"totalLinehaulCost\\\":956,\\\"totalFuelCost\\\":45,\\\"accessorials\\\":[{\\\"name\\\":\\\"Overweight\\\",\\\"shipperCost\\\":200,\\\"carrierCost\\\":0}],\\\"totalShipperCost\\\":1276,\\\"totalCarrierCost\\\":1130,\\\"currency\\\":\\\"USD\\\"},\\\"pickupDate\\\":\\\"2021-09-21T13:00:00-04:00\\\",\\\"deliveredDate\\\":\\\"2021-09-22T18:00:00-04:00\\\",\\\"transportType\\\":\\\"VR\\\",\\\"transportTypeGroup\\\":\\\"VAN\\\",\\\"transportMode\\\":\\\"FTL\\\",\\\"status\\\":\\\"OPEN\\\",\\\"details\\\":{\\\"distance\\\":434,\\\"miles\\\":434,\\\"commodity\\\":\\\"Racks\\\",\\\"weight\\\":22000,\\\"tenderedDate\\\":\\\"2020-01-11T16:00:00Z\\\",\\\"bookedDate\\\":\\\"2020-01-11T16:00:00Z\\\",\\\"tordFlag\\\":false,\\\"hazmat\\\":false,\\\"hotshot\\\":false,\\\"teamDrive\\\":false,\\\"overdimensional\\\":false,\\\"dedicatedCarrierContract\\\":false,\\\"asset\\\":false,\\\"pricingType\\\":\\\"Spot\\\",\\\"pricingTypeGroup\\\":\\\"SPOT\\\",\\\"carrierAccountManager\\\":\\\"John Doe\\\",\\\"shipperAccountManager\\\":\\\"John Doe\\\",\\\"salesManager\\\":\\\"John Doe\\\",\\\"userGroupId\\\":\\\"Main office\\\",\\\"office\\\":\\\"Main office\\\"},\\\"shipper\\\":{\\\"id\\\":\\\"12345\\\",\\\"name\\\":\\\"Shipper company\\\"},\\\"carrier\\\":{\\\"id\\\":\\\"12345\\\",\\\"name\\\":\\\"Carrier company\\\"}}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /tms/batch/import-load:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - TMS
+      summary: Imports loads in batches
+      security:
+      - TmsConnector_bearerAuth: []
+      description: Used to import and/or update loads in batches
+      operationId: tmsBatchImportLoad
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsConnector_BatchImportLoadRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_BatchImportLoadResponse'
+        '400':
+          $ref: '#/paths/~1tms~1import-load/post/responses/400'
+        '401':
+          $ref: '#/paths/~1tms~1import-load/post/responses/401'
+        '403':
+          $ref: '#/paths/~1tms~1import-load/post/responses/403'
+        '422':
+          $ref: '#/paths/~1tms~1import-load/post/responses/422'
+        '429':
+          $ref: '#/paths/~1tms~1import-load/post/responses/429'
+        '500':
+          $ref: '#/paths/~1tms~1import-load/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/tms/batch/import-load',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    loads: [\n      {\n        loadId: '12345',\n        origin: {\n          country: 'US',\n          city: 'Sacramento',\n          state: 'CA',\n          zip: '95814',\n          appointmentDateTime: '2020-10-13T09:00:00Z',\n          scheduledAppointmentStartedAt: '2020-10-13T09:00:00Z',\n          scheduledAppointmentEndedAt: '2020-10-13T11:00:00Z',\n          arrivedAt: '2020-10-13T09:15:00Z',\n          departedAt: '2020-10-13T10:45:00Z'\n        },\n        destination: {\n          country: 'US',\n          city: 'Sacramento',\n          state: 'CA',\n          zip: '95814',\n          appointmentDateTime: '2020-10-13T09:00:00Z',\n          scheduledAppointmentStartedAt: '2020-10-13T09:00:00Z',\n          scheduledAppointmentEndedAt: '2020-10-13T11:00:00Z',\n          arrivedAt: '2020-10-13T09:15:00Z',\n          departedAt: '2020-10-13T10:45:00Z'\n        },\n        extraStops: [\n          {\n            order: 0,\n            address: {country: 'US', city: 'Red Bluff', state: 'CA', zip: '96080'},\n            type: 'LOAD',\n            appointmentDateTime: '2020-10-14T16:00:00Z'\n          },\n          {\n            order: 1,\n            address: {country: 'US', city: 'Redding', state: 'CA', zip: '96002'},\n            type: 'UNLOAD',\n            appointmentDateTime: '2020-10-15T16:00:00Z'\n          }\n        ],\n        rate: {\n          totalShipperLinehaulCost: 1176,\n          totalLinehaulCost: 956,\n          totalFuelCost: 45,\n          accessorials: [{name: 'Overweight', shipperCost: 200, carrierCost: 0}],\n          totalShipperCost: 1276,\n          totalCarrierCost: 1130,\n          currency: 'USD'\n        },\n        pickupDate: '2021-09-21T13:00:00-04:00',\n        deliveredDate: '2021-09-22T18:00:00-04:00',\n        transportType: 'VR',\n        transportTypeGroup: 'VAN',\n        transportMode: 'FTL',\n        status: 'OPEN',\n        details: {\n          distance: 434,\n          miles: 434,\n          commodity: 'Racks',\n          weight: 22000,\n          tenderedDate: '2020-01-11T16:00:00Z',\n          bookedDate: '2020-01-11T16:00:00Z',\n          tordFlag: false,\n          hazmat: false,\n          hotshot: false,\n          teamDrive: false,\n          overdimensional: false,\n          dedicatedCarrierContract: false,\n          asset: false,\n          pricingType: 'Spot',\n          pricingTypeGroup: 'SPOT',\n          carrierAccountManager: 'John Doe',\n          shipperAccountManager: 'John Doe',\n          salesManager: 'John Doe',\n          userGroupId: 'Main office',\n          office: 'Main office'\n        },\n        shipper: {id: '12345', name: 'Shipper company'},\n        carrier: {id: '12345', name: 'Carrier company'}\n      }\n    ]\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/tms/batch/import-load\"\n\npayload = {\"loads\": [\n        {\n            \"loadId\": \"12345\",\n            \"origin\": {\n                \"country\": \"US\",\n                \"city\": \"Sacramento\",\n                \"state\": \"CA\",\n                \"zip\": \"95814\",\n                \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n                \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n                \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n                \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n                \"departedAt\": \"2020-10-13T10:45:00Z\"\n            },\n            \"destination\": {\n                \"country\": \"US\",\n                \"city\": \"Sacramento\",\n                \"state\": \"CA\",\n                \"zip\": \"95814\",\n                \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n                \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n                \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n                \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n                \"departedAt\": \"2020-10-13T10:45:00Z\"\n            },\n            \"extraStops\": [\n                {\n                    \"order\": 0,\n                    \"address\": {\n                        \"country\": \"US\",\n                        \"city\": \"Red Bluff\",\n                        \"state\": \"CA\",\n                        \"zip\": \"96080\"\n                    },\n                    \"type\": \"LOAD\",\n                    \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n                },\n                {\n                    \"order\": 1,\n                    \"address\": {\n                        \"country\": \"US\",\n                        \"city\": \"Redding\",\n                        \"state\": \"CA\",\n                        \"zip\": \"96002\"\n                    },\n                    \"type\": \"UNLOAD\",\n                    \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n                }\n            ],\n            \"rate\": {\n                \"totalShipperLinehaulCost\": 1176,\n                \"totalLinehaulCost\": 956,\n                \"totalFuelCost\": 45,\n                \"accessorials\": [\n                    {\n                        \"name\": \"Overweight\",\n                        \"shipperCost\": 200,\n                        \"carrierCost\": 0\n                    }\n                ],\n                \"totalShipperCost\": 1276,\n                \"totalCarrierCost\": 1130,\n                \"currency\": \"USD\"\n            },\n            \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n            \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n            \"transportType\": \"VR\",\n            \"transportTypeGroup\": \"VAN\",\n            \"transportMode\": \"FTL\",\n            \"status\": \"OPEN\",\n            \"details\": {\n                \"distance\": 434,\n                \"miles\": 434,\n                \"commodity\": \"Racks\",\n                \"weight\": 22000,\n                \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n                \"bookedDate\": \"2020-01-11T16:00:00Z\",\n                \"tordFlag\": False,\n                \"hazmat\": False,\n                \"hotshot\": False,\n                \"teamDrive\": False,\n                \"overdimensional\": False,\n                \"dedicatedCarrierContract\": False,\n                \"asset\": False,\n                \"pricingType\": \"Spot\",\n                \"pricingTypeGroup\": \"SPOT\",\n                \"carrierAccountManager\": \"John Doe\",\n                \"shipperAccountManager\": \"John Doe\",\n                \"salesManager\": \"John Doe\",\n                \"userGroupId\": \"Main office\",\n                \"office\": \"Main office\"\n            },\n            \"shipper\": {\n                \"id\": \"12345\",\n                \"name\": \"Shipper company\"\n            },\n            \"carrier\": {\n                \"id\": \"12345\",\n                \"name\": \"Carrier company\"\n            }\n        }\n    ]}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/tms/batch/import-load\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"loads\\\":[{\\\"loadId\\\":\\\"12345\\\",\\\"origin\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Sacramento\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"95814\\\",\\\"appointmentDateTime\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentStartedAt\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentEndedAt\\\":\\\"2020-10-13T11:00:00Z\\\",\\\"arrivedAt\\\":\\\"2020-10-13T09:15:00Z\\\",\\\"departedAt\\\":\\\"2020-10-13T10:45:00Z\\\"},\\\"destination\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Sacramento\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"95814\\\",\\\"appointmentDateTime\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentStartedAt\\\":\\\"2020-10-13T09:00:00Z\\\",\\\"scheduledAppointmentEndedAt\\\":\\\"2020-10-13T11:00:00Z\\\",\\\"arrivedAt\\\":\\\"2020-10-13T09:15:00Z\\\",\\\"departedAt\\\":\\\"2020-10-13T10:45:00Z\\\"},\\\"extraStops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"},\\\"type\\\":\\\"LOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-14T16:00:00Z\\\"},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"},\\\"type\\\":\\\"UNLOAD\\\",\\\"appointmentDateTime\\\":\\\"2020-10-15T16:00:00Z\\\"}],\\\"rate\\\":{\\\"totalShipperLinehaulCost\\\":1176,\\\"totalLinehaulCost\\\":956,\\\"totalFuelCost\\\":45,\\\"accessorials\\\":[{\\\"name\\\":\\\"Overweight\\\",\\\"shipperCost\\\":200,\\\"carrierCost\\\":0}],\\\"totalShipperCost\\\":1276,\\\"totalCarrierCost\\\":1130,\\\"currency\\\":\\\"USD\\\"},\\\"pickupDate\\\":\\\"2021-09-21T13:00:00-04:00\\\",\\\"deliveredDate\\\":\\\"2021-09-22T18:00:00-04:00\\\",\\\"transportType\\\":\\\"VR\\\",\\\"transportTypeGroup\\\":\\\"VAN\\\",\\\"transportMode\\\":\\\"FTL\\\",\\\"status\\\":\\\"OPEN\\\",\\\"details\\\":{\\\"distance\\\":434,\\\"miles\\\":434,\\\"commodity\\\":\\\"Racks\\\",\\\"weight\\\":22000,\\\"tenderedDate\\\":\\\"2020-01-11T16:00:00Z\\\",\\\"bookedDate\\\":\\\"2020-01-11T16:00:00Z\\\",\\\"tordFlag\\\":false,\\\"hazmat\\\":false,\\\"hotshot\\\":false,\\\"teamDrive\\\":false,\\\"overdimensional\\\":false,\\\"dedicatedCarrierContract\\\":false,\\\"asset\\\":false,\\\"pricingType\\\":\\\"Spot\\\",\\\"pricingTypeGroup\\\":\\\"SPOT\\\",\\\"carrierAccountManager\\\":\\\"John Doe\\\",\\\"shipperAccountManager\\\":\\\"John Doe\\\",\\\"salesManager\\\":\\\"John Doe\\\",\\\"userGroupId\\\":\\\"Main office\\\",\\\"office\\\":\\\"Main office\\\"},\\\"shipper\\\":{\\\"id\\\":\\\"12345\\\",\\\"name\\\":\\\"Shipper company\\\"},\\\"carrier\\\":{\\\"id\\\":\\\"12345\\\",\\\"name\\\":\\\"Carrier company\\\"}}]}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /tms/import-carrier:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - TMS
+      summary: Import carrier
+      security:
+      - TmsConnector_bearerAuth: []
+      description: Import a new carrier or update an existing one
+      operationId: tmsImportCarrier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsConnector_CarrierProfile'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_ImportProfileResponse'
+        '400':
+          $ref: '#/paths/~1tms~1import-load/post/responses/400'
+        '401':
+          $ref: '#/paths/~1tms~1import-load/post/responses/401'
+        '403':
+          $ref: '#/paths/~1tms~1import-load/post/responses/403'
+        '422':
+          description: Unprocessable Entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_Error'
+              examples:
+                error422Example:
+                  value:
+                    code: missing_property
+                    message: 'Missing property: body'
+        '429':
+          $ref: '#/paths/~1tms~1import-load/post/responses/429'
+        '500':
+          $ref: '#/paths/~1tms~1import-load/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/tms/import-carrier',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    profileId: '13441524',\n    companyName: 'Carggo',\n    legalName: 'Carggo',\n    mc: '122356',\n    dot: '87650005',\n    scac: 'CGGK',\n    contact: {name: 'John', phoneNumber: '121331343', email: 'my@email.com'},\n    status: 'ACTIVE'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/tms/import-carrier\"\n\npayload = {\n    \"profileId\": \"13441524\",\n    \"companyName\": \"Carggo\",\n    \"legalName\": \"Carggo\",\n    \"mc\": \"122356\",\n    \"dot\": \"87650005\",\n    \"scac\": \"CGGK\",\n    \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n    },\n    \"status\": \"ACTIVE\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/tms/import-carrier\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"profileId\\\":\\\"13441524\\\",\\\"companyName\\\":\\\"Carggo\\\",\\\"legalName\\\":\\\"Carggo\\\",\\\"mc\\\":\\\"122356\\\",\\\"dot\\\":\\\"87650005\\\",\\\"scac\\\":\\\"CGGK\\\",\\\"contact\\\":{\\\"name\\\":\\\"John\\\",\\\"phoneNumber\\\":\\\"121331343\\\",\\\"email\\\":\\\"my@email.com\\\"},\\\"status\\\":\\\"ACTIVE\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /tms/batch/import-carrier:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - TMS
+      summary: Import carriers in batches
+      security:
+      - TmsConnector_bearerAuth: []
+      description: Import a batch of carrier profiles
+      operationId: tmsBatchImportCarrier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsConnector_BatchImportCarrierRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_BatchImportProfileResponse'
+        '400':
+          $ref: '#/paths/~1tms~1import-load/post/responses/400'
+        '401':
+          $ref: '#/paths/~1tms~1import-load/post/responses/401'
+        '403':
+          $ref: '#/paths/~1tms~1import-load/post/responses/403'
+        '422':
+          $ref: '#/paths/~1tms~1import-carrier/post/responses/422'
+        '429':
+          $ref: '#/paths/~1tms~1import-load/post/responses/429'
+        '500':
+          $ref: '#/paths/~1tms~1import-load/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/tms/batch/import-carrier',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    carriers: [\n      {\n        profileId: '13441524',\n        companyName: 'Carggo',\n        legalName: 'Carggo',\n        mc: '122356',\n        dot: '87650005',\n        scac: 'CGGK',\n        contact: {name: 'John', phoneNumber: '121331343', email: 'my@email.com'},\n        status: 'ACTIVE'\n      }\n    ]\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/tms/batch/import-carrier\"\n\npayload = {\"carriers\": [\n        {\n            \"profileId\": \"13441524\",\n            \"companyName\": \"Carggo\",\n            \"legalName\": \"Carggo\",\n            \"mc\": \"122356\",\n            \"dot\": \"87650005\",\n            \"scac\": \"CGGK\",\n            \"contact\": {\n                \"name\": \"John\",\n                \"phoneNumber\": \"121331343\",\n                \"email\": \"my@email.com\"\n            },\n            \"status\": \"ACTIVE\"\n        }\n    ]}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/tms/batch/import-carrier\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"carriers\\\":[{\\\"profileId\\\":\\\"13441524\\\",\\\"companyName\\\":\\\"Carggo\\\",\\\"legalName\\\":\\\"Carggo\\\",\\\"mc\\\":\\\"122356\\\",\\\"dot\\\":\\\"87650005\\\",\\\"scac\\\":\\\"CGGK\\\",\\\"contact\\\":{\\\"name\\\":\\\"John\\\",\\\"phoneNumber\\\":\\\"121331343\\\",\\\"email\\\":\\\"my@email.com\\\"},\\\"status\\\":\\\"ACTIVE\\\"}]}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /tms/import-shipper:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - TMS
+      summary: Import shipper
+      security:
+      - TmsConnector_bearerAuth: []
+      description: Import a new shipper or update an existing one
+      operationId: tmsShipper
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsConnector_ShipperProfile'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_ImportProfileResponse'
+        '400':
+          $ref: '#/paths/~1tms~1import-load/post/responses/400'
+        '401':
+          $ref: '#/paths/~1tms~1import-load/post/responses/401'
+        '403':
+          $ref: '#/paths/~1tms~1import-load/post/responses/403'
+        '422':
+          $ref: '#/paths/~1tms~1import-carrier/post/responses/422'
+        '429':
+          $ref: '#/paths/~1tms~1import-load/post/responses/429'
+        '500':
+          $ref: '#/paths/~1tms~1import-load/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/tms/import-shipper',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    profileId: '13441524',\n    companyName: 'Carggo',\n    legalName: 'Carggo',\n    contact: {name: 'John', phoneNumber: '121331343', email: 'my@email.com'},\n    accountManager: 'JAMES',\n    status: 'ACTIVE',\n    userGroupId: 'Main office'\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/tms/import-shipper\"\n\npayload = {\n    \"profileId\": \"13441524\",\n    \"companyName\": \"Carggo\",\n    \"legalName\": \"Carggo\",\n    \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n    },\n    \"accountManager\": \"JAMES\",\n    \"status\": \"ACTIVE\",\n    \"userGroupId\": \"Main office\"\n}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/tms/import-shipper\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"profileId\\\":\\\"13441524\\\",\\\"companyName\\\":\\\"Carggo\\\",\\\"legalName\\\":\\\"Carggo\\\",\\\"contact\\\":{\\\"name\\\":\\\"John\\\",\\\"phoneNumber\\\":\\\"121331343\\\",\\\"email\\\":\\\"my@email.com\\\"},\\\"accountManager\\\":\\\"JAMES\\\",\\\"status\\\":\\\"ACTIVE\\\",\\\"userGroupId\\\":\\\"Main office\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /tms/batch/import-shipper:
+    servers:
+    - url: https://testapi.greenscreens.ai/v2
+      description: Testing server (dev environment)
+    - url: https://sandboxapi.greenscreens.ai/v2
+      description: Sandbox server (as stable as production, but has no data)
+    - url: https://api.greenscreens.ai/v2
+      description: Production server (uses live data)
+    post:
+      tags:
+      - TMS
+      summary: Import shippers in batches
+      security:
+      - TmsConnector_bearerAuth: []
+      description: Import a batch of shipper profiles
+      operationId: tmsBatchImportShipper
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TmsConnector_BatchImportShipperRequest'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TmsConnector_BatchImportProfileResponse'
+        '400':
+          $ref: '#/paths/~1tms~1import-load/post/responses/400'
+        '401':
+          $ref: '#/paths/~1tms~1import-load/post/responses/401'
+        '403':
+          $ref: '#/paths/~1tms~1import-load/post/responses/403'
+        '422':
+          $ref: '#/paths/~1tms~1import-carrier/post/responses/422'
+        '429':
+          $ref: '#/paths/~1tms~1import-load/post/responses/429'
+        '500':
+          $ref: '#/paths/~1tms~1import-load/post/responses/500'
+      x-codeSamples:
+      - lang: Node + Request
+        source: "const request = require('request');\n\nconst options = {\n  method: 'POST',\n  url: 'https://testapi.greenscreens.ai/v2/tms/batch/import-shipper',\n  headers: {\n    'content-type': 'application/json',\n    Authorization: 'Bearer REPLACE_BEARER_TOKEN'\n  },\n  body: {\n    shippers: [\n      {\n        profileId: '13441524',\n        companyName: 'Carggo',\n        legalName: 'Carggo',\n        contact: {name: 'John', phoneNumber: '121331343', email: 'my@email.com'},\n        accountManager: 'JAMES',\n        status: 'ACTIVE',\n        userGroupId: 'Main office'\n      }\n    ]\n  },\n  json: true\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
+      - lang: Python + Requests
+        source: "import requests\n\nurl = \"https://testapi.greenscreens.ai/v2/tms/batch/import-shipper\"\n\npayload = {\"shippers\": [\n        {\n            \"profileId\": \"13441524\",\n            \"companyName\": \"Carggo\",\n            \"legalName\": \"Carggo\",\n            \"contact\": {\n                \"name\": \"John\",\n                \"phoneNumber\": \"121331343\",\n                \"email\": \"my@email.com\"\n            },\n            \"accountManager\": \"JAMES\",\n            \"status\": \"ACTIVE\",\n            \"userGroupId\": \"Main office\"\n        }\n    ]}\nheaders = {\n    \"content-type\": \"application/json\",\n    \"Authorization\": \"Bearer REPLACE_BEARER_TOKEN\"\n}\n\nresponse = requests.request(\"POST\", url, json=payload, headers=headers)\n\nprint(response.text)"
+      - lang: Php + Curl
+        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/tms/batch/import-shipper\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"shippers\\\":[{\\\"profileId\\\":\\\"13441524\\\",\\\"companyName\\\":\\\"Carggo\\\",\\\"legalName\\\":\\\"Carggo\\\",\\\"contact\\\":{\\\"name\\\":\\\"John\\\",\\\"phoneNumber\\\":\\\"121331343\\\",\\\"email\\\":\\\"my@email.com\\\"},\\\"accountManager\\\":\\\"JAMES\\\",\\\"status\\\":\\\"ACTIVE\\\",\\\"userGroupId\\\":\\\"Main office\\\"}]}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+components:
+  schemas:
+    TmsConnector_CarrierProfile:
+      type: object
+      properties:
+        profileId:
+          type: string
+          description: Profile id
+          example: '13441524'
+        companyName:
+          type: string
+          description: Company name
+          example: Carggo
+        legalName:
+          type: string
+          description: The official name of entity that owns a business
+          example: Carggo
+        mc:
+          type: string
+          description: Operating authority number assigned by the FMCSA to both carriers and brokers
+          example: '122356'
+        dot:
+          type: string
+          description: USDOT number assigned by the FMCSA to companies that operate commercial vehicles
+          example: '87650005'
+        scac:
+          type: string
+          description: Standard Carrier Alpha Code to identify vessel operating common carriers
+          example: CGGK
+        contact:
+          $ref: '#/components/schemas/TmsConnector_ContactObject'
+        status:
+          $ref: '#/components/schemas/TmsConnector_ProfileStatus'
+      required:
+      - profileId
+      - companyName
+    TmsConnector_ExtraStops:
+      type: array
+      items:
+        $ref: '#/components/schemas/TmsConnector_ExtraStop'
+      description: 'Any extra stops along the route between the origin and destination points
+
+        '
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
+    TmsConnector_ImportProfileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the profile used to identify it in our platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        profileId:
+          type: string
+          description: Id of the profile provided by the client in the import request
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          description: "Result of the profile import operation: \n* CREATED - means that a new profile was created \n* UPDATED - means that a profile with the same profileId was found and updated\n"
+          example: CREATED
+      required:
+      - id
+      - profileId
+      - status
+    TmsConnector_BatchImportLoadRequest:
+      type: object
+      properties:
+        loads:
+          type: array
+          description: List of loads to import or update
+          items:
+            $ref: '#/components/schemas/TmsConnector_ImportLoadRequest'
+      required:
+      - loads
+    TmsConnector_BatchImportLoadResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of load batch import results
+          items:
+            $ref: '#/components/schemas/TmsConnector_BatchImportLoadResponseItem'
+      required:
+      - responses
+    TmsConnector_ImportLoadRequest:
+      type: object
+      properties:
+        loadId:
+          type: string
+          description: "Unique load id from external TMS. \n\nIf a load with same loadId will be found in our platform during import, \nit will be updated. Otherwise a new load will be created.\n"
+          example: '12345'
+        origin:
+          $ref: '#/components/schemas/TmsConnector_StopLocation'
+        destination:
+          $ref: '#/components/schemas/TmsConnector_StopLocation'
+        extraStops:
+          $ref: '#/components/schemas/TmsConnector_ExtraStops'
+        rate:
+          $ref: '#/components/schemas/TmsConnector_Rate'
+        pickupDate:
+          type: string
+          format: date-time
+          description: 'Pick up date in ISO date format in the time zone of the pick up location
+
+            '
+          example: '2021-09-21T13:00:00-04:00'
+        deliveredDate:
+          type: string
+          format: date-time
+          description: 'Delivery date in ISO date format in the time zone of the drop off location
+
+            '
+          example: '2021-09-22T18:00:00-04:00'
+        transportType:
+          type: string
+          description: Transport type (original transport type used in provider TMS)
+          example: VR
+        transportTypeGroup:
+          $ref: '#/components/schemas/TmsConnector_TransportTypeGroup'
+        transportMode:
+          type: string
+          enum:
+          - FTL
+          - LTL
+          - PARCEL
+          - INTERMODAL
+          - OTHER
+          description: Transport mode
+          default: FTL
+          example: FTL
+        status:
+          type: string
+          enum:
+          - OPEN
+          - COVERED
+          - PICKUP
+          - LOADED
+          - STOP
+          - DROPOFF
+          - DELIVERED
+          - TENDER_REJECTED
+          - CLOSED
+          - CANCELED
+          - OTHER
+          description: 'Load status.
+
+
+            * OPEN - Created
+
+            * COVERED - Carrier assigned
+
+            * PICKUP - On the pickup stop
+
+            * LOADED - In transit
+
+            * STOP - On the extra stop
+
+            * DROPOFF - On the drop off stop
+
+            * DELIVERED - Delivered
+
+            * TENDER_REJECTED - Tender is rejected
+
+            * CLOSED - All money paid. Processing over
+
+            * CANCELED - Canceled
+
+            * OTHER - Any other status, not mentioned in this enum
+
+            '
+          example: OPEN
+        details:
+          $ref: '#/components/schemas/TmsConnector_Details'
+        shipper:
+          $ref: '#/components/schemas/TmsConnector_Shipper'
+        carrier:
+          $ref: '#/components/schemas/TmsConnector_Carrier'
+      required:
+      - loadId
+      - origin
+      - destination
+      - rate
+      - pickupDate
+      - transportTypeGroup
+      - transportType
+    TmsConnector_ExtraStopAddress:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        city:
+          type: string
+          description: City name
+          example: Sacramento
+        state:
+          type: string
+          description: Two letter state code
+          example: CA
+        zip:
+          type: string
+          description: Zip code
+          example: '95814'
+      required:
+      - country
+    TmsConnector_Carrier:
+      type: object
+      description: Carrier data
+      properties:
+        id:
+          type: string
+          description: Carrier ID
+          example: '12345'
+        name:
+          type: string
+          description: Carrier company name
+          example: Carrier company
+      required:
+      - id
+    TmsConnector_BatchImportProfileResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of profile batch import results
+          items:
+            $ref: '#/components/schemas/TmsConnector_BatchImportProfileResponseItem'
+      required:
+      - responses
+    TmsConnector_BatchImportProfileResponseItem:
+      type: object
+      description: Import result data for a particular profile from the imported batch
+      properties:
+        id:
+          type: string
+          description: Id of the profile used to identify it in our platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        profileId:
+          type: string
+          description: Id of the profile provided by the client in the import request
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          - ERROR
+          description: "Result of the profile import operation: \n* CREATED - means that a new profile was created \n* UPDATED - means that a profile with the same profileId was found and updated\n* ERROR - an error occurred during profile import\n"
+          example: CREATED
+        code:
+          type: string
+          description: When status is ERROR, contains a unique string identifier of the error
+          example: validation_errors_occured
+        message:
+          type: string
+          description: When status is ERROR, contains a human readable error message
+          example: Validation errors occured, check errors array for details
+        errors:
+          type: array
+          description: A list of validation errors that occurred during import.
+          items:
+            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
+      required:
+      - profileId
+      - status
+    TmsConnector_Accessorial:
+      type: object
+      nullable: true
+      description: Contains load accessorial information like name and costs
+      properties:
+        name:
+          type: string
+          description: Accessorial name
+          example: Overweight
+        shipperCost:
+          type: number
+          description: Shipper's flat cost for this accessorial
+          example: 200
+        carrierCost:
+          type: number
+          description: Carrier's flat cost for this accessorial
+          example: 0
+      required:
+      - name
+    TmsConnector_Shipper:
+      type: object
+      description: Shipper data
+      properties:
+        id:
+          type: string
+          description: Shipper ID
+          example: '12345'
+        name:
+          type: string
+          description: Shipper company name
+          example: Shipper company
+      required:
+      - id
+    TmsConnector_TransportTypeGroup:
+      type: string
+      description: Transport type group
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      - OTHER
+      example: VAN
+    TmsConnector_ProfileStatus:
+      type: string
+      description: 'Signifies whether the imported profile is in Active or Inactive status
+
+        '
+      enum:
+      - ACTIVE
+      - INACTIVE
+      example: ACTIVE
+      default: ACTIVE
+    TmsConnector_PricingTypeGroup:
+      type: string
+      description: 'How this shipment was priced to the shipper in the following groupings
+
+        (CONTRACT, SPOT, or OTHER)
+
+        '
+      enum:
+      - CONTRACT
+      - SPOT
+      - OTHER
+      example: SPOT
+    TmsConnector_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    TmsConnector_BatchImportShipperRequest:
+      type: object
+      properties:
+        shippers:
+          type: array
+          description: List of shipper profiles to import or update
+          items:
+            $ref: '#/components/schemas/TmsConnector_ShipperProfile'
+      required:
+      - shippers
+    TmsConnector_Rate:
+      type: object
+      description: Load rate data
+      properties:
+        totalShipperLinehaulCost:
+          type: number
+          minimum: 0
+          description: "Original agreed to price with the shipper. \nIncluding fuel. \nNo accessorials\n"
+          example: 1176
+        totalLinehaulCost:
+          type: number
+          minimum: 0
+          description: 'Load linehaul cost for the carrier.
+
+            Including fuel.
+
+            No accessorials.
+
+            '
+          example: 956
+        totalFuelCost:
+          type: number
+          minimum: 0
+          description: Fuel surcharge for the load
+          example: 45
+        accessorials:
+          $ref: '#/components/schemas/TmsConnector_Accessorials'
+        totalShipperCost:
+          type: number
+          minimum: 0
+          description: Total load cost for shipper including fuel and accessorials
+          example: 1276
+        totalCarrierCost:
+          type: number
+          minimum: 0
+          description: Total load cost for carrier including fuel and accessorials
+          example: 1130
+        currency:
+          type: string
+          description: 'Currency in which the costs were provided (ISO 4217). Defaults to USD.
+
+            '
+          example: USD
+      required:
+      - totalLinehaulCost
+    TmsConnector_Accessorials:
+      type: array
+      description: Accessorial list
+      items:
+        $ref: '#/components/schemas/TmsConnector_Accessorial'
+    TmsConnector_RequestValidationError:
+      type: object
+      description: Request validation error
+      properties:
+        field:
+          type: string
+          description: Name of the field that did not pass validation
+          example: transportType
+        message:
+          type: string
+          description: Human readable error mesage explaining why validation failed
+          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+        value:
+          type: string
+          nullable: true
+          description: Value of the field that did not pass validation
+          example: SpaceXDragon
+      required:
+      - field
+      - message
+    TmsConnector_BatchImportCarrierRequest:
+      type: object
+      properties:
+        carriers:
+          type: array
+          description: List of carriers to import or update
+          items:
+            $ref: '#/components/schemas/TmsConnector_CarrierProfile'
+      required:
+      - carriers
+    TmsConnector_ExtraStop:
+      type: object
+      description: Extra stop
+      properties:
+        order:
+          type: integer
+          description: Extra stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/TmsConnector_ExtraStopAddress'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop.
+
+
+            Leave this field empty if you do not know the stop type.
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T16:00:00Z'
+        scheduledAppointmentStartedAt:
+          type: string
+          format: date-time
+          description: 'Start of the scheduled appointment window at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T09:00:00Z'
+        scheduledAppointmentEndedAt:
+          type: string
+          format: date-time
+          description: 'End of the scheduled appointment window at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T11:00:00Z'
+        arrivedAt:
+          type: string
+          format: date-time
+          description: 'Actual arrival date and time at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T09:15:00Z'
+        departedAt:
+          type: string
+          format: date-time
+          description: 'Actual departure date and time from this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T10:45:00Z'
+      required:
+      - order
+      - address
+    TmsConnector_ImportLoadResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the load used to identify it in our platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        loadId:
+          type: string
+          description: Id of the load provided by the client in the import request
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          description: "Result of the load import operation: \n* CREATED - means that a new load was created \n* UPDATED - means that a load with the same loadId was found and updated\n"
+          example: CREATED
+      required:
+      - id
+      - loadId
+      - status
+    TmsConnector_StopLocation:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        city:
+          type: string
+          description: City name
+          example: Sacramento
+        state:
+          type: string
+          description: Two letter state code
+          example: CA
+        zip:
+          type: string
+          description: Zip code
+          example: '95814'
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T09:00:00Z'
+        scheduledAppointmentStartedAt:
+          type: string
+          format: date-time
+          description: 'Start of the scheduled appointment window at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T09:00:00Z'
+        scheduledAppointmentEndedAt:
+          type: string
+          format: date-time
+          description: 'End of the scheduled appointment window at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T11:00:00Z'
+        arrivedAt:
+          type: string
+          format: date-time
+          description: 'Actual arrival date and time at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T09:15:00Z'
+        departedAt:
+          type: string
+          format: date-time
+          description: 'Actual departure date and time from this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T10:45:00Z'
+      required:
+      - country
+    TmsConnector_Error422UnprocessableEntityMulti:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          description: list of errors
+          items:
+            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
+      required:
+      - code
+      - message
+      - errors
+      example:
+        code: request_validation
+        message: You have one or more errors in request structure
+        errors:
+        - field: carrierName
+          message: field contains wrong data type (int), should be string
+          value: '22'
+        - field: shipperId
+          message: 'shipperId: must not be null'
+          value: null
+        - field: loadSource.loadId
+          message: 'loadId: must not be null'
+          value: null
+    TmsConnector_BatchImportLoadResponseItem:
+      type: object
+      description: Import result data for a particular load from the imported batch
+      properties:
+        id:
+          type: string
+          description: Load Id in the platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        loadId:
+          type: string
+          description: Unique internal load identifier from TMS
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          - ERROR
+          description: "Load import status. \n* CREATED - a new load was imported\n* UPDATED - an existing load was updated\n* ERROR - an error occurred during load import\n"
+          example: CREATED
+        code:
+          type: string
+          description: When status is ERROR, contains a unique string identifier of the error
+          example: validation_errors_occured
+        message:
+          type: string
+          description: When status is ERROR, contains a human readable error message
+          example: Validation errors occured, check errors array for details
+        errors:
+          type: array
+          description: A list of validation errors that occurred during import.
+          items:
+            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
+      required:
+      - id
+      - loadId
+      - status
+    TmsConnector_ContactObject:
+      type: object
+      description: Contact data
+      properties:
+        name:
+          type: string
+          description: Contact name
+          example: John
+        phoneNumber:
+          type: string
+          description: Contact phone number
+          example: '121331343'
+        email:
+          type: string
+          description: Contact email
+          example: my@email.com
+    TmsConnector_ShipperProfile:
+      type: object
+      properties:
+        profileId:
+          type: string
+          description: Profile id
+          example: '13441524'
+        companyName:
+          type: string
+          description: Company name
+          example: Carggo
+        legalName:
+          type: string
+          description: The official name of entity that owns a business
+          example: Carggo
+        contact:
+          $ref: '#/components/schemas/TmsConnector_ContactObject'
+        accountManager:
+          type: string
+          description: Shipper account manager on the broker side
+          example: JAMES
+        status:
+          $ref: '#/components/schemas/TmsConnector_ProfileStatus'
+        userGroupId:
+          type: string
+          description: "A unique identifier (id) of a user group, \nthat this profile belongs to. e.g. Main company or an Agency\n"
+          example: Main office
+      required:
+      - profileId
+      - companyName
+    TmsConnector_Details:
+      type: object
+      description: Additional optional data about the load.
+      properties:
+        distance:
+          type: number
+          format: float
+          description: 'Distance between origin and destination. In miles.
+
+            '
+          example: 434
+        miles:
+          type: number
+          format: float
+          description: 'Total miles between origin and destination  (this field is deprecated, use ''distance'' instead)
+
+            '
+          example: 434
+          deprecated: true
+        commodity:
+          type: string
+          description: Commodity discription in free form
+          example: Racks
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 22000
+        tenderedDate:
+          type: string
+          format: date-time
+          description: Date when load was tendered
+          example: '2020-01-11T16:00:00Z'
+        bookedDate:
+          type: string
+          format: date-time
+          description: Date when carrier was assigned to the load
+          example: '2020-01-11T16:00:00Z'
+        tordFlag:
+          type: boolean
+          description: \"Truck order not used\" flag
+          example: false
+        hazmat:
+          type: boolean
+          description: Hazmat endorsement is needed for this load
+          example: false
+        hotshot:
+          type: boolean
+          description: This signifies whether hotshot is used
+          example: false
+        teamDrive:
+          type: boolean
+          description: Signifies whether team drivers are needed for the load
+          example: false
+        overdimensional:
+          type: boolean
+          description: Signifies whether the load is overdimensional or not
+          example: false
+        dedicatedCarrierContract:
+          type: boolean
+          description: Signifies whether there was a dedicated contract with the carrier on the load
+          example: false
+        asset:
+          type: boolean
+          description: Signifies whether the load is an asset load
+          example: false
+        pricingType:
+          type: string
+          description: "How this shipment was priced to the shipper according to your methodology \n(Primary, Backup, Spot, Spot_api, Spot_EDI, Primary_cost_plus, Contract, etc.)\n"
+          example: Spot
+        pricingTypeGroup:
+          $ref: '#/components/schemas/TmsConnector_PricingTypeGroup'
+        carrierAccountManager:
+          type: string
+          description: "Carrier account manager. Aka Buy side rep or Operational rep. \n\nThe person that found/bought carrier services for this shipment.\n"
+          example: John Doe
+        shipperAccountManager:
+          type: string
+          description: "Shipper account manager. Aka Account Manager.\n\nThe person that \"owns\" the ongoing care and support of the shipper/customer\nthat this shipment belongs to. \n\nSometimes this manager is also the Sales manager.\n"
+          example: John Doe
+        salesManager:
+          type: string
+          description: "Sales manager. \n\nThe person that made the sale (found the shipper/customer and signed him).\n\nCan sometimes be the same person who is the Shipper account manager.\n"
+          example: John Doe
+        userGroupId:
+          type: string
+          description: "A unique identifier (id) of a user group, \nthat this load belongs to. e.g. Main company or an Agency\n"
+          example: Main office
+        office:
+          type: string
+          description: 'Name of an office in your company that this load belongs to
+
+            '
+          example: Main office
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+x-tagGroups:
+- name: Auth
+  tags:
+  - Auth
+  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
+- name: analytics
+  tags:
+  - Analytics
+  description: Analytics service v1
+- name: bids
+  tags:
+  - Bids
+  description: Carrier bids service v1
+- name: datalake
+  tags:
+  - Datalake
+  description: Datalake service v1
+- name: history
+  tags:
+  - History
+  description: Historical rate data and similar lanes analysis v1
+- name: marketintelligence
+  tags:
+  - MarketIntelligence
+  description: Market Intelligence service v1
+- name: prediction
+  tags:
+  - Prediction
+  description: Prediction service v3
+- name: pricing
+  tags:
+  - Pricing
+  description: Pricing service v1
+- name: quotes
+  tags:
+  - Quotes
+  description: Quotes service v2
+- name: tmsconnector
+  tags:
+  - TMS
+  description: TmsConnector service v2
