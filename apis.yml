@@ -2,7 +2,19 @@ aid: green-screens-ai
 name: Green Screens AI
 description: >-
   Green Screens AI provides predictive freight rate and capacity intelligence APIs, offering real-time market insights and price predictions for transportation and logistics.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/green-screens-ai.png
 url: >-
   https://raw.githubusercontent.com/api-evangelist/green-screens-ai/refs/heads/main/apis.yml
 created: '2024-07-02'
@@ -17,22 +29,175 @@ tags:
   - Pricing
   - Transportation
 apis:
-  - aid: green-screens-ai:prediction-api
-    name: Green Screens AI Prediction API
-    description: >-
-      Predictive freight rate and capacity intelligence for transportation and logistics. Provides real-time market rate predictions, lane pricing, and capacity insights.
-    humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
-    baseURL: https://connect.greenscreens.ai/prediction/v3
-    tags:
-      - AI
-      - Freight
-      - Logistics
-      - Pricing
-    properties:
-      - type: Documentation
-        url: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
-      - type: Portal
-        url: https://www.greenscreens.ai
+- aid: green-screens-ai:prediction-api
+  name: Green Screens AI Prediction API
+  description: >-
+    Predictive freight rate and capacity intelligence for transportation and logistics. Provides real-time
+    market rate predictions, lane pricing, and capacity insights.
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - AI
+  - Freight
+  - Logistics
+  - Pricing
+  properties:
+  - type: Documentation
+    url: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  - type: Portal
+    url: https://www.greenscreens.ai
+- aid: green-screens-ai:green-screens-ai-analytics-api
+  name: Green Screens AI Analytics API
+  description: >-
+    Analytics service v1
+
+
+    <a href="/analytics/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/analytics/v1/swagger/index.html" target="_blank">Try it in swagger</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-analytics-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-auth-api
+  name: Green Screens AI Auth API
+  description: Authentication service
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-auth-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-bids-api
+  name: Green Screens AI Bids API
+  description: >-
+    Carrier bids service v1
+
+
+    <a href="/bids/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/bids/v1/swagger/index.html" target="_blank">Try it in swagger</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - Bids
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-bids-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-history-api
+  name: Green Screens AI History API
+  description: >-
+    Historical rate data and similar lanes analysis v1
+
+
+    <a href="/history/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/history/v1/swagger/index.html" target="_blank">Try it in swagger</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - History
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-history-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-marketintelligence-api
+  name: Green Screens AI MarketIntelligence API
+  description: >-
+    Market Intelligence service v1
+
+
+    <a href="/marketintelligence/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/marketintelligence/v1/swagger/index.html" target="_blank">Try it in swagger</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - MarketIntelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-marketintelligence-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-prediction-api
+  name: Green Screens AI Prediction API
+  description: >-
+    Prediction service v3
+
+
+    <a href="/prediction/v3/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/prediction/v3/swagger/index.html" target="_blank">Try it in swagger</a>
+
+
+    Older version of this api exists. <a href="/prediction/v2/redoc/" target="_blank">View v2 here</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - Prediction
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-prediction-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-pricing-api
+  name: Green Screens AI Pricing API
+  description: >-
+    Pricing service v1
+
+
+    <a href="/pricing/v1/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/pricing/v1/swagger/index.html" target="_blank">Try it in swagger</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - Pricing
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-pricing-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-quotes-api
+  name: Green Screens AI Quotes API
+  description: >-
+    Quotes service v2
+
+
+    <a href="/quotes/v2/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/quotes/v2/swagger/index.html" target="_blank">Try it in swagger</a>
+
+
+    Older version of this api exists. <a href="/quotes/v1/redoc/" target="_blank">View v1 here</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - Quotes
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-quotes-api-openapi.yml
+- aid: green-screens-ai:green-screens-ai-tms-api
+  name: Green Screens AI TMS API
+  description: >-
+    TmsConnector service v2
+
+
+    <a href="/tmsconnector/v2/redoc/" target="_blank">View separately</a>
+
+
+    <a href="/tmsconnector/v2/swagger/index.html" target="_blank">Try it in swagger</a>
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://connect.greenscreens.ai/prediction/v3
+  tags:
+  - TMS
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-tms-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/green-screens-ai-agentic-access.yml
