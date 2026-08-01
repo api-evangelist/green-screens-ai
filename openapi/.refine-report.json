@@ -1,0 +1,30 @@
+{
+  "provider": "green-screens-ai",
+  "sources": [
+    "green-screens-ai-analytics-api-openapi.yml",
+    "green-screens-ai-auth-api-openapi.yml",
+    "green-screens-ai-bids-api-openapi.yml",
+    "green-screens-ai-history-api-openapi.yml",
+    "green-screens-ai-marketintelligence-api-openapi.yml",
+    "green-screens-ai-prediction-api-openapi.yml",
+    "green-screens-ai-pricing-api-openapi.yml",
+    "green-screens-ai-quotes-api-openapi.yml",
+    "green-screens-ai-tms-api-openapi.yml"
+  ],
+  "outputs": [
+    "green-screens-ai-analytics-api-openapi.yml",
+    "green-screens-ai-auth-api-openapi.yml",
+    "green-screens-ai-bids-api-openapi.yml",
+    "green-screens-ai-history-api-openapi.yml",
+    "green-screens-ai-marketintelligence-api-openapi.yml",
+    "green-screens-ai-prediction-api-openapi.yml",
+    "green-screens-ai-pricing-api-openapi.yml",
+    "green-screens-ai-quotes-api-openapi.yml",
+    "green-screens-ai-tms-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
