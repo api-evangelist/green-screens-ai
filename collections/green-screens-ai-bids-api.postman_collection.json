@@ -1,0 +1,3998 @@
+{
+  "item": [
+    {
+      "id": "a5404a94-33d2-444d-b4a2-eaad6fb916b5",
+      "name": "Bids",
+      "description": {
+        "content": "Carrier bids service v1\n\n<a href=\"/bids/v1/redoc/\" target=\"_blank\">View separately</a>\n\n<a href=\"/bids/v1/swagger/index.html\" target=\"_blank\">Try it in swagger</a>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "78f00b01-c1e7-49ec-8741-2dad16e440af",
+          "name": "Save bid",
+          "request": {
+            "name": "Save bid",
+            "description": {
+              "content": "Save bid",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids"
+              ],
+              "host": [
+                "{{bids-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"carrierName\": \"<string>\",\n  \"origin\": {\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"type\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"destination\": {\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"type\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"transportType\": \"<string>\",\n  \"bidCost\": \"<number>\",\n  \"userEmail\": \"<string>\",\n  \"carrierMC\": \"<string>\",\n  \"carrierDOT\": \"<string>\",\n  \"carrierEmail\": \"<string>\",\n  \"carrierPhone\": \"<string>\",\n  \"extraStops\": [\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    },\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    }\n  ],\n  \"pickupDateTime\": \"<dateTime>\",\n  \"deliveredDateTime\": \"<dateTime>\",\n  \"bidDateTime\": \"<dateTime>\",\n  \"loadProNumber\": \"<string>\",\n  \"weight\": \"<float>\",\n  \"commodity\": \"<string>\",\n  \"brokerComment\": \"<string>\",\n  \"carrierComment\": \"<string>\",\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c7b4d875-415b-415f-ac5f-214cf079296a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carrierMC\": \"888015\",\n  \"carrierDOT\": \"87650005\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 12345,\n  \"key\": \"deedc41f-7eb2-4c36-9d35-fb6958a43771\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6a5faa5-60a7-4509-8d99-91fcdfdb3577",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carrierMC\": \"888015\",\n  \"carrierDOT\": \"87650005\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08cbfb0b-c760-4e38-8d24-f100ba90741f",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carrierMC\": \"888015\",\n  \"carrierDOT\": \"87650005\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "77c49aa6-faf4-44c3-b071-1789bbb46767",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carrierMC\": \"888015\",\n  \"carrierDOT\": \"87650005\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7524a53e-257a-4fab-966d-209a8f2b972e",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carrierMC\": \"888015\",\n  \"carrierDOT\": \"87650005\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02799bf7-b117-425c-9599-380b369e0278",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carrierMC\": \"888015\",\n  \"carrierDOT\": \"87650005\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "086122ea-4a0d-4fab-abe4-a55613b122b4",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carrierMC\": \"888015\",\n  \"carrierDOT\": \"87650005\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65341fd6-3866-4be1-abc4-7460c62716d4",
+          "name": "Get current user bids",
+          "request": {
+            "name": "Get current user bids",
+            "description": {
+              "content": "Get current user bids",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids"
+              ],
+              "host": [
+                "{{bids-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "createdDateFrom",
+                  "value": "<date>",
+                  "description": "(Required) bid created date >= value"
+                },
+                {
+                  "disabled": false,
+                  "key": "createdDateTo",
+                  "value": "<date>",
+                  "description": "bid created date <= value"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "31f43742-bd4d-4780-b3a5-c85380143db9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"bidStatus\": \"SENT\",\n      \"bidCost\": 1000.5,\n      \"carrierName\": \"Carrierr Transportation\",\n      \"carrierEmail\": \"test@greenscreens.ai\",\n      \"transportType\": \"VAN\",\n      \"origin\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"destination\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\",\n            \"type\": \"ZIP\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\",\n            \"type\": \"CITY\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"wasViewed\": false,\n      \"currency\": \"USD\",\n      \"id\": 23456,\n      \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n      \"createdDate\": \"2020-09-14T16:00:00Z\",\n      \"carrierMC\": \"888015\",\n      \"carrierPhone\": \"4112228888\",\n      \"loadProNumber\": \"string\",\n      \"weight\": 20000,\n      \"commodity\": \"Very important load\",\n      \"brokerComment\": \"Please, be carefully with my load\",\n      \"carrierComment\": \"Looks good\"\n    },\n    {\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"bidStatus\": \"SENT\",\n      \"bidCost\": 1000.5,\n      \"carrierName\": \"Carrierr Transportation\",\n      \"carrierEmail\": \"test@greenscreens.ai\",\n      \"transportType\": \"VAN\",\n      \"origin\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"destination\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\",\n            \"type\": \"ZIP\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\",\n            \"type\": \"CITY\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"wasViewed\": false,\n      \"currency\": \"USD\",\n      \"id\": 23456,\n      \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n      \"createdDate\": \"2020-09-14T16:00:00Z\",\n      \"carrierMC\": \"888015\",\n      \"carrierPhone\": \"4112228888\",\n      \"loadProNumber\": \"string\",\n      \"weight\": 20000,\n      \"commodity\": \"Very important load\",\n      \"brokerComment\": \"Please, be carefully with my load\",\n      \"carrierComment\": \"Looks good\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d704acc-edf7-4b4f-8168-e90475777aa9",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80825435-1b7c-4da3-a816-a8db15c5d06b",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71485e93-94c3-42c9-ba06-0aa8b5707cac",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea50594a-ad0e-4ceb-9ff9-9ab54b5611ec",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "272e2afe-00fd-42ee-8742-24a024800dd5",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eea44769-95a0-4b7e-b24a-4b1053c925db",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5aa0b0bc-ffdb-4758-a203-22e5a05a6bd3",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids"
+                  ],
+                  "host": [
+                    "{{bids-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3355a119-11dc-46f0-8418-306db440e3c4",
+          "name": "Update bid",
+          "request": {
+            "name": "Update bid",
+            "description": {
+              "content": "Update bid",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids",
+                ":bidId"
+              ],
+              "host": [
+                "{{bids-bidId-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "bidId",
+                  "description": "(Required) Id of the bid that you want updated"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"carrierName\": \"<string>\",\n  \"origin\": {\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"type\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"destination\": {\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"type\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"transportType\": \"<string>\",\n  \"bidCost\": \"<number>\",\n  \"carrierMC\": \"<string>\",\n  \"carrierEmail\": \"<string>\",\n  \"carrierPhone\": \"<string>\",\n  \"extraStops\": [\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    },\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    }\n  ],\n  \"pickupDateTime\": \"<dateTime>\",\n  \"deliveredDateTime\": \"<dateTime>\",\n  \"bidDateTime\": \"<dateTime>\",\n  \"loadProNumber\": \"<string>\",\n  \"weight\": \"<float>\",\n  \"commodity\": \"<string>\",\n  \"brokerComment\": \"<string>\",\n  \"carrierComment\": \"<string>\",\n  \"wasViewed\": \"<boolean>\",\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "39eec800-9893-48bc-b1fa-68005163c991",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"bidStatus\": \"SENT\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierEmail\": \"test@greenscreens.ai\",\n  \"transportType\": \"VAN\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\",\n        \"type\": \"ZIP\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\",\n        \"type\": \"CITY\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"wasViewed\": false,\n  \"currency\": \"USD\",\n  \"id\": 23456,\n  \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n  \"createdDate\": \"2020-09-14T16:00:00Z\",\n  \"carrierMC\": \"888015\",\n  \"carrierPhone\": \"4112228888\",\n  \"loadProNumber\": \"string\",\n  \"weight\": 20000,\n  \"commodity\": \"Very important load\",\n  \"brokerComment\": \"Please, be carefully with my load\",\n  \"carrierComment\": \"Looks good\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "318ecc8f-8f90-41c8-9d79-159c8f08d3c2",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc837b01-6d07-4803-9e5d-b5932e40434f",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "184162a6-7a4c-4f7b-9bac-b0403ffef76b",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0114956e-7319-4b05-b60f-932c82349186",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "531b535c-de5f-4558-9fe2-fe6207bd134d",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5a1229a-a24b-46b5-96d7-26748dc4f47a",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1f778d5-e362-443c-9777-ad56f52f2dd2",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want updated"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carrierName\": \"CarrierCompany\",\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"bidCost\": 1000.5,\n  \"carrierMC\": \"888015\",\n  \"carrierEmail\": \"carrier@mail.com\",\n  \"carrierPhone\": \"4112228888\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"bidDateTime\": \"2020-10-11T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Something a broker would comment\",\n  \"carrierComment\": \"Looks good\",\n  \"wasViewed\": false,\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7c308808-c846-4a01-af67-39181f1ccbab",
+          "name": "Delete bid",
+          "request": {
+            "name": "Delete bid",
+            "description": {
+              "content": "Delete bid",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids",
+                ":bidId"
+              ],
+              "host": [
+                "{{bids-bidId-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "bidId",
+                  "description": "(Required) Id of the bid that you want deleted"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "0169a090-04d3-4cc3-9340-a03a0cfc9783",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want deleted"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b8286b46-8782-431d-b9db-c864e0c092cd",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want deleted"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66b11144-5ca4-446f-aa96-7629683f4fd7",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want deleted"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5390a3e6-e189-4461-8039-2ac8c211c160",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want deleted"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a03cff1f-566d-4ce6-8419-954b801cc160",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want deleted"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6204c32-125e-476b-a234-19fb67832888",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want deleted"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ec32c24-8996-4a1f-9467-3fda3c9878d0",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    ":bidId"
+                  ],
+                  "host": [
+                    "{{bids-bidId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "bidId",
+                      "description": "(Required) Id of the bid that you want deleted"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2055df5c-1c51-4e92-af7b-a33ed22b316b",
+          "name": "Search carriers",
+          "request": {
+            "name": "Search carriers",
+            "description": {
+              "content": "Search carriers",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids",
+                "carriers"
+              ],
+              "host": [
+                "{{bids-carriers-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Query string. Names are first checked using case insensitive startsWith  and then case insensitive contains.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "7da9b283-8d04-4141-8da4-58843cf5d808",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"companyName\": \"Carrier Company\",\n      \"email\": \"test@greenscreens.ai\",\n      \"phoneNumber\": \"4112228888\"\n    },\n    {\n      \"companyName\": \"Carrier Company\",\n      \"email\": \"test@greenscreens.ai\",\n      \"phoneNumber\": \"4112228888\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e31a5039-ae32-4d16-baf2-5bb8d5a6beee",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c2a0855-dc91-4463-91a7-6ef9ee5417f1",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2f2efdda-4083-4df9-a097-861b792923d3",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94bd3080-f252-4e1f-a667-1396fd4f0bf2",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae085fdb-84ad-4c55-9047-e6527e6796d4",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "63d29685-12f6-4af3-a472-2e85352366e8",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bddce733-8910-4e46-9dde-ec897e7bc272",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "carriers"
+                  ],
+                  "host": [
+                    "{{bids-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "Joe"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d629df05-9377-40a5-bc8c-bc85ea822e57",
+          "name": "Accept bid",
+          "request": {
+            "name": "Accept bid",
+            "description": {
+              "content": "Accept bid",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids",
+                "accept"
+              ],
+              "host": [
+                "{{bids-accept-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key\": \"<string>\",\n  \"bidCost\": \"<number>\",\n  \"carrierName\": \"<string>\",\n  \"carrierMC\": \"<string>\",\n  \"carrierComment\": \"<string>\",\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "36d28edc-3742-4936-8e27-166fe47c83d7",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6c9cee3f-d7f2-4c9a-a304-b2ac92f3bd45",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89acefdc-162d-40c1-9969-60c0cfb44aa7",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a1dd6fac-5166-4e5c-8ff0-cd4cb5c4f67d",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b71a989-1471-4f02-aed5-d075a2edb667",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3abf5e43-5ffa-44ec-862e-af10a8b7045e",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "085caf18-d9d2-43f2-8e69-eb5d935b193e",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77c28fed-0012-4b01-9d9b-445a90cd3a6d",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "accept"
+                  ],
+                  "host": [
+                    "{{bids-accept-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key\": \"c5d1cfa8-228b-11eb-adc1-0242ac120002\",\n  \"bidCost\": 1000.5,\n  \"carrierName\": \"Carrierr Transportation\",\n  \"carrierMC\": \"888015\",\n  \"carrierComment\": \"Looks good\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "926a5c9f-b801-4b1a-99f5-ddf2d466a76b",
+          "name": "Send bid request",
+          "request": {
+            "name": "Send bid request",
+            "description": {
+              "content": "Send bid request to a carrier",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids",
+                "send"
+              ],
+              "host": [
+                "{{bids-send-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"origin\": {\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"type\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"destination\": {\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"type\": \"<string>\",\n    \"country\": \"<string>\"\n  },\n  \"transportType\": \"<string>\",\n  \"userEmail\": \"<string>\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"<string>\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"<string>\",\n        \"mc\": \"<string>\",\n        \"dot\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"carrierInfoSource\": \"<string>\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"<string>\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"<string>\",\n        \"mc\": \"<string>\",\n        \"dot\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"carrierInfoSource\": \"<string>\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"carrierPhoneList\": [\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    },\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    }\n  ],\n  \"pickupDateTime\": \"<dateTime>\",\n  \"deliveredDateTime\": \"<dateTime>\",\n  \"loadProNumber\": \"<string>\",\n  \"weight\": \"<float>\",\n  \"commodity\": \"<string>\",\n  \"brokerComment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bb72914f-7485-452b-8fdf-4ecc07234229",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a78df030-6127-48b1-8a5f-1089225638ee",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ad3e93c-10e4-42b8-a1cb-8a9b17e11129",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9a0e923-797a-421e-b211-f088b8a2d06c",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85278eb8-d2ba-47bd-b8ac-eeedf05f6a96",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d28b969-3e7b-4ce0-9c17-b65a167fc75d",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28b7bca3-6b16-4305-ae59-477aedb51925",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc06f2dc-d3a5-4c69-9110-932c1f5e2404",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "send"
+                  ],
+                  "host": [
+                    "{{bids-send-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"carriers\": [\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    },\n    {\n      \"sendRequestTo\": [\n        \"CARRIER_INFO_EMAIL\"\n      ],\n      \"carrierInfo\": {\n        \"name\": \"CarrierCompany\",\n        \"mc\": \"888015\",\n        \"dot\": \"87650005\",\n        \"phone\": \"4112228888\",\n        \"email\": \"carrier@mail.com\"\n      },\n      \"carrierInfoSource\": \"HIGHWAY\"\n    }\n  ],\n  \"carrierEmailList\": [\n    \"carrier1@mail.com\",\n    \"carrier2@mail.com\",\n    \"carrier3@mail.com\"\n  ],\n  \"carrierPhoneList\": [\n    \"8456951387\",\n    \"7456951583\",\n    \"2458951391\"\n  ],\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-10-13T16:00:00Z\",\n  \"loadProNumber\": \"Pro#111111\",\n  \"weight\": 20000,\n  \"commodity\": \"Steel racks\",\n  \"brokerComment\": \"Please, be carefully with my load\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "906b1b3e-9452-48de-b283-bdc7e0637c08",
+          "name": "Get ten most recent bids for a lane",
+          "request": {
+            "name": "Get ten most recent bids for a lane",
+            "description": {
+              "content": "Get ten most recent bids for a lane",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids",
+                "recent"
+              ],
+              "host": [
+                "{{bids-recent-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "transportType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "originCountry",
+                  "value": "<string>",
+                  "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "originState",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "originCity",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "originZip",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationCountry",
+                  "value": "<string>",
+                  "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationState",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationCity",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationZip",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "hasExtraStops",
+                  "value": "false"
+                },
+                {
+                  "disabled": false,
+                  "key": "dateFrom",
+                  "value": "<date>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "891ec321-2be6-436a-b880-3f65a5d9324e",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"bidStatus\": \"SENT\",\n      \"bidCost\": 1000.5,\n      \"carrierName\": \"Carrierr Transportation\",\n      \"carrierEmail\": \"test@greenscreens.ai\",\n      \"transportType\": \"VAN\",\n      \"origin\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"destination\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\",\n            \"type\": \"ZIP\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\",\n            \"type\": \"CITY\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"wasViewed\": false,\n      \"currency\": \"USD\",\n      \"id\": 23456,\n      \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n      \"createdDate\": \"2020-09-14T16:00:00Z\",\n      \"carrierMC\": \"888015\",\n      \"carrierPhone\": \"4112228888\",\n      \"loadProNumber\": \"string\",\n      \"weight\": 20000,\n      \"commodity\": \"Very important load\",\n      \"brokerComment\": \"Please, be carefully with my load\",\n      \"carrierComment\": \"Looks good\"\n    },\n    {\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"bidStatus\": \"SENT\",\n      \"bidCost\": 1000.5,\n      \"carrierName\": \"Carrierr Transportation\",\n      \"carrierEmail\": \"test@greenscreens.ai\",\n      \"transportType\": \"VAN\",\n      \"origin\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"destination\": {\n        \"city\": \"Schenectady\",\n        \"state\": \"NY\",\n        \"zip\": \"12345\",\n        \"type\": \"ZIP\",\n        \"country\": \"US\"\n      },\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\",\n            \"type\": \"ZIP\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\",\n            \"type\": \"CITY\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"wasViewed\": false,\n      \"currency\": \"USD\",\n      \"id\": 23456,\n      \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n      \"createdDate\": \"2020-09-14T16:00:00Z\",\n      \"carrierMC\": \"888015\",\n      \"carrierPhone\": \"4112228888\",\n      \"loadProNumber\": \"string\",\n      \"weight\": 20000,\n      \"commodity\": \"Very important load\",\n      \"brokerComment\": \"Please, be carefully with my load\",\n      \"carrierComment\": \"Looks good\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d72e8644-21d9-4a7b-b084-b151f4201d02",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f86f5807-5a07-42bc-9c9f-123ef1e4b81e",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b35195e7-0243-45b8-9cce-cfcf998fc787",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0da3839c-76d7-44de-941a-c8b63860559d",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "093927be-5247-4464-8358-3dbe25467033",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d60d36a7-ba8a-4a34-b5ff-7e174b3086f4",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b6597b0-a7ce-4a5e-9d5e-2057eca4bbc1",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{bids-recent-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f42fdfac-5e18-4723-8fde-b755b5d27379",
+          "name": "Get bid information by key",
+          "request": {
+            "name": "Get bid information by key",
+            "description": {
+              "content": "Get bid information by key",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bids",
+                "by-key",
+                ":key"
+              ],
+              "host": [
+                "{{bids-by-key-key-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "key",
+                  "description": "(Required) Key of the requested bid"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "86c8f699-13f9-4e04-90e8-b455d1a033ab",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"bidCost\": 1000.5,\n  \"bidStatus\": \"SENT\",\n  \"carrierEmail\": \"test@greenscreens.ai\",\n  \"carrierName\": \"Carrierr Transportation\",\n  \"currency\": \"USD\",\n  \"destination\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"distance\": 289,\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\",\n        \"type\": \"ZIP\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\",\n        \"type\": \"CITY\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"origin\": {\n    \"city\": \"Schenectady\",\n    \"state\": \"NY\",\n    \"zip\": \"12345\",\n    \"type\": \"ZIP\",\n    \"country\": \"US\"\n  },\n  \"transportType\": \"VAN\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"wasViewed\": false,\n  \"id\": 23456,\n  \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n  \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n  \"createdDate\": \"2020-09-14T16:00:00Z\",\n  \"carrierMC\": \"888015\",\n  \"carrierPhone\": \"4112228888\",\n  \"loadProNumber\": \"string\",\n  \"weight\": 20000,\n  \"commodity\": \"Very important load\",\n  \"brokerComment\": \"Please, be carefully with my load\",\n  \"carrierComment\": \"Looks good\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a45ac8e8-21fa-4902-b281-975c512e87ff",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da2fda1f-94c6-4cd2-b257-70a60f5f0b5a",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "725e4761-12e5-4b9e-ab1e-0e68b44c6929",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9e7cb87-874b-48f9-bf11-dd10c3d4db4b",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "debb1b1b-4755-4fee-b455-727f42edeb58",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "baad142e-6702-4fa5-8c35-61651ee10d26",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c520641-6173-40b1-85f4-569ae2ba65d2",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bids",
+                    "by-key",
+                    ":key"
+                  ],
+                  "host": [
+                    "{{bids-by-key-key-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "key",
+                      "description": "(Required) Key of the requested bid"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "bids-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "bids-bidId-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "bids-carriers-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "bids-accept-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "bids-send-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "bids-recent-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "bids-by-key-key-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "a0bc763c-530b-420d-af02-e86ed5d8e960",
+    "name": "Triumph Intelligence Connect Analytics Bids API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

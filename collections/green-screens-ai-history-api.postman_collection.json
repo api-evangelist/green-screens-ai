@@ -1,0 +1,742 @@
+{
+  "item": [
+    {
+      "id": "06783029-ff50-42bf-baa3-995964ed1f00",
+      "name": "History",
+      "description": {
+        "content": "Historical rate data and similar lanes analysis v1\n\n<a href=\"/history/v1/redoc/\" target=\"_blank\">View separately</a>\n\n<a href=\"/history/v1/swagger/index.html\" target=\"_blank\">Try it in swagger</a>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "00948cc1-5e0a-444f-a823-d4518a9938f2",
+          "name": "Load history search",
+          "request": {
+            "name": "Load history search",
+            "description": {
+              "content": "Returns loads matching the search criteria\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "history",
+                "loads"
+              ],
+              "host": [
+                "{{history-loads-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"originZip\": \"<string>\",\n  \"destinationZip\": \"<string>\",\n  \"transportType\": \"<string>\",\n  \"dateFrom\": \"<date>\",\n  \"dateTo\": \"<date>\",\n  \"region\": \"<string>\",\n  \"originCountry\": \"<string>\",\n  \"originState\": \"<string>\",\n  \"originCity\": \"<string>\",\n  \"destinationCountry\": \"<string>\",\n  \"destinationState\": \"<string>\",\n  \"destinationCity\": \"<string>\",\n  \"extraStops\": [\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"zip\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\"\n      }\n    },\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"zip\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\"\n      }\n    }\n  ],\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "62f9bab6-d4c4-4363-ad55-89723d06adf7",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "loads"
+                  ],
+                  "host": [
+                    "{{history-loads-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"destinationZip\": \"12345\",\n  \"transportType\": \"VAN\",\n  \"dateFrom\": \"2020-07-21\",\n  \"dateTo\": \"2020-07-21\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"originState\": \"NY\",\n  \"originCity\": \"Schenectady\",\n  \"destinationCountry\": \"US\",\n  \"destinationState\": \"IL\",\n  \"destinationCity\": \"Chicago\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"loadPickupDate\": \"2020-07-21\",\n      \"originState\": \"IL\",\n      \"originCity\": \"Chicago\",\n      \"destinationState\": \"TX\",\n      \"destinationCity\": \"Houston\",\n      \"currency\": \"USD\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"totalCarrierCost\": 1765.13,\n      \"totalCarrierRate\": 2.58,\n      \"pickupDateTime\": \"2020-07-21T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"transportTypeTms\": \"VR\",\n      \"distance\": 689,\n      \"weight\": 22000,\n      \"commodity\": \"Racks\",\n      \"originCountry\": \"US\",\n      \"originZip\": \"60636\",\n      \"destinationCountry\": \"US\",\n      \"destinationZip\": \"73264\",\n      \"carrierName\": \"JB Hunt\",\n      \"carrierPhoneNumber\": \"121331343\",\n      \"carrierEmail\": \"my@carrieremail.com\",\n      \"customerName\": \"BP\",\n      \"customerPhoneNumber\": \"121331343\",\n      \"customerEmail\": \"my@customeremail.com\",\n      \"sellRate\": 1900.5,\n      \"buySideRep\": \"Jon Johnson\",\n      \"sellSideRep\": \"Deny Williams\",\n      \"loadProNumber\": \"0-5428\"\n    },\n    {\n      \"loadPickupDate\": \"2020-07-21\",\n      \"originState\": \"IL\",\n      \"originCity\": \"Chicago\",\n      \"destinationState\": \"TX\",\n      \"destinationCity\": \"Houston\",\n      \"currency\": \"USD\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"totalCarrierCost\": 1765.13,\n      \"totalCarrierRate\": 2.58,\n      \"pickupDateTime\": \"2020-07-21T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"transportTypeTms\": \"VR\",\n      \"distance\": 689,\n      \"weight\": 22000,\n      \"commodity\": \"Racks\",\n      \"originCountry\": \"US\",\n      \"originZip\": \"60636\",\n      \"destinationCountry\": \"US\",\n      \"destinationZip\": \"73264\",\n      \"carrierName\": \"JB Hunt\",\n      \"carrierPhoneNumber\": \"121331343\",\n      \"carrierEmail\": \"my@carrieremail.com\",\n      \"customerName\": \"BP\",\n      \"customerPhoneNumber\": \"121331343\",\n      \"customerEmail\": \"my@customeremail.com\",\n      \"sellRate\": 1900.5,\n      \"buySideRep\": \"Jon Johnson\",\n      \"sellSideRep\": \"Deny Williams\",\n      \"loadProNumber\": \"0-5428\"\n    }\n  ],\n  \"outlierItems\": [\n    {\n      \"loadPickupDate\": \"2020-07-21\",\n      \"originState\": \"IL\",\n      \"originCity\": \"Chicago\",\n      \"destinationState\": \"TX\",\n      \"destinationCity\": \"Houston\",\n      \"currency\": \"USD\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"totalCarrierCost\": 1765.13,\n      \"totalCarrierRate\": 2.58,\n      \"pickupDateTime\": \"2020-07-21T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"transportTypeTms\": \"VR\",\n      \"distance\": 689,\n      \"weight\": 22000,\n      \"commodity\": \"Racks\",\n      \"originCountry\": \"US\",\n      \"originZip\": \"60636\",\n      \"destinationCountry\": \"US\",\n      \"destinationZip\": \"73264\",\n      \"carrierName\": \"JB Hunt\",\n      \"carrierPhoneNumber\": \"121331343\",\n      \"carrierEmail\": \"my@carrieremail.com\",\n      \"customerName\": \"BP\",\n      \"customerPhoneNumber\": \"121331343\",\n      \"customerEmail\": \"my@customeremail.com\",\n      \"sellRate\": 1900.5,\n      \"buySideRep\": \"Jon Johnson\",\n      \"sellSideRep\": \"Deny Williams\",\n      \"loadProNumber\": \"0-5428\"\n    },\n    {\n      \"loadPickupDate\": \"2020-07-21\",\n      \"originState\": \"IL\",\n      \"originCity\": \"Chicago\",\n      \"destinationState\": \"TX\",\n      \"destinationCity\": \"Houston\",\n      \"currency\": \"USD\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"totalCarrierCost\": 1765.13,\n      \"totalCarrierRate\": 2.58,\n      \"pickupDateTime\": \"2020-07-21T16:00:00Z\",\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"transportTypeTms\": \"VR\",\n      \"distance\": 689,\n      \"weight\": 22000,\n      \"commodity\": \"Racks\",\n      \"originCountry\": \"US\",\n      \"originZip\": \"60636\",\n      \"destinationCountry\": \"US\",\n      \"destinationZip\": \"73264\",\n      \"carrierName\": \"JB Hunt\",\n      \"carrierPhoneNumber\": \"121331343\",\n      \"carrierEmail\": \"my@carrieremail.com\",\n      \"customerName\": \"BP\",\n      \"customerPhoneNumber\": \"121331343\",\n      \"customerEmail\": \"my@customeremail.com\",\n      \"sellRate\": 1900.5,\n      \"buySideRep\": \"Jon Johnson\",\n      \"sellSideRep\": \"Deny Williams\",\n      \"loadProNumber\": \"0-5428\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53b6387c-553d-4357-ba9d-f71fdef3fa98",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "loads"
+                  ],
+                  "host": [
+                    "{{history-loads-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"destinationZip\": \"12345\",\n  \"transportType\": \"VAN\",\n  \"dateFrom\": \"2020-07-21\",\n  \"dateTo\": \"2020-07-21\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"originState\": \"NY\",\n  \"originCity\": \"Schenectady\",\n  \"destinationCountry\": \"US\",\n  \"destinationState\": \"IL\",\n  \"destinationCity\": \"Chicago\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f2e48f2-be59-4a05-95ad-588b2ee3c4eb",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "loads"
+                  ],
+                  "host": [
+                    "{{history-loads-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"destinationZip\": \"12345\",\n  \"transportType\": \"VAN\",\n  \"dateFrom\": \"2020-07-21\",\n  \"dateTo\": \"2020-07-21\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"originState\": \"NY\",\n  \"originCity\": \"Schenectady\",\n  \"destinationCountry\": \"US\",\n  \"destinationState\": \"IL\",\n  \"destinationCity\": \"Chicago\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "41bc2598-dbdd-42bb-8396-e0184013dc22",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "loads"
+                  ],
+                  "host": [
+                    "{{history-loads-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"destinationZip\": \"12345\",\n  \"transportType\": \"VAN\",\n  \"dateFrom\": \"2020-07-21\",\n  \"dateTo\": \"2020-07-21\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"originState\": \"NY\",\n  \"originCity\": \"Schenectady\",\n  \"destinationCountry\": \"US\",\n  \"destinationState\": \"IL\",\n  \"destinationCity\": \"Chicago\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "629ba29f-1bde-43c5-a67f-2abe8ee76e06",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "loads"
+                  ],
+                  "host": [
+                    "{{history-loads-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"destinationZip\": \"12345\",\n  \"transportType\": \"VAN\",\n  \"dateFrom\": \"2020-07-21\",\n  \"dateTo\": \"2020-07-21\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"originState\": \"NY\",\n  \"originCity\": \"Schenectady\",\n  \"destinationCountry\": \"US\",\n  \"destinationState\": \"IL\",\n  \"destinationCity\": \"Chicago\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f3ff95a-413f-4777-b114-0b6cf29b84d6",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "loads"
+                  ],
+                  "host": [
+                    "{{history-loads-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"destinationZip\": \"12345\",\n  \"transportType\": \"VAN\",\n  \"dateFrom\": \"2020-07-21\",\n  \"dateTo\": \"2020-07-21\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"originState\": \"NY\",\n  \"originCity\": \"Schenectady\",\n  \"destinationCountry\": \"US\",\n  \"destinationState\": \"IL\",\n  \"destinationCity\": \"Chicago\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fdc976f1-ca42-4bc2-90a9-36baa31ae3bc",
+          "name": "Recent customer's rate",
+          "request": {
+            "name": "Recent customer's rate",
+            "description": {
+              "content": "Provides recent rate for route. Returns aggregated rate statistics\nfor three time periods: last 7, 15, and 30 days.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "history",
+                "recent"
+              ],
+              "host": [
+                "{{history-recent-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"originZip\": \"<string>\",\n  \"originCity\": \"<string>\",\n  \"originState\": \"<string>\",\n  \"destinationZip\": \"<string>\",\n  \"destinationCity\": \"<string>\",\n  \"destinationState\": \"<string>\",\n  \"transportType\": \"<string>\",\n  \"region\": \"<string>\",\n  \"originCountry\": \"<string>\",\n  \"destinationCountry\": \"<string>\",\n  \"extraStops\": [\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      }\n    },\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      }\n    }\n  ],\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "307893e3-6c58-4c85-b9d0-8c42d2301432",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"last7Day\": {\n    \"maxLineHaulFlatRate\": 1208.54,\n    \"maxLineHaulRate\": 2.568,\n    \"minLineHaulFlatRate\": 1001.92,\n    \"minLineHaulRate\": 1.981,\n    \"averageLineHaulFlatRate\": 1200.12,\n    \"averageLineHaulRate\": 2.1254,\n    \"numberOfReports\": 7,\n    \"currency\": \"USD\"\n  },\n  \"last15Day\": {\n    \"maxLineHaulFlatRate\": 1208.54,\n    \"maxLineHaulRate\": 2.568,\n    \"minLineHaulFlatRate\": 1001.92,\n    \"minLineHaulRate\": 1.981,\n    \"averageLineHaulFlatRate\": 1200.12,\n    \"averageLineHaulRate\": 2.1254,\n    \"numberOfReports\": 7,\n    \"currency\": \"USD\"\n  },\n  \"last30Day\": {\n    \"maxLineHaulFlatRate\": 1208.54,\n    \"maxLineHaulRate\": 2.568,\n    \"minLineHaulFlatRate\": 1001.92,\n    \"minLineHaulRate\": 1.981,\n    \"averageLineHaulFlatRate\": 1200.12,\n    \"averageLineHaulRate\": 2.1254,\n    \"numberOfReports\": 7,\n    \"currency\": \"USD\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b49c0eb4-f19b-45fd-aba4-04676d45a25e",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3cae57e2-a141-479f-ab6e-269d0825b50c",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1a6bf48d-f60b-454b-9ca7-7f2d35b8a4d2",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8c3ffec-9e1f-49ab-9b5d-ffda040c87ed",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5275d362-d24d-43f2-81a3-6b882c8611af",
+              "name": "Failed Dependency.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Failed Dependency (WebDAV) (RFC 4918)",
+              "code": 424,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"distance_calculation_error\",\n  \"message\": \"Unable to calculate distance between zips {key}, reason:  {exc}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0febafb4-f11c-4cb4-a040-a351f259d2d4",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8f3f127-11c4-4906-9728-2e2fcc6b71fc",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "history",
+                    "recent"
+                  ],
+                  "host": [
+                    "{{history-recent-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"originZip\": \"12345\",\n  \"originCity\": \"Schenectady\",\n  \"originState\": \"NY\",\n  \"destinationZip\": \"60636\",\n  \"destinationCity\": \"Chicago\",\n  \"destinationState\": \"IL\",\n  \"transportType\": \"VAN\",\n  \"region\": \"ZIP\",\n  \"originCountry\": \"US\",\n  \"destinationCountry\": \"US\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"type\": \"LOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Red Bluff\",\n        \"zip\": \"96080\"\n      }\n    },\n    {\n      \"order\": 1,\n      \"type\": \"UNLOAD\",\n      \"address\": {\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"city\": \"Redding\",\n        \"zip\": \"96002\"\n      }\n    }\n  ],\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "history-loads-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "history-recent-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "b583329c-267a-4ab3-9197-3b541c35e87f",
+    "name": "Triumph Intelligence Connect Analytics History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

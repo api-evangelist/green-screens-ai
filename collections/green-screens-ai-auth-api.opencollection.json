@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics Auth API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Auth token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "grant_type",
+                  "value": ""
+                },
+                {
+                  "name": "client_id",
+                  "value": ""
+                },
+                {
+                  "name": "client_secret",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "The request for the access token should look like this.\n```\ncurl -X POST \"https://testapi.greenscreens.ai/v1/auth/token\" -H \"accept: application/json\" \\\n-H \"Content-Type: application/x-www-form-urlencoded\" \\\n-d \"grant_type=client_credentials&client_id=external-app&client_secret=78aaff56-7b86-4c92-9a1d-355f167c0619\"\n```\nYou should replace `client_id` and `client_secret` with id and secret provided to you by greenscreens. \n\n---\nIf an access_token that you use expires, or you receive an `unauthenti"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics Quotes API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Quotes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get quotes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/quotes",
+            "params": [
+              {
+                "name": "createdDateFrom",
+                "value": "",
+                "type": "query",
+                "description": "\\'quote created date >= value\\' filter"
+              },
+              {
+                "name": "createdDateTo",
+                "value": "",
+                "type": "query",
+                "description": "\\'quote created date <= value\\' filter"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page to return items from. \nUsed for pagination\n"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "The amount of items per page. \nUsed for pagination\n"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get quotes"
+        },
+        {
+          "info": {
+            "name": "Import a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/quotes/import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import an external quote"
+        },
+        {
+          "info": {
+            "name": "Import quotes in a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/quotes/batch/import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import quotes in a batch"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

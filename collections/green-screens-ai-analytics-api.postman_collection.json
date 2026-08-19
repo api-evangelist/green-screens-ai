@@ -1,0 +1,932 @@
+{
+  "item": [
+    {
+      "id": "a875225b-acba-4e10-b778-13ad5dc919d3",
+      "name": "Analytics",
+      "description": {
+        "content": "Analytics service v1\n\n<a href=\"/analytics/v1/redoc/\" target=\"_blank\">View separately</a>\n\n<a href=\"/analytics/v1/swagger/index.html\" target=\"_blank\">Try it in swagger</a>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a1c840cb-9fac-4fba-b8ce-38354fbb69e3",
+          "name": "Top carriers",
+          "request": {
+            "name": "Top carriers",
+            "description": {
+              "content": "Returns a list of top carriers for a provided lane",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                "lane-top-carriers"
+              ],
+              "host": [
+                "{{analytics-lane-top-carriers-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "transportType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "originCountry",
+                  "value": "<string>",
+                  "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "originState",
+                  "value": "<string>",
+                  "description": "(Required) Origin state"
+                },
+                {
+                  "disabled": false,
+                  "key": "originCity",
+                  "value": "<string>",
+                  "description": "(Required) Origin city"
+                },
+                {
+                  "disabled": false,
+                  "key": "originZip",
+                  "value": "<string>",
+                  "description": "(Required) Origin area zip"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationCountry",
+                  "value": "<string>",
+                  "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationState",
+                  "value": "<string>",
+                  "description": "(Required) Destination state"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationCity",
+                  "value": "<string>",
+                  "description": "(Required) Destination city"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationZip",
+                  "value": "<string>",
+                  "description": "(Required) Destination area zip"
+                },
+                {
+                  "disabled": false,
+                  "key": "hasExtraStops",
+                  "value": "false"
+                },
+                {
+                  "disabled": false,
+                  "key": "dateFrom",
+                  "value": "<date>",
+                  "description": "(Required) Start date of a period for which you want to calculate top carriers. \nIn ISO format (YYYY-MM-DD). \n\nEnd date of this period is the current date.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "Code of the currency that you want the response to be in.\nFormat is ISO 4217.\nIf not provided, defaults to the currency set in the profile of currently authenticated user.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sorting descriptor in format `?sort={field},{asc|desc}`. \n\nMultiple sort parameters are allowed and should look like this \n`?sort=name,asc&sort=email,desc`.\n\nIf multiple sort parameters are passed, the results will be sorted by all of them, \nwith priority decreasing from left to right.\n\nSo in case of `?sort=name,asc&sort=volume,desc` results will be first sorted by \nname in ascending order, and in cases where names are equal \nresults will be sorted by volume in descending order.\n\nBy default carriers are sorted like this: \n`numberOfLoads,desc & lastShippedDate,desc`.\n\nThese response fields support sorting:\n```\ncarrierName\ncarrierPhone\ncarrierEmail\ncarrierMC\ncarrierDOT\ncarrierSCAC\nnumberOfLoads\nlastShippedDate\naverageCarrierRate\nminCarrierRate\nmaxCarrierRate\naverageCarrierFlatRate\nminCarrierFlatRate\nmaxCarrierFlatRate\naverageCarrierMarginPercent\n```\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sorting descriptor in format `?sort={field},{asc|desc}`. \n\nMultiple sort parameters are allowed and should look like this \n`?sort=name,asc&sort=email,desc`.\n\nIf multiple sort parameters are passed, the results will be sorted by all of them, \nwith priority decreasing from left to right.\n\nSo in case of `?sort=name,asc&sort=volume,desc` results will be first sorted by \nname in ascending order, and in cases where names are equal \nresults will be sorted by volume in descending order.\n\nBy default carriers are sorted like this: \n`numberOfLoads,desc & lastShippedDate,desc`.\n\nThese response fields support sorting:\n```\ncarrierName\ncarrierPhone\ncarrierEmail\ncarrierMC\ncarrierDOT\ncarrierSCAC\nnumberOfLoads\nlastShippedDate\naverageCarrierRate\nminCarrierRate\nmaxCarrierRate\naverageCarrierFlatRate\nminCarrierFlatRate\nmaxCarrierFlatRate\naverageCarrierMarginPercent\n```\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "eb5e16d4-b4cb-4ba5-a917-72efe12884ec",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"carrierName\": \"Eagle One Delivery\",\n      \"numberOfLoads\": 41,\n      \"lastShippedDate\": \"2019-09-30\",\n      \"carriedMultistopLoadsBefore\": false,\n      \"lastCarrierRate\": 2.1254,\n      \"averageCarrierRate\": 2.1254,\n      \"minCarrierRate\": 2.1254,\n      \"maxCarrierRate\": 2.1254,\n      \"lastCarrierFlatRate\": 1340,\n      \"averageCarrierFlatRate\": 1250,\n      \"minCarrierFlatRate\": 1200,\n      \"maxCarrierFlatRate\": 1350,\n      \"averageCarrierMarginPercent\": 15,\n      \"currency\": \"USD\",\n      \"carrierPhone\": \"121331343\",\n      \"carrierEmail\": \"test@carrier.com\",\n      \"carrierMC\": \"MC00334234\",\n      \"carrierDOT\": \"USDOT33136\",\n      \"carrierSCAC\": \"MAEU\",\n      \"performanceMetrics\": {\n        \"onTimePickup\": 85.24,\n        \"onTimeDelivery\": 63.13,\n        \"badBounce\": 75.42,\n        \"score\": 98.24,\n        \"leadTimeAverageHours\": 5,\n        \"volume\": 1234,\n        \"lastDeliveredDate\": \"2026-04-28\"\n      }\n    },\n    {\n      \"carrierName\": \"Eagle One Delivery\",\n      \"numberOfLoads\": 41,\n      \"lastShippedDate\": \"2019-09-30\",\n      \"carriedMultistopLoadsBefore\": false,\n      \"lastCarrierRate\": 2.1254,\n      \"averageCarrierRate\": 2.1254,\n      \"minCarrierRate\": 2.1254,\n      \"maxCarrierRate\": 2.1254,\n      \"lastCarrierFlatRate\": 1340,\n      \"averageCarrierFlatRate\": 1250,\n      \"minCarrierFlatRate\": 1200,\n      \"maxCarrierFlatRate\": 1350,\n      \"averageCarrierMarginPercent\": 15,\n      \"currency\": \"USD\",\n      \"carrierPhone\": \"121331343\",\n      \"carrierEmail\": \"test@carrier.com\",\n      \"carrierMC\": \"MC00334234\",\n      \"carrierDOT\": \"USDOT33136\",\n      \"carrierSCAC\": \"MAEU\",\n      \"performanceMetrics\": {\n        \"onTimePickup\": 85.24,\n        \"onTimeDelivery\": 63.13,\n        \"badBounce\": 75.42,\n        \"score\": 98.24,\n        \"leadTimeAverageHours\": 5,\n        \"volume\": 1234,\n        \"lastDeliveredDate\": \"2026-04-28\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8cc294ab-801d-4dc7-ad6c-e912a53a901c",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cb26a8f-df1e-4d91-b7e3-35e3a931f96b",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "60d34139-a076-4615-9652-d4caaecbe043",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d0dd642-3b5c-4199-8e3c-d13387e4e732",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e8a5339-eae5-4f69-9b85-3e3923f19ad5",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1623995e-6320-4145-854f-cfa55ccca2aa",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "86ead9cb-c653-4c96-ad12-78df5a71e9b1",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "lane-top-carriers"
+                  ],
+                  "host": [
+                    "{{analytics-lane-top-carriers-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "dateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "analytics-lane-top-carriers-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "9ee593f9-bb32-4b89-b368-734e1d7c84da",
+    "name": "Triumph Intelligence Connect Analytics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

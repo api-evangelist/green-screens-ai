@@ -1,0 +1,2221 @@
+{
+  "item": [
+    {
+      "id": "3d300088-a2f6-4aae-99a7-19a48c3f8bd5",
+      "name": "Prediction",
+      "description": {
+        "content": "Prediction service v3\n\n<a href=\"/prediction/v3/redoc/\" target=\"_blank\">View separately</a>\n\n<a href=\"/prediction/v3/swagger/index.html\" target=\"_blank\">Try it in swagger</a>\n\nOlder version of this api exists. <a href=\"/prediction/v2/redoc/\" target=\"_blank\">View v2 here</a>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c1991b11-9d9d-4f9b-a09e-e9fce8970ea0",
+          "name": "Lane rate prediction",
+          "request": {
+            "name": "Lane rate prediction",
+            "description": {
+              "content": "Used to request lane rate prediction",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "prediction",
+                "rates"
+              ],
+              "host": [
+                "{{prediction-rates-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                "key": "X-GS-User",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pickupDateTime\": \"<dateTime>\",\n  \"transportType\": \"<string>\",\n  \"stops\": [\n    {\n      \"order\": \"<integer>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"zip\": \"<string>\"\n    },\n    {\n      \"order\": \"<integer>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"zip\": \"<string>\"\n    }\n  ],\n  \"commodity\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a220b5d9-6ffe-4ad9-b42e-0a7f05242159",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n  \"targetBuyRate\": 2.24,\n  \"startBuyRate\": 2.07,\n  \"lowBuyRate\": 2.11,\n  \"highBuyRate\": 2.5,\n  \"distance\": 289,\n  \"confidenceLevel\": 65,\n  \"acceptanceRates\": [\n    5450.5201588142745,\n    3009.5737462531747\n  ],\n  \"tag\": \"78206219-883b-4e1a-bd42-4010d3cc21c1\",\n  \"currency\": \"USD\",\n  \"fuelRate\": 0.33,\n  \"notes\": {\n    \"shortHaulRateInaccurate\": {\n      \"distanceLessThan\": 30\n    },\n    \"multistopDistanceOutlierRateInaccurate\": {\n      \"allowedDistanceDifferenceRange\": {\n        \"minimumPercentage\": 0,\n        \"maximumPercentage\": 100\n      },\n      \"singleStopDistance\": 570\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf31a798-6624-4ecb-bba0-a72692f01c0c",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7c6baf9-2584-4f03-97d1-c141e093ab24",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7f178936-8441-4750-8226-381ca24cd095",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4b14a53-cf7f-4126-809a-287e1c31556f",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "269c4dda-d2af-429d-a42e-7034d119abd9",
+              "name": "Failed Dependency.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Failed Dependency (WebDAV) (RFC 4918)",
+              "code": 424,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"distance_calculation_error\",\n  \"message\": \"Unable to calculate distance between zips {key}, reason:  {exc}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9bdd3b3-6221-4ad7-b9a1-463b322f3829",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dcf0a9bb-838b-4863-8fc9-a6945f8e34ed",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{prediction-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df7c2b4c-5acf-485d-938c-e3ffa3773a3d",
+          "name": "Batch lane rate prediction",
+          "request": {
+            "name": "Batch lane rate prediction",
+            "description": {
+              "content": "Used to request lane rate predictions in batches",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "prediction",
+                "batch-rates"
+              ],
+              "host": [
+                "{{prediction-batch-rates-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                "key": "X-GS-User",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"<dateTime>\",\n      \"transportType\": \"<string>\",\n      \"stops\": [\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        }\n      ],\n      \"commodity\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"currency\": \"<string>\"\n    },\n    {\n      \"pickupDateTime\": \"<dateTime>\",\n      \"transportType\": \"<string>\",\n      \"stops\": [\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        }\n      ],\n      \"commodity\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"currency\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8e5d90fc-f524-4903-931c-6ef6d927ae19",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responses\": [\n    {\n      \"acceptanceRates\": [\n        648.0932399066996,\n        3211.8834766835002\n      ],\n      \"confidenceLevel\": 65,\n      \"currency\": \"USD\",\n      \"distance\": 289,\n      \"highBuyRate\": 2.5,\n      \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n      \"lowBuyRate\": 2.11,\n      \"startBuyRate\": 2.07,\n      \"status\": \"OK\",\n      \"tag\": \"78206219-883b-4e1a-bd42-4010d3cc21c1\",\n      \"targetBuyRate\": 2.24,\n      \"fuelRate\": 0.33,\n      \"notes\": {\n        \"shortHaulRateInaccurate\": {\n          \"distanceLessThan\": 30\n        },\n        \"multistopDistanceOutlierRateInaccurate\": {\n          \"allowedDistanceDifferenceRange\": {\n            \"minimumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"singleStopDistance\": 570\n        }\n      },\n      \"errorObject\": {\n        \"httpCode\": 424,\n        \"code\": \"not_found_distance\",\n        \"message\": \"Not found route between locations\"\n      }\n    },\n    {\n      \"acceptanceRates\": [\n        6357.289933815082,\n        240.31151548039696\n      ],\n      \"confidenceLevel\": 65,\n      \"currency\": \"USD\",\n      \"distance\": 289,\n      \"highBuyRate\": 2.5,\n      \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n      \"lowBuyRate\": 2.11,\n      \"startBuyRate\": 2.07,\n      \"status\": \"OK\",\n      \"tag\": \"78206219-883b-4e1a-bd42-4010d3cc21c1\",\n      \"targetBuyRate\": 2.24,\n      \"fuelRate\": 0.33,\n      \"notes\": {\n        \"shortHaulRateInaccurate\": {\n          \"distanceLessThan\": 30\n        },\n        \"multistopDistanceOutlierRateInaccurate\": {\n          \"allowedDistanceDifferenceRange\": {\n            \"minimumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"singleStopDistance\": 570\n        }\n      },\n      \"errorObject\": {\n        \"httpCode\": 424,\n        \"code\": \"not_found_distance\",\n        \"message\": \"Not found route between locations\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09056e38-5e9d-4792-90c6-6cb8816b20a3",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a86cd54d-daaa-4260-aa78-a1aa754c9ee1",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "009058c8-0d16-477f-934e-6c866f2b4dff",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7642f0d0-be39-4699-8a61-70d1fbb21b6f",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00e5d8b4-9655-439d-8c0f-13639130c662",
+              "name": "Failed Dependency.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Failed Dependency (WebDAV) (RFC 4918)",
+              "code": 424,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"distance_calculation_error\",\n  \"message\": \"Unable to calculate distance between zips {key}, reason:  {exc}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "560d2db9-e866-4239-b1f7-489d4be118fb",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4beece36-7c2e-4a05-85d6-d0a1920e149f",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5531cb16-d6bd-44f2-a064-5736021087b2",
+          "name": "Lane rate prediction history",
+          "request": {
+            "name": "Lane rate prediction history",
+            "description": {
+              "content": "Lane rate prediction request/response history on the given date.\nDue to resource limitation search is restricted to the last 30 days period.\nRequests outside of this period will return 400 response code with corresponding error code.\nResults sorted from newest to oldest.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "prediction",
+                "history"
+              ],
+              "host": [
+                "{{prediction-history-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "30c64487-7f8e-4e9c-ad74-03475814a5f9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n      \"dateTime\": \"2021-09-21T13:00:00Z\",\n      \"userEmail\": \"test@carrier.com\",\n      \"transportType\": \"VAN\",\n      \"originCity\": \"Chicago\",\n      \"originState\": \"IL\",\n      \"destinationCity\": \"Houston\",\n      \"destinationState\": \"TX\",\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\",\n      \"targetBuyRate\": 2.24,\n      \"lowBuyRate\": 2.11,\n      \"highBuyRate\": 2.5,\n      \"startBuyRate\": 2.07,\n      \"distance\": 289,\n      \"confidenceLevel\": 65,\n      \"originZip\": \"60636\",\n      \"destinationZip\": \"73264\",\n      \"notes\": {\n        \"shortHaulRateInaccurate\": {\n          \"distanceLessThan\": 30\n        },\n        \"multistopDistanceOutlierRateInaccurate\": {\n          \"allowedDistanceDifferenceRange\": {\n            \"minimumPercentage\": 0,\n            \"maximumPercentage\": 100\n          },\n          \"singleStopDistance\": 570\n        }\n      }\n    },\n    {\n      \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n      \"dateTime\": \"2021-09-21T13:00:00Z\",\n      \"userEmail\": \"test@carrier.com\",\n      \"transportType\": \"VAN\",\n      \"originCity\": \"Chicago\",\n      \"originState\": \"IL\",\n      \"destinationCity\": \"Houston\",\n      \"destinationState\": \"TX\",\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\",\n      \"targetBuyRate\": 2.24,\n      \"lowBuyRate\": 2.11,\n      \"highBuyRate\": 2.5,\n      \"startBuyRate\": 2.07,\n      \"distance\": 289,\n      \"confidenceLevel\": 65,\n      \"originZip\": \"60636\",\n      \"destinationZip\": \"73264\",\n      \"notes\": {\n        \"shortHaulRateInaccurate\": {\n          \"distanceLessThan\": 30\n        },\n        \"multistopDistanceOutlierRateInaccurate\": {\n          \"allowedDistanceDifferenceRange\": {\n            \"minimumPercentage\": 0,\n            \"maximumPercentage\": 100\n          },\n          \"singleStopDistance\": 570\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7dec35e3-376e-4bb5-b5cd-69d163c37cf0",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de60ac7f-de06-410a-b5cb-327df6414249",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "351a9b84-8c8f-49fe-a9fb-2fb130e3a706",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ffad444b-a14e-45f6-9ea7-38d8d72102af",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04bff694-00e0-4f7a-a4cf-cd69d70ef3ed",
+              "name": "Failed Dependency.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Failed Dependency (WebDAV) (RFC 4918)",
+              "code": 424,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"distance_calculation_error\",\n  \"message\": \"Unable to calculate distance between zips {key}, reason:  {exc}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2fcb34b2-173a-4ca2-9f10-71f5000e4bd5",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac58feb3-2f33-428d-b989-06d8d919ed76",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "history"
+                  ],
+                  "host": [
+                    "{{prediction-history-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2021-09-21"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "667a5f19-bf53-41e4-be67-b2bf4627055f",
+          "name": "Lane network rate prediction",
+          "request": {
+            "name": "Lane network rate prediction",
+            "description": {
+              "content": "Used to request lane rate prediction based on \nthe full network of load data available to us.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "prediction",
+                "network-rates"
+              ],
+              "host": [
+                "{{prediction-network-rates-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                "key": "X-GS-User",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pickupDateTime\": \"<dateTime>\",\n  \"transportType\": \"<string>\",\n  \"stops\": [\n    {\n      \"order\": \"<integer>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"zip\": \"<string>\"\n    },\n    {\n      \"order\": \"<integer>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"country\": \"<string>\",\n      \"zip\": \"<string>\"\n    }\n  ],\n  \"commodity\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"currency\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "53611cab-4709-45f0-b6d8-d47608c1b4bd",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n  \"targetBuyRate\": 2.24,\n  \"startBuyRate\": 2.07,\n  \"lowBuyRate\": 2.11,\n  \"highBuyRate\": 2.5,\n  \"distance\": 289,\n  \"confidenceLevel\": 65,\n  \"acceptanceRates\": [\n    7674.101442740984,\n    284.90230409162655\n  ],\n  \"tag\": \"78206219-883b-4e1a-bd42-4010d3cc21c1\",\n  \"currency\": \"USD\",\n  \"fuelRate\": 0.33,\n  \"notes\": {\n    \"shortHaulRateInaccurate\": {\n      \"distanceLessThan\": 30\n    },\n    \"multistopDistanceOutlierRateInaccurate\": {\n      \"allowedDistanceDifferenceRange\": {\n        \"minimumPercentage\": 0,\n        \"maximumPercentage\": 100\n      },\n      \"singleStopDistance\": 570\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e786ae2d-d7fc-4dd9-a7e9-a882c60f84e1",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09872d25-e3f4-447c-bbc6-d99a05a4758d",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0ca95f25-ef5b-407e-98a0-edd7c6ee6d11",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd65fbde-0496-4a2b-8b6d-b20d15dc02a6",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8522cce4-fe9f-4cff-af82-94a53c2aa682",
+              "name": "Failed Dependency.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Failed Dependency (WebDAV) (RFC 4918)",
+              "code": 424,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"distance_calculation_error\",\n  \"message\": \"Unable to calculate distance between zips {key}, reason:  {exc}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89cf9904-cd34-4a4f-b0cf-9e86feba832a",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "688d53b6-1299-4279-9fd8-a3bdd374879e",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n  \"transportType\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"country\": \"US\",\n      \"city\": \"Chicago\",\n      \"state\": \"IL\",\n      \"zip\": \"60611\"\n    },\n    {\n      \"order\": 1,\n      \"country\": \"US\",\n      \"city\": \"Dallas\",\n      \"state\": \"TX\",\n      \"zip\": \"75204\"\n    }\n  ],\n  \"commodity\": \"Racks\",\n  \"tag\": \"Pro#1234\",\n  \"currency\": \"USD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4fcde92b-d785-4b4d-8e26-12c7c0e7225b",
+          "name": "Batch lane network rate prediction",
+          "request": {
+            "name": "Batch lane network rate prediction",
+            "description": {
+              "content": "Used to request lane rate predictions based on \nthe full network of load data available to us, in batches.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "prediction",
+                "batch-network-rates"
+              ],
+              "host": [
+                "{{prediction-batch-network-rates-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                "key": "X-GS-User",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"<dateTime>\",\n      \"transportType\": \"<string>\",\n      \"stops\": [\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        }\n      ],\n      \"commodity\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"currency\": \"<string>\"\n    },\n    {\n      \"pickupDateTime\": \"<dateTime>\",\n      \"transportType\": \"<string>\",\n      \"stops\": [\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"city\": \"<string>\",\n          \"state\": \"<string>\",\n          \"country\": \"<string>\",\n          \"zip\": \"<string>\"\n        }\n      ],\n      \"commodity\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"currency\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f3aba3b9-20bd-4550-9895-f6f175dee302",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responses\": [\n    {\n      \"acceptanceRates\": [\n        6023.251545182821,\n        6967.31521711173\n      ],\n      \"confidenceLevel\": 65,\n      \"currency\": \"USD\",\n      \"distance\": 289,\n      \"highBuyRate\": 2.5,\n      \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n      \"lowBuyRate\": 2.11,\n      \"startBuyRate\": 2.07,\n      \"status\": \"OK\",\n      \"tag\": \"78206219-883b-4e1a-bd42-4010d3cc21c1\",\n      \"targetBuyRate\": 2.24,\n      \"fuelRate\": 0.33,\n      \"notes\": {\n        \"shortHaulRateInaccurate\": {\n          \"distanceLessThan\": 30\n        },\n        \"multistopDistanceOutlierRateInaccurate\": {\n          \"allowedDistanceDifferenceRange\": {\n            \"minimumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"singleStopDistance\": 570\n        }\n      },\n      \"errorObject\": {\n        \"httpCode\": 424,\n        \"code\": \"not_found_distance\",\n        \"message\": \"Not found route between locations\"\n      }\n    },\n    {\n      \"acceptanceRates\": [\n        1708.9092291522113,\n        2651.131559297739\n      ],\n      \"confidenceLevel\": 65,\n      \"currency\": \"USD\",\n      \"distance\": 289,\n      \"highBuyRate\": 2.5,\n      \"id\": \"83e60ba0-389c-401a-8a7a-a879a2838d6e\",\n      \"lowBuyRate\": 2.11,\n      \"startBuyRate\": 2.07,\n      \"status\": \"OK\",\n      \"tag\": \"78206219-883b-4e1a-bd42-4010d3cc21c1\",\n      \"targetBuyRate\": 2.24,\n      \"fuelRate\": 0.33,\n      \"notes\": {\n        \"shortHaulRateInaccurate\": {\n          \"distanceLessThan\": 30\n        },\n        \"multistopDistanceOutlierRateInaccurate\": {\n          \"allowedDistanceDifferenceRange\": {\n            \"minimumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"maximumPercentage\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"singleStopDistance\": 570\n        }\n      },\n      \"errorObject\": {\n        \"httpCode\": 424,\n        \"code\": \"not_found_distance\",\n        \"message\": \"Not found route between locations\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e009a082-e865-4634-a98d-dc04111efd58",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d14e4227-720f-4a4b-8966-0422dd946f76",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9d510d29-e2fa-4f41-aa86-dafe81aa2b0b",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdaf7d7f-4b9a-433f-94f1-1569adbe949d",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0bbc4206-9a5e-48d9-af93-5881483a0475",
+              "name": "Failed Dependency.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Failed Dependency (WebDAV) (RFC 4918)",
+              "code": 424,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"distance_calculation_error\",\n  \"message\": \"Unable to calculate distance between zips {key}, reason:  {exc}\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98945d52-9a41-4b78-a90c-59c60eccc52a",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "583e6ded-2eae-408d-aee1-bfbcd3645713",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "prediction",
+                    "batch-network-rates"
+                  ],
+                  "host": [
+                    "{{prediction-batch-network-rates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Currently logged in user. Used in cases where this information is \nnot available in the token e.g. web-portable, api integration, etc.\n",
+                    "key": "X-GS-User",
+                    "value": "kalex@greenscreens.ai"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requests\": [\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    },\n    {\n      \"pickupDateTime\": \"2021-09-21T13:00:00Z\",\n      \"transportType\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"country\": \"US\",\n          \"city\": \"Chicago\",\n          \"state\": \"IL\",\n          \"zip\": \"60611\"\n        },\n        {\n          \"order\": 1,\n          \"country\": \"US\",\n          \"city\": \"Dallas\",\n          \"state\": \"TX\",\n          \"zip\": \"75204\"\n        }\n      ],\n      \"commodity\": \"Racks\",\n      \"tag\": \"Pro#1234\",\n      \"currency\": \"USD\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v3",
+      "key": "prediction-rates-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v3",
+      "key": "prediction-batch-rates-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v3",
+      "key": "prediction-history-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v3",
+      "key": "prediction-network-rates-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v3",
+      "key": "prediction-batch-network-rates-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "b9b98f1a-3425-402b-9e85-a2d18e51b495",
+    "name": "Triumph Intelligence Connect Analytics Prediction API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

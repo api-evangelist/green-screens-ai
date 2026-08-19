@@ -1,0 +1,228 @@
+{
+  "item": [
+    {
+      "id": "a1dcdc85-49ae-4181-9979-92a8b1912142",
+      "name": "Auth",
+      "description": {
+        "content": "Authentication service",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a058ef70-3617-45eb-81f6-5229ad3af0b5",
+          "name": "Auth token",
+          "request": {
+            "name": "Auth token",
+            "description": {
+              "content": "The request for the access token should look like this.\n```\ncurl -X POST \"https://testapi.greenscreens.ai/v1/auth/token\" -H \"accept: application/json\" \\\n-H \"Content-Type: application/x-www-form-urlencoded\" \\\n-d \"grant_type=client_credentials&client_id=external-app&client_secret=78aaff56-7b86-4c92-9a1d-355f167c0619\"\n```\nYou should replace `client_id` and `client_secret` with id and secret provided to you by greenscreens. \n\n---\nIf an access_token that you use expires, or you receive an `unauthenticated` error,\nyour application will need to obtain a new access_token.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "token"
+              ],
+              "host": [
+                "{{auth-token-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "grant_type",
+                  "value": "<string>",
+                  "description": "(Required) Type of authorization flow, in this case should always be `client_credentials`"
+                },
+                {
+                  "disabled": false,
+                  "key": "client_id",
+                  "value": "<string>",
+                  "description": "(Required) Client id provided by greenscreens"
+                },
+                {
+                  "disabled": false,
+                  "key": "client_secret",
+                  "value": "<string>",
+                  "description": "(Required) Client secret provided by greenscreens"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0b6e670e-edc3-46da-aece-bf2bdf327be5",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "token"
+                  ],
+                  "host": [
+                    "{{auth-token-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Type of authorization flow, in this case should always be `client_credentials`",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Client id provided by greenscreens",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "external-app"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Client secret provided by greenscreens",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "78aaff56-7b86-4c92-9a1d-355f167c0619"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3cmFncld0MlJuVjZaeFdZa2JLZDktOGZYV202UlRCU3Q0WE1IYWdpZFQwIn0.eyJqdGkiOiIyM2VjNzg3Ny0yMzBjLTRkODktYmYyNy0zMWFmZWQ5MDMyYjciLCJleHAiOjE1NzU0ODEwMTMsIm5iZiI6MCwiaWF0IjoxNTc1NDc3NDEzLCJpc3MiOiJodHRwOi8vdGVzdGluZy5rZXkuY2FyZ2dvLmludC9hdXRoL3JlYWxtcy9DYXJnZ29TZWN1cml0eVJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjhhYzNjYjljLTA1MGQtNDUzZS1hNGRhLTEzOGE5MmZlZmExNCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNhcmdnby1tZG0tYXBwIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiN2Q4YmFhMTAtNWQwNy00ZTZmLWE3OTctOTAzMzZjOGY4MWRiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJUcGxNYW5hZ2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJTaGlwcGVyTWFuYWdlciIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJwcmltYXJ5Um9sZSI6IlRwbE1hbmFnZXIiLCJjb21wYW55SWQiOiIxNWNlM2Q3Yi1kYjA3LTRkOTgtYmE3Zi1hNGYxYWNmMWY3ODIiLCJjaGlsZHJlbkNvbXBhbmllcyI6WyI3NDYyOGNkZS1jMzc0LTRmOTctYThiYS1lZDFjMGIzOTdhYzQiLCI2M2Y1MWM3ZC0yYjg1LTQwMWEtYWYwMS02NTQ3YzY3ZTlkOWIiLCI3YWY0MzRmZS00Mzg5LTQ5ZDQtYTM1Ni02NjlkZGNiMDIwMDgiXSwidXNlcklkIjoiZDMzMWVhZTEtMjU4Ni00YmFlLTgxODMtN2QyZmY5ZTJmYzQ2In0.ngQ15qlArqFyQ-fRJZcHGBFZQBWsG2oXgJqsOpY8ECpQN5-VgX2zlWPATZ469qXEmFEdwGfsadk62T6fu7Qxf1elTFSw5OqXHAWKPs1myB3E-wxDe9zRZdnFm72G5uoVHyLhPwbInWTTZNzCrISQVUQq1UbcQ5K0OZxQSThTgh232qPNjl6J1KekjvAkottMTCugv0Rl1MxvCnLyyYPyKl2EACCJShJ0-xjLaU1sH68Jnt7kPC8HCfqvZUj2c9YtBKwBTkOhriPQWHEQLC8g0GMSV3Q19_fCuAkqo9qd2spLyi7K9hNI1PNSESOSPBVNPqVmip712YdtlEUE8OQ0wQ\",\n  \"expires_in\": 3600,\n  \"refresh_expires_in\": 0,\n  \"token_type\": \"Bearer\",\n  \"not-before-policy\": 1631698006,\n  \"scope\": \"\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c553ec9d-86cf-4fbd-892a-c07911d4ab47",
+              "name": "Authorization information is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth",
+                    "token"
+                  ],
+                  "host": [
+                    "{{auth-token-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Type of authorization flow, in this case should always be `client_credentials`",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Client id provided by greenscreens",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "external-app"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Client secret provided by greenscreens",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "78aaff56-7b86-4c92-9a1d-355f167c0619"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "auth-token-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "0377d4e4-8a55-4a2c-b821-1eb7ab810a66",
+    "name": "Triumph Intelligence Connect Analytics Auth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

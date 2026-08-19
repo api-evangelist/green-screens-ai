@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Top carriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/lane-top-carriers",
+            "params": [
+              {
+                "name": "transportType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCountry",
+                "value": "",
+                "type": "query",
+                "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "originState",
+                "value": "",
+                "type": "query",
+                "description": "Origin state"
+              },
+              {
+                "name": "originCity",
+                "value": "",
+                "type": "query",
+                "description": "Origin city"
+              },
+              {
+                "name": "originZip",
+                "value": "",
+                "type": "query",
+                "description": "Origin area zip"
+              },
+              {
+                "name": "destinationCountry",
+                "value": "",
+                "type": "query",
+                "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "destinationState",
+                "value": "",
+                "type": "query",
+                "description": "Destination state"
+              },
+              {
+                "name": "destinationCity",
+                "value": "",
+                "type": "query",
+                "description": "Destination city"
+              },
+              {
+                "name": "destinationZip",
+                "value": "",
+                "type": "query",
+                "description": "Destination area zip"
+              },
+              {
+                "name": "hasExtraStops",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Start date of a period for which you want to calculate top carriers. \nIn ISO format (YYYY-MM-DD). \n\nEnd date of this period is the current date.\n"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Code of the currency that you want the response to be in.\nFormat is ISO 4217.\nIf not provided, defaults to the currency set in the profile of currently authenticated user.\n"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sorting descriptor in format `?sort={field},{asc|desc}`. \n\nMultiple sort parameters are allowed and should look like this \n`?sort=name,asc&sort=email,desc`.\n\nIf multiple sort parameters are passed, the results will be sorted by all of them, \nwith priority decreasing from left to right.\n\nSo in case of `?sort=name,asc&sort=volume,desc` results will be first sorted by \nname in ascending order, and in cases where names are equal \nresults will be sorted by volume in descending order.\n\nBy default carriers are sorted like this: \n`numberOfLoads,desc & lastShippedDate,desc`.\n\nThese response fields support sorting:\n```\ncarrierName\ncarrierPhone\ncarrierEmail\ncarrierMC\ncarrierDOT\ncarrierSCAC\nnumberOfLoads\nlastShippedDate\naverageCarrierRate\nminCarrierRate\nmaxCarrierRate\naverageCarrierFlatRate\nminCarrierFlatRate\nmaxCarrierFlatRate\naverageCarrierMarginPercent\n```\n"
+              }
+            ]
+          },
+          "docs": "Returns a list of top carriers for a provided lane"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1261 @@
+{
+  "item": [
+    {
+      "id": "4d331c4c-696e-4337-863a-d22f6c6789ec",
+      "name": "Quotes",
+      "description": {
+        "content": "Quotes service v2\n\n<a href=\"/quotes/v2/redoc/\" target=\"_blank\">View separately</a>\n\n<a href=\"/quotes/v2/swagger/index.html\" target=\"_blank\">Try it in swagger</a>\n\nOlder version of this api exists. <a href=\"/quotes/v1/redoc/\" target=\"_blank\">View v1 here</a>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dcb8a0ca-071e-4a9e-85f2-f18267250eeb",
+          "name": "Get quotes",
+          "request": {
+            "name": "Get quotes",
+            "description": {
+              "content": "Get quotes",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "quotes"
+              ],
+              "host": [
+                "{{quotes-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "createdDateFrom",
+                  "value": "<date>",
+                  "description": "\\'quote created date >= value\\' filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "createdDateTo",
+                  "value": "<date>",
+                  "description": "\\'quote created date <= value\\' filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "The page to return items from. \nUsed for pagination\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "20",
+                  "description": "The amount of items per page. \nUsed for pagination\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "7cf230e0-8b81-4575-b408-5f2b36203ff7",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"page\": 12,\n    \"perPage\": 20\n  },\n  \"items\": [\n    {\n      \"id\": 12345,\n      \"key\": \"afd124faf-12raf-qfa2q-afvawf\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\",\n            \"type\": \"CITY\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\",\n            \"type\": \"ZIP\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n      \"defaultedQuoteDateTime\": \"2020-09-14T16:00:00Z\",\n      \"createdDateTime\": \"2020-09-14T16:00:00Z\",\n      \"status\": \"WON\",\n      \"wasViewed\": false,\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"quoteId\": \"Q#54321\",\n      \"loadId\": \"12345\",\n      \"transportType\": \"VR\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-09-14T16:00:00Z\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"weight\": 22000,\n      \"predictions\": {\n        \"company\": {\n          \"buy\": {\n            \"target\": 1200,\n            \"start\": 1200,\n            \"high\": 1200,\n            \"confidenceLevel\": 65\n          },\n          \"sell\": {\n            \"target\": 1200\n          }\n        },\n        \"network\": {\n          \"buy\": {\n            \"target\": 1200,\n            \"confidenceLevel\": 65\n          }\n        },\n        \"distance\": 289\n      },\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10,\n      \"notes\": \"Do not dispatch before Monday\"\n    },\n    {\n      \"id\": 12345,\n      \"key\": \"afd124faf-12raf-qfa2q-afvawf\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\",\n            \"type\": \"CITY\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\",\n            \"type\": \"ZIP\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-09-14T16:00:00Z\",\n      \"defaultedQuoteDateTime\": \"2020-09-14T16:00:00Z\",\n      \"createdDateTime\": \"2020-09-14T16:00:00Z\",\n      \"status\": \"WON\",\n      \"wasViewed\": false,\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"quoteId\": \"Q#54321\",\n      \"loadId\": \"12345\",\n      \"transportType\": \"VR\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-09-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-09-14T16:00:00Z\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"weight\": 22000,\n      \"predictions\": {\n        \"company\": {\n          \"buy\": {\n            \"target\": 1200,\n            \"start\": 1200,\n            \"high\": 1200,\n            \"confidenceLevel\": 65\n          },\n          \"sell\": {\n            \"target\": 1200\n          }\n        },\n        \"network\": {\n          \"buy\": {\n            \"target\": 1200,\n            \"confidenceLevel\": 65\n          }\n        },\n        \"distance\": 289\n      },\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10,\n      \"notes\": \"Do not dispatch before Monday\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "db25e4d8-1787-43aa-a0cf-c55e48ec1dc5",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a303512-611b-4b79-afbe-0e13a0e4e901",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d90efde5-fb22-4236-9dbb-fc6fa44217eb",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "039d6251-7c4b-497b-8975-bffd61b7ff4c",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0cb6fa46-d9e7-4475-a986-101b112ab5d1",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "112b0d23-bd7e-4173-94aa-5d1619d87da1",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cedd7e31-7c34-4e61-ad7e-b7c9ed2e81d3",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{quotes-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdDateFrom",
+                      "value": "2019-09-30"
+                    },
+                    {
+                      "key": "createdDateTo",
+                      "value": "2019-12-30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "30"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c7db59a7-8e97-4f9b-86df-26315a31efe1",
+          "name": "Import a quote",
+          "request": {
+            "name": "Import a quote",
+            "description": {
+              "content": "Import an external quote",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "quotes",
+                "import"
+              ],
+              "host": [
+                "{{quotes-import-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteId\": \"<string>\",\n  \"userEmail\": \"<string>\",\n  \"transportType\": \"<string>\",\n  \"transportTypeGroup\": \"<string>\",\n  \"stops\": [\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    },\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"state\": \"<string>\",\n        \"city\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\"\n    }\n  ],\n  \"pickupDateTime\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"shipper\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"phone\": \"<string>\",\n    \"email\": \"<string>\"\n  },\n  \"pricingType\": \"<string>\",\n  \"pricingTypeGroup\": \"<string>\",\n  \"costs\": {\n    \"linehaul\": \"<number>\",\n    \"accessorials\": [\n      {\n        \"name\": \"<string>\",\n        \"cost\": \"<number>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"cost\": \"<number>\"\n      }\n    ],\n    \"total\": \"<number>\"\n  },\n  \"currency\": \"<string>\",\n  \"loadId\": \"<string>\",\n  \"distance\": \"<float>\",\n  \"deliveredDateTime\": \"<dateTime>\",\n  \"expirationDateTime\": \"<dateTime>\",\n  \"quoteDateTime\": \"<dateTime>\",\n  \"rejectionReason\": \"<string>\",\n  \"weight\": \"<float>\",\n  \"contractDuration\": \"<integer>\",\n  \"numberOfLoads\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "273d8340-95fa-44b2-8653-a7ea60e13408",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"Q#54321\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"transportType\": \"VR\",\n  \"transportTypeGroup\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"status\": \"WON\",\n  \"shipper\": {\n    \"id\": \"64378901\",\n    \"name\": \"Walmart\",\n    \"phone\": \"4112228888\",\n    \"email\": \"test@greenscreens.ai\"\n  },\n  \"pricingType\": \"SPOT\",\n  \"pricingTypeGroup\": \"SPOT\",\n  \"costs\": {\n    \"linehaul\": 1200,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      },\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      }\n    ],\n    \"total\": 1500\n  },\n  \"currency\": \"USD\",\n  \"loadId\": \"12345\",\n  \"distance\": 289,\n  \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n  \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n  \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n  \"rejectionReason\": \"Rejecting, because price is too high\",\n  \"weight\": 22000,\n  \"contractDuration\": 5,\n  \"numberOfLoads\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"CREATED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19e32b5f-2c44-4743-b0b8-728ea8cc5d13",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"Q#54321\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"transportType\": \"VR\",\n  \"transportTypeGroup\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"status\": \"WON\",\n  \"shipper\": {\n    \"id\": \"64378901\",\n    \"name\": \"Walmart\",\n    \"phone\": \"4112228888\",\n    \"email\": \"test@greenscreens.ai\"\n  },\n  \"pricingType\": \"SPOT\",\n  \"pricingTypeGroup\": \"SPOT\",\n  \"costs\": {\n    \"linehaul\": 1200,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      },\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      }\n    ],\n    \"total\": 1500\n  },\n  \"currency\": \"USD\",\n  \"loadId\": \"12345\",\n  \"distance\": 289,\n  \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n  \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n  \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n  \"rejectionReason\": \"Rejecting, because price is too high\",\n  \"weight\": 22000,\n  \"contractDuration\": 5,\n  \"numberOfLoads\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8685c8df-19cd-4bbb-9e73-8094da7252f0",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"Q#54321\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"transportType\": \"VR\",\n  \"transportTypeGroup\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"status\": \"WON\",\n  \"shipper\": {\n    \"id\": \"64378901\",\n    \"name\": \"Walmart\",\n    \"phone\": \"4112228888\",\n    \"email\": \"test@greenscreens.ai\"\n  },\n  \"pricingType\": \"SPOT\",\n  \"pricingTypeGroup\": \"SPOT\",\n  \"costs\": {\n    \"linehaul\": 1200,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      },\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      }\n    ],\n    \"total\": 1500\n  },\n  \"currency\": \"USD\",\n  \"loadId\": \"12345\",\n  \"distance\": 289,\n  \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n  \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n  \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n  \"rejectionReason\": \"Rejecting, because price is too high\",\n  \"weight\": 22000,\n  \"contractDuration\": 5,\n  \"numberOfLoads\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f70d223a-fa96-49d8-b098-60e000119871",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"Q#54321\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"transportType\": \"VR\",\n  \"transportTypeGroup\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"status\": \"WON\",\n  \"shipper\": {\n    \"id\": \"64378901\",\n    \"name\": \"Walmart\",\n    \"phone\": \"4112228888\",\n    \"email\": \"test@greenscreens.ai\"\n  },\n  \"pricingType\": \"SPOT\",\n  \"pricingTypeGroup\": \"SPOT\",\n  \"costs\": {\n    \"linehaul\": 1200,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      },\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      }\n    ],\n    \"total\": 1500\n  },\n  \"currency\": \"USD\",\n  \"loadId\": \"12345\",\n  \"distance\": 289,\n  \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n  \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n  \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n  \"rejectionReason\": \"Rejecting, because price is too high\",\n  \"weight\": 22000,\n  \"contractDuration\": 5,\n  \"numberOfLoads\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e03acd1-2601-4ea1-95ec-1f76e05ac14a",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"Q#54321\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"transportType\": \"VR\",\n  \"transportTypeGroup\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"status\": \"WON\",\n  \"shipper\": {\n    \"id\": \"64378901\",\n    \"name\": \"Walmart\",\n    \"phone\": \"4112228888\",\n    \"email\": \"test@greenscreens.ai\"\n  },\n  \"pricingType\": \"SPOT\",\n  \"pricingTypeGroup\": \"SPOT\",\n  \"costs\": {\n    \"linehaul\": 1200,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      },\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      }\n    ],\n    \"total\": 1500\n  },\n  \"currency\": \"USD\",\n  \"loadId\": \"12345\",\n  \"distance\": 289,\n  \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n  \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n  \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n  \"rejectionReason\": \"Rejecting, because price is too high\",\n  \"weight\": 22000,\n  \"contractDuration\": 5,\n  \"numberOfLoads\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d16a2ab-452a-484d-b976-e30c3f75cb5b",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"Q#54321\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"transportType\": \"VR\",\n  \"transportTypeGroup\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"status\": \"WON\",\n  \"shipper\": {\n    \"id\": \"64378901\",\n    \"name\": \"Walmart\",\n    \"phone\": \"4112228888\",\n    \"email\": \"test@greenscreens.ai\"\n  },\n  \"pricingType\": \"SPOT\",\n  \"pricingTypeGroup\": \"SPOT\",\n  \"costs\": {\n    \"linehaul\": 1200,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      },\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      }\n    ],\n    \"total\": 1500\n  },\n  \"currency\": \"USD\",\n  \"loadId\": \"12345\",\n  \"distance\": 289,\n  \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n  \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n  \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n  \"rejectionReason\": \"Rejecting, because price is too high\",\n  \"weight\": 22000,\n  \"contractDuration\": 5,\n  \"numberOfLoads\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8947866-b26e-4b16-bb63-31be408f2c41",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"Q#54321\",\n  \"userEmail\": \"buddy@greenscreens.ai\",\n  \"transportType\": \"VR\",\n  \"transportTypeGroup\": \"VAN\",\n  \"stops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    }\n  ],\n  \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n  \"status\": \"WON\",\n  \"shipper\": {\n    \"id\": \"64378901\",\n    \"name\": \"Walmart\",\n    \"phone\": \"4112228888\",\n    \"email\": \"test@greenscreens.ai\"\n  },\n  \"pricingType\": \"SPOT\",\n  \"pricingTypeGroup\": \"SPOT\",\n  \"costs\": {\n    \"linehaul\": 1200,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      },\n      {\n        \"name\": \"Overweight\",\n        \"cost\": 200.5\n      }\n    ],\n    \"total\": 1500\n  },\n  \"currency\": \"USD\",\n  \"loadId\": \"12345\",\n  \"distance\": 289,\n  \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n  \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n  \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n  \"rejectionReason\": \"Rejecting, because price is too high\",\n  \"weight\": 22000,\n  \"contractDuration\": 5,\n  \"numberOfLoads\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dfb8f493-c76f-4f86-b607-ba0a3848b918",
+          "name": "Import quotes in a batch",
+          "request": {
+            "name": "Import quotes in a batch",
+            "description": {
+              "content": "Import quotes in a batch",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "quotes",
+                "batch",
+                "import"
+              ],
+              "host": [
+                "{{quotes-batch-import-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"<string>\",\n      \"userEmail\": \"<string>\",\n      \"transportType\": \"<string>\",\n      \"transportTypeGroup\": \"<string>\",\n      \"stops\": [\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\"\n        }\n      ],\n      \"pickupDateTime\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"shipper\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"pricingType\": \"<string>\",\n      \"pricingTypeGroup\": \"<string>\",\n      \"costs\": {\n        \"linehaul\": \"<number>\",\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": \"<number>\"\n      },\n      \"currency\": \"<string>\",\n      \"loadId\": \"<string>\",\n      \"distance\": \"<float>\",\n      \"deliveredDateTime\": \"<dateTime>\",\n      \"expirationDateTime\": \"<dateTime>\",\n      \"quoteDateTime\": \"<dateTime>\",\n      \"rejectionReason\": \"<string>\",\n      \"weight\": \"<float>\",\n      \"contractDuration\": \"<integer>\",\n      \"numberOfLoads\": \"<integer>\"\n    },\n    {\n      \"quoteId\": \"<string>\",\n      \"userEmail\": \"<string>\",\n      \"transportType\": \"<string>\",\n      \"transportTypeGroup\": \"<string>\",\n      \"stops\": [\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\"\n        }\n      ],\n      \"pickupDateTime\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"shipper\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"phone\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"pricingType\": \"<string>\",\n      \"pricingTypeGroup\": \"<string>\",\n      \"costs\": {\n        \"linehaul\": \"<number>\",\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": \"<number>\"\n      },\n      \"currency\": \"<string>\",\n      \"loadId\": \"<string>\",\n      \"distance\": \"<float>\",\n      \"deliveredDateTime\": \"<dateTime>\",\n      \"expirationDateTime\": \"<dateTime>\",\n      \"quoteDateTime\": \"<dateTime>\",\n      \"rejectionReason\": \"<string>\",\n      \"weight\": \"<float>\",\n      \"contractDuration\": \"<integer>\",\n      \"numberOfLoads\": \"<integer>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3b3426f8-5c95-4055-9d0b-efe2cbc84ae8",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "batch",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-batch-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responses\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"status\": \"CREATED\",\n      \"error\": {\n        \"code\": \"validation_errors_occured\",\n        \"message\": \"Validation errors occured, check errors array for details\",\n        \"errors\": [\n          {\n            \"field\": \"transportType\",\n            \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n            \"value\": \"SpaceXDragon\"\n          },\n          {\n            \"field\": \"transportType\",\n            \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n            \"value\": \"SpaceXDragon\"\n          }\n        ]\n      }\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"status\": \"CREATED\",\n      \"error\": {\n        \"code\": \"validation_errors_occured\",\n        \"message\": \"Validation errors occured, check errors array for details\",\n        \"errors\": [\n          {\n            \"field\": \"transportType\",\n            \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n            \"value\": \"SpaceXDragon\"\n          },\n          {\n            \"field\": \"transportType\",\n            \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n            \"value\": \"SpaceXDragon\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8db1c89-e96a-4008-9439-542ee378d6b9",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "batch",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-batch-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a86fb970-24f6-4d68-a4cf-9f9f0f4724a2",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "batch",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-batch-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "35e40bfe-b9f4-4610-b35b-decf627affe3",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "batch",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-batch-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "524d3e0d-b518-4f77-9502-cb3c3ba89340",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "batch",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-batch-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19c09c99-958c-4584-8c59-09af4eb1a1d4",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "batch",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-batch-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f7ca0525-8e89-4b5b-b80f-35c31989cf05",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "quotes",
+                    "batch",
+                    "import"
+                  ],
+                  "host": [
+                    "{{quotes-batch-import-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotes\": [\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    },\n    {\n      \"quoteId\": \"Q#54321\",\n      \"userEmail\": \"buddy@greenscreens.ai\",\n      \"transportType\": \"VR\",\n      \"transportTypeGroup\": \"VAN\",\n      \"stops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-13T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        }\n      ],\n      \"pickupDateTime\": \"2020-10-13T16:00:00Z\",\n      \"status\": \"WON\",\n      \"shipper\": {\n        \"id\": \"64378901\",\n        \"name\": \"Walmart\",\n        \"phone\": \"4112228888\",\n        \"email\": \"test@greenscreens.ai\"\n      },\n      \"pricingType\": \"SPOT\",\n      \"pricingTypeGroup\": \"SPOT\",\n      \"costs\": {\n        \"linehaul\": 1200,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"cost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"total\": 1500\n      },\n      \"currency\": \"USD\",\n      \"loadId\": \"12345\",\n      \"distance\": 289,\n      \"deliveredDateTime\": \"2020-10-14T16:00:00Z\",\n      \"expirationDateTime\": \"2020-10-12T16:00:00+05:00\",\n      \"quoteDateTime\": \"2020-10-13T16:00:00Z\",\n      \"rejectionReason\": \"Rejecting, because price is too high\",\n      \"weight\": 22000,\n      \"contractDuration\": 5,\n      \"numberOfLoads\": 10\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "quotes-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "quotes-import-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "quotes-batch-import-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "97a414b7-0edb-481b-84fb-635dada4393c",
+    "name": "Triumph Intelligence Connect Analytics Quotes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

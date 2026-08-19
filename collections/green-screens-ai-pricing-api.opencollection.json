@@ -1,0 +1,236 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics Pricing API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pricing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get priority rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/priority-rules",
+            "params": [
+              {
+                "name": "pricingTypeGroup",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get priority rules"
+        },
+        {
+          "info": {
+            "name": "Create a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/priority-rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a priority rule"
+        },
+        {
+          "info": {
+            "name": "Get a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/priority-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the priority rule to get"
+              }
+            ]
+          },
+          "docs": "Get a priority rule"
+        },
+        {
+          "info": {
+            "name": "Update a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/pricing/priority-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the priority rule to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a priority rule"
+        },
+        {
+          "info": {
+            "name": "Delete a priority rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/pricing/priority-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the priority rule to delete"
+              }
+            ]
+          },
+          "docs": "Delete a priority rule"
+        },
+        {
+          "info": {
+            "name": "Get combination rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/combination-rules",
+            "params": [
+              {
+                "name": "pricingTypeGroup",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get combination rules"
+        },
+        {
+          "info": {
+            "name": "Create a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/combination-rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a combination rule"
+        },
+        {
+          "info": {
+            "name": "Get a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pricing/combination-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the combination rule to get"
+              }
+            ]
+          },
+          "docs": "Get a combination rule"
+        },
+        {
+          "info": {
+            "name": "Update a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/pricing/combination-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the combination rule to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a combination rule"
+        },
+        {
+          "info": {
+            "name": "Delete a combination rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/pricing/combination-rules/:ruleId",
+            "params": [
+              {
+                "name": "ruleId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the combination rule to delete"
+              }
+            ]
+          },
+          "docs": "Delete a combination rule"
+        },
+        {
+          "info": {
+            "name": "Calculate pricing, based on TPL data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/tpl-pricing",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns all pricing suggestions: statistical, rule related, etc. \nintended for TPL pricing and calculated using TPL data.\n\nMost of the fields in the request and response are optional.\n\nResponse fields are related to request fields e.g. if you do not provide\nthe customer name in the request, there will be no customer related\npricing data in the response, and the pricing rules that use customer name predicates\nwill not be found.\n\nTo get the most possible data in the response, provide all the data "
+        },
+        {
+          "info": {
+            "name": "Get sell rates of partner brokers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/pricing/marketplace/my-broker-partners",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Intended to be used by a shipper-broker marketplace (a.k.a Shipper TMS).\n\nReturns a list of brokers that confirmed that they want to work with\nthe marketplace that is requesting the rates.\n\nEach broker in the list will contain a sell rate that they are\nwilling to move the load for\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

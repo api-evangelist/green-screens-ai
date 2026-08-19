@@ -1,0 +1,2186 @@
+{
+  "item": [
+    {
+      "id": "b5a82be9-79f1-4ad8-9950-e889ae458aec",
+      "name": "TMS",
+      "description": {
+        "content": "TmsConnector service v2\n\n<a href=\"/tmsconnector/v2/redoc/\" target=\"_blank\">View separately</a>\n\n<a href=\"/tmsconnector/v2/swagger/index.html\" target=\"_blank\">Try it in swagger</a>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "42d4ed22-bc56-42b0-824b-0081bd2c7d4d",
+          "name": "Import load",
+          "request": {
+            "name": "Import load",
+            "description": {
+              "content": "Import a new load or update an existing one",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tms",
+                "import-load"
+              ],
+              "host": [
+                "{{tms-import-load-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loadId\": \"<string>\",\n  \"origin\": {\n    \"country\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"appointmentDateTime\": \"<dateTime>\",\n    \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n    \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n    \"arrivedAt\": \"<dateTime>\",\n    \"departedAt\": \"<dateTime>\"\n  },\n  \"destination\": {\n    \"country\": \"<string>\",\n    \"city\": \"<string>\",\n    \"state\": \"<string>\",\n    \"zip\": \"<string>\",\n    \"appointmentDateTime\": \"<dateTime>\",\n    \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n    \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n    \"arrivedAt\": \"<dateTime>\",\n    \"departedAt\": \"<dateTime>\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": \"<number>\",\n    \"totalShipperLinehaulCost\": \"<number>\",\n    \"totalFuelCost\": \"<number>\",\n    \"accessorials\": [\n      {\n        \"name\": \"<string>\",\n        \"shipperCost\": \"<number>\",\n        \"carrierCost\": \"<number>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"shipperCost\": \"<number>\",\n        \"carrierCost\": \"<number>\"\n      }\n    ],\n    \"totalShipperCost\": \"<number>\",\n    \"totalCarrierCost\": \"<number>\",\n    \"currency\": \"<string>\"\n  },\n  \"pickupDate\": \"<dateTime>\",\n  \"transportTypeGroup\": \"<string>\",\n  \"transportType\": \"<string>\",\n  \"extraStops\": [\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\",\n      \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n      \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n      \"arrivedAt\": \"<dateTime>\",\n      \"departedAt\": \"<dateTime>\"\n    },\n    {\n      \"order\": \"<integer>\",\n      \"address\": {\n        \"country\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip\": \"<string>\"\n      },\n      \"type\": \"<string>\",\n      \"appointmentDateTime\": \"<dateTime>\",\n      \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n      \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n      \"arrivedAt\": \"<dateTime>\",\n      \"departedAt\": \"<dateTime>\"\n    }\n  ],\n  \"deliveredDate\": \"<dateTime>\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"<string>\",\n  \"details\": {\n    \"distance\": \"<float>\",\n    \"miles\": \"<float>\",\n    \"commodity\": \"<string>\",\n    \"weight\": \"<float>\",\n    \"tenderedDate\": \"<dateTime>\",\n    \"bookedDate\": \"<dateTime>\",\n    \"tordFlag\": \"<boolean>\",\n    \"hazmat\": \"<boolean>\",\n    \"hotshot\": \"<boolean>\",\n    \"teamDrive\": \"<boolean>\",\n    \"overdimensional\": \"<boolean>\",\n    \"dedicatedCarrierContract\": \"<boolean>\",\n    \"asset\": \"<boolean>\",\n    \"pricingType\": \"<string>\",\n    \"pricingTypeGroup\": \"<string>\",\n    \"carrierAccountManager\": \"<string>\",\n    \"shipperAccountManager\": \"<string>\",\n    \"salesManager\": \"<string>\",\n    \"userGroupId\": \"<string>\",\n    \"office\": \"<string>\"\n  },\n  \"shipper\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  },\n  \"carrier\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3daa5180-a485-4f06-b84c-ff0844017e5f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loadId\": \"12345\",\n  \"origin\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"destination\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": 956,\n    \"totalShipperLinehaulCost\": 1176,\n    \"totalFuelCost\": 45,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      },\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      }\n    ],\n    \"totalShipperCost\": 1276,\n    \"totalCarrierCost\": 1130,\n    \"currency\": \"USD\"\n  },\n  \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n  \"transportTypeGroup\": \"VAN\",\n  \"transportType\": \"VR\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"OPEN\",\n  \"details\": {\n    \"distance\": 434,\n    \"miles\": 434,\n    \"commodity\": \"Racks\",\n    \"weight\": 22000,\n    \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n    \"bookedDate\": \"2020-01-11T16:00:00Z\",\n    \"tordFlag\": false,\n    \"hazmat\": false,\n    \"hotshot\": false,\n    \"teamDrive\": false,\n    \"overdimensional\": false,\n    \"dedicatedCarrierContract\": false,\n    \"asset\": false,\n    \"pricingType\": \"Spot\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"carrierAccountManager\": \"John Doe\",\n    \"shipperAccountManager\": \"John Doe\",\n    \"salesManager\": \"John Doe\",\n    \"userGroupId\": \"Main office\",\n    \"office\": \"Main office\"\n  },\n  \"shipper\": {\n    \"id\": \"12345\",\n    \"name\": \"Shipper company\"\n  },\n  \"carrier\": {\n    \"id\": \"12345\",\n    \"name\": \"Carrier company\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n  \"loadId\": \"pr0-003\",\n  \"status\": \"CREATED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4854d82-784d-4dde-933f-46ea44f58718",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loadId\": \"12345\",\n  \"origin\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"destination\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": 956,\n    \"totalShipperLinehaulCost\": 1176,\n    \"totalFuelCost\": 45,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      },\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      }\n    ],\n    \"totalShipperCost\": 1276,\n    \"totalCarrierCost\": 1130,\n    \"currency\": \"USD\"\n  },\n  \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n  \"transportTypeGroup\": \"VAN\",\n  \"transportType\": \"VR\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"OPEN\",\n  \"details\": {\n    \"distance\": 434,\n    \"miles\": 434,\n    \"commodity\": \"Racks\",\n    \"weight\": 22000,\n    \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n    \"bookedDate\": \"2020-01-11T16:00:00Z\",\n    \"tordFlag\": false,\n    \"hazmat\": false,\n    \"hotshot\": false,\n    \"teamDrive\": false,\n    \"overdimensional\": false,\n    \"dedicatedCarrierContract\": false,\n    \"asset\": false,\n    \"pricingType\": \"Spot\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"carrierAccountManager\": \"John Doe\",\n    \"shipperAccountManager\": \"John Doe\",\n    \"salesManager\": \"John Doe\",\n    \"userGroupId\": \"Main office\",\n    \"office\": \"Main office\"\n  },\n  \"shipper\": {\n    \"id\": \"12345\",\n    \"name\": \"Shipper company\"\n  },\n  \"carrier\": {\n    \"id\": \"12345\",\n    \"name\": \"Carrier company\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ddde24d-c2cc-49e6-a342-35a4a5fe3277",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loadId\": \"12345\",\n  \"origin\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"destination\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": 956,\n    \"totalShipperLinehaulCost\": 1176,\n    \"totalFuelCost\": 45,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      },\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      }\n    ],\n    \"totalShipperCost\": 1276,\n    \"totalCarrierCost\": 1130,\n    \"currency\": \"USD\"\n  },\n  \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n  \"transportTypeGroup\": \"VAN\",\n  \"transportType\": \"VR\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"OPEN\",\n  \"details\": {\n    \"distance\": 434,\n    \"miles\": 434,\n    \"commodity\": \"Racks\",\n    \"weight\": 22000,\n    \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n    \"bookedDate\": \"2020-01-11T16:00:00Z\",\n    \"tordFlag\": false,\n    \"hazmat\": false,\n    \"hotshot\": false,\n    \"teamDrive\": false,\n    \"overdimensional\": false,\n    \"dedicatedCarrierContract\": false,\n    \"asset\": false,\n    \"pricingType\": \"Spot\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"carrierAccountManager\": \"John Doe\",\n    \"shipperAccountManager\": \"John Doe\",\n    \"salesManager\": \"John Doe\",\n    \"userGroupId\": \"Main office\",\n    \"office\": \"Main office\"\n  },\n  \"shipper\": {\n    \"id\": \"12345\",\n    \"name\": \"Shipper company\"\n  },\n  \"carrier\": {\n    \"id\": \"12345\",\n    \"name\": \"Carrier company\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "be3afe75-f158-461d-afdd-c8b5da3773b7",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loadId\": \"12345\",\n  \"origin\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"destination\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": 956,\n    \"totalShipperLinehaulCost\": 1176,\n    \"totalFuelCost\": 45,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      },\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      }\n    ],\n    \"totalShipperCost\": 1276,\n    \"totalCarrierCost\": 1130,\n    \"currency\": \"USD\"\n  },\n  \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n  \"transportTypeGroup\": \"VAN\",\n  \"transportType\": \"VR\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"OPEN\",\n  \"details\": {\n    \"distance\": 434,\n    \"miles\": 434,\n    \"commodity\": \"Racks\",\n    \"weight\": 22000,\n    \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n    \"bookedDate\": \"2020-01-11T16:00:00Z\",\n    \"tordFlag\": false,\n    \"hazmat\": false,\n    \"hotshot\": false,\n    \"teamDrive\": false,\n    \"overdimensional\": false,\n    \"dedicatedCarrierContract\": false,\n    \"asset\": false,\n    \"pricingType\": \"Spot\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"carrierAccountManager\": \"John Doe\",\n    \"shipperAccountManager\": \"John Doe\",\n    \"salesManager\": \"John Doe\",\n    \"userGroupId\": \"Main office\",\n    \"office\": \"Main office\"\n  },\n  \"shipper\": {\n    \"id\": \"12345\",\n    \"name\": \"Shipper company\"\n  },\n  \"carrier\": {\n    \"id\": \"12345\",\n    \"name\": \"Carrier company\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cd3401c6-25e0-4719-a8fc-4ea73a9a80e3",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loadId\": \"12345\",\n  \"origin\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"destination\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": 956,\n    \"totalShipperLinehaulCost\": 1176,\n    \"totalFuelCost\": 45,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      },\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      }\n    ],\n    \"totalShipperCost\": 1276,\n    \"totalCarrierCost\": 1130,\n    \"currency\": \"USD\"\n  },\n  \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n  \"transportTypeGroup\": \"VAN\",\n  \"transportType\": \"VR\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"OPEN\",\n  \"details\": {\n    \"distance\": 434,\n    \"miles\": 434,\n    \"commodity\": \"Racks\",\n    \"weight\": 22000,\n    \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n    \"bookedDate\": \"2020-01-11T16:00:00Z\",\n    \"tordFlag\": false,\n    \"hazmat\": false,\n    \"hotshot\": false,\n    \"teamDrive\": false,\n    \"overdimensional\": false,\n    \"dedicatedCarrierContract\": false,\n    \"asset\": false,\n    \"pricingType\": \"Spot\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"carrierAccountManager\": \"John Doe\",\n    \"shipperAccountManager\": \"John Doe\",\n    \"salesManager\": \"John Doe\",\n    \"userGroupId\": \"Main office\",\n    \"office\": \"Main office\"\n  },\n  \"shipper\": {\n    \"id\": \"12345\",\n    \"name\": \"Shipper company\"\n  },\n  \"carrier\": {\n    \"id\": \"12345\",\n    \"name\": \"Carrier company\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd43f770-fd84-4ebc-afc4-f3429dc397ba",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loadId\": \"12345\",\n  \"origin\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"destination\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": 956,\n    \"totalShipperLinehaulCost\": 1176,\n    \"totalFuelCost\": 45,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      },\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      }\n    ],\n    \"totalShipperCost\": 1276,\n    \"totalCarrierCost\": 1130,\n    \"currency\": \"USD\"\n  },\n  \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n  \"transportTypeGroup\": \"VAN\",\n  \"transportType\": \"VR\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"OPEN\",\n  \"details\": {\n    \"distance\": 434,\n    \"miles\": 434,\n    \"commodity\": \"Racks\",\n    \"weight\": 22000,\n    \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n    \"bookedDate\": \"2020-01-11T16:00:00Z\",\n    \"tordFlag\": false,\n    \"hazmat\": false,\n    \"hotshot\": false,\n    \"teamDrive\": false,\n    \"overdimensional\": false,\n    \"dedicatedCarrierContract\": false,\n    \"asset\": false,\n    \"pricingType\": \"Spot\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"carrierAccountManager\": \"John Doe\",\n    \"shipperAccountManager\": \"John Doe\",\n    \"salesManager\": \"John Doe\",\n    \"userGroupId\": \"Main office\",\n    \"office\": \"Main office\"\n  },\n  \"shipper\": {\n    \"id\": \"12345\",\n    \"name\": \"Shipper company\"\n  },\n  \"carrier\": {\n    \"id\": \"12345\",\n    \"name\": \"Carrier company\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "676b3273-d692-4a7a-8adc-ecc5fb0a59dd",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loadId\": \"12345\",\n  \"origin\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"destination\": {\n    \"country\": \"US\",\n    \"city\": \"Sacramento\",\n    \"state\": \"CA\",\n    \"zip\": \"95814\",\n    \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n    \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n    \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n    \"departedAt\": \"2020-10-13T10:45:00Z\"\n  },\n  \"rate\": {\n    \"totalLinehaulCost\": 956,\n    \"totalShipperLinehaulCost\": 1176,\n    \"totalFuelCost\": 45,\n    \"accessorials\": [\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      },\n      {\n        \"name\": \"Overweight\",\n        \"shipperCost\": 200,\n        \"carrierCost\": 0\n      }\n    ],\n    \"totalShipperCost\": 1276,\n    \"totalCarrierCost\": 1130,\n    \"currency\": \"USD\"\n  },\n  \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n  \"transportTypeGroup\": \"VAN\",\n  \"transportType\": \"VR\",\n  \"extraStops\": [\n    {\n      \"order\": 0,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Red Bluff\",\n        \"state\": \"CA\",\n        \"zip\": \"96080\"\n      },\n      \"type\": \"LOAD\",\n      \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n    },\n    {\n      \"order\": 1,\n      \"address\": {\n        \"country\": \"US\",\n        \"city\": \"Redding\",\n        \"state\": \"CA\",\n        \"zip\": \"96002\"\n      },\n      \"type\": \"UNLOAD\",\n      \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n    }\n  ],\n  \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n  \"transportMode\": \"FTL\",\n  \"status\": \"OPEN\",\n  \"details\": {\n    \"distance\": 434,\n    \"miles\": 434,\n    \"commodity\": \"Racks\",\n    \"weight\": 22000,\n    \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n    \"bookedDate\": \"2020-01-11T16:00:00Z\",\n    \"tordFlag\": false,\n    \"hazmat\": false,\n    \"hotshot\": false,\n    \"teamDrive\": false,\n    \"overdimensional\": false,\n    \"dedicatedCarrierContract\": false,\n    \"asset\": false,\n    \"pricingType\": \"Spot\",\n    \"pricingTypeGroup\": \"SPOT\",\n    \"carrierAccountManager\": \"John Doe\",\n    \"shipperAccountManager\": \"John Doe\",\n    \"salesManager\": \"John Doe\",\n    \"userGroupId\": \"Main office\",\n    \"office\": \"Main office\"\n  },\n  \"shipper\": {\n    \"id\": \"12345\",\n    \"name\": \"Shipper company\"\n  },\n  \"carrier\": {\n    \"id\": \"12345\",\n    \"name\": \"Carrier company\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "446ee7bd-5916-43ea-a6f5-0eea62896fef",
+          "name": "Imports loads in batches",
+          "request": {
+            "name": "Imports loads in batches",
+            "description": {
+              "content": "Used to import and/or update loads in batches",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tms",
+                "batch",
+                "import-load"
+              ],
+              "host": [
+                "{{tms-batch-import-load-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"<string>\",\n      \"origin\": {\n        \"country\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip\": \"<string>\",\n        \"appointmentDateTime\": \"<dateTime>\",\n        \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n        \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n        \"arrivedAt\": \"<dateTime>\",\n        \"departedAt\": \"<dateTime>\"\n      },\n      \"destination\": {\n        \"country\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip\": \"<string>\",\n        \"appointmentDateTime\": \"<dateTime>\",\n        \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n        \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n        \"arrivedAt\": \"<dateTime>\",\n        \"departedAt\": \"<dateTime>\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": \"<number>\",\n        \"totalShipperLinehaulCost\": \"<number>\",\n        \"totalFuelCost\": \"<number>\",\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": \"<number>\",\n        \"totalCarrierCost\": \"<number>\",\n        \"currency\": \"<string>\"\n      },\n      \"pickupDate\": \"<dateTime>\",\n      \"transportTypeGroup\": \"<string>\",\n      \"transportType\": \"<string>\",\n      \"extraStops\": [\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\",\n          \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n          \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n          \"arrivedAt\": \"<dateTime>\",\n          \"departedAt\": \"<dateTime>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\",\n          \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n          \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n          \"arrivedAt\": \"<dateTime>\",\n          \"departedAt\": \"<dateTime>\"\n        }\n      ],\n      \"deliveredDate\": \"<dateTime>\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"<string>\",\n      \"details\": {\n        \"distance\": \"<float>\",\n        \"miles\": \"<float>\",\n        \"commodity\": \"<string>\",\n        \"weight\": \"<float>\",\n        \"tenderedDate\": \"<dateTime>\",\n        \"bookedDate\": \"<dateTime>\",\n        \"tordFlag\": \"<boolean>\",\n        \"hazmat\": \"<boolean>\",\n        \"hotshot\": \"<boolean>\",\n        \"teamDrive\": \"<boolean>\",\n        \"overdimensional\": \"<boolean>\",\n        \"dedicatedCarrierContract\": \"<boolean>\",\n        \"asset\": \"<boolean>\",\n        \"pricingType\": \"<string>\",\n        \"pricingTypeGroup\": \"<string>\",\n        \"carrierAccountManager\": \"<string>\",\n        \"shipperAccountManager\": \"<string>\",\n        \"salesManager\": \"<string>\",\n        \"userGroupId\": \"<string>\",\n        \"office\": \"<string>\"\n      },\n      \"shipper\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      \"carrier\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    },\n    {\n      \"loadId\": \"<string>\",\n      \"origin\": {\n        \"country\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip\": \"<string>\",\n        \"appointmentDateTime\": \"<dateTime>\",\n        \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n        \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n        \"arrivedAt\": \"<dateTime>\",\n        \"departedAt\": \"<dateTime>\"\n      },\n      \"destination\": {\n        \"country\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"zip\": \"<string>\",\n        \"appointmentDateTime\": \"<dateTime>\",\n        \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n        \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n        \"arrivedAt\": \"<dateTime>\",\n        \"departedAt\": \"<dateTime>\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": \"<number>\",\n        \"totalShipperLinehaulCost\": \"<number>\",\n        \"totalFuelCost\": \"<number>\",\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": \"<number>\",\n        \"totalCarrierCost\": \"<number>\",\n        \"currency\": \"<string>\"\n      },\n      \"pickupDate\": \"<dateTime>\",\n      \"transportTypeGroup\": \"<string>\",\n      \"transportType\": \"<string>\",\n      \"extraStops\": [\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\",\n          \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n          \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n          \"arrivedAt\": \"<dateTime>\",\n          \"departedAt\": \"<dateTime>\"\n        },\n        {\n          \"order\": \"<integer>\",\n          \"address\": {\n            \"country\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"city\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"state\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"zip\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"<string>\",\n          \"appointmentDateTime\": \"<dateTime>\",\n          \"scheduledAppointmentStartedAt\": \"<dateTime>\",\n          \"scheduledAppointmentEndedAt\": \"<dateTime>\",\n          \"arrivedAt\": \"<dateTime>\",\n          \"departedAt\": \"<dateTime>\"\n        }\n      ],\n      \"deliveredDate\": \"<dateTime>\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"<string>\",\n      \"details\": {\n        \"distance\": \"<float>\",\n        \"miles\": \"<float>\",\n        \"commodity\": \"<string>\",\n        \"weight\": \"<float>\",\n        \"tenderedDate\": \"<dateTime>\",\n        \"bookedDate\": \"<dateTime>\",\n        \"tordFlag\": \"<boolean>\",\n        \"hazmat\": \"<boolean>\",\n        \"hotshot\": \"<boolean>\",\n        \"teamDrive\": \"<boolean>\",\n        \"overdimensional\": \"<boolean>\",\n        \"dedicatedCarrierContract\": \"<boolean>\",\n        \"asset\": \"<boolean>\",\n        \"pricingType\": \"<string>\",\n        \"pricingTypeGroup\": \"<string>\",\n        \"carrierAccountManager\": \"<string>\",\n        \"shipperAccountManager\": \"<string>\",\n        \"salesManager\": \"<string>\",\n        \"userGroupId\": \"<string>\",\n        \"office\": \"<string>\"\n      },\n      \"shipper\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      \"carrier\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "af6b9d6c-0e54-4b9f-910a-6bbe935df87d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    },\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responses\": [\n    {\n      \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n      \"loadId\": \"pr0-003\",\n      \"status\": \"CREATED\",\n      \"code\": \"validation_errors_occured\",\n      \"message\": \"Validation errors occured, check errors array for details\",\n      \"errors\": [\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        },\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        }\n      ]\n    },\n    {\n      \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n      \"loadId\": \"pr0-003\",\n      \"status\": \"CREATED\",\n      \"code\": \"validation_errors_occured\",\n      \"message\": \"Validation errors occured, check errors array for details\",\n      \"errors\": [\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        },\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "695d68b9-0a54-48d5-96be-3a29a0e17b39",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    },\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a283410-38a2-4a41-9f5b-93bcef30a5fb",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    },\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a12fb8e7-b5f6-48b5-b9be-05bdd059e5e5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    },\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac7dbfb5-6141-4fd4-98b5-95dda05691ad",
+              "name": "Unprocessable Entity with multiple errors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    },\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"request_validation\",\n  \"message\": \"You have one or more errors in request structure\",\n  \"errors\": [\n    {\n      \"field\": \"carrierName\",\n      \"message\": \"field contains wrong data type (int), should be string\",\n      \"value\": \"22\"\n    },\n    {\n      \"field\": \"shipperId\",\n      \"message\": \"shipperId: must not be null\",\n      \"value\": null\n    },\n    {\n      \"field\": \"loadSource.loadId\",\n      \"message\": \"loadId: must not be null\",\n      \"value\": null\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b9df906-ea7c-435c-897b-f2680055732b",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    },\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4bbef437-176c-4b12-98e7-51dcaec32160",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-load"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-load-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"loads\": [\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    },\n    {\n      \"loadId\": \"12345\",\n      \"origin\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"destination\": {\n        \"country\": \"US\",\n        \"city\": \"Sacramento\",\n        \"state\": \"CA\",\n        \"zip\": \"95814\",\n        \"appointmentDateTime\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentStartedAt\": \"2020-10-13T09:00:00Z\",\n        \"scheduledAppointmentEndedAt\": \"2020-10-13T11:00:00Z\",\n        \"arrivedAt\": \"2020-10-13T09:15:00Z\",\n        \"departedAt\": \"2020-10-13T10:45:00Z\"\n      },\n      \"rate\": {\n        \"totalLinehaulCost\": 956,\n        \"totalShipperLinehaulCost\": 1176,\n        \"totalFuelCost\": 45,\n        \"accessorials\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"shipperCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"carrierCost\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"totalShipperCost\": 1276,\n        \"totalCarrierCost\": 1130,\n        \"currency\": \"USD\"\n      },\n      \"pickupDate\": \"2021-09-21T13:00:00-04:00\",\n      \"transportTypeGroup\": \"VAN\",\n      \"transportType\": \"VR\",\n      \"extraStops\": [\n        {\n          \"order\": 0,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Red Bluff\",\n            \"state\": \"CA\",\n            \"zip\": \"96080\"\n          },\n          \"type\": \"LOAD\",\n          \"appointmentDateTime\": \"2020-10-14T16:00:00Z\"\n        },\n        {\n          \"order\": 1,\n          \"address\": {\n            \"country\": \"US\",\n            \"city\": \"Redding\",\n            \"state\": \"CA\",\n            \"zip\": \"96002\"\n          },\n          \"type\": \"UNLOAD\",\n          \"appointmentDateTime\": \"2020-10-15T16:00:00Z\"\n        }\n      ],\n      \"deliveredDate\": \"2021-09-22T18:00:00-04:00\",\n      \"transportMode\": \"FTL\",\n      \"status\": \"OPEN\",\n      \"details\": {\n        \"distance\": 434,\n        \"miles\": 434,\n        \"commodity\": \"Racks\",\n        \"weight\": 22000,\n        \"tenderedDate\": \"2020-01-11T16:00:00Z\",\n        \"bookedDate\": \"2020-01-11T16:00:00Z\",\n        \"tordFlag\": false,\n        \"hazmat\": false,\n        \"hotshot\": false,\n        \"teamDrive\": false,\n        \"overdimensional\": false,\n        \"dedicatedCarrierContract\": false,\n        \"asset\": false,\n        \"pricingType\": \"Spot\",\n        \"pricingTypeGroup\": \"SPOT\",\n        \"carrierAccountManager\": \"John Doe\",\n        \"shipperAccountManager\": \"John Doe\",\n        \"salesManager\": \"John Doe\",\n        \"userGroupId\": \"Main office\",\n        \"office\": \"Main office\"\n      },\n      \"shipper\": {\n        \"id\": \"12345\",\n        \"name\": \"Shipper company\"\n      },\n      \"carrier\": {\n        \"id\": \"12345\",\n        \"name\": \"Carrier company\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f3fbe611-1fe1-45ee-8a1d-3b7eb70133d6",
+          "name": "Import carrier",
+          "request": {
+            "name": "Import carrier",
+            "description": {
+              "content": "Import a new carrier or update an existing one",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tms",
+                "import-carrier"
+              ],
+              "host": [
+                "{{tms-import-carrier-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"profileId\": \"<string>\",\n  \"companyName\": \"<string>\",\n  \"legalName\": \"<string>\",\n  \"mc\": \"<string>\",\n  \"dot\": \"<string>\",\n  \"scac\": \"<string>\",\n  \"contact\": {\n    \"name\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"email\": \"<string>\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e0f7d177-3101-4f9c-a11c-c7b773156a98",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"mc\": \"122356\",\n  \"dot\": \"87650005\",\n  \"scac\": \"CGGK\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n  \"profileId\": \"pr0-003\",\n  \"status\": \"CREATED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0956d0ce-fafb-425d-a1bb-507ce7d5f3e7",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"mc\": \"122356\",\n  \"dot\": \"87650005\",\n  \"scac\": \"CGGK\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee2aa24e-5780-40c2-a1e8-e57b925ecd61",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"mc\": \"122356\",\n  \"dot\": \"87650005\",\n  \"scac\": \"CGGK\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "01ec8219-c5fd-4ff4-959c-78062bbd57eb",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"mc\": \"122356\",\n  \"dot\": \"87650005\",\n  \"scac\": \"CGGK\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "009d5b8c-3049-44c6-a576-9c5b9eda9237",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"mc\": \"122356\",\n  \"dot\": \"87650005\",\n  \"scac\": \"CGGK\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_property\",\n  \"message\": \"Missing property: body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c396ea3-9ef5-4b4a-93fb-2811d413c6f7",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"mc\": \"122356\",\n  \"dot\": \"87650005\",\n  \"scac\": \"CGGK\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9d67a72-2418-4d54-878f-5141b2580bec",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"mc\": \"122356\",\n  \"dot\": \"87650005\",\n  \"scac\": \"CGGK\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"status\": \"ACTIVE\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d76bdf72-0295-438f-89d4-92074922052f",
+          "name": "Import carriers in batches",
+          "request": {
+            "name": "Import carriers in batches",
+            "description": {
+              "content": "Import a batch of carrier profiles",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tms",
+                "batch",
+                "import-carrier"
+              ],
+              "host": [
+                "{{tms-batch-import-carrier-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"<string>\",\n      \"companyName\": \"<string>\",\n      \"legalName\": \"<string>\",\n      \"mc\": \"<string>\",\n      \"dot\": \"<string>\",\n      \"scac\": \"<string>\",\n      \"contact\": {\n        \"name\": \"<string>\",\n        \"phoneNumber\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"<string>\",\n      \"companyName\": \"<string>\",\n      \"legalName\": \"<string>\",\n      \"mc\": \"<string>\",\n      \"dot\": \"<string>\",\n      \"scac\": \"<string>\",\n      \"contact\": {\n        \"name\": \"<string>\",\n        \"phoneNumber\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c7d67e03-1bcc-4835-b71a-59ae023c5de9",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responses\": [\n    {\n      \"profileId\": \"pr0-003\",\n      \"status\": \"CREATED\",\n      \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n      \"code\": \"validation_errors_occured\",\n      \"message\": \"Validation errors occured, check errors array for details\",\n      \"errors\": [\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        },\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        }\n      ]\n    },\n    {\n      \"profileId\": \"pr0-003\",\n      \"status\": \"CREATED\",\n      \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n      \"code\": \"validation_errors_occured\",\n      \"message\": \"Validation errors occured, check errors array for details\",\n      \"errors\": [\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        },\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "494a359c-651d-4d95-bee6-842f1ca56fca",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e676f76e-71f8-430f-8f68-d85fffbd2062",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d12acdd1-2649-4960-9e7d-762d9c0b5c59",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d702299-9f94-4f61-b318-ea3bb039e681",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_property\",\n  \"message\": \"Missing property: body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cde086a6-25ab-4159-b774-96d75745bfaf",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43c429a4-34ac-4666-a2c1-236a2201e14e",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-carrier"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-carrier-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carriers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"mc\": \"122356\",\n      \"dot\": \"87650005\",\n      \"scac\": \"CGGK\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"status\": \"ACTIVE\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c0786de0-ed8d-478d-a8dc-361462ca81d7",
+          "name": "Import shipper",
+          "request": {
+            "name": "Import shipper",
+            "description": {
+              "content": "Import a new shipper or update an existing one",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tms",
+                "import-shipper"
+              ],
+              "host": [
+                "{{tms-import-shipper-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"profileId\": \"<string>\",\n  \"companyName\": \"<string>\",\n  \"legalName\": \"<string>\",\n  \"contact\": {\n    \"name\": \"<string>\",\n    \"phoneNumber\": \"<string>\",\n    \"email\": \"<string>\"\n  },\n  \"accountManager\": \"<string>\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "40212d66-75ad-49db-96d4-749fe67f90bd",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"accountManager\": \"JAMES\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"Main office\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n  \"profileId\": \"pr0-003\",\n  \"status\": \"CREATED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed5b5ab7-fbed-4550-8a1b-07c79cac1187",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"accountManager\": \"JAMES\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"Main office\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a63a7b94-a8c4-43b8-85d3-a09d4917d148",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"accountManager\": \"JAMES\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"Main office\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8fb55a6a-95f8-49d9-8ba6-943812492e49",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"accountManager\": \"JAMES\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"Main office\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7cdb8f52-2e43-4c2d-8714-1b099f6cb2e1",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"accountManager\": \"JAMES\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"Main office\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_property\",\n  \"message\": \"Missing property: body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77d67933-9ef8-43bc-b8fe-cab6a2ddb2e7",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"accountManager\": \"JAMES\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"Main office\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8300362-8c05-4a0c-8788-252d8c2872d5",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"profileId\": \"13441524\",\n  \"companyName\": \"Carggo\",\n  \"legalName\": \"Carggo\",\n  \"contact\": {\n    \"name\": \"John\",\n    \"phoneNumber\": \"121331343\",\n    \"email\": \"my@email.com\"\n  },\n  \"accountManager\": \"JAMES\",\n  \"status\": \"ACTIVE\",\n  \"userGroupId\": \"Main office\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "069f26c3-7d90-4658-80d0-244e40303324",
+          "name": "Import shippers in batches",
+          "request": {
+            "name": "Import shippers in batches",
+            "description": {
+              "content": "Import a batch of shipper profiles",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tms",
+                "batch",
+                "import-shipper"
+              ],
+              "host": [
+                "{{tms-batch-import-shipper-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"<string>\",\n      \"companyName\": \"<string>\",\n      \"legalName\": \"<string>\",\n      \"contact\": {\n        \"name\": \"<string>\",\n        \"phoneNumber\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"accountManager\": \"<string>\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"<string>\"\n    },\n    {\n      \"profileId\": \"<string>\",\n      \"companyName\": \"<string>\",\n      \"legalName\": \"<string>\",\n      \"contact\": {\n        \"name\": \"<string>\",\n        \"phoneNumber\": \"<string>\",\n        \"email\": \"<string>\"\n      },\n      \"accountManager\": \"<string>\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f910c05d-e491-46cc-a144-439f7f5dacc7",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responses\": [\n    {\n      \"profileId\": \"pr0-003\",\n      \"status\": \"CREATED\",\n      \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n      \"code\": \"validation_errors_occured\",\n      \"message\": \"Validation errors occured, check errors array for details\",\n      \"errors\": [\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        },\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        }\n      ]\n    },\n    {\n      \"profileId\": \"pr0-003\",\n      \"status\": \"CREATED\",\n      \"id\": \"c6447366-9700-4851-854b-2bb41f03cde0\",\n      \"code\": \"validation_errors_occured\",\n      \"message\": \"Validation errors occured, check errors array for details\",\n      \"errors\": [\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        },\n        {\n          \"field\": \"transportType\",\n          \"message\": \"SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]\",\n          \"value\": \"SpaceXDragon\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80c8f77a-f901-43b6-ba09-46f020a9ece3",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "091baa08-8239-4846-b33c-66a34e0897cc",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1c7f3d52-d35d-4450-b5b2-ee18460ef1fe",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9c0b138-a5db-4142-8117-6d35bda380d8",
+              "name": "Unprocessable Entity.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_property\",\n  \"message\": \"Missing property: body\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f68cb8b9-5887-4cee-8867-9d21b3641d1d",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3419808-2344-4a0f-9558-2ba784e9bb28",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tms",
+                    "batch",
+                    "import-shipper"
+                  ],
+                  "host": [
+                    "{{tms-batch-import-shipper-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"shippers\": [\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    },\n    {\n      \"profileId\": \"13441524\",\n      \"companyName\": \"Carggo\",\n      \"legalName\": \"Carggo\",\n      \"contact\": {\n        \"name\": \"John\",\n        \"phoneNumber\": \"121331343\",\n        \"email\": \"my@email.com\"\n      },\n      \"accountManager\": \"JAMES\",\n      \"status\": \"ACTIVE\",\n      \"userGroupId\": \"Main office\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "tms-import-load-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "tms-batch-import-load-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "tms-import-carrier-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "tms-batch-import-carrier-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "tms-import-shipper-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v2",
+      "key": "tms-batch-import-shipper-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "8227aac3-40fe-4fea-a071-09bd2f85ea41",
+    "name": "Triumph Intelligence Connect Analytics TMS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

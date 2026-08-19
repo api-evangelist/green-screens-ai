@@ -1,0 +1,253 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics Bids API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bids",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current user bids",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids",
+            "params": [
+              {
+                "name": "createdDateFrom",
+                "value": "",
+                "type": "query",
+                "description": "bid created date >= value"
+              },
+              {
+                "name": "createdDateTo",
+                "value": "",
+                "type": "query",
+                "description": "bid created date <= value"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get current user bids"
+        },
+        {
+          "info": {
+            "name": "Save bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/bids",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save bid"
+        },
+        {
+          "info": {
+            "name": "Update bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/bids/:bidId",
+            "params": [
+              {
+                "name": "bidId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the bid that you want updated"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update bid"
+        },
+        {
+          "info": {
+            "name": "Delete bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/bids/:bidId",
+            "params": [
+              {
+                "name": "bidId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the bid that you want deleted"
+              }
+            ]
+          },
+          "docs": "Delete bid"
+        },
+        {
+          "info": {
+            "name": "Search carriers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids/carriers",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Query string. Names are first checked using case insensitive startsWith  and then case insensitive contains.\n"
+              }
+            ]
+          },
+          "docs": "Search carriers"
+        },
+        {
+          "info": {
+            "name": "Accept bid",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/bids/accept",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Accept bid"
+        },
+        {
+          "info": {
+            "name": "Send bid request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/bids/send",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send bid request to a carrier"
+        },
+        {
+          "info": {
+            "name": "Get ten most recent bids for a lane",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids/recent",
+            "params": [
+              {
+                "name": "transportType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCountry",
+                "value": "",
+                "type": "query",
+                "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "originState",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originZip",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "destinationCountry",
+                "value": "",
+                "type": "query",
+                "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "destinationState",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "destinationCity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "destinationZip",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "hasExtraStops",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get ten most recent bids for a lane"
+        },
+        {
+          "info": {
+            "name": "Get bid information by key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/bids/by-key/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path",
+                "description": "Key of the requested bid"
+              }
+            ]
+          },
+          "docs": "Get bid information by key"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

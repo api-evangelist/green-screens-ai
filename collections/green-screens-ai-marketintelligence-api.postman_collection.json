@@ -1,0 +1,766 @@
+{
+  "item": [
+    {
+      "id": "a34bddc1-2065-4a99-b601-15060c54a034",
+      "name": "MarketIntelligence",
+      "description": {
+        "content": "Market Intelligence service v1\n\n<a href=\"/marketintelligence/v1/redoc/\" target=\"_blank\">View separately</a>\n\n<a href=\"/marketintelligence/v1/swagger/index.html\" target=\"_blank\">Try it in swagger</a>",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1776c157-d581-420f-b302-6c38df27dfb4",
+          "name": "Negotiation advice for provided lane",
+          "request": {
+            "name": "Negotiation advice for provided lane",
+            "description": {
+              "content": "Negotiation advice for provided lane\n\nParameter notes:\n* __region__ - defaults to ZIP if not provided\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "marketintelligence",
+                "negotiation-advice"
+              ],
+              "host": [
+                "{{marketintelligence-negotiation-advice-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "transportType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "originCountry",
+                  "value": "<string>",
+                  "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "originState",
+                  "value": "<string>",
+                  "description": "Origin state"
+                },
+                {
+                  "disabled": false,
+                  "key": "originCity",
+                  "value": "<string>",
+                  "description": "Origin city"
+                },
+                {
+                  "disabled": false,
+                  "key": "originZip",
+                  "value": "<string>",
+                  "description": "(Required) Origin area zip"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationCountry",
+                  "value": "<string>",
+                  "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationState",
+                  "value": "<string>",
+                  "description": "Destination state"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationCity",
+                  "value": "<string>",
+                  "description": "Destination city"
+                },
+                {
+                  "disabled": false,
+                  "key": "destinationZip",
+                  "value": "<string>",
+                  "description": "(Required) Destination area zip"
+                },
+                {
+                  "disabled": false,
+                  "key": "hasExtraStops",
+                  "value": "false"
+                },
+                {
+                  "disabled": false,
+                  "key": "pickUpDateTime",
+                  "value": "<dateTime>",
+                  "description": "PickUp date time"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "Code of the currency that you want the response to be in. Format is ISO 4217"
+                },
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "bfe7e66c-cdf1-4f7c-b59a-7bce5076df18",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketintelligence",
+                    "negotiation-advice"
+                  ],
+                  "host": [
+                    "{{marketintelligence-negotiation-advice-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "pickUpDateTime",
+                      "value": "2020-01-11T16:00:00Z"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"lastPaid\": {\n    \"amount\": 12345.67,\n    \"date\": \"2020-01-13T16:00:00Z\",\n    \"days\": 30,\n    \"carrier\": \"Horns and hooves trucks\"\n  },\n  \"minPaid\": {\n    \"amount\": 12345.67,\n    \"date\": \"2020-01-13T16:00:00Z\",\n    \"days\": 30\n  },\n  \"maxPaid\": {\n    \"amount\": 12345.67,\n    \"date\": \"2020-01-13T16:00:00Z\",\n    \"days\": 30\n  },\n  \"avgShipperCost\": {\n    \"amount\": 12345.67,\n    \"days\": 30\n  },\n  \"rateDiff\": {\n    \"diff\": 12345.67,\n    \"days\": 30\n  },\n  \"laneLoadCount\": {\n    \"loadCount\": 12345,\n    \"averageFlatRate\": 12345.67,\n    \"days\": 30\n  },\n  \"destinationNearHotMarket\": {\n    \"distance\": 12345.67\n  },\n  \"destinationNearCarrierDomicile\": {\n    \"distance\": 12345.67\n  },\n  \"nearTheEndOfThePeriod\": {\n    \"period\": \"YEAR\"\n  },\n  \"irregularBussinesHours\": {\n    \"pickUptime\": \"08:03:30.167Z\"\n  },\n  \"holidayIsComing\": {\n    \"holiday\": \"CHRISTMAS\",\n    \"days\": 3\n  },\n  \"inspectionWeeks\": {\n    \"name\": \"BRAKE_SAFETY_WEEK\"\n  },\n  \"comingEvents\": [\n    {\n      \"name\": \"Washington's Birthday\",\n      \"daysToBeginning\": 3\n    },\n    {\n      \"name\": \"Washington's Birthday\",\n      \"daysToBeginning\": 3\n    }\n  ],\n  \"originLtrLow\": {\n    \"ltr\": 12345.67\n  },\n  \"destinationLtrHigh\": {\n    \"ltr\": 12345.67\n  },\n  \"currency\": \"USD\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78335639-1ec1-4ad2-abb2-b5e6338fa18b",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketintelligence",
+                    "negotiation-advice"
+                  ],
+                  "host": [
+                    "{{marketintelligence-negotiation-advice-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "pickUpDateTime",
+                      "value": "2020-01-11T16:00:00Z"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"missing_required_parameter\",\n  \"message\": \"Your request was missing a {par_name} parameter\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21876166-3cbd-43d0-b81a-17abc69e3168",
+              "name": "Unauthenticated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketintelligence",
+                    "negotiation-advice"
+                  ],
+                  "host": [
+                    "{{marketintelligence-negotiation-advice-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "pickUpDateTime",
+                      "value": "2020-01-11T16:00:00Z"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "48f0cbbd-8b6a-4b2a-b137-6a4f568bff00",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketintelligence",
+                    "negotiation-advice"
+                  ],
+                  "host": [
+                    "{{marketintelligence-negotiation-advice-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "pickUpDateTime",
+                      "value": "2020-01-11T16:00:00Z"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"access_forbidden\",\n  \"message\": \"Access is forbidden\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1e81eae-73c8-416a-9af5-d272f08a4ba0",
+              "name": "Item not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketintelligence",
+                    "negotiation-advice"
+                  ],
+                  "host": [
+                    "{{marketintelligence-negotiation-advice-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "pickUpDateTime",
+                      "value": "2020-01-11T16:00:00Z"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"item_not_found\",\n  \"message\": \"Item not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b3999ac-e4cc-49e2-8513-a3b0cd2407d1",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketintelligence",
+                    "negotiation-advice"
+                  ],
+                  "host": [
+                    "{{marketintelligence-negotiation-advice-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "pickUpDateTime",
+                      "value": "2020-01-11T16:00:00Z"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"too_many_requests\",\n  \"message\": \"Request limit exceeded\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28af3f37-7b5f-4fba-b3c0-dcf07649f4e1",
+              "name": "Unhandled server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "marketintelligence",
+                    "negotiation-advice"
+                  ],
+                  "host": [
+                    "{{marketintelligence-negotiation-advice-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "transportType",
+                      "value": "VAN"
+                    },
+                    {
+                      "key": "originCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "originState",
+                      "value": "NY"
+                    },
+                    {
+                      "key": "originCity",
+                      "value": "Schenectady"
+                    },
+                    {
+                      "key": "originZip",
+                      "value": "12345"
+                    },
+                    {
+                      "key": "destinationCountry",
+                      "value": "US"
+                    },
+                    {
+                      "key": "destinationState",
+                      "value": "IL"
+                    },
+                    {
+                      "key": "destinationCity",
+                      "value": "Chicago"
+                    },
+                    {
+                      "key": "destinationZip",
+                      "value": "60636"
+                    },
+                    {
+                      "key": "hasExtraStops",
+                      "value": "true"
+                    },
+                    {
+                      "key": "pickUpDateTime",
+                      "value": "2020-01-11T16:00:00Z"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "USD"
+                    },
+                    {
+                      "key": "region",
+                      "value": "ZIP"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"internal_error\",\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://testapi.greenscreens.ai/v1",
+      "key": "marketintelligence-negotiation-advice-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "73d40ee5-2eca-4b60-9ce8-894c11da6c81",
+    "name": "Triumph Intelligence Connect Analytics MarketIntelligence API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n\n\nContact Support:\n Name: API Support\n Email: support@greenscreens.ai",
+      "type": "text/plain"
+    }
+  }
+}

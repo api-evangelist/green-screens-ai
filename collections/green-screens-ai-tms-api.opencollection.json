@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics TMS API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "TMS",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Import load",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/import-load",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a new load or update an existing one"
+        },
+        {
+          "info": {
+            "name": "Imports loads in batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/batch/import-load",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to import and/or update loads in batches"
+        },
+        {
+          "info": {
+            "name": "Import carrier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/import-carrier",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a new carrier or update an existing one"
+        },
+        {
+          "info": {
+            "name": "Import carriers in batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/batch/import-carrier",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a batch of carrier profiles"
+        },
+        {
+          "info": {
+            "name": "Import shipper",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/import-shipper",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a new shipper or update an existing one"
+        },
+        {
+          "info": {
+            "name": "Import shippers in batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/tms/batch/import-shipper",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import a batch of shipper profiles"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics Prediction API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Prediction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lane rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate prediction"
+        },
+        {
+          "info": {
+            "name": "Batch lane rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/batch-rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate predictions in batches"
+        },
+        {
+          "info": {
+            "name": "Lane rate prediction history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/prediction/history",
+            "params": [
+              {
+                "name": "date",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lane rate prediction request/response history on the given date.\nDue to resource limitation search is restricted to the last 30 days period.\nRequests outside of this period will return 400 response code with corresponding error code.\nResults sorted from newest to oldest.\n"
+        },
+        {
+          "info": {
+            "name": "Lane network rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/network-rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate prediction based on \nthe full network of load data available to us.\n"
+        },
+        {
+          "info": {
+            "name": "Batch lane network rate prediction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/prediction/batch-network-rates",
+            "headers": [
+              {
+                "name": "X-GS-User",
+                "value": "kalex@greenscreens.ai"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Used to request lane rate predictions based on \nthe full network of load data available to us, in batches.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics History API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Load history search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/history/loads",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns loads matching the search criteria\n"
+        },
+        {
+          "info": {
+            "name": "Recent customer's rate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/history/recent",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provides recent rate for route. Returns aggregated rate statistics\nfor three time periods: last 7, 15, and 30 days.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

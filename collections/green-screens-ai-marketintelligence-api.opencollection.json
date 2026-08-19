@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Triumph Intelligence Connect Analytics MarketIntelligence API",
+    "version": "1.3.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "MarketIntelligence",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Negotiation advice for provided lane",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/marketintelligence/negotiation-advice",
+            "params": [
+              {
+                "name": "transportType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "originCountry",
+                "value": "",
+                "type": "query",
+                "description": "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "originState",
+                "value": "",
+                "type": "query",
+                "description": "Origin state"
+              },
+              {
+                "name": "originCity",
+                "value": "",
+                "type": "query",
+                "description": "Origin city"
+              },
+              {
+                "name": "originZip",
+                "value": "",
+                "type": "query",
+                "description": "Origin area zip"
+              },
+              {
+                "name": "destinationCountry",
+                "value": "",
+                "type": "query",
+                "description": "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
+              },
+              {
+                "name": "destinationState",
+                "value": "",
+                "type": "query",
+                "description": "Destination state"
+              },
+              {
+                "name": "destinationCity",
+                "value": "",
+                "type": "query",
+                "description": "Destination city"
+              },
+              {
+                "name": "destinationZip",
+                "value": "",
+                "type": "query",
+                "description": "Destination area zip"
+              },
+              {
+                "name": "hasExtraStops",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pickUpDateTime",
+                "value": "",
+                "type": "query",
+                "description": "PickUp date time"
+              },
+              {
+                "name": "currency",
+                "value": "",
+                "type": "query",
+                "description": "Code of the currency that you want the response to be in. Format is ISO 4217"
+              },
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Negotiation advice for provided lane\n\nParameter notes:\n* __region__ - defaults to ZIP if not provided\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
