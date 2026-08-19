@@ -19,7 +19,7 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/green-screens-ai/refs/heads/main/apis.yml
 created: '2024-07-02'
 modified: '2026-04-28'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 type: Index
 tags:
   - AI
