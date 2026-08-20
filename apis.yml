@@ -22,6 +22,13 @@ modified: '2026-04-28'
 specificationVersion: '0.23'
 type: Index
 tags:
+  - Artificial Intelligence
+  - Freight
+  - Logistics
+  - Machine-Learning
+  - Pricing
+  - Transportation
+tags_raw:
   - AI
   - Freight
   - Logistics
@@ -37,6 +44,11 @@ apis:
   humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
   baseURL: https://connect.greenscreens.ai/prediction/v3
   tags:
+  - Artificial Intelligence
+  - Freight
+  - Logistics
+  - Pricing
+  tags_raw:
   - AI
   - Freight
   - Logistics
@@ -69,6 +81,8 @@ apis:
   humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
   baseURL: https://connect.greenscreens.ai/prediction/v3
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -120,6 +134,8 @@ apis:
   humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
   baseURL: https://connect.greenscreens.ai/prediction/v3
   tags:
+  - Market Intelligence
+  tags_raw:
   - MarketIntelligence
   properties:
   - type: OpenAPI
