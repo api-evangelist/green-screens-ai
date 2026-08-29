@@ -226,6 +226,9 @@ apis:
   - type: OpenAPI
     url: openapi/green-screens-ai-tms-api-openapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/green-screens-ai-capability-edges.yml
+    name: Green Screens AI Business Capability Map
   - type: AgenticAccess
     url: agentic-access/green-screens-ai-agentic-access.yml
   - type: DomainSecurity
