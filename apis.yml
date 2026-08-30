@@ -145,7 +145,7 @@ apis:
   humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
   baseURL: https://connect.greenscreens.ai/prediction/v3
   tags:
-  - Market Intelligence
+  - MarketIntelligence
   tags_raw:
   - MarketIntelligence
   properties:
