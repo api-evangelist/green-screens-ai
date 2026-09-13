@@ -1,172 +1,240 @@
+# harvested: 2026-09-12
+# method: searched
+# source: https://connect.greenscreens.ai/analytics/v1/openapi.yaml
+# note: >-
+#   Verbatim first-party OpenAPI served from the provider's own documentation host connect.greenscreens.ai. Ownership confirmed: info.contact.email support@greenscreens.ai, x-logo static.greenscreens.ai, servers[] api.greenscreens.ai; termsOfService points at triumph.io because Triumph Financial acquired Greenscreens.ai (closed 2025) and the product now ships as Triumph Intelligence.
 openapi: 3.0.2
 info:
-  title: Triumph Intelligence Connect Analytics API
+  title: Analytics
+  version: 1.7.1
+  description: Analytics service v1
   x-logo:
     url: https://static.greenscreens.ai/main-logo.svg
-    backgroundColor: '#fafafa'
+    backgroundColor: "#fafafa"
     altText: Triumph Intelligence
-  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
-  version: 1.3.3
   termsOfService: https://triumph.io/terms-of-service/
   contact:
     name: API Support
     email: support@greenscreens.ai
     url: https://connect.intelligence.triumph.io
 tags:
-- name: Analytics
-  description: 'Analytics service v1
-
-
-    <a href="/analytics/v1/redoc/" target="_blank">View separately</a>
-
-
-    <a href="/analytics/v1/swagger/index.html" target="_blank">Try it in swagger</a>'
-  x-displayName: Analytics
+  - name: Analytics
+    description: Analytics related endpoints
 paths:
   /analytics/lane-top-carriers:
-    servers:
-    - url: https://testapi.greenscreens.ai/v1
-      description: Testing server (dev environment)
-    - url: https://sandboxapi.greenscreens.ai/v1
-      description: Sandbox server (as stable as production, but has no data)
-    - url: https://api.greenscreens.ai/v1
-      description: Production server (uses live data)
     get:
       tags:
-      - Analytics
+        - Analytics
       operationId: analyticsLaneTopCarriers
       summary: Top carriers
       description: Returns a list of top carriers for a provided lane
       security:
-      - Analytics_bearerAuth: []
+        - bearerAuth: []
       parameters:
-      - in: query
-        name: transportType
-        schema:
-          type: string
-          enum:
-          - VAN
-          - REEFER
-          - FLATBED
-          - HOTSHOT
-          description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-          example: VAN
-        required: true
-      - in: query
-        name: originCountry
-        schema:
-          type: string
-          example: US
-        description: "Origin country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
-      - in: query
-        name: originState
-        schema:
-          type: string
-          example: NY
-        description: Origin state
-        required: true
-      - in: query
-        name: originCity
-        schema:
-          type: string
-          example: Schenectady
-        description: Origin city
-        required: true
-      - in: query
-        name: originZip
-        schema:
-          type: string
-          example: '12345'
-        description: Origin area zip
-        required: true
-      - in: query
-        name: destinationCountry
-        schema:
-          type: string
-          example: US
-        description: "Destination country. \nTwo letter country code in ISO 3166-1 alpha-2 format\n"
-      - in: query
-        name: destinationState
-        schema:
-          type: string
-          example: IL
-        description: Destination state
-        required: true
-      - in: query
-        name: destinationCity
-        schema:
-          type: string
-          example: Chicago
-        description: Destination city
-        required: true
-      - in: query
-        name: destinationZip
-        schema:
-          type: string
-          example: '60636'
-        description: Destination area zip
-        required: true
-      - in: query
-        name: hasExtraStops
-        schema:
-          type: boolean
-          example: true
-          description: 'Signifies whether the requested lane has extra stops or not.
-
-
-            If true, multistop loads will be included during calculations.
-
-            '
-          default: false
-      - in: query
-        name: dateFrom
-        schema:
-          type: string
-          format: date
-          example: '2019-09-30'
-        description: "Start date of a period for which you want to calculate top carriers. \nIn ISO format (YYYY-MM-DD). \n\nEnd date of this period is the current date.\n"
-        required: true
-      - in: query
-        name: region
-        schema:
-          type: string
-          enum:
-          - CITY
-          - CITY_ZIP
-          - ZIP_CITY
-          - ZIP
-          - 3DZIP
-          - KMA
-          description: "Determines the size of the area around the origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* 3DZIP - medium, short zip, area\n* KMA - big, market wide, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
-          example: ZIP
-        required: true
-      - in: query
-        name: currency
-        schema:
-          type: string
-          example: USD
-        description: 'Code of the currency that you want the response to be in.
-
-          Format is ISO 4217.
-
-          If not provided, defaults to the currency set in the profile of currently authenticated user.
-
-          '
-      - in: query
-        name: sort
-        schema:
-          type: array
-          items:
+        - in: query
+          name: transportType
+          schema:
+            $ref: "#/components/schemas/TransportType"
+          required: true
+        - in: query
+          name: originCountry
+          schema:
             type: string
-        description: "Sorting descriptor in format `?sort={field},{asc|desc}`. \n\nMultiple sort parameters are allowed and should look like this \n`?sort=name,asc&sort=email,desc`.\n\nIf multiple sort parameters are passed, the results will be sorted by all of them, \nwith priority decreasing from left to right.\n\nSo in case of `?sort=name,asc&sort=volume,desc` results will be first sorted by \nname in ascending order, and in cases where names are equal \nresults will be sorted by volume in descending order.\n\nBy default carriers are sorted like this: \n`numberOfLoads,desc & lastShippedDate,desc`.\n\nThese response fields support sorting:\n```\ncarrierName\ncarrierPhone\ncarrierEmail\ncarrierMC\ncarrierDOT\ncarrierSCAC\nnumberOfLoads\nlastShippedDate\naverageCarrierRate\nminCarrierRate\nmaxCarrierRate\naverageCarrierFlatRate\nminCarrierFlatRate\nmaxCarrierFlatRate\naverageCarrierMarginPercent\n```\n"
+            example: US
+          description: |
+            Origin country. 
+            Two letter country code in ISO 3166-1 alpha-2 format
+        - in: query
+          name: originState
+          schema:
+            type: string
+            example: NY
+          description: Origin state
+          required: true
+        - in: query
+          name: originCity
+          schema:
+            type: string
+            example: Schenectady
+          description: Origin city
+          required: true
+        - in: query
+          name: originZip
+          schema:
+            type: string
+            example: "12345"
+          description: Origin area zip
+          required: true
+        - in: query
+          name: destinationCountry
+          schema:
+            type: string
+            example: US
+          description: |
+            Destination country. 
+            Two letter country code in ISO 3166-1 alpha-2 format
+        - in: query
+          name: destinationState
+          schema:
+            type: string
+            example: IL
+          description: Destination state
+          required: true
+        - in: query
+          name: destinationCity
+          schema:
+            type: string
+            example: Chicago
+          description: Destination city
+          required: true
+        - in: query
+          name: destinationZip
+          schema:
+            type: string
+            example: "60636"
+          description: Destination area zip
+          required: true
+        - in: query
+          name: hasExtraStops
+          schema:
+            type: boolean
+            example: true
+            description: |
+              Signifies whether the requested lane has extra stops or not.
+
+              If true, multistop loads will be included during calculations.
+            default: false
+        - in: query
+          name: dateFrom
+          schema:
+            type: string
+            format: date
+            example: "2019-09-30"
+          description: >
+            Start date of a period for which you want to calculate top
+            carriers. 
+
+            In ISO format (YYYY-MM-DD). 
+
+
+            End date of this period is the current date.
+          required: true
+        - in: query
+          name: region
+          schema:
+            type: string
+            enum:
+              - CITY
+              - CITY_ZIP
+              - ZIP_CITY
+              - ZIP
+              - 3DZIP
+              - KMA
+            description: >
+              Determines the size of the area around the origin and destination
+              points, 
+
+              that will be searched for the related data.
+
+              * CITY - narrow, city wide, area
+
+              * ZIP - narrow, five digit zip, area
+
+              * 3DZIP - medium, short zip, area
+
+              * KMA - big, market wide, area
+
+              * CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP
+
+              * ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY
+            example: ZIP
+          required: true
+        - in: query
+          name: currency
+          schema:
+            type: string
+            example: USD
+          description: >
+            Code of the currency that you want the response to be in.
+
+            Format is ISO 4217.
+
+            If not provided, defaults to the currency set in the profile of currently authenticated user.
+        - in: query
+          name: sort
+          schema:
+            type: array
+            items:
+              type: string
+          description: >
+            Sorting descriptor in format `?sort={field},{asc|desc}`. 
+
+
+            Multiple sort parameters are allowed and should look like this 
+
+            `?sort=name,asc&sort=email,desc`.
+
+
+            If multiple sort parameters are passed, the results will be sorted by all of them, 
+
+            with priority decreasing from left to right.
+
+
+            So in case of `?sort=name,asc&sort=volume,desc` results will be first sorted by 
+
+            name in ascending order, and in cases where names are equal 
+
+            results will be sorted by volume in descending order.
+
+
+            By default carriers are sorted like this: 
+
+            `numberOfLoads,desc & lastShippedDate,desc`.
+
+
+            These response fields support sorting:
+
+            ```
+
+            carrierName
+
+            carrierPhone
+
+            carrierEmail
+
+            carrierMC
+
+            carrierDOT
+
+            carrierSCAC
+
+            numberOfLoads
+
+            lastShippedDate
+
+            averageCarrierRate
+
+            minCarrierRate
+
+            maxCarrierRate
+
+            averageCarrierFlatRate
+
+            minCarrierFlatRate
+
+            maxCarrierFlatRate
+
+            averageCarrierMarginPercent
+
+            ```
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Analytics_AnalyticsLaneTopCarriersResponse'
-        '400':
+                $ref: "#/components/schemas/AnalyticsLaneCarriersResponse"
+        "400":
           description: Bad request
           content:
             application/json:
@@ -181,8 +249,8 @@ paths:
                     type: string
                     description: human readable error message
                 required:
-                - code
-                - message
+                  - code
+                  - message
                 example:
                   code: invalid_request
                   message: Your ClientId is invalid
@@ -191,31 +259,33 @@ paths:
                   value:
                     code: missing_required_parameter
                     message: Your request was missing a {par_name} parameter
-        '401':
+        "401":
           description: Unauthenticated
-        '403':
+        "403":
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/application~1json/schema'
+                $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/applica\
+                  tion~1json/schema"
               examples:
                 error403Example:
                   value:
                     code: access_forbidden
                     message: Access is forbidden
-        '404':
+        "404":
           description: Item not found
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/application~1json/schema'
+                $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/applica\
+                  tion~1json/schema"
               examples:
                 error404Example:
                   value:
                     code: item_not_found
                     message: Item not found
-        '422':
+        "422":
           description: Unprocessable Entity with multiple errors.
           content:
             application/json:
@@ -240,94 +310,190 @@ paths:
                         message:
                           type: string
                           description: Human readable error mesage explaining why validation failed
-                          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+                          example: SpaceXDragon transportType is not supported. Valid values are [VAN,
+                            FLATBED, ...]
                         value:
                           type: string
                           nullable: true
                           description: Value of the field that did not pass validation
                           example: SpaceXDragon
                       required:
-                      - field
-                      - message
+                        - field
+                        - message
                 required:
-                - code
-                - message
-                - errors
+                  - code
+                  - message
+                  - errors
                 example:
                   code: request_validation
                   message: You have one or more errors in request structure
                   errors:
-                  - field: carrierName
-                    message: field contains wrong data type (int), should be string
-                    value: '22'
-                  - field: shipperId
-                    message: 'shipperId: must not be null'
-                    value: null
-                  - field: loadSource.loadId
-                    message: 'loadId: must not be null'
-                    value: null
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: "22"
+                    - field: shipperId
+                      message: "shipperId: must not be null"
+                      value: null
+                    - field: loadSource.loadId
+                      message: "loadId: must not be null"
+                      value: null
               examples:
                 error422MultiExample:
                   value:
                     code: request_validation
                     message: You have one or more errors in request structure
                     errors:
-                    - field: carrierName
-                      message: field contains wrong data type (int), should be string
-                      value: '22'
-                    - field: shipperId
-                      message: 'shipperId: must not be null'
-                      value: null
-                    - field: loadSource.loadId
-                      message: 'loadId: must not be null'
-                      value: null
-        '429':
+                      - field: carrierName
+                        message: field contains wrong data type (int), should be string
+                        value: "22"
+                      - field: shipperId
+                        message: "shipperId: must not be null"
+                        value: null
+                      - field: loadSource.loadId
+                        message: "loadId: must not be null"
+                        value: null
+        "429":
           description: Too Many Requests
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/application~1json/schema'
+                $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/applica\
+                  tion~1json/schema"
               examples:
                 error429TooManyRequests:
                   value:
                     code: too_many_requests
                     message: Request limit exceeded
-        '500':
+        "500":
           description: Unhandled server error
           content:
             application/json:
               schema:
-                $ref: '#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/application~1json/schema'
+                $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/400/content/applica\
+                  tion~1json/schema"
               examples:
                 error500Example:
                   value:
                     code: internal_error
                     message: Internal server error
-      x-codeSamples:
-      - lang: Node + Request
-        source: "const request = require('request');\n\nconst options = {\n  method: 'GET',\n  url: 'https://testapi.greenscreens.ai/v1/analytics/lane-top-carriers',\n  qs: {\n    transportType: 'VAN',\n    originCountry: 'US',\n    originState: 'NY',\n    originCity: 'Schenectady',\n    originZip: '12345',\n    destinationCountry: 'US',\n    destinationState: 'IL',\n    destinationCity: 'Chicago',\n    destinationZip: '60636',\n    hasExtraStops: 'true',\n    dateFrom: '2019-09-30',\n    region: 'ZIP',\n    currency: 'USD',\n    sort: 'SOME_ARRAY_VALUE'\n  },\n  headers: {Authorization: 'Bearer REPLACE_BEARER_TOKEN'}\n};\n\nrequest(options, function (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n});\n"
-      - lang: Python + Requests
-        source: 'import requests
-
-
-          url = "https://testapi.greenscreens.ai/v1/analytics/lane-top-carriers"
-
-
-          querystring = {"transportType":"VAN","originCountry":"US","originState":"NY","originCity":"Schenectady","originZip":"12345","destinationCountry":"US","destinationState":"IL","destinationCity":"Chicago","destinationZip":"60636","hasExtraStops":"true","dateFrom":"2019-09-30","region":"ZIP","currency":"USD","sort":"SOME_ARRAY_VALUE"}
-
-
-          headers = {"Authorization": "Bearer REPLACE_BEARER_TOKEN"}
-
-
-          response = requests.request("GET", url, headers=headers, params=querystring)
-
-
-          print(response.text)'
-      - lang: Php + Curl
-        source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/analytics/lane-top-carriers?transportType=VAN&originCountry=US&originState=NY&originCity=Schenectady&originZip=12345&destinationCountry=US&destinationState=IL&destinationCity=Chicago&destinationZip=60636&hasExtraStops=true&dateFrom=2019-09-30&region=ZIP&currency=USD&sort=SOME_ARRAY_VALUE\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
+  /analytics/lane-triumph-carriers:
+    get:
+      tags:
+        - Analytics
+      operationId: analyticsLaneTriumphCarriers
+      summary: Triumph carriers
+      description: Returns a list of Triumph carriers for a provided lane
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: transportType
+          schema:
+            $ref: "#/components/schemas/TransportType"
+          required: true
+        - name: originMarketCode
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/MarketCode"
+        - name: destinationMarketCode
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/MarketCode"
+        - in: query
+          name: originState
+          schema:
+            type: string
+            example: NY
+          description: Origin state
+          required: false
+        - in: query
+          name: originCity
+          schema:
+            type: string
+            example: Schenectady
+          description: Origin city
+          required: false
+        - in: query
+          name: originZip
+          schema:
+            type: string
+            example: "12345"
+          description: Origin area zip, 3 or 5 digits
+          required: false
+        - in: query
+          name: destinationState
+          schema:
+            type: string
+            example: IL
+          description: Destination state
+          required: false
+        - in: query
+          name: destinationCity
+          schema:
+            type: string
+            example: Chicago
+          description: Destination city
+          required: false
+        - in: query
+          name: destinationZip
+          schema:
+            type: string
+            example: "60636"
+          description: Destination area zip, 3 or 5 digits
+          required: false
+        - in: query
+          name: responseGranularity
+          schema:
+            $ref: "#/components/schemas/ResponseGranularity"
+          required: false
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 1000
+          description: Number of items to return
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: Page number (zero-based)
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsLaneTriumphCarriersResponse"
+        "400":
+          $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/400"
+        "401":
+          $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/401"
+        "403":
+          $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/403"
+        "404":
+          $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/404"
+        "422":
+          $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/422"
+        "429":
+          $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/429"
+        "500":
+          $ref: "#/paths/~1analytics~1lane-top-carriers/get/responses/500"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
-    Analytics_AnalyticsLaneTopCarriersResponse:
+    AnalyticsLaneCarriersResponse:
       type: object
       description: Analytics lane carriers response
       properties:
@@ -336,50 +502,55 @@ components:
           description: List of carriers
           maxItems: 10
           items:
-            $ref: '#/components/schemas/Analytics_AnalyticsLaneCarrierItem'
+            $ref: "#/components/schemas/AnalyticsLaneCarrierItem"
       required:
-      - items
-    Analytics_PerformanceMetricsObject:
+        - items
+    AnalyticsLaneTriumphCarriersResponse:
       type: object
-      description: Performance metrics
+      description: Analytics lane carriers response
       properties:
-        onTimePickup:
-          type: number
-          description: On Time Pickup %
-          minimum: 0
-          maximum: 100
-          example: 85.24
-        onTimeDelivery:
-          type: number
-          description: On Time Delivery %
-          minimum: 0
-          maximum: 100
-          example: 63.13
-        badBounce:
-          type: number
-          description: Bad Bounce %
-          minimum: 0
-          maximum: 100
-          example: 75.42
-        score:
-          type: number
-          description: T-Score
-          example: 98.24
-          minimum: 0
-          maximum: 100
-        leadTimeAverageHours:
-          type: number
-          description: Booking Lead Time (Avg, in Hrs:Min)
-          example: 5
-        volume:
-          type: number
-          description: Volume
-          example: 1234
-        lastDeliveredDate:
+        responseGranularity:
+          $ref: "#/components/schemas/ResponseGranularity"
+        originMarketCode:
+          $ref: "#/components/schemas/MarketCode"
+        destinationMarketCode:
+          $ref: "#/components/schemas/MarketCode"
+        originCity:
           type: string
-          description: Last Delivered At Date
-          example: '2026-04-28'
-    Analytics_AnalyticsLaneCarrierItem:
+          description: Origin city
+          example: Chicago
+        originState:
+          type: string
+          description: Origin state
+          example: IL
+        originZip:
+          type: string
+          description: Origin zip, 3 or 5 digits following requested zip
+          example: "60636"
+        destinationCity:
+          type: string
+          description: Destination city
+          example: Houston
+        destinationState:
+          type: string
+          description: Destination state
+          example: TX
+        destinationZip:
+          type: string
+          description: Destination zip, 3 or 5 digits following requested zip
+          example: "73264"
+        transportType:
+          $ref: "#/components/schemas/TransportType"
+        items:
+          type: array
+          description: List of carriers
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneTriumphCarrierItem"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - items
+    AnalyticsLaneCarrierItem:
       type: object
       properties:
         carrierName:
@@ -389,7 +560,7 @@ components:
         carrierPhone:
           type: string
           description: Carrier phone
-          example: '121331343'
+          example: "121331343"
         carrierEmail:
           type: string
           description: Carrier email
@@ -412,16 +583,19 @@ components:
           example: 41
         lastShippedDate:
           type: string
-          description: Date of the last time this carrier handled a load. In ISO date format (YYYY-MM-DD).
+          description: Date of the last time this carrier handled a load. In ISO date
+            format (YYYY-MM-DD).
           format: date
-          example: '2019-09-30'
+          example: "2019-09-30"
         carriedMultistopLoadsBefore:
           type: boolean
-          description: Signifies whether this carrier has ever carried a multistop load before
+          description: Signifies whether this carrier has ever carried a multistop load
+            before
           example: false
         lastCarrierRate:
           type: number
-          description: Rate that was paid to this carrier for the last handled load (per mile)
+          description: Rate that was paid to this carrier for the last handled load (per
+            mile)
           example: 2.1254
         averageCarrierRate:
           type: number
@@ -460,63 +634,737 @@ components:
           description: Code of the currency of the response. Format is ISO 4217.
           example: USD
         performanceMetrics:
-          $ref: '#/components/schemas/Analytics_PerformanceMetricsObject'
+          $ref: "#/components/schemas/PerformanceMetricsObject"
       required:
-      - carrierName
-      - numberOfLoads
-      - lastShippedDate
-      - carriedMultistopLoadsBefore
-      - lastCarrierRate
-      - averageCarrierRate
-      - minCarrierRate
-      - maxCarrierRate
-      - lastCarrierFlatRate
-      - averageCarrierFlatRate
-      - minCarrierFlatRate
-      - maxCarrierFlatRate
-      - averageCarrierMarginPercent
-      - currency
+        - carrierName
+        - numberOfLoads
+        - lastShippedDate
+        - carriedMultistopLoadsBefore
+        - lastCarrierRate
+        - averageCarrierRate
+        - minCarrierRate
+        - maxCarrierRate
+        - lastCarrierFlatRate
+        - averageCarrierFlatRate
+        - minCarrierFlatRate
+        - maxCarrierFlatRate
+        - averageCarrierMarginPercent
+        - currency
+    AnalyticsLaneTriumphCarrierItem:
+      type: object
+      properties:
+        carrierName:
+          type: string
+          description: Carrier Name
+          example: Eagle One Delivery
+        carrierPhone:
+          type: string
+          description: Carrier phone
+          example: "121331343"
+        carrierEmail:
+          type: string
+          description: Carrier email
+          example: test@carrier.com
+        carrierMC:
+          type: string
+          description: Motor Carrier number of this carrier
+          example: MC00334234
+        carrierDOT:
+          type: string
+          description: Department of Transportation number of this carrier
+          example: USDOT33136
+        performanceMetrics:
+          $ref: "#/components/schemas/PerformanceMetricsObject"
+        transportTypes:
+          type: array
+          description: List of transport types this carrier is known to support
+          items:
+            $ref: "#/components/schemas/TransportType"
+      required:
+        - carrierName
+        - performanceMetrics
+    AnalyticsLaneResponse:
+      type: object
+      title: AnalyticsLaneResponse
+      properties:
+        coverTime:
+          type: integer
+          description: Time (average) to cover the lane in hours
+          example: 247
+        laneMarginPercent:
+          type: number
+          description: Margin per lane (last month, average)
+          example: 15.21
+        laneUrgency:
+          type: integer
+          description: Time (average) between pickup and book in hours
+          example: 287
+        travelTime:
+          type: integer
+          description: Travel time in hours
+          example: 49
+        mileage:
+          type: number
+          description: Mileage in miles
+          example: 978
+    AnalyticsLaneHighwayCarriersResponse:
+      type: object
+      description: Highway carriers response
+      properties:
+        highwayCarrierListUrl:
+          type: string
+          description: Url to a lane search screen in the Highway app
+          example: https://gohighway.com/broker/carriers/lane-search
+        carriers:
+          type: array
+          description: List of carriers returned by the Highway platform
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneHighwayCarriersResponseItem"
+      required:
+        - highwayCarrierListUrl
+        - carriers
+    AnalyticsLaneHighwayCarriersResponseItem:
+      type: object
+      description: >
+        Carrier data provided by the Highway platform. 
+
+        Only available if the current company is a client of the Highway platform.
+      properties:
+        name:
+          type: string
+          description: Name of the carrier company
+          example: COIN LLC
+        headquartersStateCode:
+          type: string
+          description: Code of the state where company headquarters are based
+          example: WA
+        dot:
+          type: string
+          description: Department of Transportation (DOT) number of this carrier
+          example: "01467586"
+        mc:
+          type: string
+          description: Motor Carrier number (MC) of this carrier
+          example: "554398"
+        email:
+          type: string
+          description: Carrier dispatch email
+          example: carrier@mail.com
+        phone:
+          type: string
+          description: Carrier dispatch phone number
+          example: "4112228888"
+        laneCertainty:
+          $ref: "#/components/schemas/HighwayLaneCertainty"
+        fleet:
+          type: number
+          description: >
+            Number of trailers in this carriers fleet that match the transport
+            type
+
+            in the request
+          example: 48
+        assessment:
+          type: string
+          enum:
+            - PASS
+            - PARTIAL_PASS
+          description: Carrier assesment result
+          example: PARTIAL_PASS
+        highwayCarrierViewUrl:
+          type: string
+          description: Url to a carrier profile screen in the Highway app
+          example: https://gohighway.com/broker/carriers/28661
+    HighwayLaneCertainty:
+      type: object
+      description: |
+        Lane certainty info for this carrier for requested lane
+      properties:
+        observed:
+          $ref: "#/components/schemas/HighwayCertaintyLevel"
+        preferred:
+          $ref: "#/components/schemas/HighwayCertaintyLevel"
+        headquarters:
+          $ref: "#/components/schemas/HighwayCertaintyLevel"
+    HighwayCertaintyLevel:
+      type: string
+      enum:
+        - LOW
+        - MEDIUM
+        - HIGH
+      description: Certainty level
+      example: LOW
+    AnalyticsLaneCargoChiefCarriersResponse:
+      type: object
+      description: Cargo Chief carriers response
+      properties:
+        cargoChiefCarrierListUrl:
+          type: string
+          description: Url to a carrier search screen in the Cargo Chief app
+          example: https://cargochief.app/search/capacity?...
+        carriers:
+          type: array
+          description: List of Cargo Chief carriers matched for this lane
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneCargoChiefCarriersResponseItem"
+      required:
+        - carriers
+    AnalyticsLaneCargoChiefCarriersResponseItem:
+      type: object
+      description: >
+        Carrier data provided by the Cargo Chief platform. 
+
+        Only available if the current company is a client of the Cargo Chief platform.
+      properties:
+        name:
+          type: string
+          description: Carrier company name
+          example: Eagle One Delivery
+        inNetwork:
+          type: boolean
+          description: |
+            Signifies whether this carrier is in the user's Cargo Chief network
+          example: true
+        headquartersStateCode:
+          type: string
+          description: Code of the state where company headquarters are based
+          example: WA
+        dot:
+          type: string
+          description: Department of Transportation (DOT) number of this carrier
+          example: USDOT33136
+        mc:
+          type: string
+          description: Motor Carrier (MC) number of this carrier
+          example: MC00334234
+        contacts:
+          $ref: "#/components/schemas/CargoChiefCarrierContacts"
+        rating:
+          type: integer
+          description: Cargo Chief platform carrier rating for this lane + carrier match
+          example: 75
+        cargoChiefCarrierViewUrl:
+          type: string
+          description: Url to a carrier view screen in the Cargo Chief app
+          example: https://cargochief.app/carrier/T2ZmaWNlOjIxMTE0NjIw
+    CargoChiefCarrierContacts:
+      type: object
+      description: Cargo Chief carrier contacts info
+      properties:
+        name:
+          type: string
+          description: Contact name
+          example: James
+        email:
+          type: string
+          description: Contact email
+          example: test@carrier.com
+        phone:
+          type: string
+          description: Contact phone number
+          example: "121331343"
+    AnalyticsLaneYatCarriersResponse:
+      type: object
+      description: Yat.ai carriers response
+      properties:
+        yatCarrierListUrl:
+          type: string
+          description: Url to a carrier search screen in the Yat.ai app
+          example: https://portal.yat.ai/search/capacity?...
+        carriers:
+          type: array
+          description: List of Yat.ai carriers
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneYatCarriersResponseItem"
+      required:
+        - carriers
+    AnalyticsLaneYatCarriersResponseItem:
+      type: object
+      description: >
+        Carrier data provided by the Yat.ai platform. 
+
+        Only available if the current company is a client of the Yat.ai platform.
+      properties:
+        name:
+          type: string
+          description: Carrier company name
+          example: Eagle One Delivery
+        headquartersStateCode:
+          type: string
+          description: Code of the state where company headquarters are based
+          example: WA
+        dot:
+          type: string
+          description: Department of Transportation (DOT) number of this carrier
+          example: "01467586"
+        mc:
+          type: string
+          description: Motor Carrier number (MC) of this carrier
+          example: "554398"
+        fleet:
+          type: integer
+          description: Number of trucks in this carriers fleet
+          example: 48
+        contacts:
+          $ref: "#/components/schemas/YatCarrierContacts"
+        score:
+          $ref: "#/components/schemas/YatCarrierScore"
+        yatCarrierViewUrl:
+          type: string
+          description: Url to a carrier profile screen in the Yat.ai app
+          example: https://portal.yat.ai/carriers/28661
+    YatCarrierContacts:
+      type: object
+      description: Yat.ai carrier contacts info
+      properties:
+        email:
+          type: string
+          description: Contact email
+          example: test@carrier.com
+        phone:
+          type: string
+          description: Contact phone number
+          example: "121331343"
+    YatCarrierScore:
+      type: object
+      description: Yat.ai carrier match score info
+      properties:
+        normalizedScore:
+          type: number
+          description: >
+            Normalized score, this is the result of combining other scores in
+            this object
+          example: 99.8374
+        sizeScore:
+          type: number
+          description: |
+            Size score
+          example: 88.9431
+        originScore:
+          type: number
+          description: |
+            Origin score
+          example: 97.7236
+        destinationScore:
+          type: number
+          description: |
+            Destination score
+          example: 79.6748
+        relationshipScore:
+          type: number
+          description: |
+            Relationship score
+          example: 0
+        laneScore:
+          type: number
+          description: |
+            Lane score
+          example: 75.2846
+    AnalyticsLaneCarrierSourceCarriersResponse:
+      type: object
+      description: CarrierSource carriers response
+      properties:
+        carrierSourceCarrierListUrl:
+          type: string
+          description: Url to a lane search screen in the CarrierSource app
+          example: https://carriersource.is/lane-search
+        carriers:
+          type: array
+          description: List of carriers returned by the CarrierSource platform
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneCarrierSourceCarriersResponseItem"
+      required:
+        - carrierSourceCarrierListUrl
+        - carriers
+    AnalyticsLaneCarrierSourceCarriersResponseItem:
+      type: object
+      description: >
+        Carrier data provided by the CarrierSource platform. 
+
+        Only available if the current company is a client of the CarrierSource platform
+      properties:
+        name:
+          type: string
+          description: Name of the carrier company
+          example: COIN LLC
+        dot:
+          type: string
+          description: Department of Transportation (DOT) number of this carrier
+          example: "01467586"
+        contacts:
+          $ref: "#/components/schemas/CarrierSourceCarrierContacts"
+        rating:
+          $ref: "#/components/schemas/CarrierSourceCarrierRating"
+        carrierSourceCarrierViewUrl:
+          type: string
+          description: Url to a carrier profile screen in the CarrierSource app
+          example: https://www.carriersource.io/carriers/p-h-services-inc
+    CarrierSourceCarrierContacts:
+      type: object
+      description: CarrierSource carrier contacts info
+      properties:
+        email:
+          type: string
+          description: Carrier dispatch email
+          example: carrier@mail.com
+        phone:
+          type: string
+          description: Carrier dispatch phone number
+          example: "121331343"
+    CarrierSourceCarrierRating:
+      type: object
+      description: CarrierSource carrier rating info
+      properties:
+        starRating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+          description: The star rating of this carrier
+          example: 4.3
+        reviewCount:
+          type: integer
+          description: The count of reviews used to calculate the star rating
+          example: 343
+    AnalyticsLaneChaineCarriersResponse:
+      type: object
+      description: Chaine carriers response
+      properties:
+        chaineCarrierListUrl:
+          type: string
+          description: Url to a lane search screen in the Chaine app
+          example: https://app.chaine.com/broker/carriers/lane-search
+        carriers:
+          type: array
+          description: List of Chaine carriers matched for this lane
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneChaineCarriersResponseItem"
+      required:
+        - carriers
+    AnalyticsLaneChaineCarriersResponseItem:
+      type: object
+      description: >
+        Carrier data provided by the Chaine platform. 
+
+        Only available if the current company is a client of the Chaine platform.
+      properties:
+        name:
+          type: string
+          description: Carrier company name
+          example: Eagle One Delivery
+        dot:
+          type: string
+          description: Department of Transportation (DOT) number of this carrier
+          example: USDOT33136
+        mc:
+          type: string
+          description: Motor Carrier (MC) number of this carrier
+          example: MC00334234
+        contacts:
+          $ref: "#/components/schemas/ChaineCarrierContacts"
+        numberOfTrips:
+          type: integer
+          description: |
+            The number of trips the carrier has completed
+          example: 34
+        averageRate:
+          type: number
+          description: |
+            The average rate the matched carrier ran the lane for
+          example: 2.1254
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+        chaineCarrierViewUrl:
+          type: string
+          description: Url to a carrier profile screen in the Chaine app
+          example: https://app.chaine.com/broker/carriers/28661
+      required:
+        - currency
+    ChaineCarrierContacts:
+      type: object
+      description: Chaine carrier contacts info
+      properties:
+        email:
+          type: string
+          description: Contact email
+          example: test@carrier.com
+        phone:
+          type: string
+          description: Contact phone number
+          example: "121331343"
+    AnalyticsLaneTruckstopCarriersResponse:
+      type: object
+      description: Truckstop carriers response
+      properties:
+        truckstopCarrierListUrl:
+          type: string
+          description: Url to a truck search screen in the Truckstop app
+          example: https://app.truckstop.com/Search/Trucks/
+        carriers:
+          type: array
+          description: List of Truckstop carriers matched for this lane
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneTruckstopCarriersResponseItem"
+      required:
+        - truckstopCarrierListUrl
+        - carriers
+    AnalyticsLaneTruckstopCarriersResponseItem:
+      type: object
+      description: >
+        Carrier data provided by the Truckstop platform. 
+
+        Only available if the current company is a client of the Truckstop platform
+      properties:
+        name:
+          type: string
+          description: Carrier company name
+          example: Eagle One Delivery
+        dot:
+          type: string
+          description: Department of Transportation (DOT) number of this carrier
+          example: "01467586"
+        mc:
+          type: string
+          description: Motor Carrier number (MC) of this carrier
+          example: "554398"
+        truckAvailableDate:
+          type: string
+          format: date
+          description: Date when the truck becomes available
+          example: "2024-05-15"
+        truckPostedDateTime:
+          type: string
+          format: date-time
+          description: Date when the truck was posted on the loadboard
+          example: "2024-01-11T16:00:00Z"
+        origin:
+          $ref: "#/components/schemas/TruckstopCarrierLocation"
+        destination:
+          $ref: "#/components/schemas/TruckstopCarrierLocation"
+        contacts:
+          $ref: "#/components/schemas/TruckstopCarrierContacts"
+        truckstopCarrierViewUrl:
+          type: string
+          description: Url to a truck posting screen in the Truckstop app
+          example: https://app.truckstop.com/PostingDetails/Trucks/76427839
+    TruckstopCarrierContacts:
+      type: object
+      description: Truckstop carrier contacts info
+      properties:
+        email:
+          type: string
+          description: Contact email
+          example: test@carrier.com
+        phone:
+          type: string
+          description: Contact phone number
+          example: "121331343"
+    TruckstopCarrierLocation:
+      type: object
+      description: Truckstop truck location info
+      properties:
+        country:
+          type: string
+          description: |
+            Code of the country where the truck is currently located.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: |
+            Code of the State where the truck is currently located
+          example: TX
+        city:
+          type: string
+          description: |
+            Name of the city where the truck is currently located
+          example: Dallas
+        distance:
+          type: number
+          description: |
+            How far the truck is from the searched area (in miles)
+          example: 34
+    TransportType:
+      type: string
+      enum:
+        - VAN
+        - REEFER
+        - FLATBED
+        - HOTSHOT
+      description: >
+        Transport type
+
+
+        If you would like Hotshot predictions, reach out to your CSM and DA. 
+
+        The model will not work properly without your hotshot data effectively filtered and imported into the model.
+      example: VAN
+    GeographicalAreaLane:
+      type: string
+      enum:
+        - CITY
+        - CITY_ZIP
+        - ZIP_CITY
+        - ZIP
+      description: >
+        Determines the size of the area around origin and destination points, 
+
+        that will be searched for the related data.
+
+        * CITY - narrow, city wide, area
+
+        * ZIP - narrow, five digit zip, area
+
+        * CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP
+
+        * ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY
+      example: ZIP
+    AnalyticsLanePerformanceMetricsResponse:
+      type: object
+      description: Lane Performance Metrics. These include both broker-specific and
+        market benchmark metrics
+      properties:
+        brokerPerformanceMetrics:
+          $ref: "#/components/schemas/PerformanceMetricsObject"
+        networkPerformanceMetrics:
+          $ref: "#/components/schemas/PerformanceMetricsObject"
+        networkPerformanceRanks:
+          $ref: "#/components/schemas/PerformanceRanksObject"
+      required:
+        - brokerPerformanceMetrics
+        - networkPerformanceMetrics
+    PerformanceMetricsObject:
+      type: object
+      description: Performance metrics
+      properties:
+        onTimePickup:
+          type: number
+          description: On Time Pickup %
+          minimum: 0
+          maximum: 100
+          example: 85.24
+        onTimeDelivery:
+          type: number
+          description: On Time Delivery %
+          minimum: 0
+          maximum: 100
+          example: 63.13
+        badBounce:
+          type: number
+          description: Bad Bounce %
+          minimum: 0
+          maximum: 100
+          example: 75.42
+        score:
+          type: number
+          description: T-Score
+          example: 98.24
+          minimum: 0
+          maximum: 100
+        leadTimeAverageHours:
+          type: number
+          description: Booking Lead Time (Avg, in Hrs:Min)
+          example: 5
+        volume:
+          type: number
+          description: Volume
+          example: 1234
+        lastDeliveredDate:
+          type: string
+          description: Last Delivered At Date
+          example: "2026-04-28"
+    PerformanceRanksObject:
+      type: object
+      description: Performance ranks
+      properties:
+        onTimePickup:
+          type: string
+          description: On Time Pickup Rank
+          example: Top 25%
+        onTimeDelivery:
+          type: string
+          description: On Time Delivery Rank
+          example: Bottom 50%
+        badBounce:
+          type: string
+          description: Bad Bounce Rank
+          example: Bottom 25%
+        leadTimeAverageHours:
+          type: string
+          description: Booking Lead Time Rank
+          example: Top 50%
+        volume:
+          type: string
+          description: Volume Rank
+          example: Top 10%
+    AnalyticsLaneStrategicCapacityResponse:
+      type: object
+      description: Analytics lane Strategic Capacity response
+      properties:
+        items:
+          type: array
+          description: List of carriers
+          maxItems: 10
+          items:
+            $ref: "#/components/schemas/AnalyticsLaneTriumphCarrierItem"
+      required:
+        - items
+    MarketCode:
+      type: string
+      description: Machine readable code of a market area
+      example: NY_ALB
+    ResponseGranularity:
+      type: string
+      enum:
+        - KMA_LANE
+        - EXACT_LANE
+      description: |
+        The granularity level to determine lanes at. 
+        KMA_LANE will search and return lanes by their KMA. 
+        EXACT_LANE will return lanes by their city/state/zip.
+      example: KMA_LANE
+    Pagination:
+      type: object
+      description: Response pagination data
+      properties:
+        pageNumber:
+          type: integer
+          description: Current page number (zero-based)
+          minimum: 0
+          example: 0
+        pageSize:
+          type: integer
+          description: Number of items per page
+          minimum: 1
+          example: 50
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of items available
+          example: 150
+        totalPages:
+          type: integer
+          description: Total number of pages
+          example: 3
+      required:
+        - pageNumber
+        - pageSize
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io
-x-tagGroups:
-- name: Auth
-  tags:
-  - Auth
-  description: "# Authentication\n\n\nTriumph Intelligence API offers OAuth2 Bearer JWT token based authentication.\n\n\nOAuth2 - an open protocol to allow secure authorization in a simple \nand standard method from web, mobile and desktop applications.\n\n\n# \n\n\n# \n\n\n# Direct link integration with Triumph Intelligence\n\nOne of the simplest ways to integrate Triumph Intelligence in to your app is by using the \ndirect link method.\n\nLink format:\n\n    https://intelligence.triumph.io/rates?originZip={}&destinationZip={}&transportType={}\n\n* originZip - 5 digit USA ZIP code of the origin point\n\n* destinationZip - 5 digit USA ZIP code of the destination point\n\n* transportType - one of supported equipment types VAN, REEFER or FLATBED\n\n* OPTIONAL: pickupDate - pickup date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: originCityState - city and state separated by a space symbol, signifying the origin point. \nCan be used instead of originZip if you do not have a zip code of the location. \n_Should not be used together with originZip._\n\n* OPTIONAL: destinationCityState - city and state separated by a space, signifying the destination point. \nCan be used instead of destinationZip if you do not have a zip code of the location. \n_Should not be used together with destinationZip._\n\n* OPTIONAL: customer - name of the customer company\n\n* OPTIONAL: commodity - description of the transported commodity\n\n* OPTIONAL: weight - weight of the load in lbs\n\n* OPTIONAL: deliveryDate - delivery date string in ISO format e.g. \"2022-04-06T08:00:00.000+03:00\" when not encoded\n\n* OPTIONAL: extraStops - any extra stops between origin and destination. Value is an array of strings with up to 10 elements\nin the format of `{order}_{type}_{country}_{address}` \ntypes are `{numbers 0-9}_{CITY or ZIP}_{US or CA}_{if ZIP then 5+ digits, if CITY then city state string separated by space}`\n\nExamples (don't forget to encode the url):\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originCityState=Wausau%20WI&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationCityState=Evansville%20IN&transportType=VAN\n\n    https://intelligence.triumph.io/rates?originZip=12345&destinationZip=62345&extraStops=0_ZIP_US_28086&extraStops=1_CITY_US_Portland%20OR&transportType=VAN\n\nExample usage:\n\n    <button\n      onclick=\"location.href='https://intelligence.triumph.io/rates?destinationZip=62345&originZip=12345&transportType=VAN'\"\n      type=\"button\">Quote new lane\n    <button>\n\n\n# \n\n\n# \n\n\n# Services and endpoints\n\nThe most versatile (and involving the most work) way of integration is by using our API directly.\nBelow you can find a list of servises and endpoints available for usage.\n"
-- name: analytics
-  tags:
-  - Analytics
-  description: Analytics service v1
-- name: bids
-  tags:
-  - Bids
-  description: Carrier bids service v1
-- name: datalake
-  tags:
-  - Datalake
-  description: Datalake service v1
-- name: history
-  tags:
-  - History
-  description: Historical rate data and similar lanes analysis v1
-- name: marketintelligence
-  tags:
-  - MarketIntelligence
-  description: Market Intelligence service v1
-- name: prediction
-  tags:
-  - Prediction
-  description: Prediction service v3
-- name: pricing
-  tags:
-  - Pricing
-  description: Pricing service v1
-- name: quotes
-  tags:
-  - Quotes
-  description: Quotes service v2
-- name: tmsconnector
-  tags:
-  - TMS
-  description: TmsConnector service v2
+servers:
+  - url: https://testapi.greenscreens.ai/v1
+    description: Testing server (dev environment)
+  - url: https://betaapi.greenscreens.ai/v1
+    description: Beta server (pre-production)
+  - url: https://api.greenscreens.ai/v1
+    description: Production server (uses live data)

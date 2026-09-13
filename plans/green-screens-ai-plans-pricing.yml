@@ -1,152 +1,57 @@
 specification: API Commons Plans
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://triumph.io/solutions/rates/ (the page greenscreens.ai now 301s to),
+  https://triumph.io/ , https://intelligencehelp.triumph.io/en/ and its 12 collections, and
+  https://connect.greenscreens.ai/ — all searched 2026-09-12 for a published plan, tier, quota or price.
 provider: Green Screens AI
 providerId: green-screens-ai
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - AI
-  - Freight
-  - Logistics
-  - Machine Learning
-  - Pricing
-  - Transportation
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: green-screens-ai-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Green Screens AI API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://connect.greenscreens.ai/prediction/v3
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://connect.greenscreens.ai/prediction/v3
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Green Screens AI Prediction API
-  - id: green-screens-ai-pro
-    name: Professional
-    type: paid
-    description: Production tier for Green Screens AI. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://connect.greenscreens.ai/prediction/v3
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://connect.greenscreens.ai/prediction/v3
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains:
-          - https://connect.greenscreens.ai/prediction/v3
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Green Screens AI Prediction API
-  - id: green-screens-ai-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Green Screens AI. Includes dedicated capacity, contractual
-      SLAs, security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://connect.greenscreens.ai/prediction/v3
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://connect.greenscreens.ai/prediction/v3
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Green Screens AI Prediction API
+modified: '2026-09-12'
+description: >-
+  Green Screens AI (Triumph Intelligence) publishes NO plans, tiers, quotas, or prices. It is an
+  enterprise, contract-negotiated freight-intelligence product sold to brokers through a sales
+  conversation; the API is an entitlement of that contract rather than a separately purchasable
+  product. There is no public pricing page, no self-serve signup, and no free tier.
+plan_count: 0
+plans: []
+findings:
+- url: https://triumph.io/solutions/rates/
+  status: 200
+  note: >-
+    The destination of the greenscreens.ai redirect. Product/solution marketing with a demo request
+    call to action. No prices, no tiers.
+- url: https://triumph.io/pricing/
+  status: 404
+  note: No pricing page exists on the parent site.
+- url: https://greenscreens.ai/pricing
+  status: 301
+  note: Redirects to https://triumph.io/solutions/rates/ — the site has no pricing route of its own.
+- url: https://intelligencehelp.triumph.io/en/
+  status: 200
+  note: >-
+    Twelve help-center collections, none about billing, plans, quotas, or overage. API access is
+    obtained by an Admin generating credentials inside an existing customer account; feature access
+    (e.g. RFP Manager) is granted per-account by a Customer Success representative via a Keycloak role.
+- url: https://connect.greenscreens.ai/
+  status: 200
+  note: >-
+    API documentation portal. Documents authentication and endpoints; contains no pricing, quota, or
+    plan information, and no signup path.
+access_model:
+  pricing: enterprise
+  onboarding: sales-assisted
+  self_serve: false
+  free_tier: false
+  trial_published: false
+note: >-
+  This file previously carried a three-tier Free/Professional/Enterprise scaffold with invented request
+  quotas and rate limits, written by the 2026-05-04 bulk sweep and marked method: generated. None of
+  those tiers, quotas, or prices were ever published by this provider. The scaffold has been removed
+  and replaced with the searched result — an honest plan_count of 0.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,110 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  securitySchemes of the provider's 12 published OpenAPI documents
+  (https://connect.greenscreens.ai/<service>/<version>/openapi.yaml), the verbatim /auth/token
+  operation in https://connect.greenscreens.ai/openapi.yaml, and the provider's own help-center
+  articles https://intelligencehelp.triumph.io/en/articles/10684487-managing-api-credentials and
+  https://intelligencehelp.triumph.io/en/articles/12461044-acquiring-the-access-token-for-triumph-intelligence-apis
+docs: https://intelligencehelp.triumph.io/en/articles/12461044-acquiring-the-access-token-for-triumph-intelligence-apis
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Two-step authentication. Exchange a provider-issued client_id and client_secret for a JWT at the
+  OAuth2 token endpoint, then present it as a bearer token on every other operation. The identity
+  provider is Keycloak.
+summary:
+  types:
+  - oauth2
+  - http
+  self_serve: false
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: >-
+    The scheme every service spec declares. Access token from POST /auth/token, presented as
+    Authorization: Bearer <access_token>.
+  sources:
+  - openapi/green-screens-ai-analytics-api-openapi.yml
+  - openapi/green-screens-ai-auth-api-openapi.yml
+  - openapi/green-screens-ai-bids-api-openapi.yml
+  - openapi/green-screens-ai-datalake-api-openapi.yml
+  - openapi/green-screens-ai-history-api-openapi.yml
+  - openapi/green-screens-ai-marketintelligence-api-openapi.yml
+  - openapi/green-screens-ai-prediction-api-openapi.yml
+  - openapi/green-screens-ai-prediction-v2-api-openapi.yml
+  - openapi/green-screens-ai-pricing-api-openapi.yml
+  - openapi/green-screens-ai-quotes-api-openapi.yml
+  - openapi/green-screens-ai-quotes-v1-api-openapi.yml
+  - openapi/green-screens-ai-tms-api-openapi.yml
+- name: oauth2ClientCredentials
+  type: oauth2
+  flow: clientCredentials
+  description: >-
+    Documented by the provider as an operation (POST /auth/token) rather than declared as an oauth2
+    securityScheme object, which is why the spec-only derivation sees http/bearer and not oauth2. The
+    flow is a conformant RFC 6749 client_credentials grant.
+  tokenUrl: https://api.greenscreens.ai/v1/auth/token
+  alternateTokenUrls:
+  - https://intelligence.triumph.io/v1/auth/token
+  - https://betaapi.greenscreens.ai/v1/auth/token
+  - https://testapi.greenscreens.ai/v1/auth/token
+  request:
+    media_type: application/x-www-form-urlencoded
+    parameters:
+    - grant_type (must be client_credentials)
+    - client_id
+    - client_secret
+  response:
+    fields:
+    - access_token
+    - expires_in
+    - refresh_expires_in
+    - token_type
+    - not-before-policy
+    - scope
+  scopes: []
+  scopes_note: >-
+    The token response carries a scope string, but the provider publishes no scope reference and no
+    operation declares required scopes. Entitlement is enforced by Keycloak ROLES granted per account
+    (the provider's release notes gate RFP Manager on "a Keycloak role"), not by caller-requested
+    scopes — so there is no scopes artifact to write. 403 access_forbidden is the runtime signal that
+    an account lacks a feature.
+  probed:
+    url: https://api.greenscreens.ai/v1/auth/token
+    method: POST
+    status: 400
+    body: '{"error":"invalid_request","error_description":"Missing form parameter: grant_type"}'
+    date: '2026-09-12'
+provisioning:
+  self_serve: false
+  path: >-
+    Credentials are created inside the Triumph Intelligence application: Profile icon > Preferences >
+    Credentials. Only Admin users can see the tab. Each credential set has a Client ID (auto-generated),
+    a Client Secret (auto-generated, viewable/copyable), a Description, and an enabled/disabled Status.
+  provider_guidance: >-
+    The provider explicitly recommends one credential set per integration so a single partner can be
+    disabled or deleted without revoking the others, and warns that a shared credential set cannot be
+    revoked per-partner later.
+  rotation: >-
+    Credentials can be disabled without deletion, and a new set can be generated at any time. No
+    automatic expiry or forced-rotation policy is published.
+browser_use:
+  supported: conditional
+  note: >-
+    For browser callers the provider documents a back-end wrapper: your own server calls /v1/auth/token
+    with the client credentials and proxies only the access_token to the front end, behind your own
+    authentication. A Google id_token path (gauth) also exists but must be enabled per application by
+    the provider on request. Your origins must additionally be added to the provider's CORS allowlist.
+  source: https://intelligencehelp.triumph.io/en/articles/12461044-acquiring-the-access-token-for-triumph-intelligence-apis
+runtime_evidence:
+- url: https://api.greenscreens.ai/v3/prediction/rates
+  method: POST
+  status: 401
+  header: 'WWW-Authenticate: Bearer'
+  date: '2026-09-12'
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

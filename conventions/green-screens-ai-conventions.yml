@@ -1,0 +1,183 @@
+specification: API Commons Conventions
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: searched
+source: >-
+  Provider OpenAPI documents at https://connect.greenscreens.ai/openapi.yaml and
+  https://connect.greenscreens.ai/<service>/<version>/openapi.yaml, the provider help center
+  (https://intelligencehelp.triumph.io/en/articles/10684487-managing-api-credentials,
+  .../12461044-acquiring-the-access-token-for-triumph-intelligence-apis), and live probes of
+  api.greenscreens.ai, all captured 2026-09-12.
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Cross-cutting runtime semantics for the Triumph Intelligence Connect (Green Screens AI) APIs.
+auth:
+  style: oauth2-client-credentials
+  token_endpoint: https://api.greenscreens.ai/v1/auth/token
+  alternate_token_endpoint: https://intelligence.triumph.io/v1/auth/token
+  grant_type: client_credentials
+  request_media_type: application/x-www-form-urlencoded
+  presentation: 'Authorization: Bearer <access_token>'
+  token_format: JWT
+  issuer: >-
+    Keycloak. The token response carries expires_in, refresh_expires_in, token_type, scope and the
+    Keycloak-specific "not-before-policy" field; the provider's release notes also describe feature
+    access being gated by "a Keycloak role".
+  provisioning: >-
+    Client id and client secret are created by an Admin user inside the Triumph Intelligence
+    application under Preferences > Credentials. Not self-serve from a public developer portal.
+  probed:
+    url: https://api.greenscreens.ai/v1/auth/token
+    method: POST
+    status: 400
+    body: '{"error":"invalid_request","error_description":"Missing form parameter: grant_type"}'
+    note: An RFC 6749 section 5.2 error object — confirms a conformant OAuth2 token endpoint.
+  see: authentication/green-screens-ai-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  header: null
+  scope: []
+  retention: null
+  note: >-
+    No Idempotency-Key header, no client-supplied request id, and no replay-safety statement appears
+    anywhere in the 12 published OpenAPI documents or the help center. The mutating surface is
+    substantial — 30 of 47 aggregate operations are POST/PUT/PATCH/DELETE, including
+    POST /bids/send (sends a bid request to a carrier) and the TMS import operations — so a retried
+    write is a real double-fire risk for an agent. Recorded as none, not unknown: the specs were
+    searched for it.
+reversibility:
+  grade: documented
+  note: >-
+    Reversal operations exist across the transactional surface and are first-class published
+    operations, but the provider states NO window for any of them — no cancel-before-capture rule, no
+    retention period, no "within N days". Grade is therefore documented, not verified. No window is
+    asserted here that the provider does not state.
+  surfaces:
+  - write: saveBid (POST /bids)
+    reversal: deleteBid
+    operation: DELETE /bids/{bidId}
+    window: null
+    window_source: null
+  - write: updateBid (PATCH /bids/{bidId})
+    reversal: null
+    operation: null
+    window: null
+    note: A partial update is not itself reversible; no prior-version read or restore operation exists.
+  - write: requestBid (POST /bids/send)
+    reversal: null
+    operation: null
+    window: null
+    note: >-
+      Highest-consequence write in the API — it sends a bid request to an external carrier. No recall,
+      cancel, or void operation is published. Once sent it cannot be taken back through the API.
+  - write: acceptBid (POST /bids/accept)
+    reversal: null
+    operation: null
+    window: null
+  - write: saveQuote (POST /quotes, Quotes v1)
+    reversal: deleteQuote
+    operation: DELETE /quotes/{quoteId}
+    window: null
+  - write: acceptQuote (POST /quotes/accept, Quotes v1)
+    reversal: rejectQuote
+    operation: POST /quotes/reject
+    window: null
+    note: >-
+      accept and reject are sibling state transitions rather than a documented undo; the provider does
+      not state whether reject after accept is permitted.
+  - write: pricingPriorityRulesCreate / pricingCombinationRuleCreate / pricingThresholdRulesCreate
+    reversal: pricingPriorityRuleDelete / pricingCombinationRuleDelete / pricingThresholdRuleDelete
+    operation: DELETE /pricing/{priority,combination,threshold}-rules/{ruleId}
+    window: null
+  - write: quotesImport / quotesBatchImport / tmsImportLoad / tmsBatchImportLoad / tmsImportCarrier / tmsBatchImportCarrier / tmsImportShipper / tmsBatchImportShipper
+    reversal: null
+    operation: null
+    window: null
+    note: >-
+      The ingestion surface is one-way. No delete, void or rollback operation is published for imported
+      loads, carriers, shippers or quotes, and batch variants accept files up to 100 MB.
+dry_run_mode:
+  supported: false
+  note: >-
+    No preview, validate-only, or simulate parameter on any published operation. A caller can reach a
+    non-production environment (see sandbox/) but cannot rehearse a write against production.
+pagination:
+  supported: partial
+  consistent: false
+  styles:
+  - style: page-number
+    params:
+    - pageNumber
+    - pageSize
+    operations:
+    - analyticsLaneTriumphCarriers
+    response_object: Analytics_Pagination / Pricing_Pagination
+    response_fields:
+    - pageNumber
+    - pageSize
+    - totalElements
+    - totalPages
+  - style: page-number (alternate spelling)
+    params:
+    - page
+    - perPage
+    operations:
+    - quotesGetAll
+    note: >-
+      The same concept is spelled two different ways in the same aggregate spec. An agent cannot infer
+      one from the other.
+  note: >-
+    Most collection-returning operations are not paginated at all and instead cap results implicitly
+    (e.g. "ten most recent bids for a lane"). The August 2026 release notes record pagination being
+    added to bids at the product level, which is not yet reflected in the published bids v1 spec.
+field_expansion:
+  supported: false
+sparse_fields:
+  supported: false
+  note: >-
+    Analytics does expose a responseGranularity query parameter, which shapes aggregation depth rather
+    than field selection.
+metadata:
+  supported: false
+request_id_tracing:
+  supported: false
+  note: >-
+    No X-Request-Id or correlation header is documented on any operation, and none was returned on the
+    401 and 400 responses observed live on api.greenscreens.ai. An error cannot be quoted back to
+    support by id.
+versioning:
+  style: path
+  pattern: '{base}/v{major}'
+  detail: >-
+    Version is carried in the host path segment (/v1, /v2, /v3), NOT in a header or media type. Each
+    service is versioned independently: prediction is at v3, quotes and tmsconnector at v2, everything
+    else at v1. Older majors stay published and callable (prediction v2 and quotes v1 both still serve
+    their own OpenAPI).
+  see: lifecycle/green-screens-ai-lifecycle.yml
+error_envelope:
+  format: proprietary
+  rfc9457: false
+  media_type: application/json
+  shape: '{ code: string, message: string, errors?: [{ field, message, value }] }'
+  see: errors/green-screens-ai-problem-types.yml
+rate_limit_signaling:
+  documented_status: 429
+  documented_code: too_many_requests
+  response_headers: none
+  retry_after: false
+  note: >-
+    429 is declared on 46 of 47 aggregate operations, so the limit is real and enforced, but no
+    RateLimit-*, X-RateLimit-* or Retry-After header is documented and none was observed on live
+    unauthenticated responses. A client learns it has been throttled only by receiving the error.
+  see: rate-limits/green-screens-ai-rate-limits.yml
+cors:
+  supported: allowlist
+  note: >-
+    Browser callers are not served by default. The provider must add each consuming origin (testing and
+    production separately) to its CORS policy by hand before the Portable Bundle or any browser client
+    can call the API.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

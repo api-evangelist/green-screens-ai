@@ -1,0 +1,144 @@
+specification: API Commons Error Catalog
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: derived
+source: >-
+  Derived from the 4xx/5xx responses and their published examples in the provider's own OpenAPI
+  documents (https://connect.greenscreens.ai/openapi.yaml and the per-service specs), harvested
+  2026-09-12. No separate prose error reference is published; the docs host serves 403 for every
+  path outside the Swagger/ReDoc bundles.
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Error catalog for the Triumph Intelligence Connect (Green Screens AI) APIs. The API does NOT use
+  RFC 9457 problem+json. It returns a proprietary JSON envelope of {code, message} on
+  application/json, with a 422 variant that adds a per-field errors[] array.
+format: proprietary
+rfc9457: false
+media_type: application/json
+envelope:
+  fields:
+  - name: code
+    type: string
+    description: Machine-readable error slug. Stable, snake_case, documented per status.
+  - name: message
+    type: string
+    description: Human-readable message. May embed {placeholders} substituted at runtime.
+  - name: errors
+    type: array
+    description: >-
+      Present only on 422. Each entry is {field, message, value} naming one failing request field,
+      including dotted paths into nested objects (e.g. "loadSource.loadId").
+    optional: true
+statuses:
+- status: 400
+  title: Bad request
+  operations: 46
+  codes:
+  - missing_required_parameter
+  - missing_property
+  - invalid_request
+- status: 401
+  title: Unauthenticated
+  operations: 47
+  note: >-
+    Returned with an empty body and a WWW-Authenticate: Bearer header (observed live 2026-09-12 on
+    POST https://api.greenscreens.ai/v3/prediction/rates). No JSON envelope on this status.
+- status: 403
+  title: Forbidden
+  operations: 43
+  codes:
+  - access_forbidden
+- status: 404
+  title: Not found
+  operations: 27
+  codes:
+  - item_not_found
+- status: 422
+  title: Unprocessable Entity
+  operations: 40
+  codes:
+  - request_validation
+  note: Carries the errors[] array of per-field validation failures.
+- status: 424
+  title: Failed Dependency
+  operations: 9
+  codes:
+  - distance_calculation_error
+  note: >-
+    Distinctive to this API — raised when an upstream mileage/geocoding dependency cannot resolve a
+    lane. The provider's September 2026 release notes describe a PC Miler integration with a Valhalla
+    fallback behind this path.
+- status: 429
+  title: Too Many Requests
+  operations: 46
+  codes:
+  - too_many_requests
+- status: 500
+  title: Internal server error
+  operations: 46
+  codes:
+  - internal_error
+problem_types:
+- code: invalid_request
+  status: 400
+  title: Invalid request
+  message: Your ClientId is invalid
+  remediation: >-
+    Re-check the client_id issued to you under Preferences > Credentials in the Triumph Intelligence
+    application. Credentials can be disabled by an Admin without being deleted.
+- code: missing_required_parameter
+  status: 400
+  title: Missing required parameter
+  message: Your request was missing a {par_name} parameter
+  remediation: Supply the named parameter. Required parameters are marked required in the OpenAPI.
+- code: missing_property
+  status: 400
+  title: Missing property
+  message: 'Missing property: body'
+  remediation: Send a request body on operations whose requestBody is required.
+- code: access_forbidden
+  status: 403
+  title: Access forbidden
+  message: Access is forbidden
+  remediation: >-
+    The token authenticated but the account lacks the feature entitlement. Feature access (e.g. RFP
+    Manager) is gated by Keycloak roles; contact the Triumph Customer Success representative.
+- code: item_not_found
+  status: 404
+  title: Item not found
+  message: Item not found
+  remediation: Verify the path identifier (bidId, quoteId, ruleId) belongs to the authenticated account.
+- code: request_validation
+  status: 422
+  title: Request validation failed
+  message: You have one or more errors in request structure
+  remediation: >-
+    Read the errors[] array; each entry names the offending field, the reason, and the value received.
+    Field paths are dotted for nested objects.
+- code: distance_calculation_error
+  status: 424
+  title: Distance calculation failed
+  message: 'Unable to calculate distance between zips {key}, reason:  {exc}'
+  remediation: >-
+    An upstream mileage dependency failed for the supplied origin/destination pair. Retry; if it
+    persists, verify the ZIP/city-state pair is a routable US/CA lane.
+- code: too_many_requests
+  status: 429
+  title: Request limit exceeded
+  message: Request limit exceeded
+  remediation: >-
+    Back off and retry. The provider documents no Retry-After or RateLimit-* response header and
+    publishes no numeric limit, so an exponential backoff with jitter is the only safe strategy.
+- code: internal_error
+  status: 500
+  title: Internal server error
+  message: Internal server error
+  remediation: Retry with backoff; contact support@greenscreens.ai if it persists.
+summary:
+  problem_type_count: 9
+  status_count: 8
+  rfc9457: false
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

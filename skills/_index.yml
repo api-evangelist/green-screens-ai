@@ -1,0 +1,84 @@
+specification: API Commons Agent Skills
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: generated
+source: >-
+  Authored by API Evangelist from the provider's own OpenAPI documents at
+  https://connect.greenscreens.ai/ (harvested 2026-09-12). The provider publishes no skills, no
+  AGENTS.md, and no llms.txt — searched 2026-09-12. Every operationId, path, request field and error
+  code referenced in these skills appears verbatim in the provider contract; none were invented.
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Packaged agent skills for the Triumph Intelligence Connect (Green Screens AI) freight intelligence
+  APIs. Each mirrors a marquee flow and carries this API's real runtime rules: no idempotency, no
+  dry-run, no Retry-After, a proprietary error envelope, and one irreversible write.
+skills:
+- name: green-screens-ai-quote-a-lane
+  file: green-screens-ai-quote-a-lane.md
+  api: green-screens-ai:green-screens-ai-prediction-api
+  write_surface: false
+  operations:
+  - authToken
+  - predictionRates
+  - negotiation
+  - analyticsLaneTopCarriers
+  - predictionHistory
+- name: green-screens-ai-price-an-rfp-batch
+  file: green-screens-ai-price-an-rfp-batch.md
+  api: green-screens-ai:green-screens-ai-prediction-api
+  write_surface: false
+  operations:
+  - authToken
+  - predictionBatchRates
+  - predictionLongTermBatchRates
+  - predictionNetworkRates
+  - predictionBatchNetworkRates
+- name: green-screens-ai-source-capacity-and-bid
+  file: green-screens-ai-source-capacity-and-bid.md
+  api: green-screens-ai:green-screens-ai-bids-api
+  write_surface: true
+  irreversible_operations:
+  - requestBid
+  human_in_the_loop: required for requestBid
+  operations:
+  - authToken
+  - carrierInfo
+  - analyticsLaneTopCarriers
+  - saveBid
+  - getBids
+  - getBidByKey
+  - recentBids
+  - updateBid
+  - deleteBid
+  - requestBid
+  - acceptBid
+- name: green-screens-ai-sync-tms-and-quotes
+  file: green-screens-ai-sync-tms-and-quotes.md
+  api: green-screens-ai:green-screens-ai-tms-api
+  write_surface: true
+  irreversible_operations:
+  - tmsImportLoad
+  - tmsBatchImportLoad
+  - tmsImportCarrier
+  - tmsBatchImportCarrier
+  - tmsShipper
+  - tmsBatchImportShipper
+  - quotesImport
+  - quotesBatchImport
+  operations:
+  - authToken
+  - tmsImportLoad
+  - tmsBatchImportLoad
+  - tmsImportCarrier
+  - tmsBatchImportCarrier
+  - tmsShipper
+  - tmsBatchImportShipper
+  - quotesImport
+  - quotesBatchImport
+  - quotesGetAll
+summary:
+  skill_count: 4
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

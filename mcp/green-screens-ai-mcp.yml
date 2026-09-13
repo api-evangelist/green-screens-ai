@@ -1,0 +1,548 @@
+specification: API Commons MCP
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: derived
+source: 'No MCP server is published by this provider. Probed 2026-09-12: https://mcp.greenscreens.ai/mcp
+  (DNS does not resolve), https://api.greenscreens.ai/mcp (HTTP 405 nginx, not an MCP endpoint), https://connect.greenscreens.ai/mcp
+  (HTTP 403 docs-host catch-all), https://mcp.triumph.io/mcp (DNS does not resolve). No llms.txt and no
+  ai-plugin.json exist to fall back to. The tool list below is DERIVED from the provider aggregate OpenAPI
+  at https://connect.greenscreens.ai/openapi.yaml.'
+provider: Green Screens AI
+providerId: green-screens-ai
+status: candidate
+description: Candidate MCP tool surface derived from the 47 operations of the Triumph Intelligence Connect
+  aggregate OpenAPI. Nobody ships an MCP server for this API. Each tool below would inherit its real inputSchema
+  from the named OpenAPI operation. No endpoint is asserted, because none exists.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: oauth
+  verified: derived
+  note: Derived candidate only. If a server were built it would need an OAuth2 client_credentials token
+    from https://api.greenscreens.ai/v1/auth/token presented as a bearer token. No endpoint URL is guessed
+    here.
+probes:
+- url: https://mcp.greenscreens.ai/mcp
+  status: null
+  result: DNS does not resolve
+- url: https://api.greenscreens.ai/mcp
+  status: 405
+  result: nginx 405 Not Allowed — not an MCP endpoint
+- url: https://connect.greenscreens.ai/mcp
+  status: 403
+  result: docs-host catch-all, ReDoc index body
+- url: https://mcp.triumph.io/mcp
+  status: null
+  result: DNS does not resolve
+tool_count: 47
+tools:
+- name: auth_token
+  operationId: authToken
+  method: POST
+  path: /auth/token
+  tag: Auth
+  description: Auth token
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: analytics_lane_top_carriers
+  operationId: analyticsLaneTopCarriers
+  method: GET
+  path: /analytics/lane-top-carriers
+  tag: Analytics
+  description: Top carriers
+  read_only: true
+  input_from: parameters
+  parameters:
+  - transportType
+  - originCountry
+  - originState
+  - originCity
+  - originZip
+  - destinationCountry
+  - destinationState
+  - destinationCity
+  - destinationZip
+  - hasExtraStops
+  - dateFrom
+  - region
+  - currency
+  - sort
+- name: analytics_lane_triumph_carriers
+  operationId: analyticsLaneTriumphCarriers
+  method: GET
+  path: /analytics/lane-triumph-carriers
+  tag: Analytics
+  description: Triumph carriers
+  read_only: true
+  input_from: parameters
+  parameters:
+  - transportType
+  - originMarketCode
+  - destinationMarketCode
+  - originState
+  - originCity
+  - originZip
+  - destinationState
+  - destinationCity
+  - destinationZip
+  - responseGranularity
+  - pageSize
+  - pageNumber
+- name: save_bid
+  operationId: saveBid
+  method: POST
+  path: /bids
+  tag: Bids
+  description: Save bid
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: get_bids
+  operationId: getBids
+  method: GET
+  path: /bids
+  tag: Bids
+  description: Get current user bids
+  read_only: true
+  input_from: parameters
+  parameters:
+  - createdDateFrom
+  - createdDateTo
+  - currency
+- name: update_bid
+  operationId: updateBid
+  method: PATCH
+  path: /bids/{bidId}
+  tag: Bids
+  description: Update bid
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - bidId
+- name: delete_bid
+  operationId: deleteBid
+  method: DELETE
+  path: /bids/{bidId}
+  tag: Bids
+  description: Delete bid
+  read_only: false
+  input_from: parameters
+  parameters:
+  - bidId
+- name: carrier_info
+  operationId: carrierInfo
+  method: GET
+  path: /bids/carriers
+  tag: Bids
+  description: Search carriers
+  read_only: true
+  input_from: parameters
+  parameters:
+  - query
+- name: accept_bid
+  operationId: acceptBid
+  method: POST
+  path: /bids/accept
+  tag: Bids
+  description: Accept bid
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: request_bid
+  operationId: requestBid
+  method: POST
+  path: /bids/send
+  tag: Bids
+  description: Send bid request
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: recent_bids
+  operationId: recentBids
+  method: GET
+  path: /bids/recent
+  tag: Bids
+  description: Get ten most recent bids for a lane
+  read_only: true
+  input_from: parameters
+  parameters:
+  - transportType
+  - originCountry
+  - originState
+  - originCity
+  - originZip
+  - destinationCountry
+  - destinationState
+  - destinationCity
+  - destinationZip
+  - hasExtraStops
+  - dateFrom
+  - region
+  - currency
+- name: get_bid_by_key
+  operationId: getBidByKey
+  method: GET
+  path: /bids/by-key/{key}
+  tag: Bids
+  description: Get bid information by key
+  read_only: true
+  input_from: parameters
+  parameters:
+  - key
+- name: loads_history
+  operationId: loadsHistory
+  method: POST
+  path: /history/loads
+  tag: History
+  description: Load history search
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: recent_rates
+  operationId: recentRates
+  method: POST
+  path: /history/recent
+  tag: History
+  description: Recent customer's rate
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: negotiation
+  operationId: negotiation
+  method: GET
+  path: /marketintelligence/negotiation-advice
+  tag: MarketIntelligence
+  description: Negotiation advice for provided lane
+  read_only: true
+  input_from: parameters
+  parameters:
+  - transportType
+  - originCountry
+  - originState
+  - originCity
+  - originZip
+  - destinationCountry
+  - destinationState
+  - destinationCity
+  - destinationZip
+  - hasExtraStops
+  - pickUpDateTime
+  - currency
+  - region
+- name: prediction_rates
+  operationId: predictionRates
+  method: POST
+  path: /prediction/rates
+  tag: Prediction
+  description: Lane rate prediction
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - null
+- name: prediction_batch_rates
+  operationId: predictionBatchRates
+  method: POST
+  path: /prediction/batch-rates
+  tag: Prediction
+  description: Batch lane rate prediction
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - null
+- name: prediction_history
+  operationId: predictionHistory
+  method: GET
+  path: /prediction/history
+  tag: Prediction
+  description: Lane rate prediction history
+  read_only: true
+  input_from: parameters
+  parameters:
+  - date
+- name: prediction_network_rates
+  operationId: predictionNetworkRates
+  method: POST
+  path: /prediction/network-rates
+  tag: Prediction
+  description: Lane network rate prediction
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - null
+- name: prediction_batch_network_rates
+  operationId: predictionBatchNetworkRates
+  method: POST
+  path: /prediction/batch-network-rates
+  tag: Prediction
+  description: Batch lane network rate prediction
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - null
+- name: prediction_long_term_batch_rates
+  operationId: predictionLongTermBatchRates
+  method: POST
+  path: /prediction/long-term/batch-rates
+  tag: Prediction
+  description: Batch long term lane rate prediction
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - null
+- name: pricing_priority_rules_create
+  operationId: pricingPriorityRulesCreate
+  method: POST
+  path: /pricing/priority-rules
+  tag: Pricing
+  description: Create a priority rule
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: pricing_priority_rules_get_all
+  operationId: pricingPriorityRulesGetAll
+  method: GET
+  path: /pricing/priority-rules
+  tag: Pricing
+  description: Get priority rules
+  read_only: true
+  input_from: parameters
+  parameters:
+  - pricingTypeGroup
+- name: pricing_priority_rule_get
+  operationId: pricingPriorityRuleGet
+  method: GET
+  path: /pricing/priority-rules/{ruleId}
+  tag: Pricing
+  description: Get a priority rule
+  read_only: true
+  input_from: parameters
+  parameters:
+  - ruleId
+- name: pricing_priority_rule_update
+  operationId: pricingPriorityRuleUpdate
+  method: PUT
+  path: /pricing/priority-rules/{ruleId}
+  tag: Pricing
+  description: Update a priority rule
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - ruleId
+- name: pricing_priority_rule_delete
+  operationId: pricingPriorityRuleDelete
+  method: DELETE
+  path: /pricing/priority-rules/{ruleId}
+  tag: Pricing
+  description: Delete a priority rule
+  read_only: false
+  input_from: parameters
+  parameters:
+  - ruleId
+- name: pricing_combination_rule_create
+  operationId: pricingCombinationRuleCreate
+  method: POST
+  path: /pricing/combination-rules
+  tag: Pricing
+  description: Create a combination rule
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: pricing_combination_rules_get_all
+  operationId: pricingCombinationRulesGetAll
+  method: GET
+  path: /pricing/combination-rules
+  tag: Pricing
+  description: Get combination rules
+  read_only: true
+  input_from: parameters
+  parameters:
+  - pricingTypeGroup
+- name: pricing_combination_rule_get
+  operationId: pricingCombinationRuleGet
+  method: GET
+  path: /pricing/combination-rules/{ruleId}
+  tag: Pricing
+  description: Get a combination rule
+  read_only: true
+  input_from: parameters
+  parameters:
+  - ruleId
+- name: pricing_combination_rule_update
+  operationId: pricingCombinationRuleUpdate
+  method: PUT
+  path: /pricing/combination-rules/{ruleId}
+  tag: Pricing
+  description: Update a combination rule
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - ruleId
+- name: pricing_combination_rule_delete
+  operationId: pricingCombinationRuleDelete
+  method: DELETE
+  path: /pricing/combination-rules/{ruleId}
+  tag: Pricing
+  description: Delete a combination rule
+  read_only: false
+  input_from: parameters
+  parameters:
+  - ruleId
+- name: pricing_threshold_rules_create
+  operationId: pricingThresholdRulesCreate
+  method: POST
+  path: /pricing/threshold-rules
+  tag: Pricing
+  description: Create a threshold rule
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: pricing_threshold_rules_get_all
+  operationId: pricingThresholdRulesGetAll
+  method: GET
+  path: /pricing/threshold-rules
+  tag: Pricing
+  description: Get threshold rules
+  read_only: true
+  input_from: parameters
+  parameters:
+  - pricingTypeGroup
+- name: pricing_threshold_rule_get
+  operationId: pricingThresholdRuleGet
+  method: GET
+  path: /pricing/threshold-rules/{ruleId}
+  tag: Pricing
+  description: Get a threshold rule
+  read_only: true
+  input_from: parameters
+  parameters:
+  - ruleId
+- name: pricing_threshold_rule_update
+  operationId: pricingThresholdRuleUpdate
+  method: PUT
+  path: /pricing/threshold-rules/{ruleId}
+  tag: Pricing
+  description: Update a threshold rule
+  read_only: false
+  input_from: requestBody
+  parameters:
+  - ruleId
+- name: pricing_threshold_rule_delete
+  operationId: pricingThresholdRuleDelete
+  method: DELETE
+  path: /pricing/threshold-rules/{ruleId}
+  tag: Pricing
+  description: Delete a threshold rule
+  read_only: false
+  input_from: parameters
+  parameters:
+  - ruleId
+- name: pricing_tpl_pricing
+  operationId: pricingTplPricing
+  method: POST
+  path: /pricing/tpl-pricing
+  tag: Pricing
+  description: Calculate pricing, based on TPL data
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: pricing_marketplace_my_broker_partners
+  operationId: pricingMarketplaceMyBrokerPartners
+  method: POST
+  path: /pricing/marketplace/my-broker-partners
+  tag: Pricing
+  description: Get sell rates of partner brokers
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: quotes_get_all
+  operationId: quotesGetAll
+  method: GET
+  path: /quotes
+  tag: Quotes
+  description: Get quotes
+  read_only: true
+  input_from: parameters
+  parameters:
+  - createdDateFrom
+  - createdDateTo
+  - page
+  - perPage
+  - currency
+- name: quotes_import
+  operationId: quotesImport
+  method: POST
+  path: /quotes/import
+  tag: Quotes
+  description: Import a quote
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: quotes_batch_import
+  operationId: quotesBatchImport
+  method: POST
+  path: /quotes/batch/import
+  tag: Quotes
+  description: Import quotes in a batch
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: tms_import_load
+  operationId: tmsImportLoad
+  method: POST
+  path: /tms/import-load
+  tag: TMS
+  description: Import load
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: tms_batch_import_load
+  operationId: tmsBatchImportLoad
+  method: POST
+  path: /tms/batch/import-load
+  tag: TMS
+  description: Imports loads in batches
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: tms_import_carrier
+  operationId: tmsImportCarrier
+  method: POST
+  path: /tms/import-carrier
+  tag: TMS
+  description: Import carrier
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: tms_batch_import_carrier
+  operationId: tmsBatchImportCarrier
+  method: POST
+  path: /tms/batch/import-carrier
+  tag: TMS
+  description: Import carriers in batches
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: tms_shipper
+  operationId: tmsShipper
+  method: POST
+  path: /tms/import-shipper
+  tag: TMS
+  description: Import shipper
+  read_only: false
+  input_from: requestBody
+  parameters: []
+- name: tms_batch_import_shipper
+  operationId: tmsBatchImportShipper
+  method: POST
+  path: /tms/batch/import-shipper
+  tag: TMS
+  description: Import shippers in batches
+  read_only: false
+  input_from: requestBody
+  parameters: []
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

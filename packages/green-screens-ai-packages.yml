@@ -1,0 +1,74 @@
+specification: API Commons Packages
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: searched
+source: >-
+  Registry searches against registry.npmjs.org, pypi.org, and the GitHub search API, plus the provider's
+  own Portable Bundle developer guide
+  (https://intelligencehelp.triumph.io/en/articles/12460905-portable-bundle-developer-s-guide)
+  and the Chrome Web Store listing linked from
+  https://intelligencehelp.triumph.io/en/articles/13006350-the-intelligence-chrome-extension
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Green Screens AI (Triumph Intelligence) publishes no versioned client SDK in any language package
+  registry. Its only first-party distributed client code is a CDN-hosted JavaScript widget bundle and a
+  Chrome extension, neither of which carries a published version identifier a consumer can pin.
+packages:
+- name: rates.bundle.js
+  title: Rate Intelligence Portable Bundle
+  official: true
+  language: javascript
+  registry: cdn
+  url: https://bundle.greenscreens.ai/rates.bundle.js
+  docs: https://intelligencehelp.triumph.io/en/articles/12460905-portable-bundle-developer-s-guide
+  version: null
+  published: null
+  note: >-
+    First-party browser bundle that calls the Triumph Intelligence APIs and renders 13 rate-intelligence
+    widgets into a host page. Distributed from an S3/CloudFront origin at a single UNPINNED filename —
+    there is no version in the URL, no registry metadata endpoint, and no version string inside the file,
+    so a consumer cannot tell which build they are loading and cannot pin one. Probed 2026-09-12:
+    HTTP 200, content-type text/javascript, 642,264 bytes, Last-Modified Fri 11 Sep 2026 21:30:08 GMT
+    (the only currency signal available). Version recorded as null because the distribution is unpinned,
+    not because it was unchecked. The provider's own guide notes the CDN may be unreachable from some
+    regions.
+  requires:
+  - An OAuth2 client_credentials access token supplied via accessTokenProvider
+  - Your origin added to the provider's CORS allowlist (contact the provider)
+- name: Triumph Intelligence Chrome Extension
+  official: true
+  language: javascript
+  registry: chrome-web-store
+  url: https://chromewebstore.google.com/detail/ophacchmffmgijcijdnakbdiidenkaea
+  docs: https://intelligencehelp.triumph.io/en/articles/13006350-the-intelligence-chrome-extension
+  version: null
+  published: null
+  note: >-
+    First-party Chrome/Chromium side-panel extension. Extension id ophacchmffmgijcijdnakbdiidenkaea,
+    confirmed 2026-09-12 by HTTP 200 on the Chrome Web Store detail page titled "Triumph Intelligence"
+    and by its presence in the api.greenscreens.ai Content-Security-Policy frame-ancestors allowlist.
+    The Chrome Web Store exposes no unauthenticated metadata endpoint, so version and publish date are
+    null — checked, not recorded. This is an end-user product surface, not a client library; it is
+    listed here because it is first-party distributed code that consumes the API.
+absent:
+- registry: npm
+  searched: 'registry.npmjs.org/-/v1/search?text=greenscreens'
+  result: >-
+    No first-party package. Zero results for "greenscreens"; adjacent results are unrelated third
+    parties. The GitHub orgs greenscreens-io and Greenscreens-ai-company are a different company
+    (IBM 5250 terminal tooling) and a hiring-exercise repo respectively.
+- registry: pypi
+  searched: pypi.org/pypi/{greenscreens,greenscreens-ai,gsai,triumph-intelligence}/json
+  result: HTTP 404 on all four candidate names.
+- registry: github
+  searched: api.github.com/orgs/greenscreens-ai
+  result: HTTP 404 — the provider operates no public GitHub organisation.
+summary:
+  package_count: 2
+  official_count: 2
+  registry_published_count: 0
+  unpinned_count: 2
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

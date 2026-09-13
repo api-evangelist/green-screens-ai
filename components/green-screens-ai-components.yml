@@ -1,0 +1,93 @@
+specification: API Commons Components
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: searched
+source: https://intelligencehelp.triumph.io/en/articles/12460905-portable-bundle-developer-s-guide
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Green Screens AI (Triumph Intelligence) ships an embeddable client-side widget library — the Rate
+  Intelligence Portable Bundle — that renders freight rate-intelligence surfaces directly inside a
+  broker's own TMS, portal, or internal app. It is distinct from an SDK: it makes the API calls AND
+  draws the UI. There is no documented React/Vue/web-component package; the bundle attaches a global
+  object to window.
+loaders:
+- name: rates.bundle.js
+  url: https://bundle.greenscreens.ai/rates.bundle.js
+  install: '<script src="https://bundle.greenscreens.ai/rates.bundle.js"></script>'
+  global: window.TriumphIntelligence
+  legacy_global: window.Greenscreens
+  note: >-
+    The global was renamed from Greenscreens to TriumphIntelligence after the Triumph acquisition; the
+    provider documents that the old name still works. A demo application is published at
+    https://bundle.greenscreens.ai/index.html (probed 2026-09-12, HTTP 200), which loads
+    render.bundle.js, auth.bundle.js and rates.bundle.js.
+entry_point:
+  function: TriumphIntelligence.Rates.build(params)
+  returns: BundleRenderer
+  params:
+  - name: container
+    type: HTMLElement | null
+    description: DOM element the widgets render into.
+  - name: baseApiPath
+    type: string
+    description: >-
+      API host the widgets call. Provider-documented values: https://intelligence.triumph.io
+      (production) and https://intelligencetest.triumph.io (testing).
+  - name: accessTokenProvider
+    type: () => string
+    description: >-
+      Returns a full Authorization header value ("Bearer <token>"), not a bare token. The provider
+      documents a back-end wrapper pattern that proxies POST /v1/auth/token, and an optional Google
+      id_token path that must be enabled per-app by the provider.
+  - name: user
+    type: '{ email?: string }'
+    description: Currently logged-in user descriptor.
+  - name: widgets
+    type: WidgetsConfiguration
+    description: Which widgets to display. Omitted widgets are not rendered.
+  render_input:
+    type: InputValues
+    fields:
+    - truck (VAN | REEFER | FLATBED)
+    - origin (ZipAddress | CityStateAddress | FullAddress)
+    - destination (same address union)
+    - extraStops (optional array)
+    - pickupDate (optional, defaults to 8 AM next day)
+    - deliveryDate (optional)
+    - weight (optional)
+    - commodity (optional)
+    - customer (optional)
+    - currency (USD | CAD, defaults USD)
+families:
+- family: Rates
+  description: The only bundle family the provider publishes ("it's the only bundle that exists for now").
+  components:
+  - name: targetBuyRate
+  - name: targetSellRate
+  - name: rateFeedback
+  - name: marketIndices
+  - name: routeMap
+  - name: shortTermHistory
+  - name: longTermHistory
+  - name: topCarriers
+  - name: negotiationCoach
+  - name: laneAnalytics
+  - name: networkRates
+  - name: bids
+  - name: quotes
+constraints:
+- >-
+  CORS: the consuming origin must be added to the provider's allowlist before the bundle can call the
+  API from a browser. Both testing and production origins must be supplied to the provider by hand.
+- >-
+  The bundle build() call should be made once per page lifetime; state is updated through
+  BundleRenderer setters (setContainer / setBaseApiPath / setAccessTokenProvider / setUser / setWidgets).
+- WidgetConfiguration is documented as an empty interface — widgets are on/off only, with no options.
+summary:
+  component_count: 13
+  family_count: 1
+  loader_count: 1
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

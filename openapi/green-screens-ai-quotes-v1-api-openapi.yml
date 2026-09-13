@@ -1,0 +1,1103 @@
+# harvested: 2026-09-12
+# method: searched
+# source: https://connect.greenscreens.ai/quotes/v1/openapi.yaml
+# note: >-
+#   Verbatim first-party OpenAPI served from the provider's own documentation host connect.greenscreens.ai. Ownership confirmed: info.contact.email support@greenscreens.ai, x-logo static.greenscreens.ai, servers[] api.greenscreens.ai; termsOfService points at triumph.io because Triumph Financial acquired Greenscreens.ai (closed 2025) and the product now ships as Triumph Intelligence.
+openapi: 3.0.2
+info:
+  title: Quotes
+  version: 1.5.0
+  description: >-
+    Quotes service v1
+
+
+    #### This is an old api and it will be deprecated soon. <a href="/quotes/v2/swagger/index.html" target="_blank">View latest version - v2, here</a>
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: "#fafafa"
+    altText: Triumph Intelligence
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+  - name: Quotes
+    description: Endpoints to save, get and update quotes
+paths:
+  /quotes:
+    post:
+      tags:
+        - Quotes
+      summary: Save quote
+      description: Save quote
+      security:
+        - bearerAuth: []
+      operationId: saveQuote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuotesRequest"
+        required: true
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuoteObject"
+        "400":
+          $ref: "#/paths/~1quotes/get/responses/400"
+        "401":
+          $ref: "#/paths/~1quotes/get/responses/401"
+        "403":
+          $ref: "#/paths/~1quotes/get/responses/403"
+        "422":
+          $ref: "#/paths/~1quotes/get/responses/422"
+        "429":
+          $ref: "#/paths/~1quotes/get/responses/429"
+        "500":
+          $ref: "#/paths/~1quotes/get/responses/500"
+    get:
+      tags:
+        - Quotes
+      summary: Get quotes
+      description: Get quotes
+      security:
+        - bearerAuth: []
+      operationId: getQuotes
+      parameters:
+        - in: query
+          name: createdDateFrom
+          description: \'quote created date >= value\' filter
+          schema:
+            type: string
+            format: date
+            example: "2019-09-30"
+        - in: query
+          name: createdDateTo
+          description: \'quote created date <= value\' filter
+          schema:
+            type: string
+            format: date
+            example: "2019-12-30"
+        - in: query
+          name: page
+          description: |
+            The page to return items from. 
+            Used for pagination
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+            example: 5
+        - in: query
+          name: perPage
+          description: |
+            The amount of items per page. 
+            Used for pagination
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 20
+            example: 30
+        - in: query
+          name: currency
+          schema:
+            $ref: "#/components/schemas/Currency"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuotesResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error400Example:
+                  value:
+                    code: missing_required_parameter
+                    message: Your request was missing a {par_name} parameter
+        "401":
+          description: Unauthenticated
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error403Example:
+                  value:
+                    code: access_forbidden
+                    message: Access is forbidden
+        "404":
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error404Example:
+                  value:
+                    code: item_not_found
+                    message: Item not found
+        "422":
+          description: Unprocessable Entity with multiple errors.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  message:
+                    type: string
+                  errors:
+                    type: array
+                    description: list of errors
+                    items:
+                      type: object
+                      description: Request validation error
+                      properties:
+                        field:
+                          type: string
+                          description: Name of the field that did not pass validation
+                          example: transportType
+                        message:
+                          type: string
+                          description: Human readable error mesage explaining why validation failed
+                          example: SpaceXDragon transportType is not supported. Valid values are [VAN,
+                            FLATBED, ...]
+                        value:
+                          type: string
+                          nullable: true
+                          description: Value of the field that did not pass validation
+                          example: SpaceXDragon
+                      required:
+                        - field
+                        - message
+                required:
+                  - code
+                  - message
+                  - errors
+                example:
+                  code: request_validation
+                  message: You have one or more errors in request structure
+                  errors:
+                    - field: carrierName
+                      message: field contains wrong data type (int), should be string
+                      value: "22"
+                    - field: shipperId
+                      message: "shipperId: must not be null"
+                      value: null
+                    - field: loadSource.loadId
+                      message: "loadId: must not be null"
+                      value: null
+              examples:
+                error422MultiExample:
+                  value:
+                    code: request_validation
+                    message: You have one or more errors in request structure
+                    errors:
+                      - field: carrierName
+                        message: field contains wrong data type (int), should be string
+                        value: "22"
+                      - field: shipperId
+                        message: "shipperId: must not be null"
+                        value: null
+                      - field: loadSource.loadId
+                        message: "loadId: must not be null"
+                        value: null
+        "429":
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error429TooManyRequests:
+                  value:
+                    code: too_many_requests
+                    message: Request limit exceeded
+        "500":
+          description: Unhandled server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error500Example:
+                  value:
+                    code: internal_error
+                    message: Internal server error
+  /quotes/accept:
+    post:
+      tags:
+        - Quotes
+      summary: Accept quote
+      description: Accept quote
+      operationId: acceptQuote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuoteAcceptRequest"
+        required: true
+      responses:
+        "204":
+          description: Success
+        "400":
+          $ref: "#/paths/~1quotes/get/responses/400"
+        "401":
+          $ref: "#/paths/~1quotes/get/responses/401"
+        "403":
+          $ref: "#/paths/~1quotes/get/responses/403"
+        "404":
+          $ref: "#/paths/~1quotes/get/responses/404"
+        "422":
+          $ref: "#/paths/~1quotes/get/responses/422"
+        "429":
+          $ref: "#/paths/~1quotes/get/responses/429"
+        "500":
+          $ref: "#/paths/~1quotes/get/responses/500"
+  /quotes/reject:
+    post:
+      tags:
+        - Quotes
+      summary: Reject quote
+      description: Reject quote
+      operationId: rejectQuote
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuoteRejectRequest"
+        required: true
+      responses:
+        "204":
+          description: Success
+        "400":
+          $ref: "#/paths/~1quotes/get/responses/400"
+        "401":
+          $ref: "#/paths/~1quotes/get/responses/401"
+        "403":
+          $ref: "#/paths/~1quotes/get/responses/403"
+        "404":
+          $ref: "#/paths/~1quotes/get/responses/404"
+        "422":
+          $ref: "#/paths/~1quotes/get/responses/422"
+        "429":
+          $ref: "#/paths/~1quotes/get/responses/429"
+        "500":
+          $ref: "#/paths/~1quotes/get/responses/500"
+  "/quotes/{quoteId}":
+    patch:
+      tags:
+        - Quotes
+      summary: Update quote
+      description: Update quote
+      security:
+        - bearerAuth: []
+      operationId: updateQuote
+      parameters:
+        - in: path
+          name: quoteId
+          description: Id of the quote that you want updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 12345
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuotePatchObject"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuoteObject"
+        "400":
+          $ref: "#/paths/~1quotes/get/responses/400"
+        "401":
+          $ref: "#/paths/~1quotes/get/responses/401"
+        "403":
+          $ref: "#/paths/~1quotes/get/responses/403"
+        "404":
+          $ref: "#/paths/~1quotes/get/responses/404"
+        "422":
+          $ref: "#/paths/~1quotes/get/responses/422"
+        "429":
+          $ref: "#/paths/~1quotes/get/responses/429"
+        "500":
+          $ref: "#/paths/~1quotes/get/responses/500"
+    delete:
+      tags:
+        - Quotes
+      summary: Delete quote
+      description: Delete quote
+      security:
+        - bearerAuth: []
+      operationId: deleteQuote
+      parameters:
+        - in: path
+          name: quoteId
+          description: Id of the quote that you want deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 12345
+      responses:
+        "204":
+          description: Success
+        "400":
+          $ref: "#/paths/~1quotes/get/responses/400"
+        "401":
+          $ref: "#/paths/~1quotes/get/responses/401"
+        "403":
+          $ref: "#/paths/~1quotes/get/responses/403"
+        "404":
+          $ref: "#/paths/~1quotes/get/responses/404"
+        "429":
+          $ref: "#/paths/~1quotes/get/responses/429"
+        "500":
+          $ref: "#/paths/~1quotes/get/responses/500"
+  /quotes/shippers:
+    get:
+      tags:
+        - Quotes
+      summary: Shipper profile search
+      description: Get shipper profiles matching provided filter parameters
+      security:
+        - bearerAuth: []
+      operationId: shipperInfo
+      parameters:
+        - in: query
+          name: name
+          description: >
+            Shipper name filter. Names are first checked using \'case
+            insensitive startsWith\'. If not enough are found \'case insensitive
+            contains\' search is performed and it`s results are added to the end
+            of the results aray.
+          schema:
+            type: string
+            example: Joe
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShipperInfoResponse"
+        "400":
+          $ref: "#/paths/~1quotes/get/responses/400"
+        "401":
+          $ref: "#/paths/~1quotes/get/responses/401"
+        "403":
+          $ref: "#/paths/~1quotes/get/responses/403"
+        "404":
+          $ref: "#/paths/~1quotes/get/responses/404"
+        "422":
+          $ref: "#/paths/~1quotes/get/responses/422"
+        "429":
+          $ref: "#/paths/~1quotes/get/responses/429"
+        "500":
+          $ref: "#/paths/~1quotes/get/responses/500"
+  /quotes/lane-top-quotes:
+    get:
+      tags:
+        - Quotes
+      summary: Get ten most recent quotes for a lane
+      description: Get ten most recent quotes for a lane
+      operationId: laneTopQuotes
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: transportType
+          schema:
+            type: string
+            enum:
+              - VAN
+              - REEFER
+              - FLATBED
+              - HOTSHOT
+          example: VAN
+          description: Transport type
+          required: true
+        - in: query
+          name: originZip
+          schema:
+            type: string
+          example: "12345"
+          description: Origin area zip
+          required: true
+        - in: query
+          name: originCity
+          schema:
+            type: string
+          description: Origin city
+          example: Schenectady
+          required: true
+        - in: query
+          name: originState
+          schema:
+            type: string
+          description: Origin state
+          example: NY
+          required: true
+        - in: query
+          name: destinationZip
+          schema:
+            type: string
+          example: "60636"
+          description: Destination area zip
+          required: true
+        - in: query
+          name: destinationCity
+          schema:
+            type: string
+          description: Destination city
+          example: Chicago
+          required: true
+        - in: query
+          name: destinationState
+          schema:
+            type: string
+          description: Destination state
+          example: IL
+          required: true
+        - in: query
+          name: dateFrom
+          schema:
+            type: string
+            format: date
+          example: "2019-09-30"
+          description: Date range for quotes created from
+          required: true
+        - in: query
+          name: region
+          schema:
+            type: string
+            enum:
+              - CITY
+              - CITY_ZIP
+              - ZIP_CITY
+              - ZIP
+              - 3DZIP
+              - KMA
+            description: >
+              Determines the size of the area around the origin and destination
+              points, 
+
+              that will be searched for the related data.
+
+              * CITY - narrow, city wide, area
+
+              * ZIP - narrow, five digit zip, area
+
+              * 3DZIP - medium, short zip, area
+
+              * KMA - big, market wide, area
+
+              * CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP
+
+              * ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY
+            example: ZIP
+          required: true
+        - in: query
+          name: currency
+          schema:
+            $ref: "#/components/schemas/Currency"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LaneTopQuotesResponse"
+        "400":
+          $ref: "#/paths/~1quotes/get/responses/400"
+        "401":
+          $ref: "#/paths/~1quotes/get/responses/401"
+        "403":
+          $ref: "#/paths/~1quotes/get/responses/403"
+        "404":
+          $ref: "#/paths/~1quotes/get/responses/404"
+        "422":
+          $ref: "#/paths/~1quotes/get/responses/422"
+        "429":
+          $ref: "#/paths/~1quotes/get/responses/429"
+        "500":
+          $ref: "#/paths/~1quotes/get/responses/500"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    LaneTopQuotesItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the quote
+          example: 12345
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Load pickup date
+          example: "2020-10-13T16:00:00Z"
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Quote expiration date
+          example: "2020-09-15T16:00:00Z"
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: "2020-10-14T16:00:00Z"
+        createdDateTime:
+          type: string
+          format: date-time
+          description: Quote creation date
+          example: "2020-09-14T16:00:00Z"
+        miles:
+          type: number
+          format: float
+          description: Total miles
+          example: 289
+        user:
+          type: string
+          description: Email of the user who is the owner/creator of the quote
+          example: buddy@greenscreens.ai
+        quoteStatus:
+          $ref: "#/components/schemas/QuoteStatus"
+        targetSellFlatRate:
+          type: number
+          description: Flat target sell rate
+          example: 1200
+        shipperName:
+          type: string
+          description: Shipper company name
+          example: Joes Foods
+        shipperPhone:
+          type: string
+          description: Shipper contact phone number
+          example: "4112228888"
+        shipperEmail:
+          type: string
+          description: Shipper contact email
+          example: test@greenscreens.ai
+        rejectionReason:
+          type: string
+          description: Comment about why the quote was rejected
+          example: Rejecting, because price is too high
+        transportType:
+          $ref: "#/components/schemas/TransportType"
+        origin:
+          $ref: "#/components/schemas/Address"
+        destination:
+          $ref: "#/components/schemas/Address"
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+      required:
+        - id
+        - pickupDateTime
+        - createdDateTime
+        - miles
+        - user
+        - quoteStatus
+        - targetSellFlatRate
+        - transportType
+        - origin
+        - destination
+        - currency
+    LaneTopQuotesResponse:
+      type: object
+      description: Contains an array of ten most recent quotes for a lane
+      properties:
+        items:
+          type: array
+          description: quotes
+          items:
+            $ref: "#/components/schemas/LaneTopQuotesItem"
+    QuoteAcceptRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          description: |
+            Unique key of the quote that you want accepted. 
+            Provided during quote creation.
+          example: afd124faf-12raf-qfa2q-afvawf
+      required:
+        - key
+    QuoteRejectRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          description: |
+            Unique key of the quote that you want rejected. 
+            Provided during quote creation.
+          example: afd124faf-12raf-qfa2q-afvawf
+        rejectionReason:
+          type: string
+          description: |
+            Customer comment about why he rejected the quote.
+          example: Rejecting because rate is too high for me, sorry.
+      required:
+        - key
+    ShipperInfoObject:
+      type: object
+      properties:
+        companyName:
+          type: string
+          description: Shipper company name
+          example: Joes Foods
+        email:
+          type: string
+          description: Shipper contact email
+          example: test@greenscreens.ai
+        phoneNumber:
+          type: string
+          description: Shipper contact phone number
+          example: "4112228888"
+      required:
+        - companyName
+    ShipperInfoResponse:
+      type: object
+      description: Contains a list of shippers
+      properties:
+        items:
+          type: array
+          description: List of shippers
+          items:
+            $ref: "#/components/schemas/ShipperInfoObject"
+      required:
+        - items
+    QuoteObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the quote
+          example: 12345
+        key:
+          type: string
+          description: Unique key used to create a link to the quote in the platform
+          example: afd124faf-12raf-qfa2q-afvawf
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Related load pickup date
+          example: "2020-09-14T16:00:00Z"
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: "2020-09-14T16:00:00Z"
+        createdDateTime:
+          type: string
+          format: date-time
+          description: Quote creation date
+          example: "2020-09-14T16:00:00Z"
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Expiration date and time in UTC time zone
+          example: "2020-09-14T16:00:00Z"
+        miles:
+          type: number
+          format: float
+          description: Total miles
+          example: 289
+        user:
+          type: string
+          description: Email of the user who is the owner/creator of the quote
+          example: buddy@greenscreens.ai
+        quoteStatus:
+          $ref: "#/components/schemas/QuoteStatus"
+        targetSellFlatRate:
+          type: number
+          description: Flat target sell rate
+          example: 1200
+        wasViewed:
+          type: boolean
+          description: |
+            States whether the quote was viewed by a broker after being 
+            accepted or rejected by a customer.
+          example: false
+        shipperName:
+          type: string
+          description: Shipper company name
+          example: Joes Foods
+        shipperPhone:
+          type: string
+          description: Shipper contact phone number
+          example: "4112228888"
+        shipperEmail:
+          type: string
+          description: Shipper contact email
+          example: test@greenscreens.ai
+        rejectionReason:
+          type: string
+          description: Comment about why the quote was rejected
+          example: Rejecting, because price is too high
+        transportType:
+          $ref: "#/components/schemas/TransportType"
+        origin:
+          $ref: "#/components/schemas/Address"
+        destination:
+          $ref: "#/components/schemas/Address"
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+      required:
+        - id
+        - key
+        - pickupDateTime
+        - createdDateTime
+        - miles
+        - user
+        - quoteStatus
+        - targetSellFlatRate
+        - wasViewed
+        - transportType
+        - origin
+        - destination
+    QuotePatchObject:
+      type: object
+      properties:
+        quoteStatus:
+          $ref: "#/components/schemas/QuoteStatus"
+        wasViewed:
+          type: boolean
+          description: |
+            States whether the quote was viewed by a broker after being 
+            accepted or rejected by a customer.
+          example: false
+        rejectionReason:
+          type: string
+          description: Comment about why the quote was rejected
+          example: Customer rejected, because price was too high
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Quote expiration date and time in time zone of the user
+          example: "2020-10-12T16:00:00+05:00"
+    QuotesRequest:
+      type: object
+      properties:
+        user:
+          type: string
+          description: Email of the user who will be the owner/creator of the quote
+          example: buddy@greenscreens.ai
+        origin:
+          $ref: "#/components/schemas/Address"
+        destination:
+          $ref: "#/components/schemas/Address"
+        transportType:
+          $ref: "#/components/schemas/TransportType"
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Related load pickup date
+          example: "2020-10-13T16:00:00Z"
+        miles:
+          type: number
+          format: float
+          description: Total miles
+          example: 289
+        targetBuyRate:
+          type: number
+          description: Flat target buy rate for requested lane with included fuel
+          example: 2.24
+        startBuyRate:
+          type: number
+          description: Flat starting buy rate
+          example: 2.07
+        highBuyRate:
+          type: number
+          description: Flat high limit for buy rate
+          example: 2.5
+        confidenceLevel:
+          type: integer
+          description: Confidence in buy rate prediction
+          example: 65
+        targetSellFlatRate:
+          type: number
+          description: Flat sell rate of the quote
+          example: 1200
+        shipperName:
+          type: string
+          description: Shipper name
+          example: Walmart
+        shipperPhone:
+          type: string
+          description: Shipper contact phone number
+          example: "4112228888"
+        shipperEmail:
+          type: string
+          description: Shipper contact email
+          example: test@greenscreens.ai
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 22000
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: "2020-10-14T16:00:00Z"
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Quote expiration date and time in time zone of the user
+          example: "2020-10-12T16:00:00+05:00"
+        numberOfReportsCustomerShort:
+          type: integer
+          description: The number of reports customer for short term history
+          example: 12
+        numberOfReportsCustomerLong:
+          type: integer
+          description: The number of reports customer for long term history
+          example: 144
+        originLtrInstant:
+          description: Load to truck ratio instant value for origin
+          type: number
+          example: 6
+        originLtrDerivative:
+          description: Load to truck ratio derivative value in percent for origin
+          type: number
+          example: 12
+        destinationLtrInstant:
+          description: Load to truck ratio instant value for destination
+          type: number
+          example: 6
+        destinationLtrDerivative:
+          description: Load to truck ratio derivative value in percent for destination
+          type: number
+          example: 12
+        originInboundLoadFlowInstant:
+          description: Inbound index instant value  for origin
+          type: number
+          example: 56
+        originInboundLoadFlowDerivative:
+          description: Inbound index derivative value in percent  for origin
+          type: number
+          example: 2
+        originOutboundLoadFlowInstant:
+          description: Outbound index instant value  for origin
+          type: number
+          example: 17
+        originOutboundLoadFlowDerivative:
+          description: Outbound index derivative value in percent  for origin
+          type: number
+          example: 45
+        destinationInboundLoadFlowInstant:
+          description: Inbound index instant value  for destination
+          type: number
+          example: 23
+        destinationInboundLoadFlowDerivative:
+          description: Inbound index derivative value in percent  for destination
+          type: number
+          example: 12
+        destinationOutboundLoadFlowInstant:
+          description: Outbound index instant value  for destination
+          type: number
+          example: 45
+        destinationOutboundLoadFlowDerivative:
+          description: Outbound index derivative value in percent  for destination
+          type: number
+          example: 29
+        currency:
+          $ref: "#/components/schemas/Currency"
+      required:
+        - user
+        - origin
+        - destination
+        - transportType
+        - pickupDateTime
+        - miles
+        - targetBuyRate
+        - startBuyRate
+        - highBuyRate
+        - confidenceLevel
+        - targetSellFlatRate
+    QuoteStatus:
+      type: string
+      enum:
+        - WON
+        - LOST
+        - SENT
+        - EXPIRED
+      description: quote status in the quoting process
+      example: WON
+    QuotesResponse:
+      type: object
+      description: Object containing an array of quotes
+      properties:
+        pagination:
+          type: object
+          description: Response pagination data
+          properties:
+            page:
+              type: integer
+              description: The number of the currently returned page
+              minimum: 0
+              example: 12
+            perPage:
+              type: integer
+              description: The maximum number of items per page
+              minimum: 1
+              maximum: 500
+              example: 20
+          required:
+            - page
+            - perPage
+        items:
+          type: array
+          description: Array of quotes
+          items:
+            $ref: "#/components/schemas/QuoteObject"
+      required:
+        - pagination
+        - items
+    Address:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: "12345"
+        type:
+          type: string
+          enum:
+            - CITY
+            - ZIP
+          example: ZIP
+          description: Type of address
+      required:
+        - city
+        - state
+        - zip
+        - type
+    Currency:
+      type: string
+      enum:
+        - USD
+        - CAD
+      description: |
+        Currency code in ISO 4217 format (three letter code, e.g. USD)
+
+        _If not provided, defaults to the currency set in the profile 
+        of currently authenticated user (or currently authenticated company 
+        if there is no user or user profile setting)_
+      example: USD
+    Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+        - code
+        - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    ResponseMessage:
+      type: object
+      properties:
+        commonResponse:
+          type: string
+          x-enum-varnames:
+            - not_readable_message
+            - access_forbidden
+            - item_not_found
+            - request_timeout
+            - request_validation
+            - parse_error
+            - internal_error
+            - access_forbidden_companyId
+            - method_not_allowed
+            - missing_required_parameter
+          enum:
+            - "Body request is not readable : %s"
+            - Access is forbidden
+            - Item not found
+            - Request timeout after {} sec
+            - You have one or more errors in request structure
+            - "Text '%s' could not be parsed in field: %s"
+            - Internal server error
+            - companyId in JWT token is not equals importCompanyId in request
+              body
+            - Method not allowed
+            - Missing required parameter
+        serviceResponse:
+          type: string
+    TransportType:
+      type: string
+      enum:
+        - VAN
+        - REEFER
+        - FLATBED
+        - HOTSHOT
+      description: >
+        Transport type
+
+
+        If you would like Hotshot predictions, reach out to your CSM and DA. 
+
+        The model will not work properly without your hotshot data effectively filtered and imported into the model.
+      example: VAN
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+servers:
+  - url: https://testapi.greenscreens.ai/v1
+    description: Testing server (dev environment)
+  - url: https://betaapi.greenscreens.ai/v1
+    description: Beta server (pre-production)
+  - url: https://api.greenscreens.ai/v1
+    description: Production server (uses live data)

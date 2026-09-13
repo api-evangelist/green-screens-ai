@@ -25,6 +25,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "green-screens-ai-analytics-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-auth-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-bids-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-history-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-marketintelligence-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-prediction-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-pricing-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-quotes-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "green-screens-ai-tms-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

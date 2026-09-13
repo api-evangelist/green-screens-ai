@@ -1,0 +1,332 @@
+# harvested: 2026-09-12
+# method: searched
+# source: https://connect.greenscreens.ai/datalake/v1/openapi.yaml
+# note: >-
+#   Verbatim first-party OpenAPI served from the provider's own documentation host connect.greenscreens.ai. Ownership confirmed: info.contact.email support@greenscreens.ai, x-logo static.greenscreens.ai, servers[] api.greenscreens.ai; termsOfService points at triumph.io because Triumph Financial acquired Greenscreens.ai (closed 2025) and the product now ships as Triumph Intelligence.
+openapi: 3.0.2
+info:
+  title: DataLake
+  version: 1.12.6
+  description: Datalake service v1
+  x-logo:
+    url: https://static.greenscreens.ai/main-logo.svg
+    backgroundColor: "#fafafa"
+    altText: Triumph Intelligence
+  termsOfService: https://triumph.io/terms-of-service/
+  contact:
+    name: API Support
+    email: support@greenscreens.ai
+    url: https://connect.intelligence.triumph.io
+tags:
+  - name: Datalake
+    description: Endpoints to get loads information
+paths: {}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    DatalakeCustomerResponse:
+      type: object
+      description: Response containing matching customer names
+      properties:
+        items:
+          type: array
+          description: list of 10 matching customers
+          items:
+            $ref: "#/components/schemas/DatalakeCustomerObject"
+      required:
+        - items
+    DatalakeCustomerObject:
+      type: object
+      properties:
+        customerName:
+          type: string
+          description: customer name
+          example: Joes Foods
+      required:
+        - customerName
+    DataLakeResponseMessage:
+      allOf:
+        - type: object
+          properties:
+            commonResponse:
+              type: string
+              x-enum-varnames:
+                - not_readable_message
+                - access_forbidden
+                - item_not_found
+                - request_timeout
+                - request_validation
+                - parse_error
+                - internal_error
+                - access_forbidden_companyId
+                - method_not_allowed
+                - missing_required_parameter
+              enum:
+                - "Body request is not readable : %s"
+                - Access is forbidden
+                - Item not found
+                - Request timeout after {} sec
+                - You have one or more errors in request structure
+                - "Text '%s' could not be parsed in field: %s"
+                - Internal server error
+                - companyId in JWT token is not equals importCompanyId in
+                  request body
+                - Method not allowed
+                - Missing required parameter
+            serviceResponse:
+              type: string
+        - type: object
+          properties:
+            serviceResponse:
+              type: string
+              x-enum-varnames:
+                - distance_calculation_error
+                - amount_of_stops
+                - illlegal_profile_status
+                - illegal_format_value
+              enum:
+                - Unable to calculate distance between zips %s %s, reason %s
+                - The amount of stops is less than two
+                - Can not save profile with status D
+                - "Illegal value : %s for field %s"
+    Stops:
+      type: array
+      description: Stop list
+      items:
+        $ref: "#/components/schemas/Stop"
+      example:
+        - order: 0
+          type: LOAD
+          address:
+            country: US
+            city: Red Bluff
+            state: CA
+            zip: "96080"
+          appointmentDateTime: "2020-10-13T16:00:00Z"
+        - order: 1
+          type: UNLOAD
+          address:
+            country: US
+            city: Redding
+            state: CA
+            zip: "96002"
+          appointmentDateTime: "2020-10-14T16:00:00Z"
+    StopsInput:
+      type: array
+      description: Extra stops between origin and destination
+      items:
+        $ref: "#/components/schemas/StopInput"
+      example:
+        - order: 0
+          type: LOAD
+          address:
+            country: US
+            city: Red Bluff
+            state: CA
+            zip: "96080"
+        - order: 1
+          type: UNLOAD
+          address:
+            country: US
+            city: Redding
+            state: CA
+            zip: "96002"
+    Stop:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: "#/components/schemas/Address"
+        type:
+          type: string
+          description: |
+            Action performed with the cargo at this stop
+          enum:
+            - LOAD
+            - UNLOAD
+            - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: |
+            Date and time when the truck has to arrive at this stop
+          example: "2020-10-13T16:00:00Z"
+      required:
+        - order
+        - address
+    StopInput:
+      type: object
+      description: Contains the stop information e.g. address
+      nullable: true
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: "#/components/schemas/AddressInput"
+      required:
+        - order
+        - address
+    Address:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: "12345"
+      required:
+        - state
+        - city
+    AddressInput:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: "12345"
+      required:
+        - country
+        - zip
+    Location:
+      type: object
+      description: location specified by address or geopoint
+      properties:
+        country:
+          type: string
+          format: US for United States
+          example: US
+        city:
+          type: string
+          example: Chicago
+        state:
+          type: string
+          example: IL
+        zip:
+          type: string
+          example: "60636"
+        streetAddress:
+          type: string
+          example: 600 E Grand Ave
+        latitude:
+          type: number
+          format: double
+          example: 41.891844
+        longitude:
+          type: number
+          format: double
+          example: -87.602912
+      example:
+        country: US
+        city: Chicago
+        state: IL
+        zip: "60611"
+        streetAddress: 600 E Grand Ave
+        latitude: 41.891844
+        longitude: -87.602912
+      required:
+        - city
+        - state
+    Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+        - code
+        - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    TransportType:
+      type: string
+      enum:
+        - VAN
+        - REEFER
+        - FLATBED
+        - HOTSHOT
+      description: >
+        Transport type
+
+
+        If you would like Hotshot predictions, reach out to your CSM and DA. 
+
+        The model will not work properly without your hotshot data effectively filtered and imported into the model.
+      example: VAN
+    Region:
+      type: string
+      enum:
+        - CITY
+        - CITY_ZIP
+        - ZIP_CITY
+        - ZIP
+        - 3DZIP
+        - KMA
+      description: >
+        Determines the size of the area around the origin and destination
+        points, 
+
+        that will be searched for the related data.
+
+        * CITY - narrow, city wide, area
+
+        * ZIP - narrow, five digit zip, area
+
+        * 3DZIP - medium, short zip, area
+
+        * KMA - big, market wide, area
+
+        * CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP
+
+        * ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY
+      example: ZIP
+externalDocs:
+  description: Triumph Intelligence
+  url: https://intelligence.triumph.io
+servers:
+  - url: https://testapi.greenscreens.ai/v1
+    description: Testing server (dev environment)
+  - url: https://betaapi.greenscreens.ai/v1
+    description: Beta server (pre-production)
+  - url: https://api.greenscreens.ai/v1
+    description: Production server (uses live data)

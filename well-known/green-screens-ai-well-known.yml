@@ -1,0 +1,164 @@
+generated: '2026-09-12'
+method: probed
+source: >-
+  Live HTTPS probes of every host this record knows: the registrable domain and www, the docs host,
+  all three OpenAPI servers[] hosts (api / betaapi / testapi .greenscreens.ai), the Triumph-branded
+  product host, and the parent corporate domain.
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  No /.well-known/ document is served anywhere in the Green Screens AI (Triumph Intelligence) estate.
+  Every 200 recorded below returned the SPA index shell (content-type text/html, 1728 bytes, identical
+  for every path probed) rather than a document, and is therefore a MISS, not a hit. No WellKnown or
+  SecurityTxt pointer is emitted for this provider.
+hosts:
+- host: greenscreens.ai
+  note: 301 redirects the whole site (including /.well-known/*) to https://triumph.io/solutions/rates/
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+  - path: /.well-known/openid-configuration
+    status: 301
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/ai-plugin.json
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 301
+  - path: /.well-known/agent.json
+    status: 301
+- host: www.greenscreens.ai
+  note: >-
+    DNS resolves to proxy-ssl.webflow.com but the TLS handshake fails (curl exit 35, no usable HTTPS
+    listener); plain HTTP 301s to the same broken HTTPS URL. The host is effectively dead after the
+    Webflow site was retired in the Triumph migration. No paths were reachable to probe.
+  documents: []
+- host: connect.greenscreens.ai
+  note: CloudFront/S3 docs host. Returns 403 with the ReDoc index body for every unknown path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: api.greenscreens.ai
+  note: >-
+    Production API host. Every /.well-known/* path answers 200 with the 1728-byte application SPA
+    shell (text/html), not a document — a soft-200 catch-all. Recorded as a miss.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    result: soft-200 SPA shell, not a document
+- host: betaapi.greenscreens.ai
+  note: Pre-production server declared in servers[]. Same soft-200 SPA catch-all as production.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: soft-200 SPA shell, not a document
+- host: testapi.greenscreens.ai
+  note: Dev/testing server declared in servers[]. Same soft-200 SPA catch-all.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: soft-200 SPA shell, not a document
+- host: intelligence.triumph.io
+  note: >-
+    Triumph-branded product host serving the same application (and the same /v1/auth/token endpoint).
+    Same soft-200 SPA catch-all on every /.well-known/* path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    result: soft-200 SPA shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    result: soft-200 SPA shell, not a document
+- host: triumph.io
+  note: Parent corporate site. Honest 404s (branded 404 page) on every path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+summary:
+  hosts_probed: 8
+  documents_served: 0
+  soft_200_shells: 21
+  pointer_emitted: false
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

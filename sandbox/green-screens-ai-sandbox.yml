@@ -1,0 +1,89 @@
+specification: API Commons Sandbox
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: searched
+source: >-
+  servers[] blocks of the provider's own per-service OpenAPI documents
+  (https://connect.greenscreens.ai/<service>/<version>/openapi.yaml) and the provider's Portable Bundle
+  developer guide (https://intelligencehelp.triumph.io/en/articles/12460905-portable-bundle-developer-s-guide)
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Green Screens AI (Triumph Intelligence) publishes non-production environments as first-class entries
+  in every service spec's servers[] block: a dev/testing tier and a beta/pre-production tier alongside
+  production. There is no self-serve sandbox signup, no test-vs-live key prefix, and no published set
+  of test fixtures — non-production access uses the same OAuth2 client_credentials issued by the
+  provider, and the environments must be enabled for your account.
+available: true
+self_serve: false
+environments:
+- name: Testing (dev)
+  role: sandbox
+  base_url: https://testapi.greenscreens.ai/v1
+  variants:
+  - https://testapi.greenscreens.ai/v1
+  - https://testapi.greenscreens.ai/v2
+  - https://testapi.greenscreens.ai/v3
+  declared_in: servers[] of every published service OpenAPI, description "Testing server (dev environment)"
+  note: >-
+    The provider's own /auth/token operation description uses this host in its worked curl example,
+    which is the clearest signal it is the intended integration target.
+- name: Testing (Triumph-branded host)
+  role: sandbox
+  base_url: https://intelligencetest.triumph.io
+  declared_in: >-
+    Portable Bundle developer guide, baseApiPath examples ("deployed on to the testing environment")
+  probed:
+    url: https://intelligencetest.triumph.io/v1/auth/token
+    status: 405
+    note: 405 on GET/no-body confirms the route exists and is method-gated, not absent.
+- name: Beta (pre-production)
+  role: staging
+  base_url: https://betaapi.greenscreens.ai/v1
+  variants:
+  - https://betaapi.greenscreens.ai/v1
+  - https://betaapi.greenscreens.ai/v2
+  - https://betaapi.greenscreens.ai/v3
+  declared_in: servers[] of every published service OpenAPI, description "Beta server (pre-production)"
+- name: Production
+  role: production
+  base_url: https://api.greenscreens.ai/v1
+  variants:
+  - https://api.greenscreens.ai/v1
+  - https://api.greenscreens.ai/v2
+  - https://api.greenscreens.ai/v3
+  - https://intelligence.triumph.io/v1
+  declared_in: >-
+    servers[] "Production server (uses live data)" and the provider help center
+    (https://intelligencehelp.triumph.io/en/articles/10684487-managing-api-credentials)
+credentials:
+  model: oauth2-client-credentials
+  key_prefixes: none
+  test_mode_flag: none
+  note: >-
+    No test-vs-live key prefix is published. Credentials are a client_id and an auto-generated
+    client_secret created per-integration by an Admin user under Preferences > Credentials in the
+    Triumph Intelligence application; the provider recommends a distinct credential set per
+    integration so one partner can be revoked without affecting others.
+test_data:
+  test_values_published: false
+  test_clocks: false
+  fixtures: false
+  triggers: false
+  note: >-
+    No published test cards, fixture lanes, seed data, or time simulation. NOTE (no fabrication): the
+    client_secret value appearing in the provider's /auth/token example is a documentation placeholder
+    in the vendor's own spec, not a working credential, and is not reproduced here.
+demo:
+  url: https://bundle.greenscreens.ai/index.html
+  status: 200
+  note: >-
+    A live demo application for the Rate Intelligence Portable Bundle, published by the provider and
+    probed 2026-09-12. It still requires an access token to return data.
+constraints:
+- >-
+  Browser-based integration (the Portable Bundle) requires the provider to add your testing AND
+  production origins to their CORS allowlist by hand before any environment will answer.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

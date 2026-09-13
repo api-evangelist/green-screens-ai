@@ -1,93 +1,69 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+generated: '2026-09-12'
+method: searched
+source: >-
+  The provider's own OpenAPI documents (https://connect.greenscreens.ai/openapi.yaml and the 11
+  per-service specs), the Triumph Intelligence help center
+  (https://intelligencehelp.triumph.io/en/), and live probes of api.greenscreens.ai — all 2026-09-12.
 provider: Green Screens AI
 providerId: green-screens-ai
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - AI
-  - Freight
-  - Logistics
-  - Machine Learning
-  - Pricing
-  - Transportation
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Green Screens AI API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+modified: '2026-09-12'
+description: >-
+  Green Screens AI (Triumph Intelligence) enforces rate limiting but publishes no numbers and no
+  runtime signal. A 429 with the error code too_many_requests is declared on 46 of the 47 operations in
+  the aggregate spec, so the limit is real and documented as a failure mode — but no limit value, no
+  window, no burst allowance, and no response header is published anywhere. A client cannot tell how
+  much budget it has left, and cannot tell when it may retry.
+limit_count: 0
+limits: []
+throttling:
+  enforced: true
+  documented_status: 429
+  documented_code: too_many_requests
+  documented_message: Request limit exceeded
+  operations_declaring_429: 46
+  operations_total: 47
+  evidence: >-
+    Every service spec declares a 429 response with schema <Service>_Error and an example
+    {"code":"too_many_requests","message":"Request limit exceeded"}.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented on any operation, and none was
+    present on the live responses observed 2026-09-12 (HTTP 401 from
+    POST https://api.greenscreens.ai/v3/prediction/rates, HTTP 400 from
+    POST https://api.greenscreens.ai/v1/auth/token). Recorded as absent after checking, not unchecked.
 responseCodes:
   throttled: 429
   quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Green Screens AI Prediction API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Green Screens AI Prediction API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Green Screens AI Prediction API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Green Screens AI Prediction API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Green Screens AI Prediction API
+  serviceUnavailable: null
+published_quotas:
+- scope: batch upload
+  metric: file size
+  limit: 100 MB
+  source: https://intelligencehelp.triumph.io/en/articles/8520083-what-s-new
+  note: >-
+    The only numeric ceiling the provider publishes anywhere. February 2026 release notes: "Removed the
+    lane caps for both short term and long term batch uploads. The only limit now is a file size of
+    100 MB." This is a product upload limit, not an API rate limit, and it is not declared in any spec.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+- name: Backoff
+  description: >-
+    Derived guidance, not provider policy: with no Retry-After and no reset header, exponential backoff
+    with jitter is the only safe response to a 429 from this API.
+  method: derived
+note: >-
+  This file previously carried invented per-tier limits (10/100/1000 requests per minute across Free,
+  Professional and Enterprise tiers, with monthly quotas) written by the 2026-05-04 bulk sweep and
+  marked method: generated. The provider publishes no tiers and no numbers; those values were scaffold
+  defaults and have been removed. limit_count is an honest 0.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

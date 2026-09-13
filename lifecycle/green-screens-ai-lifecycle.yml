@@ -1,0 +1,138 @@
+specification: API Commons Lifecycle
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: searched
+source: >-
+  Provider OpenAPI documents at https://connect.greenscreens.ai/ (aggregate and per-service), the
+  provider release notes at https://intelligencehelp.triumph.io/en/articles/8520083-what-s-new, and
+  live probes of https://triumph.statuspage.io/, all 2026-09-12.
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Lifecycle posture for the Triumph Intelligence Connect (Green Screens AI) APIs.
+versioning:
+  style: path
+  pattern: '{host}/v{major}'
+  independent_per_service: true
+  current:
+  - service: prediction
+    version: v3
+    spec_version: 3.8.0
+    spec: https://connect.greenscreens.ai/prediction/v3/openapi.yaml
+  - service: quotes
+    version: v2
+    spec_version: 2.0.0
+    spec: https://connect.greenscreens.ai/quotes/v2/openapi.yaml
+  - service: tmsconnector
+    version: v2
+    spec_version: 2.18.6
+    spec: https://connect.greenscreens.ai/tmsconnector/v2/openapi.yaml
+  - service: analytics
+    version: v1
+    spec_version: 1.7.1
+  - service: bids
+    version: v1
+    spec_version: 1.3.2
+  - service: datalake
+    version: v1
+    spec_version: 1.12.6
+  - service: history
+    version: v1
+    spec_version: 1.0.0
+  - service: marketintelligence
+    version: v1
+    spec_version: 1.3.8
+  - service: pricing
+    version: v1
+    spec_version: 1.1.0
+superseded_but_still_published:
+- service: prediction
+  version: v2
+  spec_version: 2.5.3
+  spec: https://connect.greenscreens.ai/prediction/v2/openapi.yaml
+  status: available
+  sunset_date: null
+  note: >-
+    The prediction v3 spec description links v2 explicitly ("Older version of this api exists"). v2
+    still serves its own OpenAPI (HTTP 200, probed 2026-09-12) and is not marked deprecated:true
+    anywhere. No sunset date is published.
+- service: quotes
+  version: v1
+  spec_version: 1.5.0
+  spec: https://connect.greenscreens.ai/quotes/v1/openapi.yaml
+  status: available
+  sunset_date: null
+  note: >-
+    Quotes v1 carries a LARGER surface than v2 — 6 paths (save/get/accept/reject/update/delete plus
+    shipper search and lane-top-quotes) versus 3 in v2 (get/import/batch-import). v2 is not a superset,
+    so a caller cannot simply move forward; the two versions serve different jobs and neither is
+    documented as replacing the other.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation or sunset policy is published, no RFC 8594 Sunset/Deprecation headers are documented
+    on any operation, and no operation in any of the 12 specs carries deprecated: true. What IS marked
+    deprecated is field-level only.
+  deprecated_operations: []
+  deprecated_fields:
+  - Bids_BidsSendRequest.carrierEmailList
+  - Bids_BidsSendRequest.carrierPhoneList
+  - History_LoadRateObject.loadPickupDate
+  - MarketIntelligence_NegotiationResponse.holidayIsComing
+  - MarketIntelligence_NegotiationResponse.inspectionWeeks
+  - MarketIntelligence_NegotiationResponse.originLtrLow
+  - MarketIntelligence_NegotiationResponse.destinationLtrHigh
+  - TmsConnector_Details.miles
+sla:
+  published: false
+  note: No public SLA, uptime commitment, or support-response target is published.
+status_page:
+  url: https://triumph.statuspage.io/
+  status: 200
+  provider: Atlassian Statuspage
+  page_id: 9y6hj4vb7kj0
+  page_name: Triumph
+  api: https://triumph.statuspage.io/api/v2/components.json
+  feeds:
+  - https://triumph.statuspage.io/history.atom
+  - https://triumph.statuspage.io/history.rss
+  components:
+  - name: API (example)
+    status: operational
+  - name: Dashboard
+    status: operational
+  note: >-
+    Live and machine-readable (Statuspage v2 JSON API plus Atom/RSS), but barely configured: it is the
+    parent Triumph page, its components are still the Statuspage defaults — one is literally named
+    "API (example)" — and the component set was last updated 2026-01-14. It is not scoped to the
+    Triumph Intelligence / Green Screens API estate and it publishes no incident history (90 days
+    clean, "No incidents reported" every day). Recorded as present because it is a real, served,
+    subscribable status surface; a reader should not treat it as per-service API status.
+changelog:
+  url: https://intelligencehelp.triumph.io/en/articles/8520083-what-s-new
+  scope: product
+  api_versions_tracked: false
+  see: changelog/green-screens-ai-changelog.yml
+ownership:
+  event: acquisition
+  acquirer: Triumph Financial, Inc. (NASDAQ TFIN)
+  detail: >-
+    Greenscreens.ai was acquired by Triumph Financial and the product is now sold as Triumph
+    Intelligence. The API estate is mid-migration and that shows in the lifecycle surface: specs are
+    titled "Triumph Intelligence Connect" while served from greenscreens.ai hosts; the Portable Bundle
+    global was renamed window.Greenscreens -> window.TriumphIntelligence with the old name kept
+    working; info.termsOfService points at triumph.io; and the token endpoint is reachable at both
+    api.greenscreens.ai and intelligence.triumph.io. The public marketing host www.greenscreens.ai no
+    longer completes a TLS handshake and greenscreens.ai 301s to https://triumph.io/solutions/rates/.
+  evidence:
+  - url: https://ir.triumph.io/news-events/press-releases/detail/93/triumph-completes-acquisition-of-greenscreens-ai
+    status: 200
+  - url: https://greenscreens.ai/
+    status: 301
+    note: redirects to https://triumph.io/solutions/rates/
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

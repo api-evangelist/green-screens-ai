@@ -1,0 +1,156 @@
+specification: API Commons Conformance
+specificationVersion: '0.1'
+generated: '2026-09-12'
+method: derived
+source: >-
+  Derived from the provider's own OpenAPI documents (https://connect.greenscreens.ai/openapi.yaml and
+  the per-service specs), the provider help center, and live probes of api.greenscreens.ai — all
+  2026-09-12. Every entry names the exact spec location or probed URL that evidences it.
+provider: Green Screens AI
+providerId: green-screens-ai
+description: >-
+  Cross-cutting and domain standard conformance for the Triumph Intelligence Connect (Green Screens AI)
+  APIs. Recorded only where the contract or a live response demonstrates it; absences are stated as
+  conforms:false rather than omitted.
+conformance:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    All 12 published documents declare openapi: 3.0.2 and parse — aggregate plus analytics, bids,
+    datalake, history, marketintelligence, prediction v2, prediction v3, pricing, quotes v1,
+    quotes v2, tmsconnector v2.
+  url: https://connect.greenscreens.ai/openapi.yaml
+- id: oauth2
+  conforms: true
+  evidence: >-
+    RFC 6749 client_credentials grant. POST /auth/token accepts
+    application/x-www-form-urlencoded grant_type=client_credentials&client_id&client_secret and returns
+    access_token / expires_in / refresh_expires_in / token_type / scope. Probed live 2026-09-12:
+    POST https://api.greenscreens.ai/v1/auth/token returned HTTP 400 with the RFC 6749 section 5.2
+    error object {"error":"invalid_request","error_description":"Missing form parameter: grant_type"}.
+  url: https://api.greenscreens.ai/v1/auth/token
+- id: rfc6750
+  conforms: true
+  evidence: >-
+    Bearer token usage per RFC 6750. securitySchemes.bearerAuth is type http / scheme bearer /
+    bearerFormat JWT in every service spec, and an unauthenticated POST to
+    https://api.greenscreens.ai/v3/prediction/rates returned HTTP 401 with the header
+    WWW-Authenticate: Bearer (probed 2026-09-12).
+  url: https://api.greenscreens.ai/v3/prediction/rates
+- id: oidc
+  conforms: false
+  evidence: >-
+    No OpenID Connect surface. /.well-known/openid-configuration returns the SPA index shell on every
+    host probed (api, testapi, betaapi, intelligence.triumph.io) and 403/404 on the rest. The identity
+    provider is Keycloak (the token response carries the Keycloak-specific "not-before-policy" field
+    and release notes cite Keycloak roles), but no OIDC discovery document is exposed publicly.
+  url: https://api.greenscreens.ai/.well-known/openid-configuration
+- id: rfc8414
+  conforms: false
+  evidence: >-
+    No OAuth 2.0 Authorization Server Metadata. /.well-known/oauth-authorization-server returns the SPA
+    index shell (soft 200) on every API host and 403 on the docs host.
+  url: https://api.greenscreens.ai/.well-known/oauth-authorization-server
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors are a proprietary {code, message} JSON envelope on application/json. No response in any of
+    the 12 specs declares application/problem+json. See errors/green-screens-ai-problem-types.yml.
+- id: rfc8594
+  conforms: false
+  evidence: >-
+    No Sunset or Deprecation response headers are documented on any of the 47 aggregate operations, and
+    no operation carries deprecated: true. Deprecation is expressed only at field level on 8 schema
+    properties.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header, client-supplied request id, or replay-safety statement appears in any
+    published spec or help-center article, against a mutating surface of 30 of 47 operations.
+- id: pagination
+  conforms: partial
+  evidence: >-
+    Page-number pagination exists but is spelled inconsistently within one aggregate spec:
+    analyticsLaneTriumphCarriers takes pageNumber/pageSize and returns Analytics_Pagination
+    {pageNumber, pageSize, totalElements, totalPages}, while quotesGetAll takes page/perPage. Most
+    collection operations are not paginated and cap results implicitly.
+- id: json-api
+  conforms: false
+  evidence: Plain application/json request and response bodies; no JSON:API media type or document structure.
+- id: odata
+  conforms: false
+  evidence: No $metadata surface, no OData query options, no OData media types.
+- id: scim
+  conforms: false
+  evidence: >-
+    No SCIM schema URNs (urn:ietf:params:scim:schemas:*) and no user/group provisioning surface.
+    Credentials are managed in-application, not over an API.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event, streaming, or webhook surface. The specs declare no callbacks and no webhooks objects;
+    /asyncapi.yaml and /asyncapi.json return 403 on the docs host and the SPA shell on the API host.
+- id: tls-1.3
+  conforms: true
+  evidence: >-
+    connect.greenscreens.ai and testapi.greenscreens.ai negotiate TLSv1.3 with HSTS max-age=31536000
+    (probed 2026-09-12; see security/green-screens-ai-domain-security.yml). api.greenscreens.ai returns
+    Strict-Transport-Security: max-age=31536000; includeSubDomains; preload.
+domain_standards:
+- id: nmfta-scac
+  name: Standard Carrier Alpha Code (NMFTA SCAC)
+  conforms: true
+  reward_only: true
+  evidence: >-
+    The contract declares SCAC as a first-class carrier identifier and names the standard in the field
+    description. components.schemas.Analytics_AnalyticsLaneCarrierItem.properties.carrierSCAC —
+    "Standard Carrier Alpha Code of this carrier"; and
+    components.schemas.TmsConnector_CarrierProfile.properties.scac — "Standard Carrier Alpha Code to
+    identify vessel operating common carriers". A consumer already keying carriers by SCAC needs no
+    bespoke mapping.
+  url: https://connect.greenscreens.ai/openapi.yaml
+- id: fmcsa-mc-number
+  name: FMCSA Motor Carrier (MC) number
+  conforms: true
+  reward_only: true
+  evidence: >-
+    MC number is declared across the carrier and broker surfaces with the regulator named in the
+    description — Analytics_AnalyticsLaneHighwayCarriersResponseItem.mc, Bids_Carrier.mc,
+    Bids_BidsSendRequestCarrierCarrierInfo.mc,
+    Pricing_PricingMarketplaceMyBrokerPartnersResponseBroker.mc ("Freight broker MC number"). The
+    June 2026 release notes record MC/DOT being added to capacity features specifically so customers
+    could map the data into their own compliance and vetting process.
+  url: https://connect.greenscreens.ai/openapi.yaml
+- id: usdot-number
+  name: USDOT number
+  conforms: true
+  reward_only: true
+  evidence: >-
+    components.schemas.Analytics_AnalyticsLaneCarrierSourceCarriersResponseItem.properties.dot —
+    "Department of Transportation (DOT) number of this carrier", and the TMS carrier-import payload
+    accepts a dot field alongside mc and scac.
+  url: https://connect.greenscreens.ai/openapi.yaml
+- id: edi-x12-transportation
+  name: ANSI X12 transportation transaction sets (204/214/990)
+  conforms: false
+  reward_only: true
+  evidence: >-
+    No X12, EDIFACT or EDI transaction-set reference appears in any of the 12 specs. Integration with
+    TMS platforms is done through the proprietary JSON TmsConnector surface, not an EDI envelope.
+compliance:
+  certifications_published: false
+  trust_center: false
+  note: >-
+    No SOC 2, ISO 27001, PCI or other certification is published on a trust center or the help center,
+    and probe-security-programs.py found no vulnerability disclosure programme or trust center
+    (2026-09-12). The parent, Triumph Financial, is a bank holding company whose banking products carry
+    their own regulatory disclosures, but no security-compliance attestation is published for the
+    Triumph Intelligence API estate. No Compliance pointer is emitted.
+summary:
+  entries: 14
+  conforming: 4
+  partial: 1
+  domain_standards_conforming: 3
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
