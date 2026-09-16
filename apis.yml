@@ -60,7 +60,8 @@ tags_raw:
 apis:
 - aid: green-screens-ai:green-screens-ai-prediction-api
   name: Green Screens AI Prediction API
-  description: Prediction service v3 — lane rate prediction, batch rates, network rates, long-term batch rates and
+  description: >-
+    Prediction service v3 — lane rate prediction, batch rates, network rates, long-term batch rates and
     prediction history. Spec version 3.8.0, 6 paths. The flagship service.
   humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
   baseURL: https://api.greenscreens.ai/v3
@@ -85,24 +86,10 @@ apis:
     url: skills/green-screens-ai-quote-a-lane.md
   - type: AgentSkill
     url: skills/green-screens-ai-price-an-rfp-batch.md
-- aid: green-screens-ai:green-screens-ai-prediction-v2-api
-  name: Green Screens AI Prediction API v2
-  description: Prediction service v2 — the superseded major. Still published and callable with no announced sunset
-    date. Spec version 2.5.3, 1 path (POST /prediction/rates).
-  humanURL: https://connect.greenscreens.ai/prediction/v2/swagger/index.html
-  baseURL: https://api.greenscreens.ai/v2
-  tags:
-  - Prediction
-  properties:
-  - type: OpenAPI
-    url: openapi/green-screens-ai-prediction-v2-api-openapi.yml
-  - type: Overlay
-    url: overlays/green-screens-ai-prediction-v2-overlay.yaml
-  - type: Documentation
-    url: https://connect.greenscreens.ai/prediction/v2/swagger/index.html
 - aid: green-screens-ai:green-screens-ai-auth-api
   name: Green Screens AI Auth API
-  description: Authentication service. OAuth 2.0 client_credentials grant (RFC 6749) issuing a Keycloak JWT that
+  description: >-
+    Authentication service. OAuth 2.0 client_credentials grant (RFC 6749) issuing a Keycloak JWT that
     is presented as an RFC 6750 bearer token on every other operation in the estate.
   humanURL: https://connect.greenscreens.ai/
   baseURL: https://api.greenscreens.ai/v1
@@ -121,8 +108,9 @@ apis:
     url: authentication/green-screens-ai-authentication.yml
 - aid: green-screens-ai:green-screens-ai-analytics-api
   name: Green Screens AI Analytics API
-  description: Analytics service v1 — lane top carriers and lane Triumph carriers, returned with SCAC, FMCSA MC
-    and USDOT identifiers. The only paginated collection in the estate. Spec version 1.7.1, 2 paths.
+  description: >-
+    Analytics service v1 — lane top carriers and lane Triumph carriers, returned with SCAC, FMCSA MC and
+    USDOT identifiers. The only paginated collection in the estate. Spec version 1.7.1, 2 paths.
   humanURL: https://connect.greenscreens.ai/analytics/v1/swagger/index.html
   baseURL: https://api.greenscreens.ai/v1
   tags:
@@ -136,8 +124,9 @@ apis:
     url: https://connect.greenscreens.ai/analytics/v1/swagger/index.html
 - aid: green-screens-ai:green-screens-ai-bids-api
   name: Green Screens AI Bids API
-  description: Carrier bids service v1 — save, read, update and delete bids, search carriers, accept a bid, and
-    send a bid request to an external carrier. Spec version 1.3.2, 7 paths. Contains the one irreversible write
+  description: >-
+    Carrier bids service v1 — save, read, update and delete bids, search carriers, accept a bid, and send
+    a bid request to an external carrier. Spec version 1.3.2, 7 paths. Contains the one irreversible write
     in this API (POST /bids/send).
   humanURL: https://connect.greenscreens.ai/bids/v1/swagger/index.html
   baseURL: https://api.greenscreens.ai/v1
@@ -154,8 +143,9 @@ apis:
     url: skills/green-screens-ai-source-capacity-and-bid.md
 - aid: green-screens-ai:green-screens-ai-history-api
   name: Green Screens AI History API
-  description: Historical rate data and similar lanes analysis v1 — load history and recent rates. Spec version
-    1.0.0, 2 paths.
+  description: >-
+    Historical rate data and similar lanes analysis v1 — load history and recent rates. Spec version 1.0.0,
+    2 paths.
   humanURL: https://connect.greenscreens.ai/history/v1/swagger/index.html
   baseURL: https://api.greenscreens.ai/v1
   tags:
@@ -169,8 +159,9 @@ apis:
     url: https://connect.greenscreens.ai/history/v1/swagger/index.html
 - aid: green-screens-ai:green-screens-ai-marketintelligence-api
   name: Green Screens AI MarketIntelligence API
-  description: Market Intelligence service v1 — negotiation advice for a lane. Spec version 1.3.8, 1 path. Four
-    response fields are marked deprecated in the contract.
+  description: >-
+    Market Intelligence service v1 — negotiation advice for a lane. Spec version 1.3.8, 1 path. Four response
+    fields are marked deprecated in the contract.
   humanURL: https://connect.greenscreens.ai/marketintelligence/v1/swagger/index.html
   baseURL: https://api.greenscreens.ai/v1
   tags:
@@ -186,8 +177,9 @@ apis:
     url: https://connect.greenscreens.ai/marketintelligence/v1/swagger/index.html
 - aid: green-screens-ai:green-screens-ai-pricing-api
   name: Green Screens AI Pricing API
-  description: Pricing service v1 — priority rules, combination rules and threshold rules (full CRUD each), 3PL
-    pricing, and marketplace broker partners. Spec version 1.1.0, 8 paths. The largest service surface.
+  description: >-
+    Pricing service v1 — priority rules, combination rules and threshold rules (full CRUD each), 3PL pricing,
+    and marketplace broker partners. Spec version 1.1.0, 8 paths. The largest service surface.
   humanURL: https://connect.greenscreens.ai/pricing/v1/swagger/index.html
   baseURL: https://api.greenscreens.ai/v1
   tags:
@@ -201,8 +193,10 @@ apis:
     url: https://connect.greenscreens.ai/pricing/v1/swagger/index.html
 - aid: green-screens-ai:green-screens-ai-quotes-api
   name: Green Screens AI Quotes API
-  description: 'Quotes service v2 — list quotes, import and batch import. Spec version 2.0.0, 3 paths. NOT a superset
-    of v1: the accept, reject, update, delete, shipper-search and lane-top-quotes operations live only in v1.'
+  description: >-
+    Quotes service v2 — list quotes, import and batch import. Spec version 2.0.0, 3 paths. NOT a superset
+    of v1: the accept, reject, update, delete, shipper-search and lane-top-quotes operations live only
+    in v1.
   humanURL: https://connect.greenscreens.ai/quotes/v2/swagger/index.html
   baseURL: https://api.greenscreens.ai/v2
   tags:
@@ -214,25 +208,12 @@ apis:
     url: overlays/green-screens-ai-quotes-v2-overlay.yaml
   - type: Documentation
     url: https://connect.greenscreens.ai/quotes/v2/swagger/index.html
-- aid: green-screens-ai:green-screens-ai-quotes-v1-api
-  name: Green Screens AI Quotes API v1
-  description: Quotes service v1 — save, get, accept, reject, update and delete quotes, shipper profile search and
-    lane top quotes. Spec version 1.5.0, 6 paths. Still published and carries a wider surface than v2.
-  humanURL: https://connect.greenscreens.ai/quotes/v1/swagger/index.html
-  baseURL: https://api.greenscreens.ai/v1
-  tags:
-  - Quotes
-  properties:
-  - type: OpenAPI
-    url: openapi/green-screens-ai-quotes-v1-api-openapi.yml
-  - type: Overlay
-    url: overlays/green-screens-ai-quotes-v1-overlay.yaml
-  - type: Documentation
-    url: https://connect.greenscreens.ai/quotes/v1/swagger/index.html
 - aid: green-screens-ai:green-screens-ai-tms-api
   name: Green Screens AI TMS API
-  description: TmsConnector service v2 — import loads, carriers and shippers, singly or in batches, from a broker
-    transportation management system. Spec version 2.18.6, 6 paths. One-way ingestion with no published rollback.
+  description: >-
+    TmsConnector service v2 — import loads, carriers and shippers, singly or in batches, from a broker
+    transportation management system. Spec version 2.18.6, 6 paths. One-way ingestion with no published
+    rollback.
   humanURL: https://connect.greenscreens.ai/tmsconnector/v2/swagger/index.html
   baseURL: https://api.greenscreens.ai/v2
   tags:
@@ -246,25 +227,13 @@ apis:
     url: https://connect.greenscreens.ai/tmsconnector/v2/swagger/index.html
   - type: AgentSkill
     url: skills/green-screens-ai-sync-tms-and-quotes.md
-- aid: green-screens-ai:green-screens-ai-datalake-api
-  name: Green Screens AI DataLake API
-  description: DataLake service v1 — a published OpenAPI (spec version 1.12.6) that declares a bearerAuth security
-    scheme and three servers but ZERO operations. Recorded because the provider serves it; there is nothing callable
-    in it.
-  humanURL: https://connect.greenscreens.ai/datalake/v1/swagger/index.html
-  baseURL: https://api.greenscreens.ai/v1
-  tags:
-  - Data
-  tags_raw:
-  - DataLake
-  properties:
-  - type: OpenAPI
-    url: openapi/green-screens-ai-datalake-api-openapi.yml
-  - type: Overlay
-    url: overlays/green-screens-ai-datalake-overlay.yaml
-  - type: Documentation
-    url: https://connect.greenscreens.ai/datalake/v1/swagger/index.html
 common:
+- type: Overlay
+  url: overlays/green-screens-ai-prediction-v2-overlay.yaml
+- type: Overlay
+  url: overlays/green-screens-ai-quotes-v1-overlay.yaml
+- type: Overlay
+  url: overlays/green-screens-ai-datalake-overlay.yaml
 - type: Website
   url: https://triumph.io/solutions/rates/
 - type: DeveloperPortal
