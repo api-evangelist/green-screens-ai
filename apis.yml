@@ -157,24 +157,6 @@ apis:
     url: overlays/green-screens-ai-history-overlay.yaml
   - type: Documentation
     url: https://connect.greenscreens.ai/history/v1/swagger/index.html
-- aid: green-screens-ai:green-screens-ai-marketintelligence-api
-  name: Green Screens AI MarketIntelligence API
-  description: >-
-    Market Intelligence service v1 — negotiation advice for a lane. Spec version 1.3.8, 1 path. Four response
-    fields are marked deprecated in the contract.
-  humanURL: https://connect.greenscreens.ai/marketintelligence/v1/swagger/index.html
-  baseURL: https://api.greenscreens.ai/v1
-  tags:
-  - Market Intelligence
-  tags_raw:
-  - MarketIntelligence
-  properties:
-  - type: OpenAPI
-    url: openapi/green-screens-ai-marketintelligence-api-openapi.yml
-  - type: Overlay
-    url: overlays/green-screens-ai-marketintelligence-overlay.yaml
-  - type: Documentation
-    url: https://connect.greenscreens.ai/marketintelligence/v1/swagger/index.html
 - aid: green-screens-ai:green-screens-ai-pricing-api
   name: Green Screens AI Pricing API
   description: >-
@@ -227,7 +209,28 @@ apis:
     url: https://connect.greenscreens.ai/tmsconnector/v2/swagger/index.html
   - type: AgentSkill
     url: skills/green-screens-ai-sync-tms-and-quotes.md
+- aid: green-screens-ai:green-screens-ai-market-intelligence-api
+  name: Green Screens AI Market Intelligence API
+  description: >-
+    Market Intelligence service v1
+
+
+    View separately
+
+
+    Try it in swagger
+  humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
+  baseURL: https://api.greenscreens.ai/v3
+  tags:
+  - Market Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/green-screens-ai-market-intelligence-api-openapi.yml
+  - type: Documentation
+    url: https://connect.greenscreens.ai/marketintelligence/v1/swagger/index.html
 common:
+- type: Overlay
+  url: overlays/green-screens-ai-marketintelligence-overlay.yaml
 - type: Overlay
   url: overlays/green-screens-ai-prediction-v2-overlay.yaml
 - type: Overlay
