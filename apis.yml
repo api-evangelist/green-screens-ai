@@ -66,7 +66,7 @@ apis:
   humanURL: https://connect.greenscreens.ai/prediction/v3/swagger/index.html
   baseURL: https://api.greenscreens.ai/v3
   tags:
-  - Prediction
+  - Predictions
   - Artificial Intelligence
   - Freight
   - Pricing
