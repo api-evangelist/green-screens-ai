@@ -1,15 +1,8 @@
 {
   "provider": "green-screens-ai",
   "sources": [
-    "green-screens-ai-analytics-api-openapi.yml",
-    "green-screens-ai-auth-api-openapi.yml",
-    "green-screens-ai-bids-api-openapi.yml",
-    "green-screens-ai-history-api-openapi.yml",
-    "green-screens-ai-marketintelligence-api-openapi.yml",
-    "green-screens-ai-prediction-api-openapi.yml",
-    "green-screens-ai-pricing-api-openapi.yml",
-    "green-screens-ai-quotes-api-openapi.yml",
-    "green-screens-ai-tms-api-openapi.yml"
+    "_original/green-screens-ai-connect-openapi.yml",
+    "green-screens-ai-quotes-api-openapi.yml"
   ],
   "outputs": [
     "green-screens-ai-analytics-api-openapi.yml",
@@ -22,20 +15,38 @@
     "green-screens-ai-quotes-api-openapi.yml",
     "green-screens-ai-tms-api-openapi.yml"
   ],
-  "archived": [],
-  "errors": [],
-  "warnings": [],
-  "notes": [
-    "green-screens-ai-analytics-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-auth-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-bids-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-history-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-marketintelligence-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-prediction-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-pricing-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-quotes-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "green-screens-ai-tms-api-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
   ],
-  "skipped": []
+  "errors": [
+    "green-screens-ai-quotes-api-openapi.yml: dangling $ref: #/paths/~1quotes/get/responses/400",
+    "green-screens-ai-quotes-api-openapi.yml: dangling $ref: #/paths/~1quotes/get/responses/401",
+    "green-screens-ai-quotes-api-openapi.yml: dangling $ref: #/paths/~1quotes/get/responses/403",
+    "green-screens-ai-quotes-api-openapi.yml: dangling $ref: #/paths/~1quotes/get/responses/404",
+    "green-screens-ai-quotes-api-openapi.yml: dangling $ref: #/paths/~1quotes/get/responses/422",
+    "green-screens-ai-quotes-api-openapi.yml: dangling $ref: #/paths/~1quotes/get/responses/429",
+    "green-screens-ai-quotes-api-openapi.yml: dangling $ref: #/paths/~1quotes/get/responses/500"
+  ],
+  "warnings": [
+    "green-screens-ai-quotes-api-openapi.yml: previously refined output kept for 7 operation(s) no archived document covers (e.g. /quotes post, /quotes/accept post, /quotes/lane-top-quotes get); its other 3 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "green-screens-ai-connect-openapi.yml: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
+    "tag 'Quotes' spans 2 source specs (green-screens-ai-connect-openapi.yml, green-screens-ai-quotes-api-openapi.yml): per-path servers applied",
+    "superseded outputs removed: green-screens-ai-market-intelligence-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 9 total)"
+  ],
+  "skipped": [
+    "_original/green-screens-ai-openapi.yml: archived document superseded by a larger archived document",
+    "green-screens-ai-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "green-screens-ai-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "green-screens-ai-bids-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "green-screens-ai-history-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "green-screens-ai-market-intelligence-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "green-screens-ai-prediction-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "green-screens-ai-pricing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "green-screens-ai-tms-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
