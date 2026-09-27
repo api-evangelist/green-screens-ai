@@ -584,6 +584,22 @@ components:
           type: string
           description: Code of the currency of the response. Format is ISO 4217
           example: USD
+    MarketIntelligence_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
     MarketIntelligence_ComingEvent:
       type: object
       description: 'A descriptor of an event that is beginning soon after the pickup date
@@ -601,22 +617,6 @@ components:
       required:
       - name
       - daysToBeginning
-    MarketIntelligence_Error:
-      type: object
-      description: A common api error object
-      properties:
-        code:
-          type: string
-          description: unique string identifier of the error
-        message:
-          type: string
-          description: human readable error message
-      required:
-      - code
-      - message
-      example:
-        code: invalid_request
-        message: Your ClientId is invalid
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io

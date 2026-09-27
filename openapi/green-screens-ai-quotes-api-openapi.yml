@@ -642,13 +642,272 @@ paths:
           $ref: '#/paths/~1quotes/get/responses/500'
 components:
   schemas:
-    Quotes_Currency:
+    Quotes_RequestValidationError:
+      type: object
+      description: Request validation error
+      properties:
+        field:
+          type: string
+          description: Name of the field that did not pass validation
+          example: transportType
+        message:
+          type: string
+          description: Human readable error mesage explaining why validation failed
+          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+        value:
+          type:
+          - string
+          - 'null'
+          description: Value of the field that did not pass validation
+          example: SpaceXDragon
+      required:
+      - field
+      - message
+    Quotes_QuotesImportRequest:
+      type: object
+      description: A body of the request to import a quote
+      properties:
+        quoteId:
+          type: string
+          description: "Unique quote id from the customers system. \n\nIf a quote with the same quoteId will be found in our platform, \nit will be updated. Otherwise a new quote will be created\n"
+          example: Q#54321
+        loadId:
+          type: string
+          description: Id of the load associated with this quote
+          example: '12345'
+        userEmail:
+          type: string
+          description: Email of the user who will be the owner/creator of the quote
+          example: buddy@greenscreens.ai
+        transportType:
+          type: string
+          description: Transport type (original transport type used in provider TMS)
+          example: VR
+        transportTypeGroup:
+          $ref: '#/components/schemas/Quotes_TransportTypeGroup'
+        stops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Quotes_StopInput'
+        distance:
+          type: number
+          format: float
+          description: Distance of the route (in miles)
+          example: 289
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Related load pickup date
+          example: '2020-10-13T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: '2020-10-14T16:00:00Z'
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Quote expiration date and time in time zone of the user
+          example: '2020-10-12T16:00:00+05:00'
+        quoteDateTime:
+          type: string
+          format: date-time
+          description: When the quote was sent to the customer
+          example: '2020-10-13T16:00:00Z'
+        status:
+          $ref: '#/components/schemas/Quotes_QuoteStatus'
+        rejectionReason:
+          type: string
+          description: Comment about why the quote was rejected
+          example: Rejecting, because price is too high
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 22000
+        shipper:
+          $ref: '#/components/schemas/Quotes_Shipper'
+        pricingType:
+          type: string
+          description: "How this shipment was priced to the shipper according to your methodology \n(Primary, Backup, Spot, Spot_api, Spot_EDI, Primary_cost_plus, etc.)\n"
+          example: SPOT
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Quotes_PricingTypeGroup'
+        contractDuration:
+          type: integer
+          description: Contract duration in weeks, if applicable
+          example: 5
+        numberOfLoads:
+          type: integer
+          description: 'Number of loads on the lane quoted or won:
+
+            * for the day if a spot quote
+
+            * for the duration of the contract if a primary or backup quote
+
+            '
+          example: 10
+        costs:
+          $ref: '#/components/schemas/Quotes_CostsInput'
+        currency:
+          $ref: '#/components/schemas/Quotes_Currency'
+      required:
+      - quoteId
+      - userEmail
+      - transportType
+      - transportTypeGroup
+      - stops
+      - pickupDateTime
+      - status
+      - shipper
+      - pricingType
+      - pricingTypeGroup
+      - costs
+      - currency
+    Quotes_TransportTypeGroup:
       type: string
+      description: Transport type group
       enum:
-      - USD
-      - CAD
-      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
-      example: USD
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      - OTHER
+      example: VAN
+    Quotes_Accessorials:
+      type: array
+      description: Quote accessorial list
+      items:
+        $ref: '#/components/schemas/Quotes_Accessorial'
+    Quotes_Accessorial:
+      type: object
+      description: Contains the quote accessorial information e.g. name and cost
+      properties:
+        name:
+          type: string
+          description: Accessorial name
+          example: Overweight
+        cost:
+          type: number
+          description: Flat accessorial cost
+          example: 200.5
+      required:
+      - name
+      - cost
+    Quotes_Costs:
+      type: object
+      description: "Quote costs. \n\n**Linehaul cost and either total cost or acessorials have to be provided \nfor this object to be valid.**\n"
+      properties:
+        linehaul:
+          type: number
+          description: Flat linehaul cost that the customer was quoted
+          example: 1200
+        accessorials:
+          $ref: '#/components/schemas/Quotes_Accessorials'
+        total:
+          type: number
+          description: "Flat total cost that the customer was quoted \n(linehaul + accessorials)\n"
+          example: 1500
+      required:
+      - linehaul
+      - accessorials
+      - total
+    Quotes_Stops:
+      type: array
+      description: Quote stop list
+      minItems: 2
+      items:
+        $ref: '#/components/schemas/Quotes_Stop'
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+          type: CITY
+        type: LOAD
+        appointmentDateTime: '2020-10-13T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+          type: ZIP
+        type: UNLOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+    Quotes_Shipper:
+      type: object
+      description: Shipper data
+      properties:
+        id:
+          type: string
+          description: Customer TMS ID of the shipper profile associated with this quote
+          example: '64378901'
+        name:
+          type: string
+          description: Shipper company name
+          example: Walmart
+        phone:
+          type: string
+          description: Shipper contact phone number
+          example: '4112228888'
+        email:
+          type: string
+          description: Shipper contact email
+          example: test@greenscreens.ai
+    Quotes_QuotesResponse:
+      type: object
+      description: Object containing an array of quotes
+      properties:
+        pagination:
+          type: object
+          description: Response pagination data
+          properties:
+            page:
+              type: integer
+              description: The number of the currently returned page
+              minimum: 0
+              example: 12
+            perPage:
+              type: integer
+              description: The maximum number of items per page
+              minimum: 1
+              maximum: 500
+              example: 20
+          required:
+          - page
+          - perPage
+        items:
+          type: array
+          description: Array of quotes
+          items:
+            $ref: '#/components/schemas/Quotes_QuoteObject'
+      required:
+      - pagination
+      - items
+    Quotes_QuotesBatchImportResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of quote import responses
+          items:
+            $ref: '#/components/schemas/Quotes_QuotesBatchImportResponseItem'
+      required:
+      - responses
+    Quotes_QuotesBatchImportRequest:
+      type: object
+      properties:
+        quotes:
+          type: array
+          description: List of quotes to import
+          items:
+            $ref: '#/components/schemas/Quotes_QuotesImportRequest'
+          maxItems: 1000
+      required:
+      - quotes
     Quotes_Error422UnprocessableEntityMulti:
       type: object
       properties:
@@ -691,16 +950,74 @@ components:
           example: CREATED
       required:
       - status
-    Quotes_QuotesBatchImportResponse:
+    Quotes_Predictions:
       type: object
+      description: 'Predictions made for this quote.
+
+
+        The fields in this object are populated asynchronously,
+
+        so there might be a period in time when you will not see any values.
+
+        '
       properties:
-        responses:
-          type: array
-          description: List of quote import responses
-          items:
-            $ref: '#/components/schemas/Quotes_QuotesBatchImportResponseItem'
-      required:
-      - responses
+        company:
+          type: object
+          description: Company specific predictions
+          properties:
+            buy:
+              type: object
+              description: Buy cost related properties
+              properties:
+                target:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use for buying such a load
+                  example: 1200
+                start:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use as the lower limit during bargaining with the carrier
+                  example: 1200
+                high:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use as the upper limit during bargaining with the carrier
+                  example: 1200
+                confidenceLevel:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+                  description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
+                  example: 65
+            sell:
+              type: object
+              description: Sell cost related properties
+              properties:
+                target:
+                  type: number
+                  description: Flat sell cost that our system would suggest to use for this quote
+                  example: 1200
+        network:
+          type: object
+          description: Network predictions
+          properties:
+            buy:
+              type: object
+              description: Buy cost related properties
+              properties:
+                target:
+                  type: number
+                  description: Flat buy cost that our system would suggest to use for buying such a load
+                  example: 1200
+                confidenceLevel:
+                  type: integer
+                  minimum: 0
+                  maximum: 100
+                  description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
+                  example: 65
+        distance:
+          type: number
+          format: float
+          description: Distance of the route (in miles)
+          example: 289
     Quotes_QuoteObject:
       type: object
       description: Object representing a quote in our system
@@ -835,26 +1152,108 @@ components:
       - wasViewed
       - costs
       - currency
-    Quotes_Shipper:
+    Quotes_AccessorialsInput:
+      type: array
+      description: Quote accessorial list
+      items:
+        $ref: '#/components/schemas/Quotes_AccessorialInput'
+    Quotes_QuotesBatchImportResponseItem:
       type: object
-      description: Shipper data
+      description: 'Response for this particular quote import attempt
+
+        '
       properties:
-        id:
+        quoteId:
           type: string
-          description: Customer TMS ID of the shipper profile associated with this quote
-          example: '64378901'
-        name:
+          description: Unique quote id from the customers system
+          example: Q#54321
+        status:
           type: string
-          description: Shipper company name
-          example: Walmart
-        phone:
+          enum:
+          - CREATED
+          - UPDATED
+          - ERROR
+          description: "Quote import status. \n* CREATED - a new quote was created\n* UPDATED - an existing quote was updated\n* ERROR - an error occurred during quote import\n"
+          example: CREATED
+        error:
+          type: object
+          description: "Import attempt error data. \nAvailable when the import attempt was unsuccessful \nand status is ERROR\n"
+          properties:
+            code:
+              type: string
+              description: Unique string identifier of the error
+              example: validation_errors_occured
+            message:
+              type: string
+              description: Human readable error message
+              example: Validation errors occured, check errors array for details
+            errors:
+              type: array
+              description: A list of validation errors that occurred during the import attempt.
+              items:
+                $ref: '#/components/schemas/Quotes_RequestValidationError'
+          required:
+          - code
+          - message
+          - errors
+      required:
+      - quoteId
+      - status
+    Quotes_Stop:
+      type: object
+      description: Contains the quote stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/Quotes_Address'
+        type:
           type: string
-          description: Shipper contact phone number
-          example: '4112228888'
-        email:
+          description: 'Action performed with the cargo at this stop
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
           type: string
-          description: Shipper contact email
-          example: test@greenscreens.ai
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+    Quotes_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    Quotes_QuoteStatus:
+      type: string
+      description: Quote lifecycle stage
+      enum:
+      - WON
+      - LOST
+      - SENT
+      - EXPIRED
+      example: WON
     Quotes_AccessorialInput:
       type:
       - object
@@ -872,84 +1271,25 @@ components:
       required:
       - name
       - cost
-    Quotes_Address:
-      type: object
-      description: 'Location specified by country, city, state and zip code.
+    Quotes_Currency:
+      type: string
+      enum:
+      - USD
+      - CAD
+      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+      example: USD
+    Quotes_PricingTypeGroup:
+      type: string
+      description: 'How this shipment was priced to the shipper in the following groupings
 
-        * Country is required
-
-        * Either city-state pair or zip code is required
-
-        * All four parameters can be passed together
-
-
-        (in case of city-state pair our platform will determine the zip code
-
-        and in case of a zip code, our platform will determine the city and the state)
+        (CONTRACT, SPOT, or OTHER)
 
         '
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: state
-          example: NY
-        city:
-          type: string
-          description: city
-          example: Schenectady
-        zip:
-          type: string
-          description: zip
-          example: '12345'
-        type:
-          type: string
-          enum:
-          - CITY
-          - ZIP
-          example: ZIP
-          description: Type of address. Defaults to ZIP if not provided.
-          default: ZIP
-      required:
-      - country
-      - type
-    Quotes_Stops:
-      type: array
-      description: Quote stop list
-      minItems: 2
-      items:
-        $ref: '#/components/schemas/Quotes_Stop'
-      example:
-      - order: 0
-        address:
-          country: US
-          city: Red Bluff
-          state: CA
-          zip: '96080'
-          type: CITY
-        type: LOAD
-        appointmentDateTime: '2020-10-13T16:00:00Z'
-      - order: 1
-        address:
-          country: US
-          city: Redding
-          state: CA
-          zip: '96002'
-          type: ZIP
-        type: UNLOAD
-        appointmentDateTime: '2020-10-14T16:00:00Z'
-    Quotes_QuoteStatus:
-      type: string
-      description: Quote lifecycle stage
       enum:
-      - WON
-      - LOST
-      - SENT
-      - EXPIRED
-      example: WON
+      - CONTRACT
+      - SPOT
+      - OTHER
+      example: SPOT
     Quotes_StopInput:
       type: object
       description: Contains the stop information e.g. address
@@ -1019,288 +1359,6 @@ components:
       required:
       - order
       - address
-    Quotes_QuotesBatchImportResponseItem:
-      type: object
-      description: 'Response for this particular quote import attempt
-
-        '
-      properties:
-        quoteId:
-          type: string
-          description: Unique quote id from the customers system
-          example: Q#54321
-        status:
-          type: string
-          enum:
-          - CREATED
-          - UPDATED
-          - ERROR
-          description: "Quote import status. \n* CREATED - a new quote was created\n* UPDATED - an existing quote was updated\n* ERROR - an error occurred during quote import\n"
-          example: CREATED
-        error:
-          type: object
-          description: "Import attempt error data. \nAvailable when the import attempt was unsuccessful \nand status is ERROR\n"
-          properties:
-            code:
-              type: string
-              description: Unique string identifier of the error
-              example: validation_errors_occured
-            message:
-              type: string
-              description: Human readable error message
-              example: Validation errors occured, check errors array for details
-            errors:
-              type: array
-              description: A list of validation errors that occurred during the import attempt.
-              items:
-                $ref: '#/components/schemas/Quotes_RequestValidationError'
-          required:
-          - code
-          - message
-          - errors
-      required:
-      - quoteId
-      - status
-    Quotes_Costs:
-      type: object
-      description: "Quote costs. \n\n**Linehaul cost and either total cost or acessorials have to be provided \nfor this object to be valid.**\n"
-      properties:
-        linehaul:
-          type: number
-          description: Flat linehaul cost that the customer was quoted
-          example: 1200
-        accessorials:
-          $ref: '#/components/schemas/Quotes_Accessorials'
-        total:
-          type: number
-          description: "Flat total cost that the customer was quoted \n(linehaul + accessorials)\n"
-          example: 1500
-      required:
-      - linehaul
-      - accessorials
-      - total
-    Quotes_QuotesImportRequest:
-      type: object
-      description: A body of the request to import a quote
-      properties:
-        quoteId:
-          type: string
-          description: "Unique quote id from the customers system. \n\nIf a quote with the same quoteId will be found in our platform, \nit will be updated. Otherwise a new quote will be created\n"
-          example: Q#54321
-        loadId:
-          type: string
-          description: Id of the load associated with this quote
-          example: '12345'
-        userEmail:
-          type: string
-          description: Email of the user who will be the owner/creator of the quote
-          example: buddy@greenscreens.ai
-        transportType:
-          type: string
-          description: Transport type (original transport type used in provider TMS)
-          example: VR
-        transportTypeGroup:
-          $ref: '#/components/schemas/Quotes_TransportTypeGroup'
-        stops:
-          type: array
-          items:
-            $ref: '#/components/schemas/Quotes_StopInput'
-        distance:
-          type: number
-          format: float
-          description: Distance of the route (in miles)
-          example: 289
-        pickupDateTime:
-          type: string
-          format: date-time
-          description: Related load pickup date
-          example: '2020-10-13T16:00:00Z'
-        deliveredDateTime:
-          type: string
-          format: date-time
-          description: Related load delivery date
-          example: '2020-10-14T16:00:00Z'
-        expirationDateTime:
-          type: string
-          format: date-time
-          description: Quote expiration date and time in time zone of the user
-          example: '2020-10-12T16:00:00+05:00'
-        quoteDateTime:
-          type: string
-          format: date-time
-          description: When the quote was sent to the customer
-          example: '2020-10-13T16:00:00Z'
-        status:
-          $ref: '#/components/schemas/Quotes_QuoteStatus'
-        rejectionReason:
-          type: string
-          description: Comment about why the quote was rejected
-          example: Rejecting, because price is too high
-        weight:
-          type: number
-          format: float
-          description: Total cargo weight in lb
-          example: 22000
-        shipper:
-          $ref: '#/components/schemas/Quotes_Shipper'
-        pricingType:
-          type: string
-          description: "How this shipment was priced to the shipper according to your methodology \n(Primary, Backup, Spot, Spot_api, Spot_EDI, Primary_cost_plus, etc.)\n"
-          example: SPOT
-        pricingTypeGroup:
-          $ref: '#/components/schemas/Quotes_PricingTypeGroup'
-        contractDuration:
-          type: integer
-          description: Contract duration in weeks, if applicable
-          example: 5
-        numberOfLoads:
-          type: integer
-          description: 'Number of loads on the lane quoted or won:
-
-            * for the day if a spot quote
-
-            * for the duration of the contract if a primary or backup quote
-
-            '
-          example: 10
-        costs:
-          $ref: '#/components/schemas/Quotes_CostsInput'
-        currency:
-          $ref: '#/components/schemas/Quotes_Currency'
-      required:
-      - quoteId
-      - userEmail
-      - transportType
-      - transportTypeGroup
-      - stops
-      - pickupDateTime
-      - status
-      - shipper
-      - pricingType
-      - pricingTypeGroup
-      - costs
-      - currency
-    Quotes_Error:
-      type: object
-      description: A common api error object
-      properties:
-        code:
-          type: string
-          description: unique string identifier of the error
-        message:
-          type: string
-          description: human readable error message
-      required:
-      - code
-      - message
-      example:
-        code: invalid_request
-        message: Your ClientId is invalid
-    Quotes_Accessorial:
-      type: object
-      description: Contains the quote accessorial information e.g. name and cost
-      properties:
-        name:
-          type: string
-          description: Accessorial name
-          example: Overweight
-        cost:
-          type: number
-          description: Flat accessorial cost
-          example: 200.5
-      required:
-      - name
-      - cost
-    Quotes_AccessorialsInput:
-      type: array
-      description: Quote accessorial list
-      items:
-        $ref: '#/components/schemas/Quotes_AccessorialInput'
-    Quotes_Predictions:
-      type: object
-      description: 'Predictions made for this quote.
-
-
-        The fields in this object are populated asynchronously,
-
-        so there might be a period in time when you will not see any values.
-
-        '
-      properties:
-        company:
-          type: object
-          description: Company specific predictions
-          properties:
-            buy:
-              type: object
-              description: Buy cost related properties
-              properties:
-                target:
-                  type: number
-                  description: Flat buy cost that our system would suggest to use for buying such a load
-                  example: 1200
-                start:
-                  type: number
-                  description: Flat buy cost that our system would suggest to use as the lower limit during bargaining with the carrier
-                  example: 1200
-                high:
-                  type: number
-                  description: Flat buy cost that our system would suggest to use as the upper limit during bargaining with the carrier
-                  example: 1200
-                confidenceLevel:
-                  type: integer
-                  minimum: 0
-                  maximum: 100
-                  description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
-                  example: 65
-            sell:
-              type: object
-              description: Sell cost related properties
-              properties:
-                target:
-                  type: number
-                  description: Flat sell cost that our system would suggest to use for this quote
-                  example: 1200
-        network:
-          type: object
-          description: Network predictions
-          properties:
-            buy:
-              type: object
-              description: Buy cost related properties
-              properties:
-                target:
-                  type: number
-                  description: Flat buy cost that our system would suggest to use for buying such a load
-                  example: 1200
-                confidenceLevel:
-                  type: integer
-                  minimum: 0
-                  maximum: 100
-                  description: "How confident the system is in the prediction it is making. \n\nFrom 0 - lowest possible confidence\\\nTo 100 - highest possible confidence\n"
-                  example: 65
-        distance:
-          type: number
-          format: float
-          description: Distance of the route (in miles)
-          example: 289
-    Quotes_PricingTypeGroup:
-      type: string
-      description: 'How this shipment was priced to the shipper in the following groupings
-
-        (CONTRACT, SPOT, or OTHER)
-
-        '
-      enum:
-      - CONTRACT
-      - SPOT
-      - OTHER
-      example: SPOT
-    Quotes_Accessorials:
-      type: array
-      description: Quote accessorial list
-      items:
-        $ref: '#/components/schemas/Quotes_Accessorial'
     Quotes_CostsInput:
       type: object
       description: "Quote costs. \n\n**Linehaul cost and either total cost or acessorials have to be provided \nfor this object to be valid.**\n"
@@ -1317,120 +1375,22 @@ components:
           example: 1500
       required:
       - linehaul
-    Quotes_QuotesBatchImportRequest:
+    Quotes_Address:
       type: object
-      properties:
-        quotes:
-          type: array
-          description: List of quotes to import
-          items:
-            $ref: '#/components/schemas/Quotes_QuotesImportRequest'
-          maxItems: 1000
-      required:
-      - quotes
-    Quotes_QuotesResponse:
-      type: object
-      description: Object containing an array of quotes
-      properties:
-        pagination:
-          type: object
-          description: Response pagination data
-          properties:
-            page:
-              type: integer
-              description: The number of the currently returned page
-              minimum: 0
-              example: 12
-            perPage:
-              type: integer
-              description: The maximum number of items per page
-              minimum: 1
-              maximum: 500
-              example: 20
-          required:
-          - page
-          - perPage
-        items:
-          type: array
-          description: Array of quotes
-          items:
-            $ref: '#/components/schemas/Quotes_QuoteObject'
-      required:
-      - pagination
-      - items
-    Quotes_TransportTypeGroup:
-      type: string
-      description: Transport type group
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      - OTHER
-      example: VAN
-    Quotes_Stop:
-      type: object
-      description: Contains the quote stop information e.g. address
-      properties:
-        order:
-          type: integer
-          description: Stop order, starting from 0
-          example: 0
-        address:
-          $ref: '#/components/schemas/Quotes_Address'
-        type:
-          type: string
-          description: 'Action performed with the cargo at this stop
+      description: 'Location specified by country, city, state and zip code.
 
-            '
-          enum:
-          - LOAD
-          - UNLOAD
-          - BOTH
-          example: LOAD
-        appointmentDateTime:
-          type: string
-          format: date-time
-          description: 'Date and time when the truck has to arrive at this stop
+        * Country is required
 
-            '
-          example: '2020-10-13T16:00:00Z'
-      required:
-      - order
-      - address
-    Quotes_RequestValidationError:
-      type: object
-      description: Request validation error
-      properties:
-        field:
-          type: string
-          description: Name of the field that did not pass validation
-          example: transportType
-        message:
-          type: string
-          description: Human readable error mesage explaining why validation failed
-          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
-        value:
-          type:
-          - string
-          - 'null'
-          description: Value of the field that did not pass validation
-          example: SpaceXDragon
-      required:
-      - field
-      - message
-    LaneTopQuotesResponse:
-      type: object
-      description: Contains an array of ten most recent quotes for a lane
-      properties:
-        items:
-          type: array
-          description: quotes
-          items:
-            $ref: '#/components/schemas/LaneTopQuotesItem'
-    Address:
-      type: object
-      description: Location specified by country, city, state and zip code
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
       properties:
         country:
           type: string
@@ -1454,47 +1414,11 @@ components:
           - CITY
           - ZIP
           example: ZIP
-          description: Type of address
+          description: Type of address. Defaults to ZIP if not provided.
+          default: ZIP
       required:
-      - city
-      - state
-      - zip
+      - country
       - type
-    TransportType:
-      type: string
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-      example: VAN
-    ShipperInfoObject:
-      type: object
-      properties:
-        companyName:
-          type: string
-          description: Shipper company name
-          example: Joes Foods
-        email:
-          type: string
-          description: Shipper contact email
-          example: test@greenscreens.ai
-        phoneNumber:
-          type: string
-          description: Shipper contact phone number
-          example: '4112228888'
-      required:
-      - companyName
-    QuoteAcceptRequest:
-      type: object
-      properties:
-        key:
-          type: string
-          description: "Unique key of the quote that you want accepted. \nProvided during quote creation.\n"
-          example: afd124faf-12raf-qfa2q-afvawf
-      required:
-      - key
     QuotesRequest:
       type: object
       properties:
@@ -1635,87 +1559,124 @@ components:
       - highBuyRate
       - confidenceLevel
       - targetSellFlatRate
-    LaneTopQuotesItem:
+    TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    Address:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+        type:
+          type: string
+          enum:
+          - CITY
+          - ZIP
+          example: ZIP
+          description: Type of address
+      required:
+      - city
+      - state
+      - zip
+      - type
+    QuoteStatus:
+      type: string
+      enum:
+      - WON
+      - LOST
+      - SENT
+      - EXPIRED
+      description: quote status in the quoting process
+      example: WON
+    ShipperInfoObject:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Id of the quote
-          example: 12345
-        pickupDateTime:
-          type: string
-          format: date-time
-          description: Load pickup date
-          example: '2020-10-13T16:00:00Z'
-        expirationDateTime:
-          type: string
-          format: date-time
-          description: Quote expiration date
-          example: '2020-09-15T16:00:00Z'
-        deliveredDateTime:
-          type: string
-          format: date-time
-          description: Related load delivery date
-          example: '2020-10-14T16:00:00Z'
-        createdDateTime:
-          type: string
-          format: date-time
-          description: Quote creation date
-          example: '2020-09-14T16:00:00Z'
-        miles:
-          type: number
-          format: float
-          description: Total miles
-          example: 289
-        user:
-          type: string
-          description: Email of the user who is the owner/creator of the quote
-          example: buddy@greenscreens.ai
-        quoteStatus:
-          $ref: '#/components/schemas/QuoteStatus'
-        targetSellFlatRate:
-          type: number
-          description: Flat target sell rate
-          example: 1200
-        shipperName:
+        companyName:
           type: string
           description: Shipper company name
           example: Joes Foods
-        shipperPhone:
-          type: string
-          description: Shipper contact phone number
-          example: '4112228888'
-        shipperEmail:
+        email:
           type: string
           description: Shipper contact email
           example: test@greenscreens.ai
+        phoneNumber:
+          type: string
+          description: Shipper contact phone number
+          example: '4112228888'
+      required:
+      - companyName
+    QuoteRejectRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          description: "Unique key of the quote that you want rejected. \nProvided during quote creation.\n"
+          example: afd124faf-12raf-qfa2q-afvawf
         rejectionReason:
           type: string
-          description: Comment about why the quote was rejected
-          example: Rejecting, because price is too high
-        transportType:
-          $ref: '#/components/schemas/TransportType'
-        origin:
-          $ref: '#/components/schemas/Address'
-        destination:
-          $ref: '#/components/schemas/Address'
-        currency:
-          type: string
-          description: Code of the currency of the response. Format is ISO 4217.
-          example: USD
+          description: 'Customer comment about why he rejected the quote.
+
+            '
+          example: Rejecting because rate is too high for me, sorry.
       required:
-      - id
-      - pickupDateTime
-      - createdDateTime
-      - miles
-      - user
-      - quoteStatus
-      - targetSellFlatRate
-      - transportType
-      - origin
-      - destination
-      - currency
+      - key
+    ShipperInfoResponse:
+      type: object
+      description: Contains a list of shippers
+      properties:
+        items:
+          type: array
+          description: List of shippers
+          items:
+            $ref: '#/components/schemas/ShipperInfoObject'
+      required:
+      - items
+    LaneTopQuotesResponse:
+      type: object
+      description: Contains an array of ten most recent quotes for a lane
+      properties:
+        items:
+          type: array
+          description: quotes
+          items:
+            $ref: '#/components/schemas/LaneTopQuotesItem'
+    Currency:
+      type: string
+      enum:
+      - USD
+      - CAD
+      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+      example: USD
+    QuoteAcceptRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          description: "Unique key of the quote that you want accepted. \nProvided during quote creation.\n"
+          example: afd124faf-12raf-qfa2q-afvawf
+      required:
+      - key
     QuotePatchObject:
       type: object
       properties:
@@ -1734,26 +1695,6 @@ components:
           format: date-time
           description: Quote expiration date and time in time zone of the user
           example: '2020-10-12T16:00:00+05:00'
-    ShipperInfoResponse:
-      type: object
-      description: Contains a list of shippers
-      properties:
-        items:
-          type: array
-          description: List of shippers
-          items:
-            $ref: '#/components/schemas/ShipperInfoObject'
-      required:
-      - items
-    QuoteStatus:
-      type: string
-      enum:
-      - WON
-      - LOST
-      - SENT
-      - EXPIRED
-      description: quote status in the quoting process
-      example: WON
     QuoteObject:
       type: object
       properties:
@@ -1844,28 +1785,87 @@ components:
       - transportType
       - origin
       - destination
-    Currency:
-      type: string
-      enum:
-      - USD
-      - CAD
-      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
-      example: USD
-    QuoteRejectRequest:
+    LaneTopQuotesItem:
       type: object
       properties:
-        key:
+        id:
+          type: integer
+          format: int64
+          description: Id of the quote
+          example: 12345
+        pickupDateTime:
           type: string
-          description: "Unique key of the quote that you want rejected. \nProvided during quote creation.\n"
-          example: afd124faf-12raf-qfa2q-afvawf
+          format: date-time
+          description: Load pickup date
+          example: '2020-10-13T16:00:00Z'
+        expirationDateTime:
+          type: string
+          format: date-time
+          description: Quote expiration date
+          example: '2020-09-15T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: '2020-10-14T16:00:00Z'
+        createdDateTime:
+          type: string
+          format: date-time
+          description: Quote creation date
+          example: '2020-09-14T16:00:00Z'
+        miles:
+          type: number
+          format: float
+          description: Total miles
+          example: 289
+        user:
+          type: string
+          description: Email of the user who is the owner/creator of the quote
+          example: buddy@greenscreens.ai
+        quoteStatus:
+          $ref: '#/components/schemas/QuoteStatus'
+        targetSellFlatRate:
+          type: number
+          description: Flat target sell rate
+          example: 1200
+        shipperName:
+          type: string
+          description: Shipper company name
+          example: Joes Foods
+        shipperPhone:
+          type: string
+          description: Shipper contact phone number
+          example: '4112228888'
+        shipperEmail:
+          type: string
+          description: Shipper contact email
+          example: test@greenscreens.ai
         rejectionReason:
           type: string
-          description: 'Customer comment about why he rejected the quote.
-
-            '
-          example: Rejecting because rate is too high for me, sorry.
+          description: Comment about why the quote was rejected
+          example: Rejecting, because price is too high
+        transportType:
+          $ref: '#/components/schemas/TransportType'
+        origin:
+          $ref: '#/components/schemas/Address'
+        destination:
+          $ref: '#/components/schemas/Address'
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
       required:
-      - key
+      - id
+      - pickupDateTime
+      - createdDateTime
+      - miles
+      - user
+      - quoteStatus
+      - targetSellFlatRate
+      - transportType
+      - origin
+      - destination
+      - currency
   securitySchemes:
     bearerAuth:
       type: http

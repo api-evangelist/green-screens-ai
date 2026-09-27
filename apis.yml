@@ -47,7 +47,7 @@ tags:
 - Artificial Intelligence
 - Freight
 - Logistics
-- Machine-Learning
+- Machine Learning
 - Pricing
 - Transportation
 tags_raw:
@@ -57,6 +57,7 @@ tags_raw:
 - Machine Learning
 - Pricing
 - Transportation
+- Machine-Learning
 apis:
 - aid: green-screens-ai:green-screens-ai-prediction-api
   name: Green Screens AI Prediction API

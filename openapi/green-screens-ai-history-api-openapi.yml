@@ -245,193 +245,6 @@ paths:
         source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/history/recent\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"originCountry\\\":\\\"US\\\",\\\"originState\\\":\\\"NY\\\",\\\"originCity\\\":\\\"Schenectady\\\",\\\"originZip\\\":\\\"12345\\\",\\\"destinationCountry\\\":\\\"US\\\",\\\"destinationState\\\":\\\"IL\\\",\\\"destinationCity\\\":\\\"Chicago\\\",\\\"destinationZip\\\":\\\"60636\\\",\\\"extraStops\\\":[{\\\"order\\\":0,\\\"type\\\":\\\"LOAD\\\",\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"CA\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"zip\\\":\\\"96080\\\"}},{\\\"order\\\":1,\\\"type\\\":\\\"UNLOAD\\\",\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"state\\\":\\\"CA\\\",\\\"city\\\":\\\"Redding\\\",\\\"zip\\\":\\\"96002\\\"}}],\\\"transportType\\\":\\\"VAN\\\",\\\"region\\\":\\\"ZIP\\\",\\\"currency\\\":\\\"USD\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
 components:
   schemas:
-    History_StopsInput:
-      type: array
-      description: Extra stops between origin and destination
-      items:
-        $ref: '#/components/schemas/History_StopInput'
-      example:
-      - order: 0
-        type: LOAD
-        address:
-          country: US
-          city: Red Bluff
-          state: CA
-          zip: '96080'
-      - order: 1
-        type: UNLOAD
-        address:
-          country: US
-          city: Redding
-          state: CA
-          zip: '96002'
-    History_StopInputRecentRates:
-      type: object
-      description: Contains the stop information e.g. address
-      properties:
-        order:
-          type: integer
-          description: Stop order, starting from 0
-          example: 0
-        address:
-          $ref: '#/components/schemas/History_AddressInputRecentRates'
-      required:
-      - order
-      - address
-    History_AddressInput:
-      type: object
-      description: Location specified by country, city, state and zip code
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: state
-          example: NY
-        city:
-          type: string
-          description: city
-          example: Schenectady
-        zip:
-          type: string
-          description: zip
-          example: '12345'
-      required:
-      - country
-      - zip
-    History_RecentRatesResponse:
-      type: object
-      description: rates for three periods
-      properties:
-        last7Day:
-          $ref: '#/components/schemas/History_RecentRateObject'
-        last15Day:
-          $ref: '#/components/schemas/History_RecentRateObject'
-        last30Day:
-          $ref: '#/components/schemas/History_RecentRateObject'
-    History_LoadsHistoryRequest:
-      type: object
-      properties:
-        originCountry:
-          type: string
-          description: 'Origin country.
-
-            Two letter country code in ISO 3166-1 alpha-2 format
-
-            '
-          example: US
-        originState:
-          type: string
-          description: Origin state
-          example: NY
-        originCity:
-          type: string
-          description: Origin city
-          example: Schenectady
-        originZip:
-          type: string
-          description: Origin zip
-          example: '12345'
-        destinationCountry:
-          type: string
-          description: 'Destination country.
-
-            Two letter country code in ISO 3166-1 alpha-2 format
-
-            '
-          example: US
-        destinationState:
-          type: string
-          description: Destination state
-          example: IL
-        destinationCity:
-          type: string
-          description: Destination city
-          example: Chicago
-        destinationZip:
-          type: string
-          description: Destination zip
-          example: '12345'
-        extraStops:
-          $ref: '#/components/schemas/History_StopsInput'
-        dateFrom:
-          type: string
-          format: date
-          description: Pickup date range start date
-          example: '2020-07-21'
-        dateTo:
-          type: string
-          format: date
-          description: Pickup date range end date
-          example: '2020-07-21'
-        transportType:
-          $ref: '#/components/schemas/History_TransportType'
-        region:
-          $ref: '#/components/schemas/History_GeographicalArea'
-        currency:
-          type: string
-          description: 'Code of the currency that you want the response to be in.
-
-            Format is ISO 4217.
-
-
-            If not provided, defaults to the currency set in the profile of currently authenticated user.
-
-            '
-          example: USD
-      required:
-      - originZip
-      - destinationZip
-      - transportType
-      - dateFrom
-      - dateTo
-      - region
-    History_RecentRateObject:
-      type: object
-      properties:
-        maxLineHaulFlatRate:
-          type: number
-          description: Max flat rate for period
-          example: 1208.54
-        maxLineHaulRate:
-          type: number
-          description: Max per-mile rate for period
-          example: 2.568
-        minLineHaulFlatRate:
-          type: number
-          description: Min flat rate for period
-          example: 1001.92
-        minLineHaulRate:
-          type: number
-          description: Min per-mile rate for period
-          example: 1.981
-        averageLineHaulFlatRate:
-          type: number
-          description: Flat rate for period
-          example: 1200.12
-        averageLineHaulRate:
-          type: number
-          description: Per-mile rate for period
-          example: 2.1254
-        numberOfReports:
-          type: integer
-          description: number of reports in period
-          example: 7
-        currency:
-          type: string
-          description: Code of the currency of the response. Format is ISO 4217.
-          example: USD
-      required:
-      - maxLineHaulFlatRate
-      - maxLineHaulRate
-      - minLineHaulFlatRate
-      - minLineHaulRate
-      - averageLineHaulFlatRate
-      - averageLineHaulRate
-      - numberOfReports
-      - currency
     History_RecentRatesRequest:
       type: object
       properties:
@@ -494,109 +307,6 @@ components:
       - destinationState
       - transportType
       - region
-    History_TransportType:
-      type: string
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-      example: VAN
-    History_LoadsHistoryResponse:
-      type: object
-      description: list of rates
-      properties:
-        items:
-          type: array
-          description: 'List of rate objects that are deemed valid and
-
-            used during ML training
-
-            '
-          items:
-            $ref: '#/components/schemas/History_LoadRateObject'
-        outlierItems:
-          type: array
-          description: 'List of outlier rate objects that are deemed invalid and
-
-            ignored during ML training
-
-            '
-          items:
-            $ref: '#/components/schemas/History_LoadRateObject'
-      required:
-      - items
-      - outlierItems
-    History_ExtraStops:
-      type: array
-      items:
-        $ref: '#/components/schemas/History_ExtraStop'
-      description: 'Any extra stops along the route between the origin and destination points
-
-        '
-      example:
-      - order: 0
-        address:
-          country: US
-          city: Red Bluff
-          state: CA
-          zip: '96080'
-        type: LOAD
-        appointmentDateTime: '2020-10-14T16:00:00Z'
-      - order: 1
-        address:
-          country: US
-          city: Redding
-          state: CA
-          zip: '96002'
-        type: UNLOAD
-        appointmentDateTime: '2020-10-15T16:00:00Z'
-    History_AddressInputRecentRates:
-      type: object
-      description: Location specified by country, city, state and zip code
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: state
-          example: NY
-        city:
-          type: string
-          description: city
-          example: Schenectady
-        zip:
-          type: string
-          description: zip
-          example: '12345'
-      required:
-      - country
-      - state
-      - city
-      - zip
-    History_StopsInputRecentRates:
-      type: array
-      description: Extra stops between origin and destination
-      items:
-        $ref: '#/components/schemas/History_StopInputRecentRates'
-      example:
-      - order: 0
-        type: LOAD
-        address:
-          country: US
-          state: CA
-          city: Red Bluff
-          zip: '96080'
-      - order: 1
-        type: UNLOAD
-        address:
-          country: US
-          state: CA
-          city: Redding
-          zip: '96002'
     History_ExtraStop:
       type: object
       description: Extra stop
@@ -775,6 +485,26 @@ components:
       - destinationCity
       - currency
       - extraStops
+    History_StopsInput:
+      type: array
+      description: Extra stops between origin and destination
+      items:
+        $ref: '#/components/schemas/History_StopInput'
+      example:
+      - order: 0
+        type: LOAD
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+      - order: 1
+        type: UNLOAD
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
     History_GeographicalArea:
       type: string
       enum:
@@ -786,6 +516,106 @@ components:
       - KMA
       description: "Determines the size of the area around the origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* 3DZIP - medium, short zip, area\n* KMA - big, market wide, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
       example: ZIP
+    History_StopsInputRecentRates:
+      type: array
+      description: Extra stops between origin and destination
+      items:
+        $ref: '#/components/schemas/History_StopInputRecentRates'
+      example:
+      - order: 0
+        type: LOAD
+        address:
+          country: US
+          state: CA
+          city: Red Bluff
+          zip: '96080'
+      - order: 1
+        type: UNLOAD
+        address:
+          country: US
+          state: CA
+          city: Redding
+          zip: '96002'
+    History_LoadsHistoryResponse:
+      type: object
+      description: list of rates
+      properties:
+        items:
+          type: array
+          description: 'List of rate objects that are deemed valid and
+
+            used during ML training
+
+            '
+          items:
+            $ref: '#/components/schemas/History_LoadRateObject'
+        outlierItems:
+          type: array
+          description: 'List of outlier rate objects that are deemed invalid and
+
+            ignored during ML training
+
+            '
+          items:
+            $ref: '#/components/schemas/History_LoadRateObject'
+      required:
+      - items
+      - outlierItems
+    History_RecentRatesResponse:
+      type: object
+      description: rates for three periods
+      properties:
+        last7Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+        last15Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+        last30Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+    History_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    History_StopInputRecentRates:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/History_AddressInputRecentRates'
+      required:
+      - order
+      - address
+    History_AddressInput:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+      required:
+      - country
+      - zip
     History_ExtraStopAddress:
       type: object
       description: 'Location specified by country, city, state and zip code.
@@ -816,21 +646,75 @@ components:
           example: '95814'
       required:
       - country
-    History_StopInput:
-      type:
-      - object
-      - 'null'
-      description: Contains the stop information e.g. address
+    History_AddressInputRecentRates:
+      type: object
+      description: Location specified by country, city, state and zip code
       properties:
-        order:
-          type: integer
-          description: Stop order, starting from 0
-          example: 0
-        address:
-          $ref: '#/components/schemas/History_AddressInput'
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
       required:
-      - order
-      - address
+      - country
+      - state
+      - city
+      - zip
+    History_RecentRateObject:
+      type: object
+      properties:
+        maxLineHaulFlatRate:
+          type: number
+          description: Max flat rate for period
+          example: 1208.54
+        maxLineHaulRate:
+          type: number
+          description: Max per-mile rate for period
+          example: 2.568
+        minLineHaulFlatRate:
+          type: number
+          description: Min flat rate for period
+          example: 1001.92
+        minLineHaulRate:
+          type: number
+          description: Min per-mile rate for period
+          example: 1.981
+        averageLineHaulFlatRate:
+          type: number
+          description: Flat rate for period
+          example: 1200.12
+        averageLineHaulRate:
+          type: number
+          description: Per-mile rate for period
+          example: 2.1254
+        numberOfReports:
+          type: integer
+          description: number of reports in period
+          example: 7
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+      required:
+      - maxLineHaulFlatRate
+      - maxLineHaulRate
+      - minLineHaulFlatRate
+      - minLineHaulRate
+      - averageLineHaulFlatRate
+      - averageLineHaulRate
+      - numberOfReports
+      - currency
     History_Error:
       type: object
       description: A common api error object
@@ -847,6 +731,122 @@ components:
       example:
         code: invalid_request
         message: Your ClientId is invalid
+    History_ExtraStops:
+      type: array
+      items:
+        $ref: '#/components/schemas/History_ExtraStop'
+      description: 'Any extra stops along the route between the origin and destination points
+
+        '
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
+    History_StopInput:
+      type:
+      - object
+      - 'null'
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/History_AddressInput'
+      required:
+      - order
+      - address
+    History_LoadsHistoryRequest:
+      type: object
+      properties:
+        originCountry:
+          type: string
+          description: 'Origin country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        originState:
+          type: string
+          description: Origin state
+          example: NY
+        originCity:
+          type: string
+          description: Origin city
+          example: Schenectady
+        originZip:
+          type: string
+          description: Origin zip
+          example: '12345'
+        destinationCountry:
+          type: string
+          description: 'Destination country.
+
+            Two letter country code in ISO 3166-1 alpha-2 format
+
+            '
+          example: US
+        destinationState:
+          type: string
+          description: Destination state
+          example: IL
+        destinationCity:
+          type: string
+          description: Destination city
+          example: Chicago
+        destinationZip:
+          type: string
+          description: Destination zip
+          example: '12345'
+        extraStops:
+          $ref: '#/components/schemas/History_StopsInput'
+        dateFrom:
+          type: string
+          format: date
+          description: Pickup date range start date
+          example: '2020-07-21'
+        dateTo:
+          type: string
+          format: date
+          description: Pickup date range end date
+          example: '2020-07-21'
+        transportType:
+          $ref: '#/components/schemas/History_TransportType'
+        region:
+          $ref: '#/components/schemas/History_GeographicalArea'
+        currency:
+          type: string
+          description: 'Code of the currency that you want the response to be in.
+
+            Format is ISO 4217.
+
+
+            If not provided, defaults to the currency set in the profile of currently authenticated user.
+
+            '
+          example: USD
+      required:
+      - originZip
+      - destinationZip
+      - transportType
+      - dateFrom
+      - dateTo
+      - region
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io

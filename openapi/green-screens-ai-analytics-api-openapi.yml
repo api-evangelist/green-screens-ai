@@ -519,32 +519,6 @@ components:
       required:
       - carrierName
       - performanceMetrics
-    Analytics_Pagination:
-      type: object
-      description: Response pagination data
-      properties:
-        pageNumber:
-          type: integer
-          description: Current page number (zero-based)
-          minimum: 0
-          example: 0
-        pageSize:
-          type: integer
-          description: Number of items per page
-          minimum: 1
-          example: 50
-        totalElements:
-          type: integer
-          format: int64
-          description: Total number of items available
-          example: 150
-        totalPages:
-          type: integer
-          description: Total number of pages
-          example: 3
-      required:
-      - pageNumber
-      - pageSize
     Analytics_AnalyticsLaneCarrierItem:
       type: object
       properties:
@@ -654,46 +628,6 @@ components:
             $ref: '#/components/schemas/Analytics_AnalyticsLaneCarrierItem'
       required:
       - items
-    Analytics_PerformanceMetricsObject:
-      type: object
-      description: Performance metrics
-      properties:
-        onTimePickup:
-          type: number
-          description: On Time Pickup %
-          minimum: 0
-          maximum: 100
-          example: 85.24
-        onTimeDelivery:
-          type: number
-          description: On Time Delivery %
-          minimum: 0
-          maximum: 100
-          example: 63.13
-        badBounce:
-          type: number
-          description: Bad Bounce %
-          minimum: 0
-          maximum: 100
-          example: 75.42
-        score:
-          type: number
-          description: T-Score
-          example: 98.24
-          minimum: 0
-          maximum: 100
-        leadTimeAverageHours:
-          type: number
-          description: Booking Lead Time (Avg, in Hrs:Min)
-          example: 5
-        volume:
-          type: number
-          description: Volume
-          example: 1234
-        lastDeliveredDate:
-          type: string
-          description: Last Delivered At Date
-          example: '2026-04-28'
     Analytics_ResponseGranularity:
       type: string
       enum:
@@ -746,6 +680,46 @@ components:
           $ref: '#/components/schemas/Analytics_Pagination'
       required:
       - items
+    Analytics_PerformanceMetricsObject:
+      type: object
+      description: Performance metrics
+      properties:
+        onTimePickup:
+          type: number
+          description: On Time Pickup %
+          minimum: 0
+          maximum: 100
+          example: 85.24
+        onTimeDelivery:
+          type: number
+          description: On Time Delivery %
+          minimum: 0
+          maximum: 100
+          example: 63.13
+        badBounce:
+          type: number
+          description: Bad Bounce %
+          minimum: 0
+          maximum: 100
+          example: 75.42
+        score:
+          type: number
+          description: T-Score
+          example: 98.24
+          minimum: 0
+          maximum: 100
+        leadTimeAverageHours:
+          type: number
+          description: Booking Lead Time (Avg, in Hrs:Min)
+          example: 5
+        volume:
+          type: number
+          description: Volume
+          example: 1234
+        lastDeliveredDate:
+          type: string
+          description: Last Delivered At Date
+          example: '2026-04-28'
     Analytics_TransportType:
       type: string
       enum:
@@ -759,6 +733,32 @@ components:
       type: string
       description: Machine readable code of a market area
       example: NY_ALB
+    Analytics_Pagination:
+      type: object
+      description: Response pagination data
+      properties:
+        pageNumber:
+          type: integer
+          description: Current page number (zero-based)
+          minimum: 0
+          example: 0
+        pageSize:
+          type: integer
+          description: Number of items per page
+          minimum: 1
+          example: 50
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of items available
+          example: 150
+        totalPages:
+          type: integer
+          description: Total number of pages
+          example: 3
+      required:
+      - pageNumber
+      - pageSize
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io
