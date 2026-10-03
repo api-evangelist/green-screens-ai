@@ -307,40 +307,36 @@ components:
       - destinationState
       - transportType
       - region
-    History_ExtraStop:
+    History_ExtraStopAddress:
       type: object
-      description: Extra stop
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+        '
       properties:
-        order:
-          type: integer
-          description: Extra stop order, starting from 0
-          example: 0
-        address:
-          $ref: '#/components/schemas/History_ExtraStopAddress'
-        type:
+        country:
           type: string
-          description: 'Action performed with the cargo at this stop.
-
-            Leave this field empty if you do not know the stop type.
-
-            '
-          enum:
-          - LOAD
-          - UNLOAD
-          - BOTH
-          example: LOAD
-        appointmentDateTime:
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        city:
           type: string
-          format: date-time
-          description: 'Date and time when the truck has to arrive at this stop.
-
-            Provide the time zone of the stop location if possible.
-
-            '
-          example: '2020-10-13T16:00:00Z'
+          description: City name
+          example: Sacramento
+        state:
+          type: string
+          description: Two letter state code
+          example: CA
+        zip:
+          type: string
+          description: Zip code
+          example: '95814'
       required:
-      - order
-      - address
+      - country
     History_LoadRateObject:
       type: object
       description: Load data
@@ -505,147 +501,6 @@ components:
           city: Redding
           state: CA
           zip: '96002'
-    History_GeographicalArea:
-      type: string
-      enum:
-      - CITY
-      - CITY_ZIP
-      - ZIP_CITY
-      - ZIP
-      - 3DZIP
-      - KMA
-      description: "Determines the size of the area around the origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* 3DZIP - medium, short zip, area\n* KMA - big, market wide, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
-      example: ZIP
-    History_StopsInputRecentRates:
-      type: array
-      description: Extra stops between origin and destination
-      items:
-        $ref: '#/components/schemas/History_StopInputRecentRates'
-      example:
-      - order: 0
-        type: LOAD
-        address:
-          country: US
-          state: CA
-          city: Red Bluff
-          zip: '96080'
-      - order: 1
-        type: UNLOAD
-        address:
-          country: US
-          state: CA
-          city: Redding
-          zip: '96002'
-    History_LoadsHistoryResponse:
-      type: object
-      description: list of rates
-      properties:
-        items:
-          type: array
-          description: 'List of rate objects that are deemed valid and
-
-            used during ML training
-
-            '
-          items:
-            $ref: '#/components/schemas/History_LoadRateObject'
-        outlierItems:
-          type: array
-          description: 'List of outlier rate objects that are deemed invalid and
-
-            ignored during ML training
-
-            '
-          items:
-            $ref: '#/components/schemas/History_LoadRateObject'
-      required:
-      - items
-      - outlierItems
-    History_RecentRatesResponse:
-      type: object
-      description: rates for three periods
-      properties:
-        last7Day:
-          $ref: '#/components/schemas/History_RecentRateObject'
-        last15Day:
-          $ref: '#/components/schemas/History_RecentRateObject'
-        last30Day:
-          $ref: '#/components/schemas/History_RecentRateObject'
-    History_TransportType:
-      type: string
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-      example: VAN
-    History_StopInputRecentRates:
-      type: object
-      description: Contains the stop information e.g. address
-      properties:
-        order:
-          type: integer
-          description: Stop order, starting from 0
-          example: 0
-        address:
-          $ref: '#/components/schemas/History_AddressInputRecentRates'
-      required:
-      - order
-      - address
-    History_AddressInput:
-      type: object
-      description: Location specified by country, city, state and zip code
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: state
-          example: NY
-        city:
-          type: string
-          description: city
-          example: Schenectady
-        zip:
-          type: string
-          description: zip
-          example: '12345'
-      required:
-      - country
-      - zip
-    History_ExtraStopAddress:
-      type: object
-      description: 'Location specified by country, city, state and zip code.
-
-        * Country is required
-
-        * Either city-state pair or zip code is required
-
-        * All four parameters can be passed together
-
-        '
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        city:
-          type: string
-          description: City name
-          example: Sacramento
-        state:
-          type: string
-          description: Two letter state code
-          example: CA
-        zip:
-          type: string
-          description: Zip code
-          example: '95814'
-      required:
-      - country
     History_AddressInputRecentRates:
       type: object
       description: Location specified by country, city, state and zip code
@@ -671,6 +526,50 @@ components:
       - state
       - city
       - zip
+    History_StopInput:
+      type:
+      - object
+      - 'null'
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/History_AddressInput'
+      required:
+      - order
+      - address
+    History_StopsInputRecentRates:
+      type: array
+      description: Extra stops between origin and destination
+      items:
+        $ref: '#/components/schemas/History_StopInputRecentRates'
+      example:
+      - order: 0
+        type: LOAD
+        address:
+          country: US
+          state: CA
+          city: Red Bluff
+          zip: '96080'
+      - order: 1
+        type: UNLOAD
+        address:
+          country: US
+          state: CA
+          city: Redding
+          zip: '96002'
+    History_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
     History_RecentRateObject:
       type: object
       properties:
@@ -715,6 +614,63 @@ components:
       - averageLineHaulRate
       - numberOfReports
       - currency
+    History_ExtraStop:
+      type: object
+      description: Extra stop
+      properties:
+        order:
+          type: integer
+          description: Extra stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/History_ExtraStopAddress'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop.
+
+            Leave this field empty if you do not know the stop type.
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+    History_AddressInput:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+      required:
+      - country
+      - zip
     History_Error:
       type: object
       description: A common api error object
@@ -731,34 +687,8 @@ components:
       example:
         code: invalid_request
         message: Your ClientId is invalid
-    History_ExtraStops:
-      type: array
-      items:
-        $ref: '#/components/schemas/History_ExtraStop'
-      description: 'Any extra stops along the route between the origin and destination points
-
-        '
-      example:
-      - order: 0
-        address:
-          country: US
-          city: Red Bluff
-          state: CA
-          zip: '96080'
-        type: LOAD
-        appointmentDateTime: '2020-10-14T16:00:00Z'
-      - order: 1
-        address:
-          country: US
-          city: Redding
-          state: CA
-          zip: '96002'
-        type: UNLOAD
-        appointmentDateTime: '2020-10-15T16:00:00Z'
-    History_StopInput:
-      type:
-      - object
-      - 'null'
+    History_StopInputRecentRates:
+      type: object
       description: Contains the stop information e.g. address
       properties:
         order:
@@ -766,7 +696,7 @@ components:
           description: Stop order, starting from 0
           example: 0
         address:
-          $ref: '#/components/schemas/History_AddressInput'
+          $ref: '#/components/schemas/History_AddressInputRecentRates'
       required:
       - order
       - address
@@ -847,6 +777,76 @@ components:
       - dateFrom
       - dateTo
       - region
+    History_RecentRatesResponse:
+      type: object
+      description: rates for three periods
+      properties:
+        last7Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+        last15Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+        last30Day:
+          $ref: '#/components/schemas/History_RecentRateObject'
+    History_GeographicalArea:
+      type: string
+      enum:
+      - CITY
+      - CITY_ZIP
+      - ZIP_CITY
+      - ZIP
+      - 3DZIP
+      - KMA
+      description: "Determines the size of the area around the origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* 3DZIP - medium, short zip, area\n* KMA - big, market wide, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
+      example: ZIP
+    History_ExtraStops:
+      type: array
+      items:
+        $ref: '#/components/schemas/History_ExtraStop'
+      description: 'Any extra stops along the route between the origin and destination points
+
+        '
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
+    History_LoadsHistoryResponse:
+      type: object
+      description: list of rates
+      properties:
+        items:
+          type: array
+          description: 'List of rate objects that are deemed valid and
+
+            used during ML training
+
+            '
+          items:
+            $ref: '#/components/schemas/History_LoadRateObject'
+        outlierItems:
+          type: array
+          description: 'List of outlier rate objects that are deemed invalid and
+
+            ignored during ML training
+
+            '
+          items:
+            $ref: '#/components/schemas/History_LoadRateObject'
+      required:
+      - items
+      - outlierItems
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io

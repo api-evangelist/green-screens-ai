@@ -727,6 +727,259 @@ paths:
         source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/bids/by-key/%7Bkey%7D\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
 components:
   schemas:
+    Bids_BidsSendRequest:
+      type: object
+      properties:
+        userEmail:
+          type: string
+          description: Email of the user who will be the owner/creator of the bid
+          example: buddy@greenscreens.ai
+        carriers:
+          type: array
+          description: 'List of carriers to whom the bid request should be sent to
+
+            '
+          items:
+            $ref: '#/components/schemas/Bids_BidsSendRequestCarrier'
+        carrierEmailList:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          deprecated: true
+          minItems: 0
+          maxItems: 500
+          description: 'List of emails that the bid request should be sent to
+
+
+            __Deprecated: use `carriers` field instead__
+
+            '
+          example:
+          - carrier1@mail.com
+          - carrier2@mail.com
+          - carrier3@mail.com
+        carrierPhoneList:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+          deprecated: true
+          minItems: 0
+          maxItems: 500
+          description: 'List of phone numbers that the bid request should be sent to as a message.
+
+
+            __This feature only works if you have ''TextLocate'' integration enabled for your company.__
+
+
+            _Valid phone number is a string with ten digits in it._
+
+
+            __Deprecated: use `carriers` field instead__
+
+            '
+          example:
+          - '8456951387'
+          - '7456951583'
+          - '2458951391'
+        origin:
+          $ref: '#/components/schemas/Bids_Address'
+        destination:
+          $ref: '#/components/schemas/Bids_Address'
+        extraStops:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bids_StopInput'
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: "Pick up date with time in time zone of the pick up location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00.\n"
+          example: '2020-10-13T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: "Delivered date with time in time zone of drop off location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00\n"
+          example: '2020-10-13T16:00:00Z'
+        loadProNumber:
+          type: string
+          description: Internal load pro number
+          example: Pro#111111
+        weight:
+          type: number
+          format: float
+          description: Total cargo weight in lb
+          example: 20000
+        commodity:
+          type: string
+          description: commodity description in free form
+          example: Steel racks
+        brokerComment:
+          type: string
+          description: Comment for carrier
+          example: Please, be carefully with my load
+        transportType:
+          $ref: '#/components/schemas/Bids_TransportType'
+      required:
+      - carrierName
+      - origin
+      - destination
+      - transportType
+    Bids_StopInput:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/Bids_StopAddressInput'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop.
+
+
+            Leave this field empty if you do not know the stop type.
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T16:00:00Z'
+      required:
+      - order
+      - address
+    Bids_BidResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Bid ID in the platform
+          example: 12345
+        key:
+          type: string
+          description: Unique key used to create a link to the bid in the platform
+          example: deedc41f-7eb2-4c36-9d35-fb6958a43771
+      required:
+      - id
+      - key
+    Bids_StopAddressInput:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        zip:
+          type: string
+          description: Zip
+          example: '12345'
+      required:
+      - country
+    Bids_BidsSendRequestCarrier:
+      type: object
+      description: "Describes a carrier \nand how a bid request to that carrier should be made\n"
+      properties:
+        carrierInfo:
+          $ref: '#/components/schemas/Bids_BidsSendRequestCarrierCarrierInfo'
+        carrierInfoSource:
+          type: string
+          description: The source of the carrier info
+          enum:
+          - MANUAL_ENTRY
+          - CLIENT_DATA_CARRIER_SEARCH
+          - CLIENT_DATA_BIDS
+          - CLIENT_DATA_TOP_CARRIERS
+          - STRATEGIC_CAPACITY
+          - HIGHWAY
+          - CARGO_CHIEF
+          - YAT
+          - TRUCKSTOP
+          - CARRIER_SOURCE
+          - CHAINE
+          - OTHER
+          example: HIGHWAY
+        sendRequestTo:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          description: "List of channels that bid requests should be sent through.\n\n* CARRIER_INFO_PHONE - a bid request will be sent to\nthe phone number provided in the `carrierInfo.phone` field. \n__This only works if you have SMS bids functionality enabled for your company__\n* CARRIER_INFO_EMAIL - a bid request will be sent to\nthe email address provided in the `carrierInfo.email` field\n\nIf several values are provided then several bid requests will be\ncreated and sent through appropriate channels\n"
+          items:
+            type: string
+            description: The channel that the bid request can be sent through
+            enum:
+            - CARRIER_INFO_EMAIL
+            - CARRIER_INFO_PHONE
+            example: CARRIER_INFO_EMAIL
+      required:
+      - sendRequestTo
+    Bids_RecentBidsResponse:
+      type: object
+      description: Contains an array of bids
+      properties:
+        items:
+          type: array
+          description: bids
+          items:
+            $ref: '#/components/schemas/Bids_BidObject'
+    Bids_RequestValidationError:
+      type: object
+      description: Request validation error
+      properties:
+        field:
+          type: string
+          description: Name of the field that did not pass validation
+          example: transportType
+        message:
+          type: string
+          description: Human readable error mesage explaining why validation failed
+          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+        value:
+          type:
+          - string
+          - 'null'
+          description: Value of the field that did not pass validation
+          example: SpaceXDragon
+      required:
+      - field
+      - message
     Bids_BidsUpdateRequest:
       type: object
       properties:
@@ -828,413 +1081,17 @@ components:
       - destination
       - transportType
       - bidCost
-    Bids_RecentBidsResponse:
+    Bids_CarrierInfoResponse:
       type: object
-      description: Contains an array of bids
+      description: Contains a list of carriers
       properties:
         items:
           type: array
-          description: bids
+          description: List of carriers
           items:
-            $ref: '#/components/schemas/Bids_BidObject'
-    Bids_Stops:
-      type: array
-      description: Stops list
-      items:
-        $ref: '#/components/schemas/Bids_Stop'
-      example:
-      - order: 0
-        address:
-          country: US
-          city: Red Bluff
-          state: CA
-          zip: '96080'
-          type: ZIP
-        type: LOAD
-        appointmentDateTime: '2020-10-14T16:00:00Z'
-      - order: 1
-        address:
-          country: US
-          city: Redding
-          state: CA
-          zip: '96002'
-          type: CITY
-        type: UNLOAD
-        appointmentDateTime: '2020-10-15T16:00:00Z'
-    Bids_Currency:
-      type: string
-      enum:
-      - USD
-      - CAD
-      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
-      example: USD
-    Bids_BidObject:
-      type: object
-      x-parent: true
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: id of the bid
-          example: 23456
-        userEmail:
-          type: string
-          description: Email of the owner of the bid
-          example: buddy@greenscreens.ai
-        pickupDateTime:
-          type: string
-          format: date-time
-          description: Related load pickup date
-          example: '2020-09-14T16:00:00Z'
-        deliveredDateTime:
-          type: string
-          format: date-time
-          description: Related load delivery date
-          example: '2020-09-14T16:00:00Z'
-        createdDate:
-          type: string
-          format: date-time
-          description: Bid creation date
-          example: '2020-09-14T16:00:00Z'
-        bidStatus:
-          $ref: '#/components/schemas/Bids_BidStatus'
-        errorReason:
-          type: string
-          description: Human-readable reason the bid is in an ERROR state, if any
-          example: Failed to deliver email to carrier
-        bidCost:
-          type: number
-          description: Bid rate
-          example: 1000.5
-        wasViewed:
-          type: boolean
-          description: States whether the bid was viewed by the broker after being accepted by carrier
-          example: false
-        carrierName:
-          type: string
-          description: Carrier company name
-          example: Carrierr Transportation
-        carrierMC:
-          type: string
-          description: Carrier MC number
-          example: '888015'
-        carrierPhone:
-          type: string
-          description: Carrier contact phone number
-          example: '4112228888'
-        carrierEmail:
-          type: string
-          description: Carrier contact email
-          example: test@greenscreens.ai
-        transportType:
-          $ref: '#/components/schemas/Bids_TransportType'
-        origin:
-          $ref: '#/components/schemas/Bids_Address'
-        destination:
-          $ref: '#/components/schemas/Bids_Address'
-        extraStops:
-          $ref: '#/components/schemas/Bids_Stops'
-        loadProNumber:
-          type: string
-          description: Internal load pro number
-        weight:
-          description: Total cargo weight in lb
-          type: number
-          format: float
-          example: 20000
-        commodity:
-          type: string
-          description: Commodity description in free form
-          example: Very important load
-        brokerComment:
-          type: string
-          description: Comment for carrier
-          example: Please, be carefully with my load
-        carrierComment:
-          type: string
-          description: Comment for broker
-          example: Looks good
-        currency:
-          type: string
-          description: Code of the currency of the response. Format is ISO 4217.
-          example: USD
-      required:
-      - userEmail
-      - bidStatus
-      - pickupDate
-      - deliveredDate
-      - bidCost
-      - carrierName
-      - carrierEmail
-      - transportType
-      - origin
-      - destination
-      - extraStops
-      - wasViewed
-      - currency
-    Bids_BidsSendRequest:
-      type: object
-      properties:
-        userEmail:
-          type: string
-          description: Email of the user who will be the owner/creator of the bid
-          example: buddy@greenscreens.ai
-        carriers:
-          type: array
-          description: 'List of carriers to whom the bid request should be sent to
-
-            '
-          items:
-            $ref: '#/components/schemas/Bids_BidsSendRequestCarrier'
-        carrierEmailList:
-          type: array
-          items:
-            type:
-            - string
-            - 'null'
-          deprecated: true
-          minItems: 0
-          maxItems: 500
-          description: 'List of emails that the bid request should be sent to
-
-
-            __Deprecated: use `carriers` field instead__
-
-            '
-          example:
-          - carrier1@mail.com
-          - carrier2@mail.com
-          - carrier3@mail.com
-        carrierPhoneList:
-          type: array
-          items:
-            type:
-            - string
-            - 'null'
-          deprecated: true
-          minItems: 0
-          maxItems: 500
-          description: 'List of phone numbers that the bid request should be sent to as a message.
-
-
-            __This feature only works if you have ''TextLocate'' integration enabled for your company.__
-
-
-            _Valid phone number is a string with ten digits in it._
-
-
-            __Deprecated: use `carriers` field instead__
-
-            '
-          example:
-          - '8456951387'
-          - '7456951583'
-          - '2458951391'
-        origin:
-          $ref: '#/components/schemas/Bids_Address'
-        destination:
-          $ref: '#/components/schemas/Bids_Address'
-        extraStops:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bids_StopInput'
-        pickupDateTime:
-          type: string
-          format: date-time
-          description: "Pick up date with time in time zone of the pick up location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00.\n"
-          example: '2020-10-13T16:00:00Z'
-        deliveredDateTime:
-          type: string
-          format: date-time
-          description: "Delivered date with time in time zone of drop off location.\n\nThe time zone you provide will be ignored, \nso you have to make sure that the day and the hours are exactly \nthose that you want to store in our system. \n\ne.g. if the load has to be delivered at 16:00 in the time zone\nof the drop off point, you have to send us 16:00 in this string.\n\ne.g. if you send 2020-10-13T16:00:00Z in utc, our system will\ncut off the UTC time zone, and attach the time zone of the pick up point,\nbut the date and time will still stay 2020-10-13T16:00:00\n"
-          example: '2020-10-13T16:00:00Z'
-        loadProNumber:
-          type: string
-          description: Internal load pro number
-          example: Pro#111111
-        weight:
-          type: number
-          format: float
-          description: Total cargo weight in lb
-          example: 20000
-        commodity:
-          type: string
-          description: commodity description in free form
-          example: Steel racks
-        brokerComment:
-          type: string
-          description: Comment for carrier
-          example: Please, be carefully with my load
-        transportType:
-          $ref: '#/components/schemas/Bids_TransportType'
-      required:
-      - carrierName
-      - origin
-      - destination
-      - transportType
-    Bids_TransportType:
-      type: string
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-      example: VAN
-    Bids_StopInput:
-      type: object
-      description: Contains the stop information e.g. address
-      properties:
-        order:
-          type: integer
-          description: Stop order, starting from 0
-          example: 0
-        address:
-          $ref: '#/components/schemas/Bids_StopAddressInput'
-        type:
-          type: string
-          description: 'Action performed with the cargo at this stop.
-
-
-            Leave this field empty if you do not know the stop type.
-
-            '
-          enum:
-          - LOAD
-          - UNLOAD
-          - BOTH
-          example: LOAD
-        appointmentDateTime:
-          type: string
-          format: date-time
-          description: 'Date and time when the truck has to arrive at this stop.
-
-
-            Provide the time zone of the stop location if possible.
-
-            '
-          example: '2020-10-13T16:00:00Z'
-      required:
-      - order
-      - address
-    Bids_BidsResponse:
-      type: object
-      description: Object containing an array of bids
-      properties:
-        items:
-          type: array
-          description: Array of bids
-          items:
-            $ref: '#/components/schemas/Bids_BidObject'
+            $ref: '#/components/schemas/Bids_CarrierInfoObject'
       required:
       - items
-    Bids_Error:
-      type: object
-      description: A common api error object
-      properties:
-        code:
-          type: string
-          description: unique string identifier of the error
-        message:
-          type: string
-          description: human readable error message
-      required:
-      - code
-      - message
-      example:
-        code: invalid_request
-        message: Your ClientId is invalid
-    Bids_StopAddressInput:
-      type: object
-      description: 'Location specified by country, city, state and zip code.
-
-        * Country is required
-
-        * Either city-state pair or zip code is required
-
-        * All four parameters can be passed together
-
-
-        (in case of city-state pair our platform will determine the zip code
-
-        and in case of a zip code, our platform will determine the city and the state)
-
-        '
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: State
-          example: NY
-        city:
-          type: string
-          description: City
-          example: Schenectady
-        zip:
-          type: string
-          description: Zip
-          example: '12345'
-      required:
-      - country
-    Bids_Address:
-      type: object
-      description: Location specified by country, city, state and zip code
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: state
-          example: NY
-        city:
-          type: string
-          description: city
-          example: Schenectady
-        zip:
-          type: string
-          description: zip
-          example: '12345'
-        type:
-          type: string
-          enum:
-          - CITY
-          - ZIP
-          example: ZIP
-          description: Type of address
-      required:
-      - city
-      - state
-      - zip
-      - type
-    Bids_BidsSendRequestCarrierCarrierInfo:
-      type: object
-      description: Describes the carrier to whom the bid request is sent
-      properties:
-        name:
-          type: string
-          description: Carrier company name
-          example: CarrierCompany
-        mc:
-          type: string
-          description: Carrier MC number
-          example: '888015'
-        dot:
-          type: string
-          description: Carrier DOT number
-          example: '87650005'
-        phone:
-          type: string
-          description: Carrier contact phone number
-          example: '4112228888'
-        email:
-          type: string
-          description: Carrier contact email address
-          example: carrier@mail.com
     Bids_Stop:
       type: object
       description: Contains the stop information e.g. address
@@ -1265,126 +1122,30 @@ components:
       required:
       - order
       - address
-    Bids_BidResponse:
+    Bids_BidsSendRequestCarrierCarrierInfo:
       type: object
+      description: Describes the carrier to whom the bid request is sent
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Bid ID in the platform
-          example: 12345
-        key:
-          type: string
-          description: Unique key used to create a link to the bid in the platform
-          example: deedc41f-7eb2-4c36-9d35-fb6958a43771
-      required:
-      - id
-      - key
-    Bids_BidsSendRequestCarrier:
-      type: object
-      description: "Describes a carrier \nand how a bid request to that carrier should be made\n"
-      properties:
-        carrierInfo:
-          $ref: '#/components/schemas/Bids_BidsSendRequestCarrierCarrierInfo'
-        carrierInfoSource:
-          type: string
-          description: The source of the carrier info
-          enum:
-          - MANUAL_ENTRY
-          - CLIENT_DATA_CARRIER_SEARCH
-          - CLIENT_DATA_BIDS
-          - CLIENT_DATA_TOP_CARRIERS
-          - STRATEGIC_CAPACITY
-          - HIGHWAY
-          - CARGO_CHIEF
-          - YAT
-          - TRUCKSTOP
-          - CARRIER_SOURCE
-          - CHAINE
-          - OTHER
-          example: HIGHWAY
-        sendRequestTo:
-          type: array
-          uniqueItems: true
-          minItems: 1
-          description: "List of channels that bid requests should be sent through.\n\n* CARRIER_INFO_PHONE - a bid request will be sent to\nthe phone number provided in the `carrierInfo.phone` field. \n__This only works if you have SMS bids functionality enabled for your company__\n* CARRIER_INFO_EMAIL - a bid request will be sent to\nthe email address provided in the `carrierInfo.email` field\n\nIf several values are provided then several bid requests will be\ncreated and sent through appropriate channels\n"
-          items:
-            type: string
-            description: The channel that the bid request can be sent through
-            enum:
-            - CARRIER_INFO_EMAIL
-            - CARRIER_INFO_PHONE
-            example: CARRIER_INFO_EMAIL
-      required:
-      - sendRequestTo
-    Bids_CarrierInfoResponse:
-      type: object
-      description: Contains a list of carriers
-      properties:
-        items:
-          type: array
-          description: List of carriers
-          items:
-            $ref: '#/components/schemas/Bids_CarrierInfoObject'
-      required:
-      - items
-    Bids_BidStatus:
-      type: string
-      enum:
-      - SENT
-      - RECEIVED
-      - FAILED
-      - AWARDED
-      - ERROR
-      description: Bid status
-      example: SENT
-    Bids_BidActionRequest:
-      type: object
-      description: Carries data necessary for accepting a bid
-      properties:
-        key:
-          type: string
-          description: Key of the bid which you want to accept
-          example: c5d1cfa8-228b-11eb-adc1-0242ac120002
-        bidCost:
-          type: number
-          description: Bid rate from user
-          example: 1000.5
-        carrierName:
+        name:
           type: string
           description: Carrier company name
-          example: Carrierr Transportation
-        carrierMC:
+          example: CarrierCompany
+        mc:
           type: string
           description: Carrier MC number
           example: '888015'
-        carrierComment:
+        dot:
           type: string
-          description: Comment for broker
-          example: Looks good
-        currency:
-          $ref: '#/components/schemas/Bids_Currency'
-      required:
-      - key
-      - bidCost
-      - carrierName
-    Bids_CarrierInfoObject:
-      type: object
-      properties:
-        companyName:
-          type: string
-          description: Carrier company name
-          example: Carrier Company
-        email:
-          type: string
-          description: Carrier contact email
-          example: test@greenscreens.ai
-        phoneNumber:
+          description: Carrier DOT number
+          example: '87650005'
+        phone:
           type: string
           description: Carrier contact phone number
           example: '4112228888'
-      required:
-      - companyName
+        email:
+          type: string
+          description: Carrier contact email address
+          example: carrier@mail.com
     Bids_BidsRequest:
       type: object
       properties:
@@ -1490,38 +1251,22 @@ components:
       - destination
       - transportType
       - bidCost
-    Bids_RequestValidationError:
+    Bids_Error:
       type: object
-      description: Request validation error
+      description: A common api error object
       properties:
-        field:
+        code:
           type: string
-          description: Name of the field that did not pass validation
-          example: transportType
+          description: unique string identifier of the error
         message:
           type: string
-          description: Human readable error mesage explaining why validation failed
-          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
-        value:
-          type:
-          - string
-          - 'null'
-          description: Value of the field that did not pass validation
-          example: SpaceXDragon
+          description: human readable error message
       required:
-      - field
+      - code
       - message
-    Bids_BidByKeyResponse:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Bids_BidObject'
-      properties:
-        distance:
-          type: number
-          description: Total distance of the trip (in miles)
-          example: 289
-      required:
-      - distance
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
     Bids_StopAddress:
       type: object
       description: Location specified by country, city, state and zip code
@@ -1555,6 +1300,261 @@ components:
       - city
       - zip
       - type
+    Bids_BidObject:
+      type: object
+      x-parent: true
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: id of the bid
+          example: 23456
+        userEmail:
+          type: string
+          description: Email of the owner of the bid
+          example: buddy@greenscreens.ai
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: Related load pickup date
+          example: '2020-09-14T16:00:00Z'
+        deliveredDateTime:
+          type: string
+          format: date-time
+          description: Related load delivery date
+          example: '2020-09-14T16:00:00Z'
+        createdDate:
+          type: string
+          format: date-time
+          description: Bid creation date
+          example: '2020-09-14T16:00:00Z'
+        bidStatus:
+          $ref: '#/components/schemas/Bids_BidStatus'
+        errorReason:
+          type: string
+          description: Human-readable reason the bid is in an ERROR state, if any
+          example: Failed to deliver email to carrier
+        bidCost:
+          type: number
+          description: Bid rate
+          example: 1000.5
+        wasViewed:
+          type: boolean
+          description: States whether the bid was viewed by the broker after being accepted by carrier
+          example: false
+        carrierName:
+          type: string
+          description: Carrier company name
+          example: Carrierr Transportation
+        carrierMC:
+          type: string
+          description: Carrier MC number
+          example: '888015'
+        carrierPhone:
+          type: string
+          description: Carrier contact phone number
+          example: '4112228888'
+        carrierEmail:
+          type: string
+          description: Carrier contact email
+          example: test@greenscreens.ai
+        transportType:
+          $ref: '#/components/schemas/Bids_TransportType'
+        origin:
+          $ref: '#/components/schemas/Bids_Address'
+        destination:
+          $ref: '#/components/schemas/Bids_Address'
+        extraStops:
+          $ref: '#/components/schemas/Bids_Stops'
+        loadProNumber:
+          type: string
+          description: Internal load pro number
+        weight:
+          description: Total cargo weight in lb
+          type: number
+          format: float
+          example: 20000
+        commodity:
+          type: string
+          description: Commodity description in free form
+          example: Very important load
+        brokerComment:
+          type: string
+          description: Comment for carrier
+          example: Please, be carefully with my load
+        carrierComment:
+          type: string
+          description: Comment for broker
+          example: Looks good
+        currency:
+          type: string
+          description: Code of the currency of the response. Format is ISO 4217.
+          example: USD
+      required:
+      - userEmail
+      - bidStatus
+      - pickupDate
+      - deliveredDate
+      - bidCost
+      - carrierName
+      - carrierEmail
+      - transportType
+      - origin
+      - destination
+      - extraStops
+      - wasViewed
+      - currency
+    Bids_BidStatus:
+      type: string
+      enum:
+      - SENT
+      - RECEIVED
+      - FAILED
+      - AWARDED
+      - ERROR
+      description: Bid status
+      example: SENT
+    Bids_BidByKeyResponse:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Bids_BidObject'
+      properties:
+        distance:
+          type: number
+          description: Total distance of the trip (in miles)
+          example: 289
+      required:
+      - distance
+    Bids_CarrierInfoObject:
+      type: object
+      properties:
+        companyName:
+          type: string
+          description: Carrier company name
+          example: Carrier Company
+        email:
+          type: string
+          description: Carrier contact email
+          example: test@greenscreens.ai
+        phoneNumber:
+          type: string
+          description: Carrier contact phone number
+          example: '4112228888'
+      required:
+      - companyName
+    Bids_Currency:
+      type: string
+      enum:
+      - USD
+      - CAD
+      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+      example: USD
+    Bids_Stops:
+      type: array
+      description: Stops list
+      items:
+        $ref: '#/components/schemas/Bids_Stop'
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+          type: ZIP
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+          type: CITY
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
+    Bids_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    Bids_Address:
+      type: object
+      description: Location specified by country, city, state and zip code
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: state
+          example: NY
+        city:
+          type: string
+          description: city
+          example: Schenectady
+        zip:
+          type: string
+          description: zip
+          example: '12345'
+        type:
+          type: string
+          enum:
+          - CITY
+          - ZIP
+          example: ZIP
+          description: Type of address
+      required:
+      - city
+      - state
+      - zip
+      - type
+    Bids_BidsResponse:
+      type: object
+      description: Object containing an array of bids
+      properties:
+        items:
+          type: array
+          description: Array of bids
+          items:
+            $ref: '#/components/schemas/Bids_BidObject'
+      required:
+      - items
+    Bids_BidActionRequest:
+      type: object
+      description: Carries data necessary for accepting a bid
+      properties:
+        key:
+          type: string
+          description: Key of the bid which you want to accept
+          example: c5d1cfa8-228b-11eb-adc1-0242ac120002
+        bidCost:
+          type: number
+          description: Bid rate from user
+          example: 1000.5
+        carrierName:
+          type: string
+          description: Carrier company name
+          example: Carrierr Transportation
+        carrierMC:
+          type: string
+          description: Carrier MC number
+          example: '888015'
+        carrierComment:
+          type: string
+          description: Comment for broker
+          example: Looks good
+        currency:
+          $ref: '#/components/schemas/Bids_Currency'
+      required:
+      - key
+      - bidCost
+      - carrierName
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io

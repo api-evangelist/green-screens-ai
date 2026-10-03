@@ -1070,85 +1070,92 @@ paths:
         source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/pricing/marketplace/my-broker-partners\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Red Bluff\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96080\\\"}},{\\\"order\\\":1,\\\"address\\\":{\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Redding\\\",\\\"state\\\":\\\"CA\\\",\\\"zip\\\":\\\"96002\\\"}}],\\\"region\\\":\\\"ZIP\\\",\\\"customerName\\\":\\\"Test Customer\\\",\\\"pickupDate\\\":\\\"2020-01-13T16:00:00Z\\\",\\\"deliveryDate\\\":\\\"2020-01-13T16:00:00Z\\\",\\\"weight\\\":10000,\\\"commodity\\\":\\\"Apples\\\",\\\"currency\\\":\\\"USD\\\",\\\"pricingTypeGroup\\\":\\\"SPOT\\\"}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
 components:
   schemas:
-    Pricing_LengthOfHaulRange:
+    Pricing_PricingRequest:
       type: object
-      allOf:
-      - $ref: '#/components/schemas/Pricing_IntegerRange'
-      description: "Range of the distance of the route to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      description: A set of fields used during pricing calculation
       properties:
-        from:
-          type: integer
-          description: Minimum distance in miles
-          minimum: 0
-          example: 50
-        to:
-          type: integer
-          description: Maximum distance in miles
-          minimum: 0
-          example: 250
-    Pricing_ThresholdUnit:
-      type: string
-      description: 'Unit in which the threshold value is expressed.
-
-        DOLLARS - the threshold is an absolute sell-rate value in the rule''s currency.
-
-        PERCENT - the threshold is a percentage; resolved against the buy rate using
-
-        the customer''s pricing mode (markup or margin) at evaluation time.
-
-        '
-      enum:
-      - DOLLARS
-      - PERCENT
-      default: DOLLARS
-      example: DOLLARS
-    Pricing_PricingCombinationRuleRequest:
-      type: object
-      properties:
-        name:
+        transportType:
+          $ref: '#/components/schemas/Pricing_TransportType'
+        stops:
+          $ref: '#/components/schemas/Pricing_Stops'
+        region:
+          $ref: '#/components/schemas/Pricing_GeographicalAreaLane'
+        customerName:
           type: string
-          description: Name of the rule
-          example: Customer`s rule
-        active:
-          type: boolean
-          description: Status of the rule
-          example: false
-        conditions:
-          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
-        effects:
-          $ref: '#/components/schemas/Pricing_CombinationRuleEffectsInput'
+          description: Customer name
+          example: Test Customer
+        pickupDate:
+          type: string
+          format: date-time
+          description: Pick up date in time zone of origin
+          example: '2020-01-13T16:00:00Z'
+        deliveryDate:
+          type: string
+          format: date-time
+          description: Delivery date in time zone of the destination
+          example: '2020-01-13T16:00:00Z'
+        weight:
+          type: number
+          format: float
+          description: Weight of the cargo in lb
+          example: 10000
+        commodity:
+          type: string
+          description: Name of the commodity
+          example: Apples
+        targetBuyCost:
+          type: number
+          description: "The flat buy cost that the calculated pricing effect will be applied to, \nin order to calculate the flat target sell cost\n"
+          example: 1000
+        confidenceLevel:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: "Buy rate prediction confidence level \nfrom the rate prediction endpoint response\n"
+          example: 65
+        currency:
+          $ref: '#/components/schemas/Pricing_Currency'
         pricingTypeGroup:
           $ref: '#/components/schemas/Pricing_PricingRuleGroup'
-      required:
-      - name
-      - active
-      - conditions
-      - effects
-    Pricing_TransportType:
-      type: string
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-      example: VAN
-    Pricing_Error:
+        loadingType:
+          $ref: '#/components/schemas/Pricing_LoadingType'
+        volume:
+          type: number
+          format: float
+          minimum: 0
+          description: Number of shipments for volume-based contract rule matching
+          example: 200.5
+        volumeFrequency:
+          type: string
+          description: Frequency period for the volume value
+          enum:
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+          - ANNUALLY
+          example: MONTHLY
+        contractLengthDays:
+          type: integer
+          minimum: 0
+          description: Contract duration in days for contract length rule matching
+          example: 90
+    Pricing_PricingMarketplaceMyBrokerPartnersResponseBroker:
       type: object
-      description: A common api error object
+      description: A broker rate descriptor
       properties:
-        code:
+        mc:
           type: string
-          description: unique string identifier of the error
-        message:
-          type: string
-          description: human readable error message
+          description: Freight broker MC number
+          example: MC00334234
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost that this broker is willing to handle the load for
+
+            '
       required:
-      - code
-      - message
-      example:
-        code: invalid_request
-        message: Your ClientId is invalid
+      - mc
+      - targetSellCost
     Pricing_PriorityRuleCalculation:
       type: object
       description: "Contains an applicable priority rule \nand if possible a calculated `targetSellCost`\n"
@@ -1165,11 +1172,11 @@ components:
             '
       required:
       - rule
-    Pricing_RuleLocations:
+    Pricing_RuleRequestLocations:
       type: array
       description: A list of locations that the rule is applicable to
       items:
-        $ref: '#/components/schemas/Pricing_RuleLocation'
+        $ref: '#/components/schemas/Pricing_RuleRequestLocation'
       example:
       - type: ANYWHERE
       - type: STATE
@@ -1182,7 +1189,52 @@ components:
       - type: MARKET
         country: US
         marketCode: NY_ALB
-        marketName: Albany Market
+    Pricing_Stops:
+      type: array
+      description: A list of stops
+      minItems: 2
+      maxItems: 12
+      items:
+        $ref: '#/components/schemas/Pricing_Stop'
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+    Pricing_PricingThresholdRulesResponse:
+      type: object
+      properties:
+        rules:
+          type: array
+          description: List of threshold rules
+          items:
+            $ref: '#/components/schemas/Pricing_ThresholdRule'
+      required:
+      - rules
+    Pricing_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
     Pricing_PricingPriorityRulesResponse:
       type: object
       properties:
@@ -1193,104 +1245,206 @@ components:
             $ref: '#/components/schemas/Pricing_PriorityRule'
       required:
       - rules
-    Pricing_DateCondition:
+    Pricing_PriorityRule:
       type: object
-      description: 'Date-based condition for the rule.
+      description: Priority pricing rule
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the rule
+          example: 12345
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer`s rule
+        priority:
+          type: integer
+          description: Priority of the rule
+          example: 3
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_PriorityRuleEffects'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - id
+      - name
+      - priority
+      - active
+      - conditions
+      - effects
+    Pricing_FlatAdjustmentEffectInput:
+      type: object
+      description: 'In the default interpretation this effect increases the buy cost
 
-        Supports three modes: days of week, days of month, or a date range.
-
-        Exactly one mode must be specified.
+        by a flat `amount` of the specified `currency` to get the sell cost
 
         '
-      required:
-      - mode
       properties:
-        mode:
-          type: string
-          description: The type of date condition
-          enum:
-          - DAYS_OF_WEEK
-          - DAYS_OF_MONTH
-          - DATE_RANGE
-          example: DAYS_OF_WEEK
-        daysOfWeek:
-          type: array
-          description: 'Days of the week when the rule applies.
-
-            Required when mode is DAYS_OF_WEEK.
+        amount:
+          type: number
+          description: 'The flat monetary amount by which the buy cost should be increased
 
             '
-          items:
-            type: string
-            enum:
-            - MONDAY
-            - TUESDAY
-            - WEDNESDAY
-            - THURSDAY
-            - FRIDAY
-            - SATURDAY
-            - SUNDAY
-          example:
-          - MONDAY
-          - TUESDAY
-          - WEDNESDAY
-        daysOfMonth:
-          type: array
-          description: 'Days of the month when the rule applies (1-31).
-
-            Required when mode is DAYS_OF_MONTH.
-
-            '
-          items:
-            type: integer
-            minimum: 1
-            maximum: 31
-          example:
-          - 1
-          - 15
-          - 28
-        dateFrom:
-          type: string
-          format: date
-          description: 'Start date of the range (inclusive).
-
-            Required when mode is DATE_RANGE.
-
-            '
-          example: '2026-01-01'
-        dateTo:
-          type: string
-          format: date
-          description: 'End date of the range (inclusive).
-
-            Required when mode is DATE_RANGE.
-
-            '
-          example: '2026-12-31'
-    Pricing_PricingResponse:
-      type: object
-      description: A collection of all the pricing options found
-      properties:
-        default:
-          $ref: '#/components/schemas/Pricing_DefaultPricingCalculation'
-        laneHistorical:
-          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
-        customerHistorical:
-          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
-        customerOnLaneHistorical:
-          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
-        priorityRule:
-          $ref: '#/components/schemas/Pricing_PriorityRuleCalculation'
-        combinationRules:
-          $ref: '#/components/schemas/Pricing_CombinationRulesCalculation'
-        suggested:
-          $ref: '#/components/schemas/Pricing_SuggestedPricing'
+          example: 15
         currency:
-          type: string
-          description: "Code of the currency of any monetary values in the response. \n\n**Except flat pricing effect descriptors**, those have their own currencies. \n\nFormat is ISO 4217 (a three letter code e.g. 'USD')\n"
-          example: USD
+          $ref: '#/components/schemas/Pricing_Currency'
       required:
-      - currency
+      - amount
+    Pricing_FloatRange:
+      type: object
+      x-parent: true
+      properties:
+        from:
+          type: number
+          format: float
+          minimum: 0
+          example: 20
+        to:
+          type: number
+          format: float
+          minimum: 0
+          example: 30
+    Pricing_PricingStatisticsCalculation:
+      type: object
+      description: "Contains historical pricing statistics \nand if possible a calculated `targetSellCost`\n"
+      properties:
+        pricing:
+          $ref: '#/components/schemas/Pricing_PricingStatistics'
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost calculated by applying the rule
+
+            to the provided flat buy cost
+
+            '
+      required:
+      - pricing
+    Pricing_WeightRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_IntegerRange'
+      description: "Weight range, of the cargo, to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: integer
+          description: Minimum weight in lb
+          minimum: 0
+          example: 0
+        to:
+          type: integer
+          description: Maximum weight in lb
+          minimum: 0
+          example: 45000
+    Pricing_RuleLocation:
+      type: object
+      description: A location that the rule is applicable to
+      properties:
+        type:
+          type: string
+          enum:
+          - ANYWHERE
+          - STATE
+          - CITY
+          - MARKET
+          example: ANYWHERE
+          description: "The location type. \n\nFor type ANYWHERE no fields are required.\n\nFor type STATE - \"country\" and \"state\" fields are required.\n\nFor type CITY - \"country\", \"state\" and \"city\" fields are required.\n\nFor type MARKET - \"country\", \"marketCode\" and \"marketName\" fields are required.\n"
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
+          type: string
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        marketCode:
+          type: string
+          description: Market code
+          example: NY_ALB
+        marketName:
+          type: string
+          description: Market name
+          example: Albany Market
+      required:
+      - type
+    Pricing_ThresholdUnit:
+      type: string
+      description: 'Unit in which the threshold value is expressed.
+
+        DOLLARS - the threshold is an absolute sell-rate value in the rule''s currency.
+
+        PERCENT - the threshold is a percentage; resolved against the buy rate using
+
+        the customer''s pricing mode (markup or margin) at evaluation time.
+
+        '
+      enum:
+      - DOLLARS
+      - PERCENT
+      default: DOLLARS
+      example: DOLLARS
+    Pricing_PercentageAdjustmentEffect:
+      type: object
+      description: 'In the default interpretation this effect marks up the buy cost
+
+        by some `percentage` to get the sell cost
+
+        '
+      properties:
+        percentage:
+          type: number
+          description: The percentage by which the buy cost should be marked up
+          example: 15
+      required:
+      - percentage
+    Pricing_PriorityRuleEffectsInput:
+      type: object
+      description: 'The effects this rule will have on the price calculation.
+
+
+        __Only one effect is allowed per rule__
+
+        '
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffectInput'
+        setSellCost:
+          $ref: '#/components/schemas/Pricing_SetSellCostEffectInput'
+    Pricing_RuleLane:
+      type: object
+      description: Lane description object
+      properties:
+        origins:
+          $ref: '#/components/schemas/Pricing_RuleLocations'
+        destinations:
+          $ref: '#/components/schemas/Pricing_RuleLocations'
+      required:
+      - origins
+      - destinations
+    Pricing_RuleRequestLane:
+      type: object
+      description: A lane that the rule is applicable to
+      properties:
+        origins:
+          $ref: '#/components/schemas/Pricing_RuleRequestLocations'
+        destinations:
+          $ref: '#/components/schemas/Pricing_RuleRequestLocations'
+      required:
+      - origins
+      - destinations
     Pricing_PricingMarketplaceMyBrokerPartnersRequest:
       type: object
       description: Data needed for calculating sell costs for a given lane
@@ -1332,6 +1486,78 @@ components:
       - transportType
       - stops
       - pickupDateTime
+    Pricing_Error422UnprocessableEntityMulti:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          description: list of errors
+          items:
+            $ref: '#/components/schemas/Pricing_RequestValidationError'
+      required:
+      - code
+      - message
+      - errors
+      example:
+        code: request_validation
+        message: You have one or more errors in request structure
+        errors:
+        - field: carrierName
+          message: field contains wrong data type (int), should be string
+          value: '22'
+        - field: shipperId
+          message: 'shipperId: must not be null'
+          value: null
+        - field: loadSource.loadId
+          message: 'loadId: must not be null'
+          value: null
+    Pricing_LengthOfHaulRange:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pricing_IntegerRange'
+      description: "Range of the distance of the route to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: integer
+          description: Minimum distance in miles
+          minimum: 0
+          example: 50
+        to:
+          type: integer
+          description: Maximum distance in miles
+          minimum: 0
+          example: 250
+    Pricing_PricingPriorityRuleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer`s rule
+        priority:
+          type: integer
+          description: Priority of the rule
+          example: 3
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_PriorityRuleEffectsInput'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - name
+      - priority
+      - active
+      - conditions
+      - effects
     Pricing_MatchingTimeRange:
       type: object
       allOf:
@@ -1350,98 +1576,104 @@ components:
           description: Maximum matching time in hours
           minimum: 0
           example: 30
-    Pricing_WeightRange:
+    Pricing_VolumeFrequency:
+      type: object
+      description: 'Volume and frequency condition for the rule.
+
+        Matches rules to lanes based on shipment volume within a given frequency period.
+
+        '
+      required:
+      - volume
+      - frequency
+      properties:
+        volume:
+          type: number
+          format: float
+          minimum: 0
+          description: Minimum number of shipments
+          example: 150.5
+        frequency:
+          type: string
+          description: Time period for volume measurement
+          enum:
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+          - ANNUALLY
+          example: MONTHLY
+    Pricing_Currency:
+      type: string
+      enum:
+      - USD
+      - CAD
+      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
+      example: USD
+    Pricing_CombinationRule:
+      type: object
+      description: Combination pricing rule
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the rule
+          example: 12345
+        name:
+          type: string
+          description: Name of the pricing rule
+          example: Customer`s rule
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_CombinationRuleEffects'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - id
+      - name
+      - active
+      - conditions
+      - effects
+    Pricing_ConfidenceLevelRange:
       type: object
       allOf:
       - $ref: '#/components/schemas/Pricing_IntegerRange'
-      description: "Weight range, of the cargo, to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      description: "Confidence level range to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
       properties:
         from:
           type: integer
-          description: Minimum weight in lb
+          description: Minimum confidence level in miles
           minimum: 0
-          example: 0
+          maximum: 100
+          example: 70
         to:
           type: integer
-          description: Maximum weight in lb
+          description: Maximum confidence level in miles
           minimum: 0
-          example: 45000
-    Pricing_DefaultPricingEffects:
+          maximum: 100
+          example: 100
+    Pricing_CombinationRuleEffects:
       type: object
-      description: 'The default pricing effects that are to be used for the sell cost calculation
-
-        if no other pricing options are found
-
-        '
+      description: The effects this rule will have on the price calculation
       properties:
         percentageAdjustment:
           $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
         flatAdjustment:
           $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
-        setSellCost:
-          $ref: '#/components/schemas/Pricing_SetSellCostEffect'
-    Pricing_DefaultPricingCalculation:
+    Pricing_PricingCombinationRulesResponse:
       type: object
-      description: "Contains the default pricing effects \nand if possible a calculated `targetSellCost`\n"
       properties:
-        effects:
-          $ref: '#/components/schemas/Pricing_DefaultPricingEffects'
-        targetSellCost:
-          type: number
-          example: 1250
-          description: 'Flat target sell cost calculated by applying the default pricing effects
-
-            to the provided flat buy cost
-
-            '
-      required:
-      - effects
-    Pricing_PricingRuleGroup:
-      type: string
-      description: Pricing rule group filter. If not specified, all rules are returned.
-      enum:
-      - SPOT
-      - CONTRACT
-    Pricing_Stops:
-      type: array
-      description: A list of stops
-      minItems: 2
-      maxItems: 12
-      items:
-        $ref: '#/components/schemas/Pricing_Stop'
-      example:
-      - order: 0
-        address:
-          country: US
-          city: Red Bluff
-          state: CA
-          zip: '96080'
-      - order: 1
-        address:
-          country: US
-          city: Redding
-          state: CA
-          zip: '96002'
-    Pricing_PricingMarketplaceMyBrokerPartnersResponse:
-      type: object
-      description: A response with a list of brokers and their sell rates
-      properties:
-        brokers:
+        rules:
           type: array
-          description: 'Array of brokers that signified that they want to work with you
-
-            (participate in your marketplace)
-
-            '
+          description: List of combination rules
           items:
-            $ref: '#/components/schemas/Pricing_PricingMarketplaceMyBrokerPartnersResponseBroker'
-        currency:
-          type: string
-          description: "Code of the currency of any monetary values in the response. \n\nFormat is ISO 4217 (a three letter code e.g. 'USD')\n"
-          example: USD
+            $ref: '#/components/schemas/Pricing_CombinationRule'
       required:
-      - brokers
-      - currency
+      - rules
     Pricing_LoadingType:
       type: string
       description: Loading/unloading method for a shipment.
@@ -1451,260 +1683,6 @@ components:
       - DROP_LIVE
       - DROP_DROP
       example: LIVE_LIVE
-    Pricing_FlatAdjustmentEffect:
-      type: object
-      description: 'In the default interpretation this effect increases the buy cost
-
-        by a flat `amount` of the specified `currency` to get the sell cost
-
-        '
-      properties:
-        amount:
-          type: number
-          description: 'The flat monetary amount by which the buy cost should be increased
-
-            '
-          example: 15
-        currency:
-          type: string
-          description: 'Code of the currency used in this effect.
-
-            Format is ISO 4217 (a three letter code e.g. ''USD'')
-
-            '
-          example: USD
-      required:
-      - amount
-      - currency
-    Pricing_PriorityRuleEffectsInput:
-      type: object
-      description: 'The effects this rule will have on the price calculation.
-
-
-        __Only one effect is allowed per rule__
-
-        '
-      properties:
-        percentageAdjustment:
-          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
-        flatAdjustment:
-          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffectInput'
-        setSellCost:
-          $ref: '#/components/schemas/Pricing_SetSellCostEffectInput'
-    Pricing_RuleLane:
-      type: object
-      description: Lane description object
-      properties:
-        origins:
-          $ref: '#/components/schemas/Pricing_RuleLocations'
-        destinations:
-          $ref: '#/components/schemas/Pricing_RuleLocations'
-      required:
-      - origins
-      - destinations
-    Pricing_RuleRequestLane:
-      type: object
-      description: A lane that the rule is applicable to
-      properties:
-        origins:
-          $ref: '#/components/schemas/Pricing_RuleRequestLocations'
-        destinations:
-          $ref: '#/components/schemas/Pricing_RuleRequestLocations'
-      required:
-      - origins
-      - destinations
-    Pricing_PricingMarketplaceMyBrokerPartnersResponseBroker:
-      type: object
-      description: A broker rate descriptor
-      properties:
-        mc:
-          type: string
-          description: Freight broker MC number
-          example: MC00334234
-        targetSellCost:
-          type: number
-          example: 1250
-          description: 'Flat target sell cost that this broker is willing to handle the load for
-
-            '
-      required:
-      - mc
-      - targetSellCost
-    Pricing_CombinationRuleEffectsInput:
-      type: object
-      description: 'The effects this rule will have on the price calculation.
-
-
-        __Only one effect is allowed per rule__
-
-        '
-      properties:
-        percentageAdjustment:
-          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
-        flatAdjustment:
-          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffectInput'
-    Pricing_SetSellCostEffect:
-      type: object
-      description: "In the default interpretation this effect \nsets the specified `amount` of the specified `currency` \nas the final sell cost\n"
-      properties:
-        amount:
-          type: number
-          description: 'The flat monetary amount to set as the sell cost
-
-            '
-          example: 15
-        currency:
-          type: string
-          description: 'Code of the currency used in this effect.
-
-            Format is ISO 4217 (a three letter code e.g. ''USD'')
-
-            '
-          example: USD
-      required:
-      - amount
-      - currency
-    Pricing_GeographicalAreaLane:
-      type: string
-      enum:
-      - CITY
-      - CITY_ZIP
-      - ZIP_CITY
-      - ZIP
-      description: "Determines the size of the area around origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
-      example: ZIP
-    Pricing_FlatAdjustmentEffectInput:
-      type: object
-      description: 'In the default interpretation this effect increases the buy cost
-
-        by a flat `amount` of the specified `currency` to get the sell cost
-
-        '
-      properties:
-        amount:
-          type: number
-          description: 'The flat monetary amount by which the buy cost should be increased
-
-            '
-          example: 15
-        currency:
-          $ref: '#/components/schemas/Pricing_Currency'
-      required:
-      - amount
-    Pricing_SuggestedPricing:
-      type: object
-      description: "The pricing that we suggest to be used on this lane.\n\nThis is based off of all the other pricing options found and \ncalculated using a priority algorithm. You can either trust us and use this\nto do your quote pricing, or you can choose from any of the other fields\navailable in the response\n"
-      properties:
-        name:
-          type: string
-          enum:
-          - default
-          - laneHistorical
-          - customerHistorical
-          - customerOnLaneHistorical
-          - priorityRule
-          - combinationRules
-          description: 'The name of the pricing option suggested to be used.
-
-
-            The values are the names of the other fields of the response.
-
-            '
-          example: priorityRule
-        targetSellCost:
-          type: number
-          example: 1250
-          description: 'Flat target sell cost calculated by applying the suggested pricing effect
-
-            to the provided flat buy cost
-
-            '
-        thresholdViolation:
-          type: string
-          enum:
-          - MIN_RATE
-          - MAX_RATE
-          description: 'Set to the rule type of the active threshold rule that the
-
-            computed `targetSellCost` violates (`MIN_RATE` when the rate is
-
-            below the configured minimum, `MAX_RATE` when it exceeds the
-
-            configured maximum). If multiple thresholds are violated only the
-
-            strictest side is reported. Threshold rules never modify the
-
-            suggested price.
-
-            '
-          example: MIN_RATE
-        thresholdRate:
-          type: number
-          description: 'The threshold rate of the matching threshold rule that triggered
-
-            `thresholdViolation`. Returned in the same currency the threshold
-
-            rule was created in.
-
-            '
-          example: 1500
-      required:
-      - name
-    Pricing_ThresholdRule:
-      type: object
-      description: 'Threshold pricing rule. Validates that the computed sell rate
-
-        does not fall outside a configured min or max boundary.
-
-        A violation is surfaced as a high-risk indicator on the affected lane;
-
-        threshold rules do not modify the computed rate.
-
-        '
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Id of the rule
-          example: 12345
-        name:
-          type: string
-          description: Name of the rule
-          example: Customer min rate
-        type:
-          $ref: '#/components/schemas/Pricing_PricingRuleType'
-        active:
-          type: boolean
-          description: Status of the rule
-          example: false
-        threshold:
-          type: number
-          description: "The threshold value. Interpretation depends on `unit`:\n- DOLLARS: an absolute sell-rate value in the rule's currency\n  (lane is clamped when the computed sell rate is below MIN_RATE\n  or above MAX_RATE).\n- PERCENT: a percentage (0-100) resolved against the buy rate\n  using the customer's pricing mode (markup or margin).\n"
-          example: 1500
-        unit:
-          $ref: '#/components/schemas/Pricing_ThresholdUnit'
-        currency:
-          type: string
-          description: 'Code of the currency used in this threshold.
-
-            Required when `unit` is DOLLARS; ignored when `unit` is PERCENT.
-
-            Format is ISO 4217 (a three letter code e.g. ''USD'')
-
-            '
-          example: USD
-        conditions:
-          $ref: '#/components/schemas/Pricing_RuleConditions'
-        pricingTypeGroup:
-          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
-      required:
-      - id
-      - name
-      - type
-      - active
-      - threshold
-      - unit
-      - conditions
     Pricing_RuleRequestConditions:
       type: object
       description: "Conditions in which this rule is applicable.\n\nWhen multuple conditions are provided the rule is only applied \nif all of them are met.\n"
@@ -1780,6 +1758,116 @@ components:
           $ref: '#/components/schemas/Pricing_ContractLengthRange'
         dateCondition:
           $ref: '#/components/schemas/Pricing_DateCondition'
+    Pricing_RuleLocations:
+      type: array
+      description: A list of locations that the rule is applicable to
+      items:
+        $ref: '#/components/schemas/Pricing_RuleLocation'
+      example:
+      - type: ANYWHERE
+      - type: STATE
+        country: US
+        state: IL
+      - type: CITY
+        country: US
+        state: IL
+        city: Chicago
+      - type: MARKET
+        country: US
+        marketCode: NY_ALB
+        marketName: Albany Market
+    Pricing_SetSellCostEffect:
+      type: object
+      description: "In the default interpretation this effect \nsets the specified `amount` of the specified `currency` \nas the final sell cost\n"
+      properties:
+        amount:
+          type: number
+          description: 'The flat monetary amount to set as the sell cost
+
+            '
+          example: 15
+        currency:
+          type: string
+          description: 'Code of the currency used in this effect.
+
+            Format is ISO 4217 (a three letter code e.g. ''USD'')
+
+            '
+          example: USD
+      required:
+      - amount
+      - currency
+    Pricing_Stop:
+      type: object
+      description: Contains the stop information e.g. address
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+          minimum: 0
+        address:
+          $ref: '#/components/schemas/Pricing_Address'
+      required:
+      - order
+      - address
+    Pricing_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    Pricing_PricingRuleGroup:
+      type: string
+      description: Pricing rule group filter. If not specified, all rules are returned.
+      enum:
+      - SPOT
+      - CONTRACT
+    Pricing_FlatAdjustmentEffect:
+      type: object
+      description: 'In the default interpretation this effect increases the buy cost
+
+        by a flat `amount` of the specified `currency` to get the sell cost
+
+        '
+      properties:
+        amount:
+          type: number
+          description: 'The flat monetary amount by which the buy cost should be increased
+
+            '
+          example: 15
+        currency:
+          type: string
+          description: 'Code of the currency used in this effect.
+
+            Format is ISO 4217 (a three letter code e.g. ''USD'')
+
+            '
+          example: USD
+      required:
+      - amount
+      - currency
+    Pricing_CombinationRulesCalculation:
+      type: object
+      description: 'Contains applicable combination rules and if possible a calculated `targetSellCost`
+
+        '
+      properties:
+        rules:
+          type: array
+          description: List of applicable combination rules
+          items:
+            $ref: '#/components/schemas/Pricing_CombinationRule'
+        targetSellCost:
+          type: number
+          example: 1250
+          description: "Flat target sell cost calculated by applying combination rules \nto the provided flat buy cost\n"
+      required:
+      - rules
     Pricing_IntegerRange:
       type: object
       x-parent: true
@@ -1792,23 +1880,51 @@ components:
           type: integer
           minimum: 0
           example: 250
-    Pricing_Address:
+    Pricing_TransitTimeRange:
       type: object
-      description: 'Location specified by country, city, state and zip code.
+      allOf:
+      - $ref: '#/components/schemas/Pricing_FloatRange'
+      description: "Transit time range to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
+      properties:
+        from:
+          type: number
+          format: float
+          description: Minimum transit time in hours
+          minimum: 0
+          example: 10
+        to:
+          type: number
+          format: float
+          description: Maximum transit time in hours
+          minimum: 0
+          example: 24
+    Pricing_DefaultPricingEffects:
+      type: object
+      description: 'The default pricing effects that are to be used for the sell cost calculation
 
-        * Country is required
-
-        * Either city-state pair or zip code is required
-
-        * All four parameters can be passed together
-
-
-        (in case of city-state pair our platform will determine the zip code
-
-        and in case of a zip code, our platform will determine the city and the state)
+        if no other pricing options are found
 
         '
       properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
+        setSellCost:
+          $ref: '#/components/schemas/Pricing_SetSellCostEffect'
+    Pricing_RuleRequestLocation:
+      type: object
+      description: Lane stop
+      properties:
+        type:
+          type: string
+          enum:
+          - ANYWHERE
+          - STATE
+          - CITY
+          - MARKET
+          example: ANYWHERE
+          description: "The location type. \n\nFor type ANYWHERE no fields are required.\n\nFor type STATE - \"country\" and \"state\" fields are required.\n\nFor type CITY - \"country\", \"state\" and \"city\" fields are required.\n\nFor type MARKET - \"country\" and \"marketCode\" fields are required.\n"
         country:
           type: string
           description: Two letter country code in ISO 3166-1 alpha-2 format
@@ -1821,12 +1937,192 @@ components:
           type: string
           description: City
           example: Schenectady
-        zip:
+        marketCode:
           type: string
-          description: Zip
-          example: '12345'
+          description: Market code
+          example: NY_ALB
       required:
-      - country
+      - type
+    Pricing_PricingThresholdRuleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer min rate
+        type:
+          $ref: '#/components/schemas/Pricing_PricingRuleType'
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        threshold:
+          type: number
+          description: "The threshold value. Interpretation depends on `unit`:\n- DOLLARS: an absolute sell-rate value in the rule's currency.\n- PERCENT: a percentage (0-100) resolved against the buy rate\n  using the customer's pricing mode (markup or margin).\n"
+          example: 1500
+        unit:
+          $ref: '#/components/schemas/Pricing_ThresholdUnit'
+        currency:
+          type: string
+          description: 'Code of the currency used in this threshold.
+
+            Required when `unit` is DOLLARS; ignored when `unit` is PERCENT.
+
+            Format is ISO 4217 (a three letter code e.g. ''USD'')
+
+            '
+          example: USD
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - name
+      - type
+      - active
+      - threshold
+      - unit
+      - conditions
+    Pricing_PricingCombinationRuleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer`s rule
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
+        effects:
+          $ref: '#/components/schemas/Pricing_CombinationRuleEffectsInput'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - name
+      - active
+      - conditions
+      - effects
+    Pricing_PricingResponse:
+      type: object
+      description: A collection of all the pricing options found
+      properties:
+        default:
+          $ref: '#/components/schemas/Pricing_DefaultPricingCalculation'
+        laneHistorical:
+          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
+        customerHistorical:
+          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
+        customerOnLaneHistorical:
+          $ref: '#/components/schemas/Pricing_PricingStatisticsCalculation'
+        priorityRule:
+          $ref: '#/components/schemas/Pricing_PriorityRuleCalculation'
+        combinationRules:
+          $ref: '#/components/schemas/Pricing_CombinationRulesCalculation'
+        suggested:
+          $ref: '#/components/schemas/Pricing_SuggestedPricing'
+        currency:
+          type: string
+          description: "Code of the currency of any monetary values in the response. \n\n**Except flat pricing effect descriptors**, those have their own currencies. \n\nFormat is ISO 4217 (a three letter code e.g. 'USD')\n"
+          example: USD
+      required:
+      - currency
+    Pricing_ThresholdRule:
+      type: object
+      description: 'Threshold pricing rule. Validates that the computed sell rate
+
+        does not fall outside a configured min or max boundary.
+
+        A violation is surfaced as a high-risk indicator on the affected lane;
+
+        threshold rules do not modify the computed rate.
+
+        '
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the rule
+          example: 12345
+        name:
+          type: string
+          description: Name of the rule
+          example: Customer min rate
+        type:
+          $ref: '#/components/schemas/Pricing_PricingRuleType'
+        active:
+          type: boolean
+          description: Status of the rule
+          example: false
+        threshold:
+          type: number
+          description: "The threshold value. Interpretation depends on `unit`:\n- DOLLARS: an absolute sell-rate value in the rule's currency\n  (lane is clamped when the computed sell rate is below MIN_RATE\n  or above MAX_RATE).\n- PERCENT: a percentage (0-100) resolved against the buy rate\n  using the customer's pricing mode (markup or margin).\n"
+          example: 1500
+        unit:
+          $ref: '#/components/schemas/Pricing_ThresholdUnit'
+        currency:
+          type: string
+          description: 'Code of the currency used in this threshold.
+
+            Required when `unit` is DOLLARS; ignored when `unit` is PERCENT.
+
+            Format is ISO 4217 (a three letter code e.g. ''USD'')
+
+            '
+          example: USD
+        conditions:
+          $ref: '#/components/schemas/Pricing_RuleConditions'
+        pricingTypeGroup:
+          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
+      required:
+      - id
+      - name
+      - type
+      - active
+      - threshold
+      - unit
+      - conditions
+    Pricing_DefaultPricingCalculation:
+      type: object
+      description: "Contains the default pricing effects \nand if possible a calculated `targetSellCost`\n"
+      properties:
+        effects:
+          $ref: '#/components/schemas/Pricing_DefaultPricingEffects'
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost calculated by applying the default pricing effects
+
+            to the provided flat buy cost
+
+            '
+      required:
+      - effects
+    Pricing_PriorityRuleEffects:
+      type: object
+      description: The effects this rule will have on the price calculation
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
+        setSellCost:
+          $ref: '#/components/schemas/Pricing_SetSellCostEffect'
+    Pricing_CombinationRuleEffectsInput:
+      type: object
+      description: 'The effects this rule will have on the price calculation.
+
+
+        __Only one effect is allowed per rule__
+
+        '
+      properties:
+        percentageAdjustment:
+          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
+        flatAdjustment:
+          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffectInput'
     Pricing_RuleConditions:
       type: object
       description: "Conditions in which this rule is applicable.\n\nWhen multuple conditions are provided the rule is only applied \nif all of them are met\n"
@@ -1902,15 +2198,148 @@ components:
           $ref: '#/components/schemas/Pricing_ContractLengthRange'
         dateCondition:
           $ref: '#/components/schemas/Pricing_DateCondition'
-    Pricing_PricingRuleType:
+    Pricing_DateCondition:
+      type: object
+      description: 'Date-based condition for the rule.
+
+        Supports three modes: days of week, days of month, or a date range.
+
+        Exactly one mode must be specified.
+
+        '
+      required:
+      - mode
+      properties:
+        mode:
+          type: string
+          description: The type of date condition
+          enum:
+          - DAYS_OF_WEEK
+          - DAYS_OF_MONTH
+          - DATE_RANGE
+          example: DAYS_OF_WEEK
+        daysOfWeek:
+          type: array
+          description: 'Days of the week when the rule applies.
+
+            Required when mode is DAYS_OF_WEEK.
+
+            '
+          items:
+            type: string
+            enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+          example:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+        daysOfMonth:
+          type: array
+          description: 'Days of the month when the rule applies (1-31).
+
+            Required when mode is DAYS_OF_MONTH.
+
+            '
+          items:
+            type: integer
+            minimum: 1
+            maximum: 31
+          example:
+          - 1
+          - 15
+          - 28
+        dateFrom:
+          type: string
+          format: date
+          description: 'Start date of the range (inclusive).
+
+            Required when mode is DATE_RANGE.
+
+            '
+          example: '2026-01-01'
+        dateTo:
+          type: string
+          format: date
+          description: 'End date of the range (inclusive).
+
+            Required when mode is DATE_RANGE.
+
+            '
+          example: '2026-12-31'
+    Pricing_SuggestedPricing:
+      type: object
+      description: "The pricing that we suggest to be used on this lane.\n\nThis is based off of all the other pricing options found and \ncalculated using a priority algorithm. You can either trust us and use this\nto do your quote pricing, or you can choose from any of the other fields\navailable in the response\n"
+      properties:
+        name:
+          type: string
+          enum:
+          - default
+          - laneHistorical
+          - customerHistorical
+          - customerOnLaneHistorical
+          - priorityRule
+          - combinationRules
+          description: 'The name of the pricing option suggested to be used.
+
+
+            The values are the names of the other fields of the response.
+
+            '
+          example: priorityRule
+        targetSellCost:
+          type: number
+          example: 1250
+          description: 'Flat target sell cost calculated by applying the suggested pricing effect
+
+            to the provided flat buy cost
+
+            '
+        thresholdViolation:
+          type: string
+          enum:
+          - MIN_RATE
+          - MAX_RATE
+          description: 'Set to the rule type of the active threshold rule that the
+
+            computed `targetSellCost` violates (`MIN_RATE` when the rate is
+
+            below the configured minimum, `MAX_RATE` when it exceeds the
+
+            configured maximum). If multiple thresholds are violated only the
+
+            strictest side is reported. Threshold rules never modify the
+
+            suggested price.
+
+            '
+          example: MIN_RATE
+        thresholdRate:
+          type: number
+          description: 'The threshold rate of the matching threshold rule that triggered
+
+            `thresholdViolation`. Returned in the same currency the threshold
+
+            rule was created in.
+
+            '
+          example: 1500
+      required:
+      - name
+    Pricing_GeographicalAreaLane:
       type: string
       enum:
-      - PRIORITY
-      - COMBINATION
-      - MIN_RATE
-      - MAX_RATE
-      description: Pricing rule type
-      example: PRIORITY
+      - CITY
+      - CITY_ZIP
+      - ZIP_CITY
+      - ZIP
+      description: "Determines the size of the area around origin and destination points, \nthat will be searched for the related data.\n* CITY - narrow, city wide, area\n* ZIP - narrow, five digit zip, area\n* CITY_ZIP - a special option that sets origin area to CITY and destination area to ZIP\n* ZIP_CITY - a special option that sets origin area to ZIP and destination area to CITY\n"
+      example: ZIP
     Pricing_MileageDifferenceRange:
       type: object
       allOf:
@@ -1937,243 +2366,6 @@ components:
           description: Maximum difference in miles
           minimum: 0
           example: 250
-    Pricing_CombinationRulesCalculation:
-      type: object
-      description: 'Contains applicable combination rules and if possible a calculated `targetSellCost`
-
-        '
-      properties:
-        rules:
-          type: array
-          description: List of applicable combination rules
-          items:
-            $ref: '#/components/schemas/Pricing_CombinationRule'
-        targetSellCost:
-          type: number
-          example: 1250
-          description: "Flat target sell cost calculated by applying combination rules \nto the provided flat buy cost\n"
-      required:
-      - rules
-    Pricing_VolumeFrequency:
-      type: object
-      description: 'Volume and frequency condition for the rule.
-
-        Matches rules to lanes based on shipment volume within a given frequency period.
-
-        '
-      required:
-      - volume
-      - frequency
-      properties:
-        volume:
-          type: number
-          format: float
-          minimum: 0
-          description: Minimum number of shipments
-          example: 150.5
-        frequency:
-          type: string
-          description: Time period for volume measurement
-          enum:
-          - DAILY
-          - WEEKLY
-          - MONTHLY
-          - ANNUALLY
-          example: MONTHLY
-    Pricing_CombinationRule:
-      type: object
-      description: Combination pricing rule
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Id of the rule
-          example: 12345
-        name:
-          type: string
-          description: Name of the pricing rule
-          example: Customer`s rule
-        active:
-          type: boolean
-          description: Status of the rule
-          example: false
-        conditions:
-          $ref: '#/components/schemas/Pricing_RuleConditions'
-        effects:
-          $ref: '#/components/schemas/Pricing_CombinationRuleEffects'
-        pricingTypeGroup:
-          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
-      required:
-      - id
-      - name
-      - active
-      - conditions
-      - effects
-    Pricing_StopsCountRange:
-      type: object
-      description: "Range of the stops count of the route to which the rule is applicable.\n\nStops count includes origin and destination i.e. route with one extra stop will have 3 stops in total.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
-      allOf:
-      - $ref: '#/components/schemas/Pricing_IntegerRange'
-      properties:
-        from:
-          type: integer
-          minimum: 0
-          description: Minimum stops count
-          example: 3
-        to:
-          type: integer
-          minimum: 0
-          description: Maximum stops count
-          example: 10
-    Pricing_RuleLocation:
-      type: object
-      description: A location that the rule is applicable to
-      properties:
-        type:
-          type: string
-          enum:
-          - ANYWHERE
-          - STATE
-          - CITY
-          - MARKET
-          example: ANYWHERE
-          description: "The location type. \n\nFor type ANYWHERE no fields are required.\n\nFor type STATE - \"country\" and \"state\" fields are required.\n\nFor type CITY - \"country\", \"state\" and \"city\" fields are required.\n\nFor type MARKET - \"country\", \"marketCode\" and \"marketName\" fields are required.\n"
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: State
-          example: NY
-        city:
-          type: string
-          description: City
-          example: Schenectady
-        marketCode:
-          type: string
-          description: Market code
-          example: NY_ALB
-        marketName:
-          type: string
-          description: Market name
-          example: Albany Market
-      required:
-      - type
-    Pricing_CombinationRuleEffects:
-      type: object
-      description: The effects this rule will have on the price calculation
-      properties:
-        percentageAdjustment:
-          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
-        flatAdjustment:
-          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
-    Pricing_Currency:
-      type: string
-      enum:
-      - USD
-      - CAD
-      description: "Currency code in ISO 4217 format (three letter code, e.g. USD)\n\n_If not provided, defaults to the currency set in the profile \nof currently authenticated user (or currently authenticated company \nif there is no user or user profile setting)_\n"
-      example: USD
-    Pricing_TransitTimeRange:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/Pricing_FloatRange'
-      description: "Transit time range to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
-      properties:
-        from:
-          type: number
-          format: float
-          description: Minimum transit time in hours
-          minimum: 0
-          example: 10
-        to:
-          type: number
-          format: float
-          description: Maximum transit time in hours
-          minimum: 0
-          example: 24
-    Pricing_PriorityRuleEffects:
-      type: object
-      description: The effects this rule will have on the price calculation
-      properties:
-        percentageAdjustment:
-          $ref: '#/components/schemas/Pricing_PercentageAdjustmentEffect'
-        flatAdjustment:
-          $ref: '#/components/schemas/Pricing_FlatAdjustmentEffect'
-        setSellCost:
-          $ref: '#/components/schemas/Pricing_SetSellCostEffect'
-    Pricing_RuleRequestLocations:
-      type: array
-      description: A list of locations that the rule is applicable to
-      items:
-        $ref: '#/components/schemas/Pricing_RuleRequestLocation'
-      example:
-      - type: ANYWHERE
-      - type: STATE
-        country: US
-        state: IL
-      - type: CITY
-        country: US
-        state: IL
-        city: Chicago
-      - type: MARKET
-        country: US
-        marketCode: NY_ALB
-    Pricing_PricingThresholdRuleRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the rule
-          example: Customer min rate
-        type:
-          $ref: '#/components/schemas/Pricing_PricingRuleType'
-        active:
-          type: boolean
-          description: Status of the rule
-          example: false
-        threshold:
-          type: number
-          description: "The threshold value. Interpretation depends on `unit`:\n- DOLLARS: an absolute sell-rate value in the rule's currency.\n- PERCENT: a percentage (0-100) resolved against the buy rate\n  using the customer's pricing mode (markup or margin).\n"
-          example: 1500
-        unit:
-          $ref: '#/components/schemas/Pricing_ThresholdUnit'
-        currency:
-          type: string
-          description: 'Code of the currency used in this threshold.
-
-            Required when `unit` is DOLLARS; ignored when `unit` is PERCENT.
-
-            Format is ISO 4217 (a three letter code e.g. ''USD'')
-
-            '
-          example: USD
-        conditions:
-          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
-        pricingTypeGroup:
-          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
-      required:
-      - name
-      - type
-      - active
-      - threshold
-      - unit
-      - conditions
-    Pricing_Stop:
-      type: object
-      description: Contains the stop information e.g. address
-      properties:
-        order:
-          type: integer
-          description: Stop order, starting from 0
-          example: 0
-          minimum: 0
-        address:
-          $ref: '#/components/schemas/Pricing_Address'
-      required:
-      - order
-      - address
     Pricing_ContractLengthRange:
       type: object
       description: 'Range of the contract duration to which the rule is applicable.
@@ -2234,249 +2426,31 @@ components:
               type: boolean
               description: Whether this boundary is inclusive
               default: true
-    Pricing_PricingStatisticsCalculation:
+    Pricing_StopsCountRange:
       type: object
-      description: "Contains historical pricing statistics \nand if possible a calculated `targetSellCost`\n"
-      properties:
-        pricing:
-          $ref: '#/components/schemas/Pricing_PricingStatistics'
-        targetSellCost:
-          type: number
-          example: 1250
-          description: 'Flat target sell cost calculated by applying the rule
-
-            to the provided flat buy cost
-
-            '
-      required:
-      - pricing
-    Pricing_PercentageAdjustmentEffect:
-      type: object
-      description: 'In the default interpretation this effect marks up the buy cost
-
-        by some `percentage` to get the sell cost
-
-        '
-      properties:
-        percentage:
-          type: number
-          description: The percentage by which the buy cost should be marked up
-          example: 15
-      required:
-      - percentage
-    Pricing_FloatRange:
-      type: object
-      x-parent: true
-      properties:
-        from:
-          type: number
-          format: float
-          minimum: 0
-          example: 20
-        to:
-          type: number
-          format: float
-          minimum: 0
-          example: 30
-    Pricing_PricingCombinationRulesResponse:
-      type: object
-      properties:
-        rules:
-          type: array
-          description: List of combination rules
-          items:
-            $ref: '#/components/schemas/Pricing_CombinationRule'
-      required:
-      - rules
-    Pricing_PricingPriorityRuleRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the rule
-          example: Customer`s rule
-        priority:
-          type: integer
-          description: Priority of the rule
-          example: 3
-        active:
-          type: boolean
-          description: Status of the rule
-          example: false
-        conditions:
-          $ref: '#/components/schemas/Pricing_RuleRequestConditions'
-        effects:
-          $ref: '#/components/schemas/Pricing_PriorityRuleEffectsInput'
-        pricingTypeGroup:
-          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
-      required:
-      - name
-      - priority
-      - active
-      - conditions
-      - effects
-    Pricing_ConfidenceLevelRange:
-      type: object
+      description: "Range of the stops count of the route to which the rule is applicable.\n\nStops count includes origin and destination i.e. route with one extra stop will have 3 stops in total.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
       allOf:
       - $ref: '#/components/schemas/Pricing_IntegerRange'
-      description: "Confidence level range to which the rule is applicable.\n\nAt least one of the range boundaries has to be provided.\n\nIf only one range boundary is provided, it means that the range is either \n`<= 'to'` or `>= 'from'`\n"
       properties:
         from:
           type: integer
-          description: Minimum confidence level in miles
           minimum: 0
-          maximum: 100
-          example: 70
+          description: Minimum stops count
+          example: 3
         to:
           type: integer
-          description: Maximum confidence level in miles
           minimum: 0
-          maximum: 100
-          example: 100
-    Pricing_RuleRequestLocation:
-      type: object
-      description: Lane stop
-      properties:
-        type:
-          type: string
-          enum:
-          - ANYWHERE
-          - STATE
-          - CITY
-          - MARKET
-          example: ANYWHERE
-          description: "The location type. \n\nFor type ANYWHERE no fields are required.\n\nFor type STATE - \"country\" and \"state\" fields are required.\n\nFor type CITY - \"country\", \"state\" and \"city\" fields are required.\n\nFor type MARKET - \"country\" and \"marketCode\" fields are required.\n"
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        state:
-          type: string
-          description: State
-          example: NY
-        city:
-          type: string
-          description: City
-          example: Schenectady
-        marketCode:
-          type: string
-          description: Market code
-          example: NY_ALB
-      required:
-      - type
-    Pricing_PriorityRule:
-      type: object
-      description: Priority pricing rule
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Id of the rule
-          example: 12345
-        name:
-          type: string
-          description: Name of the rule
-          example: Customer`s rule
-        priority:
-          type: integer
-          description: Priority of the rule
-          example: 3
-        active:
-          type: boolean
-          description: Status of the rule
-          example: false
-        conditions:
-          $ref: '#/components/schemas/Pricing_RuleConditions'
-        effects:
-          $ref: '#/components/schemas/Pricing_PriorityRuleEffects'
-        pricingTypeGroup:
-          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
-      required:
-      - id
-      - name
-      - priority
-      - active
-      - conditions
-      - effects
-    Pricing_PricingThresholdRulesResponse:
-      type: object
-      properties:
-        rules:
-          type: array
-          description: List of threshold rules
-          items:
-            $ref: '#/components/schemas/Pricing_ThresholdRule'
-      required:
-      - rules
-    Pricing_PricingRequest:
-      type: object
-      description: A set of fields used during pricing calculation
-      properties:
-        transportType:
-          $ref: '#/components/schemas/Pricing_TransportType'
-        stops:
-          $ref: '#/components/schemas/Pricing_Stops'
-        region:
-          $ref: '#/components/schemas/Pricing_GeographicalAreaLane'
-        customerName:
-          type: string
-          description: Customer name
-          example: Test Customer
-        pickupDate:
-          type: string
-          format: date-time
-          description: Pick up date in time zone of origin
-          example: '2020-01-13T16:00:00Z'
-        deliveryDate:
-          type: string
-          format: date-time
-          description: Delivery date in time zone of the destination
-          example: '2020-01-13T16:00:00Z'
-        weight:
-          type: number
-          format: float
-          description: Weight of the cargo in lb
-          example: 10000
-        commodity:
-          type: string
-          description: Name of the commodity
-          example: Apples
-        targetBuyCost:
-          type: number
-          description: "The flat buy cost that the calculated pricing effect will be applied to, \nin order to calculate the flat target sell cost\n"
-          example: 1000
-        confidenceLevel:
-          type: integer
-          minimum: 0
-          maximum: 100
-          description: "Buy rate prediction confidence level \nfrom the rate prediction endpoint response\n"
-          example: 65
-        currency:
-          $ref: '#/components/schemas/Pricing_Currency'
-        pricingTypeGroup:
-          $ref: '#/components/schemas/Pricing_PricingRuleGroup'
-        loadingType:
-          $ref: '#/components/schemas/Pricing_LoadingType'
-        volume:
-          type: number
-          format: float
-          minimum: 0
-          description: Number of shipments for volume-based contract rule matching
-          example: 200.5
-        volumeFrequency:
-          type: string
-          description: Frequency period for the volume value
-          enum:
-          - DAILY
-          - WEEKLY
-          - MONTHLY
-          - ANNUALLY
-          example: MONTHLY
-        contractLengthDays:
-          type: integer
-          minimum: 0
-          description: Contract duration in days for contract length rule matching
-          example: 90
+          description: Maximum stops count
+          example: 10
+    Pricing_PricingRuleType:
+      type: string
+      enum:
+      - PRIORITY
+      - COMBINATION
+      - MIN_RATE
+      - MAX_RATE
+      description: Pricing rule type
+      example: PRIORITY
     Pricing_PricingStatistics:
       type: object
       description: Statistical pricing percentages based on your historical load data
@@ -2497,35 +2471,41 @@ components:
       - average
       - minimum
       - maximum
-    Pricing_Error422UnprocessableEntityMulti:
+    Pricing_Address:
       type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
       properties:
-        code:
+        country:
           type: string
-        message:
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        state:
           type: string
-        errors:
-          type: array
-          description: list of errors
-          items:
-            $ref: '#/components/schemas/Pricing_RequestValidationError'
+          description: State
+          example: NY
+        city:
+          type: string
+          description: City
+          example: Schenectady
+        zip:
+          type: string
+          description: Zip
+          example: '12345'
       required:
-      - code
-      - message
-      - errors
-      example:
-        code: request_validation
-        message: You have one or more errors in request structure
-        errors:
-        - field: carrierName
-          message: field contains wrong data type (int), should be string
-          value: '22'
-        - field: shipperId
-          message: 'shipperId: must not be null'
-          value: null
-        - field: loadSource.loadId
-          message: 'loadId: must not be null'
-          value: null
+      - country
     Pricing_RequestValidationError:
       type: object
       description: Request validation error
@@ -2547,6 +2527,26 @@ components:
       required:
       - field
       - message
+    Pricing_PricingMarketplaceMyBrokerPartnersResponse:
+      type: object
+      description: A response with a list of brokers and their sell rates
+      properties:
+        brokers:
+          type: array
+          description: 'Array of brokers that signified that they want to work with you
+
+            (participate in your marketplace)
+
+            '
+          items:
+            $ref: '#/components/schemas/Pricing_PricingMarketplaceMyBrokerPartnersResponseBroker'
+        currency:
+          type: string
+          description: "Code of the currency of any monetary values in the response. \n\nFormat is ISO 4217 (a three letter code e.g. 'USD')\n"
+          example: USD
+      required:
+      - brokers
+      - currency
     Pricing_SetSellCostEffectInput:
       type: object
       description: "In the default interpretation this effect \nsets the specified `amount` of the specified `currency` \nas the final sell cost\n"

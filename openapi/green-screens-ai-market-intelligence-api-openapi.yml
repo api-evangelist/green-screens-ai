@@ -238,6 +238,39 @@ paths:
         source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/marketintelligence/negotiation-advice?transportType=VAN&originCountry=US&originState=NY&originCity=Schenectady&originZip=12345&destinationCountry=US&destinationState=IL&destinationCity=Chicago&destinationZip=60636&hasExtraStops=true&pickUpDateTime=2020-01-11T16%3A00%3A00Z&currency=USD&region=ZIP\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
 components:
   schemas:
+    MarketIntelligence_ComingEvent:
+      type: object
+      description: 'A descriptor of an event that is beginning soon after the pickup date
+
+        '
+      properties:
+        name:
+          type: string
+          description: "Human readable name of the event \ne.g. a holiday called 'Washington's Birthday'\n"
+          example: Washington's Birthday
+        daysToBeginning:
+          type: integer
+          description: "The number of days left until the beginning of the event \nstarting from the pick up date\n"
+          example: 3
+      required:
+      - name
+      - daysToBeginning
+    MarketIntelligence_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
     MarketIntelligence_NegotiationResponse:
       type: object
       description: 'Object with negotiation advice descriptors as properties.
@@ -584,39 +617,6 @@ components:
           type: string
           description: Code of the currency of the response. Format is ISO 4217
           example: USD
-    MarketIntelligence_Error:
-      type: object
-      description: A common api error object
-      properties:
-        code:
-          type: string
-          description: unique string identifier of the error
-        message:
-          type: string
-          description: human readable error message
-      required:
-      - code
-      - message
-      example:
-        code: invalid_request
-        message: Your ClientId is invalid
-    MarketIntelligence_ComingEvent:
-      type: object
-      description: 'A descriptor of an event that is beginning soon after the pickup date
-
-        '
-      properties:
-        name:
-          type: string
-          description: "Human readable name of the event \ne.g. a holiday called 'Washington's Birthday'\n"
-          example: Washington's Birthday
-        daysToBeginning:
-          type: integer
-          description: "The number of days left until the beginning of the event \nstarting from the pick up date\n"
-          example: 3
-      required:
-      - name
-      - daysToBeginning
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io

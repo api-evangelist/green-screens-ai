@@ -380,6 +380,63 @@ paths:
         source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v2/tms/batch/import-shipper\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"shippers\\\":[{\\\"profileId\\\":\\\"13441524\\\",\\\"companyName\\\":\\\"Carggo\\\",\\\"legalName\\\":\\\"Carggo\\\",\\\"contact\\\":{\\\"name\\\":\\\"John\\\",\\\"phoneNumber\\\":\\\"121331343\\\",\\\"email\\\":\\\"my@email.com\\\"},\\\"accountManager\\\":\\\"JAMES\\\",\\\"status\\\":\\\"ACTIVE\\\",\\\"userGroupId\\\":\\\"Main office\\\"}]}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
 components:
   schemas:
+    TmsConnector_BatchImportProfileResponseItem:
+      type: object
+      description: Import result data for a particular profile from the imported batch
+      properties:
+        id:
+          type: string
+          description: Id of the profile used to identify it in our platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        profileId:
+          type: string
+          description: Id of the profile provided by the client in the import request
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          - ERROR
+          description: "Result of the profile import operation: \n* CREATED - means that a new profile was created \n* UPDATED - means that a profile with the same profileId was found and updated\n* ERROR - an error occurred during profile import\n"
+          example: CREATED
+        code:
+          type: string
+          description: When status is ERROR, contains a unique string identifier of the error
+          example: validation_errors_occured
+        message:
+          type: string
+          description: When status is ERROR, contains a human readable error message
+          example: Validation errors occured, check errors array for details
+        errors:
+          type: array
+          description: A list of validation errors that occurred during import.
+          items:
+            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
+      required:
+      - profileId
+      - status
+    TmsConnector_BatchImportLoadRequest:
+      type: object
+      x-parent: true
+      properties:
+        loads:
+          type: array
+          description: List of loads to import or update
+          items:
+            $ref: '#/components/schemas/TmsConnector_ImportLoadRequest'
+      required:
+      - loads
+    TmsConnector_TransportTypeGroup:
+      type: string
+      description: Transport type group
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      - OTHER
+      example: VAN
     TmsConnector_Rate:
       type: object
       description: Load rate data
@@ -425,130 +482,54 @@ components:
           example: USD
       required:
       - totalLinehaulCost
-    TmsConnector_ImportLoadResponse:
+    TmsConnector_Shipper:
       type: object
+      description: Shipper data
       properties:
         id:
           type: string
-          description: Id of the load used to identify it in our platform
-          example: c6447366-9700-4851-854b-2bb41f03cde0
-        loadId:
+          description: Shipper ID
+          example: '12345'
+        name:
           type: string
-          description: Id of the load provided by the client in the import request
-          example: pr0-003
-        status:
-          type: string
-          enum:
-          - CREATED
-          - UPDATED
-          description: "Result of the load import operation: \n* CREATED - means that a new load was created \n* UPDATED - means that a load with the same loadId was found and updated\n"
-          example: CREATED
+          description: Shipper company name
+          example: Shipper company
       required:
       - id
-      - loadId
-      - status
-    TmsConnector_ImportLoadRequest:
+    TmsConnector_BatchImportCarrierRequest:
       type: object
-      x-parent: true
       properties:
-        loadId:
-          type: string
-          description: "Unique load id from external TMS. \n\nIf a load with same loadId will be found in our platform during import, \nit will be updated. Otherwise a new load will be created.\n"
-          example: '12345'
-        origin:
-          $ref: '#/components/schemas/TmsConnector_StopLocation'
-        destination:
-          $ref: '#/components/schemas/TmsConnector_StopLocation'
-        extraStops:
-          $ref: '#/components/schemas/TmsConnector_ExtraStops'
-        rate:
-          $ref: '#/components/schemas/TmsConnector_Rate'
-        pickupDate:
-          type: string
-          format: date-time
-          description: 'Pick up date in ISO date format in the time zone of the pick up location
-
-            '
-          example: '2021-09-21T13:00:00-04:00'
-        deliveredDate:
-          type: string
-          format: date-time
-          description: 'Delivery date in ISO date format in the time zone of the drop off location
-
-            '
-          example: '2021-09-22T18:00:00-04:00'
-        transportType:
-          type: string
-          description: Transport type (original transport type used in provider TMS)
-          example: VR
-        transportTypeGroup:
-          $ref: '#/components/schemas/TmsConnector_TransportTypeGroup'
-        transportMode:
-          type: string
-          enum:
-          - FTL
-          - LTL
-          - PARCEL
-          - INTERMODAL
-          - OTHER
-          description: Transport mode
-          default: FTL
-          example: FTL
-        status:
-          type: string
-          enum:
-          - OPEN
-          - COVERED
-          - PICKUP
-          - LOADED
-          - STOP
-          - DROPOFF
-          - DELIVERED
-          - TENDER_REJECTED
-          - CLOSED
-          - CANCELED
-          - OTHER
-          description: 'Load status.
-
-
-            * OPEN - Created
-
-            * COVERED - Carrier assigned
-
-            * PICKUP - On the pickup stop
-
-            * LOADED - In transit
-
-            * STOP - On the extra stop
-
-            * DROPOFF - On the drop off stop
-
-            * DELIVERED - Delivered
-
-            * TENDER_REJECTED - Tender is rejected
-
-            * CLOSED - All money paid. Processing over
-
-            * CANCELED - Canceled
-
-            * OTHER - Any other status, not mentioned in this enum
-
-            '
-          example: OPEN
-        details:
-          $ref: '#/components/schemas/TmsConnector_Details'
-        shipper:
-          $ref: '#/components/schemas/TmsConnector_Shipper'
-        carrier:
-          $ref: '#/components/schemas/TmsConnector_Carrier'
+        carriers:
+          type: array
+          description: List of carriers to import or update
+          items:
+            $ref: '#/components/schemas/TmsConnector_CarrierProfile'
       required:
-      - loadId
-      - origin
-      - destination
-      - rate
-      - pickupDate
-      - transportTypeGroup
-      - transportType
+      - carriers
+    TmsConnector_ExtraStops:
+      type: array
+      items:
+        $ref: '#/components/schemas/TmsConnector_ExtraStop'
+      description: 'Any extra stops along the route between the origin and destination points
+
+        '
+      example:
+      - order: 0
+        address:
+          country: US
+          city: Red Bluff
+          state: CA
+          zip: '96080'
+        type: LOAD
+        appointmentDateTime: '2020-10-14T16:00:00Z'
+      - order: 1
+        address:
+          country: US
+          city: Redding
+          state: CA
+          zip: '96002'
+        type: UNLOAD
+        appointmentDateTime: '2020-10-15T16:00:00Z'
     TmsConnector_Accessorial:
       type:
       - object
@@ -569,67 +550,6 @@ components:
           example: 0
       required:
       - name
-    TmsConnector_ContactObject:
-      type: object
-      description: Contact data
-      properties:
-        name:
-          type: string
-          description: Contact name
-          example: John
-        phoneNumber:
-          type: string
-          description: Contact phone number
-          example: '121331343'
-        email:
-          type: string
-          description: Contact email
-          example: my@email.com
-    TmsConnector_CarrierProfile:
-      type: object
-      x-parent: true
-      properties:
-        profileId:
-          type: string
-          description: Profile id
-          example: '13441524'
-        companyName:
-          type: string
-          description: Company name
-          example: Carggo
-        legalName:
-          type: string
-          description: The official name of entity that owns a business
-          example: Carggo
-        mc:
-          type: string
-          description: Operating authority number assigned by the FMCSA to both carriers and brokers
-          example: '122356'
-        dot:
-          type: string
-          description: USDOT number assigned by the FMCSA to companies that operate commercial vehicles
-          example: '87650005'
-        scac:
-          type: string
-          description: Standard Carrier Alpha Code to identify vessel operating common carriers
-          example: CGGK
-        contact:
-          $ref: '#/components/schemas/TmsConnector_ContactObject'
-        status:
-          $ref: '#/components/schemas/TmsConnector_ProfileStatus'
-      required:
-      - profileId
-      - companyName
-    TmsConnector_BatchImportLoadResponse:
-      type: object
-      properties:
-        responses:
-          type: array
-          description: List of load batch import results
-          items:
-            $ref: '#/components/schemas/TmsConnector_BatchImportLoadResponseItem'
-      required:
-      - responses
     TmsConnector_ProfileStatus:
       type: string
       description: 'Signifies whether the imported profile is in Active or Inactive status
@@ -734,429 +654,6 @@ components:
 
             '
           example: Main office
-    TmsConnector_BatchImportLoadResponseItem:
-      type: object
-      description: Import result data for a particular load from the imported batch
-      properties:
-        id:
-          type: string
-          description: Load Id in the platform
-          example: c6447366-9700-4851-854b-2bb41f03cde0
-        loadId:
-          type: string
-          description: Unique internal load identifier from TMS
-          example: pr0-003
-        status:
-          type: string
-          enum:
-          - CREATED
-          - UPDATED
-          - ERROR
-          description: "Load import status. \n* CREATED - a new load was imported\n* UPDATED - an existing load was updated\n* ERROR - an error occurred during load import\n"
-          example: CREATED
-        code:
-          type: string
-          description: When status is ERROR, contains a unique string identifier of the error
-          example: validation_errors_occured
-        message:
-          type: string
-          description: When status is ERROR, contains a human readable error message
-          example: Validation errors occured, check errors array for details
-        errors:
-          type: array
-          description: A list of validation errors that occurred during import.
-          items:
-            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
-      required:
-      - id
-      - loadId
-      - status
-    TmsConnector_ImportProfileResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Id of the profile used to identify it in our platform
-          example: c6447366-9700-4851-854b-2bb41f03cde0
-        profileId:
-          type: string
-          description: Id of the profile provided by the client in the import request
-          example: pr0-003
-        status:
-          type: string
-          enum:
-          - CREATED
-          - UPDATED
-          description: "Result of the profile import operation: \n* CREATED - means that a new profile was created \n* UPDATED - means that a profile with the same profileId was found and updated\n"
-          example: CREATED
-      required:
-      - id
-      - profileId
-      - status
-    TmsConnector_ExtraStops:
-      type: array
-      items:
-        $ref: '#/components/schemas/TmsConnector_ExtraStop'
-      description: 'Any extra stops along the route between the origin and destination points
-
-        '
-      example:
-      - order: 0
-        address:
-          country: US
-          city: Red Bluff
-          state: CA
-          zip: '96080'
-        type: LOAD
-        appointmentDateTime: '2020-10-14T16:00:00Z'
-      - order: 1
-        address:
-          country: US
-          city: Redding
-          state: CA
-          zip: '96002'
-        type: UNLOAD
-        appointmentDateTime: '2020-10-15T16:00:00Z'
-    TmsConnector_TransportTypeGroup:
-      type: string
-      description: Transport type group
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      - OTHER
-      example: VAN
-    TmsConnector_Shipper:
-      type: object
-      description: Shipper data
-      properties:
-        id:
-          type: string
-          description: Shipper ID
-          example: '12345'
-        name:
-          type: string
-          description: Shipper company name
-          example: Shipper company
-      required:
-      - id
-    TmsConnector_Carrier:
-      type: object
-      description: Carrier data
-      properties:
-        id:
-          type: string
-          description: Carrier ID
-          example: '12345'
-        name:
-          type: string
-          description: Carrier company name
-          example: Carrier company
-      required:
-      - id
-    TmsConnector_ShipperProfile:
-      type: object
-      x-parent: true
-      properties:
-        profileId:
-          type: string
-          description: Profile id
-          example: '13441524'
-        companyName:
-          type: string
-          description: Company name
-          example: Carggo
-        legalName:
-          type: string
-          description: The official name of entity that owns a business
-          example: Carggo
-        contact:
-          $ref: '#/components/schemas/TmsConnector_ContactObject'
-        accountManager:
-          type: string
-          description: Shipper account manager on the broker side
-          example: JAMES
-        status:
-          $ref: '#/components/schemas/TmsConnector_ProfileStatus'
-        userGroupId:
-          type: string
-          description: "A unique identifier (id) of a user group, \nthat this profile belongs to. e.g. Main company or an Agency\n"
-          example: Main office
-      required:
-      - profileId
-      - companyName
-    TmsConnector_RequestValidationError:
-      type: object
-      description: Request validation error
-      properties:
-        field:
-          type: string
-          description: Name of the field that did not pass validation
-          example: transportType
-        message:
-          type: string
-          description: Human readable error mesage explaining why validation failed
-          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
-        value:
-          type:
-          - string
-          - 'null'
-          description: Value of the field that did not pass validation
-          example: SpaceXDragon
-      required:
-      - field
-      - message
-    TmsConnector_Accessorials:
-      type: array
-      description: Accessorial list
-      items:
-        $ref: '#/components/schemas/TmsConnector_Accessorial'
-    TmsConnector_Error:
-      type: object
-      description: A common api error object
-      properties:
-        code:
-          type: string
-          description: unique string identifier of the error
-        message:
-          type: string
-          description: human readable error message
-      required:
-      - code
-      - message
-      example:
-        code: invalid_request
-        message: Your ClientId is invalid
-    TmsConnector_PricingTypeGroup:
-      type: string
-      description: 'How this shipment was priced to the shipper in the following groupings
-
-        (CONTRACT, SPOT, or OTHER)
-
-        '
-      enum:
-      - CONTRACT
-      - SPOT
-      - OTHER
-      example: SPOT
-    TmsConnector_ExtraStopAddress:
-      type: object
-      description: 'Location specified by country, city, state and zip code.
-
-        * Country is required
-
-        * Either city-state pair or zip code is required
-
-        * All four parameters can be passed together
-
-
-        (in case of city-state pair our platform will determine the zip code
-
-        and in case of a zip code, our platform will determine the city and the state)
-
-        '
-      properties:
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        city:
-          type: string
-          description: City name
-          example: Sacramento
-        state:
-          type: string
-          description: Two letter state code
-          example: CA
-        zip:
-          type: string
-          description: Zip code
-          example: '95814'
-      required:
-      - country
-    TmsConnector_BatchImportLoadRequest:
-      type: object
-      x-parent: true
-      properties:
-        loads:
-          type: array
-          description: List of loads to import or update
-          items:
-            $ref: '#/components/schemas/TmsConnector_ImportLoadRequest'
-      required:
-      - loads
-    TmsConnector_BatchImportProfileResponse:
-      type: object
-      properties:
-        responses:
-          type: array
-          description: List of profile batch import results
-          items:
-            $ref: '#/components/schemas/TmsConnector_BatchImportProfileResponseItem'
-      required:
-      - responses
-    TmsConnector_ExtraStop:
-      type: object
-      description: Extra stop
-      properties:
-        order:
-          type: integer
-          description: Extra stop order, starting from 0
-          example: 0
-        address:
-          $ref: '#/components/schemas/TmsConnector_ExtraStopAddress'
-        type:
-          type: string
-          description: 'Action performed with the cargo at this stop.
-
-
-            Leave this field empty if you do not know the stop type.
-
-            '
-          enum:
-          - LOAD
-          - UNLOAD
-          - BOTH
-          example: LOAD
-        appointmentDateTime:
-          type: string
-          format: date-time
-          description: 'Date and time when the truck has to arrive at this stop.
-
-
-            Provide the time zone of the stop location if possible.
-
-            '
-          example: '2020-10-13T16:00:00Z'
-        scheduledAppointmentStartedAt:
-          type: string
-          format: date-time
-          description: 'Start of the scheduled appointment window at this stop.
-
-
-            Provide the time zone of the stop location if possible.
-
-            '
-          example: '2020-10-13T09:00:00Z'
-        scheduledAppointmentEndedAt:
-          type: string
-          format: date-time
-          description: 'End of the scheduled appointment window at this stop.
-
-
-            Provide the time zone of the stop location if possible.
-
-            '
-          example: '2020-10-13T11:00:00Z'
-        arrivedAt:
-          type: string
-          format: date-time
-          description: 'Actual arrival date and time at this stop.
-
-
-            Provide the time zone of the stop location if possible.
-
-            '
-          example: '2020-10-13T09:15:00Z'
-        departedAt:
-          type: string
-          format: date-time
-          description: 'Actual departure date and time from this stop.
-
-
-            Provide the time zone of the stop location if possible.
-
-            '
-          example: '2020-10-13T10:45:00Z'
-      required:
-      - order
-      - address
-    TmsConnector_Error422UnprocessableEntityMulti:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        errors:
-          type: array
-          description: list of errors
-          items:
-            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
-      required:
-      - code
-      - message
-      - errors
-      example:
-        code: request_validation
-        message: You have one or more errors in request structure
-        errors:
-        - field: carrierName
-          message: field contains wrong data type (int), should be string
-          value: '22'
-        - field: shipperId
-          message: 'shipperId: must not be null'
-          value: null
-        - field: loadSource.loadId
-          message: 'loadId: must not be null'
-          value: null
-    TmsConnector_BatchImportShipperRequest:
-      type: object
-      properties:
-        shippers:
-          type: array
-          description: List of shipper profiles to import or update
-          items:
-            $ref: '#/components/schemas/TmsConnector_ShipperProfile'
-      required:
-      - shippers
-    TmsConnector_BatchImportProfileResponseItem:
-      type: object
-      description: Import result data for a particular profile from the imported batch
-      properties:
-        id:
-          type: string
-          description: Id of the profile used to identify it in our platform
-          example: c6447366-9700-4851-854b-2bb41f03cde0
-        profileId:
-          type: string
-          description: Id of the profile provided by the client in the import request
-          example: pr0-003
-        status:
-          type: string
-          enum:
-          - CREATED
-          - UPDATED
-          - ERROR
-          description: "Result of the profile import operation: \n* CREATED - means that a new profile was created \n* UPDATED - means that a profile with the same profileId was found and updated\n* ERROR - an error occurred during profile import\n"
-          example: CREATED
-        code:
-          type: string
-          description: When status is ERROR, contains a unique string identifier of the error
-          example: validation_errors_occured
-        message:
-          type: string
-          description: When status is ERROR, contains a human readable error message
-          example: Validation errors occured, check errors array for details
-        errors:
-          type: array
-          description: A list of validation errors that occurred during import.
-          items:
-            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
-      required:
-      - profileId
-      - status
-    TmsConnector_BatchImportCarrierRequest:
-      type: object
-      properties:
-        carriers:
-          type: array
-          description: List of carriers to import or update
-          items:
-            $ref: '#/components/schemas/TmsConnector_CarrierProfile'
-      required:
-      - carriers
     TmsConnector_StopLocation:
       type: object
       description: 'Location specified by country, city, state and zip code.
@@ -1240,6 +737,509 @@ components:
 
             '
           example: '2020-10-13T10:45:00Z'
+      required:
+      - country
+    TmsConnector_Carrier:
+      type: object
+      description: Carrier data
+      properties:
+        id:
+          type: string
+          description: Carrier ID
+          example: '12345'
+        name:
+          type: string
+          description: Carrier company name
+          example: Carrier company
+      required:
+      - id
+    TmsConnector_ImportLoadRequest:
+      type: object
+      x-parent: true
+      properties:
+        loadId:
+          type: string
+          description: "Unique load id from external TMS. \n\nIf a load with same loadId will be found in our platform during import, \nit will be updated. Otherwise a new load will be created.\n"
+          example: '12345'
+        origin:
+          $ref: '#/components/schemas/TmsConnector_StopLocation'
+        destination:
+          $ref: '#/components/schemas/TmsConnector_StopLocation'
+        extraStops:
+          $ref: '#/components/schemas/TmsConnector_ExtraStops'
+        rate:
+          $ref: '#/components/schemas/TmsConnector_Rate'
+        pickupDate:
+          type: string
+          format: date-time
+          description: 'Pick up date in ISO date format in the time zone of the pick up location
+
+            '
+          example: '2021-09-21T13:00:00-04:00'
+        deliveredDate:
+          type: string
+          format: date-time
+          description: 'Delivery date in ISO date format in the time zone of the drop off location
+
+            '
+          example: '2021-09-22T18:00:00-04:00'
+        transportType:
+          type: string
+          description: Transport type (original transport type used in provider TMS)
+          example: VR
+        transportTypeGroup:
+          $ref: '#/components/schemas/TmsConnector_TransportTypeGroup'
+        transportMode:
+          type: string
+          enum:
+          - FTL
+          - LTL
+          - PARCEL
+          - INTERMODAL
+          - OTHER
+          description: Transport mode
+          default: FTL
+          example: FTL
+        status:
+          type: string
+          enum:
+          - OPEN
+          - COVERED
+          - PICKUP
+          - LOADED
+          - STOP
+          - DROPOFF
+          - DELIVERED
+          - TENDER_REJECTED
+          - CLOSED
+          - CANCELED
+          - OTHER
+          description: 'Load status.
+
+
+            * OPEN - Created
+
+            * COVERED - Carrier assigned
+
+            * PICKUP - On the pickup stop
+
+            * LOADED - In transit
+
+            * STOP - On the extra stop
+
+            * DROPOFF - On the drop off stop
+
+            * DELIVERED - Delivered
+
+            * TENDER_REJECTED - Tender is rejected
+
+            * CLOSED - All money paid. Processing over
+
+            * CANCELED - Canceled
+
+            * OTHER - Any other status, not mentioned in this enum
+
+            '
+          example: OPEN
+        details:
+          $ref: '#/components/schemas/TmsConnector_Details'
+        shipper:
+          $ref: '#/components/schemas/TmsConnector_Shipper'
+        carrier:
+          $ref: '#/components/schemas/TmsConnector_Carrier'
+      required:
+      - loadId
+      - origin
+      - destination
+      - rate
+      - pickupDate
+      - transportTypeGroup
+      - transportType
+    TmsConnector_ImportProfileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the profile used to identify it in our platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        profileId:
+          type: string
+          description: Id of the profile provided by the client in the import request
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          description: "Result of the profile import operation: \n* CREATED - means that a new profile was created \n* UPDATED - means that a profile with the same profileId was found and updated\n"
+          example: CREATED
+      required:
+      - id
+      - profileId
+      - status
+    TmsConnector_BatchImportLoadResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of load batch import results
+          items:
+            $ref: '#/components/schemas/TmsConnector_BatchImportLoadResponseItem'
+      required:
+      - responses
+    TmsConnector_ImportLoadResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id of the load used to identify it in our platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        loadId:
+          type: string
+          description: Id of the load provided by the client in the import request
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          description: "Result of the load import operation: \n* CREATED - means that a new load was created \n* UPDATED - means that a load with the same loadId was found and updated\n"
+          example: CREATED
+      required:
+      - id
+      - loadId
+      - status
+    TmsConnector_CarrierProfile:
+      type: object
+      x-parent: true
+      properties:
+        profileId:
+          type: string
+          description: Profile id
+          example: '13441524'
+        companyName:
+          type: string
+          description: Company name
+          example: Carggo
+        legalName:
+          type: string
+          description: The official name of entity that owns a business
+          example: Carggo
+        mc:
+          type: string
+          description: Operating authority number assigned by the FMCSA to both carriers and brokers
+          example: '122356'
+        dot:
+          type: string
+          description: USDOT number assigned by the FMCSA to companies that operate commercial vehicles
+          example: '87650005'
+        scac:
+          type: string
+          description: Standard Carrier Alpha Code to identify vessel operating common carriers
+          example: CGGK
+        contact:
+          $ref: '#/components/schemas/TmsConnector_ContactObject'
+        status:
+          $ref: '#/components/schemas/TmsConnector_ProfileStatus'
+      required:
+      - profileId
+      - companyName
+    TmsConnector_PricingTypeGroup:
+      type: string
+      description: 'How this shipment was priced to the shipper in the following groupings
+
+        (CONTRACT, SPOT, or OTHER)
+
+        '
+      enum:
+      - CONTRACT
+      - SPOT
+      - OTHER
+      example: SPOT
+    TmsConnector_RequestValidationError:
+      type: object
+      description: Request validation error
+      properties:
+        field:
+          type: string
+          description: Name of the field that did not pass validation
+          example: transportType
+        message:
+          type: string
+          description: Human readable error mesage explaining why validation failed
+          example: SpaceXDragon transportType is not supported. Valid values are [VAN, FLATBED, ...]
+        value:
+          type:
+          - string
+          - 'null'
+          description: Value of the field that did not pass validation
+          example: SpaceXDragon
+      required:
+      - field
+      - message
+    TmsConnector_ExtraStop:
+      type: object
+      description: Extra stop
+      properties:
+        order:
+          type: integer
+          description: Extra stop order, starting from 0
+          example: 0
+        address:
+          $ref: '#/components/schemas/TmsConnector_ExtraStopAddress'
+        type:
+          type: string
+          description: 'Action performed with the cargo at this stop.
+
+
+            Leave this field empty if you do not know the stop type.
+
+            '
+          enum:
+          - LOAD
+          - UNLOAD
+          - BOTH
+          example: LOAD
+        appointmentDateTime:
+          type: string
+          format: date-time
+          description: 'Date and time when the truck has to arrive at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T16:00:00Z'
+        scheduledAppointmentStartedAt:
+          type: string
+          format: date-time
+          description: 'Start of the scheduled appointment window at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T09:00:00Z'
+        scheduledAppointmentEndedAt:
+          type: string
+          format: date-time
+          description: 'End of the scheduled appointment window at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T11:00:00Z'
+        arrivedAt:
+          type: string
+          format: date-time
+          description: 'Actual arrival date and time at this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T09:15:00Z'
+        departedAt:
+          type: string
+          format: date-time
+          description: 'Actual departure date and time from this stop.
+
+
+            Provide the time zone of the stop location if possible.
+
+            '
+          example: '2020-10-13T10:45:00Z'
+      required:
+      - order
+      - address
+    TmsConnector_BatchImportLoadResponseItem:
+      type: object
+      description: Import result data for a particular load from the imported batch
+      properties:
+        id:
+          type: string
+          description: Load Id in the platform
+          example: c6447366-9700-4851-854b-2bb41f03cde0
+        loadId:
+          type: string
+          description: Unique internal load identifier from TMS
+          example: pr0-003
+        status:
+          type: string
+          enum:
+          - CREATED
+          - UPDATED
+          - ERROR
+          description: "Load import status. \n* CREATED - a new load was imported\n* UPDATED - an existing load was updated\n* ERROR - an error occurred during load import\n"
+          example: CREATED
+        code:
+          type: string
+          description: When status is ERROR, contains a unique string identifier of the error
+          example: validation_errors_occured
+        message:
+          type: string
+          description: When status is ERROR, contains a human readable error message
+          example: Validation errors occured, check errors array for details
+        errors:
+          type: array
+          description: A list of validation errors that occurred during import.
+          items:
+            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
+      required:
+      - id
+      - loadId
+      - status
+    TmsConnector_Accessorials:
+      type: array
+      description: Accessorial list
+      items:
+        $ref: '#/components/schemas/TmsConnector_Accessorial'
+    TmsConnector_ShipperProfile:
+      type: object
+      x-parent: true
+      properties:
+        profileId:
+          type: string
+          description: Profile id
+          example: '13441524'
+        companyName:
+          type: string
+          description: Company name
+          example: Carggo
+        legalName:
+          type: string
+          description: The official name of entity that owns a business
+          example: Carggo
+        contact:
+          $ref: '#/components/schemas/TmsConnector_ContactObject'
+        accountManager:
+          type: string
+          description: Shipper account manager on the broker side
+          example: JAMES
+        status:
+          $ref: '#/components/schemas/TmsConnector_ProfileStatus'
+        userGroupId:
+          type: string
+          description: "A unique identifier (id) of a user group, \nthat this profile belongs to. e.g. Main company or an Agency\n"
+          example: Main office
+      required:
+      - profileId
+      - companyName
+    TmsConnector_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    TmsConnector_BatchImportProfileResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of profile batch import results
+          items:
+            $ref: '#/components/schemas/TmsConnector_BatchImportProfileResponseItem'
+      required:
+      - responses
+    TmsConnector_BatchImportShipperRequest:
+      type: object
+      properties:
+        shippers:
+          type: array
+          description: List of shipper profiles to import or update
+          items:
+            $ref: '#/components/schemas/TmsConnector_ShipperProfile'
+      required:
+      - shippers
+    TmsConnector_Error422UnprocessableEntityMulti:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          description: list of errors
+          items:
+            $ref: '#/components/schemas/TmsConnector_RequestValidationError'
+      required:
+      - code
+      - message
+      - errors
+      example:
+        code: request_validation
+        message: You have one or more errors in request structure
+        errors:
+        - field: carrierName
+          message: field contains wrong data type (int), should be string
+          value: '22'
+        - field: shipperId
+          message: 'shipperId: must not be null'
+          value: null
+        - field: loadSource.loadId
+          message: 'loadId: must not be null'
+          value: null
+    TmsConnector_ContactObject:
+      type: object
+      description: Contact data
+      properties:
+        name:
+          type: string
+          description: Contact name
+          example: John
+        phoneNumber:
+          type: string
+          description: Contact phone number
+          example: '121331343'
+        email:
+          type: string
+          description: Contact email
+          example: my@email.com
+    TmsConnector_ExtraStopAddress:
+      type: object
+      description: 'Location specified by country, city, state and zip code.
+
+        * Country is required
+
+        * Either city-state pair or zip code is required
+
+        * All four parameters can be passed together
+
+
+        (in case of city-state pair our platform will determine the zip code
+
+        and in case of a zip code, our platform will determine the city and the state)
+
+        '
+      properties:
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        city:
+          type: string
+          description: City name
+          example: Sacramento
+        state:
+          type: string
+          description: Two letter state code
+          example: CA
+        zip:
+          type: string
+          description: Zip code
+          example: '95814'
       required:
       - country
 externalDocs:
