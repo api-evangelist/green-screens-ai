@@ -43,6 +43,9 @@ modified: '2026-09-12'
 specificationVersion: '0.23'
 type: Index
 position: Producing
+x-docs-platform: redocly
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
 tags:
 - Artificial Intelligence
 - Freight
