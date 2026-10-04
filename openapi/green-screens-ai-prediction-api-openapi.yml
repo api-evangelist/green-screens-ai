@@ -433,32 +433,98 @@ paths:
         source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v3/prediction/long-term/batch-rates\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"POST\",\n  CURLOPT_POSTFIELDS => \"{\\\"requests\\\":[{\\\"transportType\\\":\\\"VAN\\\",\\\"stops\\\":[{\\\"order\\\":0,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Chicago\\\",\\\"state\\\":\\\"IL\\\",\\\"zip\\\":\\\"60611\\\"},{\\\"order\\\":1,\\\"country\\\":\\\"US\\\",\\\"city\\\":\\\"Dallas\\\",\\\"state\\\":\\\"TX\\\",\\\"zip\\\":\\\"75204\\\"}],\\\"commodity\\\":\\\"Racks\\\",\\\"tag\\\":\\\"Pro#1234\\\",\\\"currency\\\":\\\"USD\\\"}],\\\"rateType\\\":\\\"FLATRATE\\\",\\\"includeNetwork\\\":false,\\\"historicalDataType\\\":\\\"MODEL\\\",\\\"geographyLevel\\\":\\\"LANE\\\",\\\"historyPeriod\\\":1,\\\"includeMargin\\\":false,\\\"includeSellRate\\\":false,\\\"includeVolume\\\":false,\\\"includeBuyRate\\\":false,\\\"includeMinBuyRate\\\":false,\\\"includeMaxBuyRate\\\":false}\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\",\n    \"content-type: application/json\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
 components:
   schemas:
-    Prediction_Error:
+    Prediction_PredictionHistoryResponse:
       type: object
-      description: A common api error object
+      description: Contains a list of prediction requests and their responses
       properties:
-        code:
-          type: string
-          description: unique string identifier of the error
-        message:
-          type: string
-          description: human readable error message
-      required:
-      - code
-      - message
-      example:
-        code: invalid_request
-        message: Your ClientId is invalid
-    Prediction_PredictionLongTermBatchRatesResponse:
-      type: object
-      properties:
-        responses:
+        items:
           type: array
-          description: List of long term prediction responses
+          description: List of prediction requests and their responses
           items:
-            $ref: '#/components/schemas/Prediction_PredictionLongTermBatchRatesObject'
+            $ref: '#/components/schemas/Prediction_PredictionHistoryResponseItem'
       required:
-      - responses
+      - items
+    Prediction_PredictionRatesResponse:
+      allOf:
+      - $ref: '#/components/schemas/Prediction_PredictionRatesObject'
+    Prediction_RateStop:
+      type: object
+      description: Load stop data
+      properties:
+        order:
+          type: integer
+          description: Stop order, starting from 0
+          example: 0
+        country:
+          type: string
+          description: Two letter country code in ISO 3166-1 alpha-2 format
+          example: US
+        city:
+          type: string
+          description: City name
+          example: Chicago
+        state:
+          type: string
+          description: Two letter state code
+          example: IL
+        zip:
+          type: string
+          description: "Zip code. \n\n*Not required, but should be provided if possible, as it will improve prediction accuracy.*\n"
+          example: '60636'
+      example:
+        order: 0
+        country: US
+        city: Chicago
+        state: IL
+        zip: '60611'
+      required:
+      - order
+      - city
+      - state
+    Prediction_PredictionLongTermRatesRequest:
+      type: object
+      x-parent: true
+      properties:
+        transportType:
+          $ref: '#/components/schemas/Prediction_TransportType'
+        stops:
+          $ref: '#/components/schemas/Prediction_RateStopArray'
+        commodity:
+          type: string
+          description: Commodity description in free form
+          example: Racks
+        tag:
+          type: string
+          description: 'An optional parameter that can be used to identify the prediction response
+
+            '
+          example: Pro#1234
+        currency:
+          type: string
+          description: 'Code of the currency that you want the response to be in.
+
+            Format is ISO 4217.
+
+
+            If not provided, defaults to the currency set in the profile of currently authenticated user.
+
+            '
+          example: USD
+      required:
+      - transportType
+      - stops
+    Prediction_PredictionLongTermHistory:
+      type: object
+      description: 'Actual historical statistics for a lane (returned when `historicalDataType` is `ACTUAL`).
+
+        Each series is a monthly time series ordered newest first.
+
+        '
+      properties:
+        company:
+          $ref: '#/components/schemas/Prediction_PredictionLongTermHistorySeries'
+        market:
+          $ref: '#/components/schemas/Prediction_PredictionLongTermHistorySeries'
     Prediction_PredictionLongTermBatchRatesRequest:
       type: object
       properties:
@@ -572,6 +638,311 @@ components:
           example: false
       required:
       - requests
+    Prediction_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
+    Prediction_PredictionLongTermBatchRatesResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of long term prediction responses
+          items:
+            $ref: '#/components/schemas/Prediction_PredictionLongTermBatchRatesObject'
+      required:
+      - responses
+    Prediction_PredictionBatchRatesResponse:
+      type: object
+      properties:
+        responses:
+          type: array
+          description: List of prediction responses
+          items:
+            $ref: '#/components/schemas/Prediction_PredictionBatchRatesObject'
+      required:
+      - responses
+    Prediction_RateStopArray:
+      type: array
+      description: List of load stops
+      minItems: 2
+      items:
+        $ref: '#/components/schemas/Prediction_RateStop'
+      example:
+      - order: 0
+        country: US
+        city: Chicago
+        state: IL
+        zip: '60611'
+      - order: 1
+        country: US
+        city: Dallas
+        state: TX
+        zip: '75204'
+    Prediction_PredictionLongTermForecast:
+      type: object
+      description: Long term forecast for a single lane (company or full network)
+      properties:
+        current:
+          type: number
+          description: Current month predicted target rate
+          example: 2.24
+        forecast:
+          type: array
+          items:
+            type: number
+          description: Forecasted target rates for the next 12 months
+          example:
+          - 2.25
+          - 2.2
+          - 2.5
+          - 2.5
+          - 2.6
+          - 2.9
+          - 2.4
+          - 2.41
+          - 2.3
+          - 2.3
+          - 2.34
+          - 2.31
+        historicalPredicted:
+          type: array
+          items:
+            type: number
+          description: 'Historical predicted target rates for the past months, starting from the previous month.
+
+            '
+      required:
+      - current
+      - forecast
+    Prediction_Error:
+      type: object
+      description: A common api error object
+      properties:
+        code:
+          type: string
+          description: unique string identifier of the error
+        message:
+          type: string
+          description: human readable error message
+      required:
+      - code
+      - message
+      example:
+        code: invalid_request
+        message: Your ClientId is invalid
+    Prediction_PredictionBatchRatesRequest:
+      type: object
+      properties:
+        requests:
+          type: array
+          description: List of prediction requests
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/Prediction_PredictionRatesRequest'
+      required:
+      - requests
+    Prediction_PredictionBatchRatesObject:
+      allOf:
+      - $ref: '#/components/schemas/Prediction_PredictionRatesObject'
+      - type: object
+        properties:
+          status:
+            type: string
+            enum:
+            - OK
+            - ERROR
+            description: Prediction status
+            example: OK
+          errorObject:
+            $ref: '#/components/schemas/Prediction_ErrorObject'
+      required:
+      - status
+    Prediction_PredictionLongTermBatchRatesObject:
+      allOf:
+      - $ref: '#/components/schemas/Prediction_PredictionLongTermRatesObject'
+      - type: object
+        properties:
+          status:
+            type: string
+            enum:
+            - OK
+            - ERROR
+            description: Prediction status
+            example: OK
+          errorObject:
+            $ref: '#/components/schemas/Prediction_ErrorObject'
+        required:
+        - status
+    Prediction_RateNotes:
+      type: object
+      description: "Map of notes about the rate. \nThis is used to return additional information (notes/comments) about the rate, \nthat is difficult to convey otherwise.\n\nIf a property of this object is present and it's value is not null \nthen the note is considered applicable\n"
+      properties:
+        shortHaulRateInaccurate:
+          type: object
+          description: "Signifies that the predicted rate might be inaccurate \nbecause short hauls, are not supported well\n"
+          properties:
+            distanceLessThan:
+              type: number
+              description: "A load is considered a Short Haul \nif it's mileage is lower than this number\n"
+              example: 30
+          required:
+          - distanceLessThan
+        multistopDistanceOutlierRateInaccurate:
+          type: object
+          description: "Signifies that the predicted rate might be inaccurate \nbecause multistop hauls with distance much bigger or less than \nthe distance for the same lane single stop haul, are not supported well\n"
+          properties:
+            allowedDistanceDifferenceRange:
+              type: object
+              description: "Describes the range of distance values that should not trigger this warning.\nAnything outside the minimum and the maximum \nwill be considered inaccurate. And will trigger this warning as a result\n"
+              properties:
+                minimumPercentage:
+                  type: number
+                  description: "Minimum distance difference percentage \nallowed for the prediction to be considered accurate.\nIf not present then there is no lower bound\n"
+                  example: 0
+                maximumPercentage:
+                  type: number
+                  description: 'Maximum distance difference percentage
+
+                    allowed for the prediction to be considered accurate.
+
+                    If not present then there is no upper bound
+
+                    '
+                  example: 100
+            singleStopDistance:
+              type: number
+              description: Distance (in miles) of a single stop haul for the same lane
+              example: 570
+          required:
+          - allowedDistanceDifferenceRange
+          - singleStopDistance
+    Prediction_PredictionRatesRequest:
+      type: object
+      x-parent: true
+      properties:
+        pickupDateTime:
+          type: string
+          format: date-time
+          description: 'Load pick up date and time in ISO date format. Time zone is ignored.
+
+
+            **Earliest allowed** pickup date is 2015-01-01T00:00:00Z.
+
+            '
+          example: '2021-09-21T13:00:00Z'
+        transportType:
+          $ref: '#/components/schemas/Prediction_TransportType'
+        stops:
+          $ref: '#/components/schemas/Prediction_RateStopArray'
+        commodity:
+          type: string
+          description: Commodity description in free form
+          example: Racks
+        tag:
+          type: string
+          description: 'An optional parameter that can be used to identify the prediction response
+
+            '
+          example: Pro#1234
+        currency:
+          type: string
+          description: "Code of the currency that you want the response to be in. \nFormat is ISO 4217. \n\nIf not provided, defaults to the currency set in the profile of currently authenticated user.\n"
+          example: USD
+      required:
+      - pickupDateTime
+      - transportType
+      - stops
+    Prediction_PredictionLongTermRatesObject:
+      type: object
+      x-parent: true
+      properties:
+        tag:
+          type: string
+          description: 'Tag for prediction identification.
+
+
+            If you passed a tag parameter in the request, it will have the same value.
+
+            If not, then it will be generated by us.
+
+            '
+          example: 78206219-883b-4e1a-bd42-4010d3cc21c1
+        distance:
+          type: number
+          description: Total distance of the trip (in miles)
+          example: 289
+        currency:
+          type: string
+          description: The currency that the prediction values are in (ISO 4217 format)
+          example: USD
+        companyForecast:
+          $ref: '#/components/schemas/Prediction_PredictionLongTermForecast'
+        gsNetworkForecast:
+          $ref: '#/components/schemas/Prediction_PredictionLongTermForecast'
+        history:
+          $ref: '#/components/schemas/Prediction_PredictionLongTermHistory'
+      required:
+      - tag
+    Prediction_PredictionLongTermHistorySeries:
+      type: object
+      description: 'Actual historical statistics for a lane, aggregated per month, newest first.
+
+        Returned only when `historicalDataType` is `ACTUAL` and the corresponding
+
+        include flag is set. Company series carry margin and sell rate; market
+
+        (network) series do not.
+
+        '
+      properties:
+        buyRate:
+          type: array
+          items:
+            type:
+            - number
+            - 'null'
+          description: Average buy rate per month (present when `includeBuyRate` is set).
+        minBuyRate:
+          type: array
+          items:
+            type:
+            - number
+            - 'null'
+          description: Minimum buy rate per month (present when `includeMinBuyRate` is set).
+        maxBuyRate:
+          type: array
+          items:
+            type:
+            - number
+            - 'null'
+          description: Maximum buy rate per month (present when `includeMaxBuyRate` is set).
+        margin:
+          type: array
+          items:
+            type:
+            - number
+            - 'null'
+          description: Average margin per month (company only, present when `includeMargin` is set).
+        sellRate:
+          type: array
+          items:
+            type:
+            - number
+            - 'null'
+          description: Average sell rate per month (company only, present when `includeSellRate` is set).
+        volume:
+          type: array
+          items:
+            type:
+            - integer
+            - 'null'
+          description: Number of reports per month (present when `includeVolume` is set).
     Prediction_PredictionHistoryResponseItem:
       type: object
       properties:
@@ -673,153 +1044,6 @@ components:
       - startBuyRate
       - distance
       - confidenceLevel
-    Prediction_PredictionRatesResponse:
-      allOf:
-      - $ref: '#/components/schemas/Prediction_PredictionRatesObject'
-    Prediction_PredictionLongTermHistorySeries:
-      type: object
-      description: 'Actual historical statistics for a lane, aggregated per month, newest first.
-
-        Returned only when `historicalDataType` is `ACTUAL` and the corresponding
-
-        include flag is set. Company series carry margin and sell rate; market
-
-        (network) series do not.
-
-        '
-      properties:
-        buyRate:
-          type: array
-          items:
-            type:
-            - number
-            - 'null'
-          description: Average buy rate per month (present when `includeBuyRate` is set).
-        minBuyRate:
-          type: array
-          items:
-            type:
-            - number
-            - 'null'
-          description: Minimum buy rate per month (present when `includeMinBuyRate` is set).
-        maxBuyRate:
-          type: array
-          items:
-            type:
-            - number
-            - 'null'
-          description: Maximum buy rate per month (present when `includeMaxBuyRate` is set).
-        margin:
-          type: array
-          items:
-            type:
-            - number
-            - 'null'
-          description: Average margin per month (company only, present when `includeMargin` is set).
-        sellRate:
-          type: array
-          items:
-            type:
-            - number
-            - 'null'
-          description: Average sell rate per month (company only, present when `includeSellRate` is set).
-        volume:
-          type: array
-          items:
-            type:
-            - integer
-            - 'null'
-          description: Number of reports per month (present when `includeVolume` is set).
-    Prediction_PredictionRatesRequest:
-      type: object
-      x-parent: true
-      properties:
-        pickupDateTime:
-          type: string
-          format: date-time
-          description: 'Load pick up date and time in ISO date format. Time zone is ignored.
-
-
-            **Earliest allowed** pickup date is 2015-01-01T00:00:00Z.
-
-            '
-          example: '2021-09-21T13:00:00Z'
-        transportType:
-          $ref: '#/components/schemas/Prediction_TransportType'
-        stops:
-          $ref: '#/components/schemas/Prediction_RateStopArray'
-        commodity:
-          type: string
-          description: Commodity description in free form
-          example: Racks
-        tag:
-          type: string
-          description: 'An optional parameter that can be used to identify the prediction response
-
-            '
-          example: Pro#1234
-        currency:
-          type: string
-          description: "Code of the currency that you want the response to be in. \nFormat is ISO 4217. \n\nIf not provided, defaults to the currency set in the profile of currently authenticated user.\n"
-          example: USD
-      required:
-      - pickupDateTime
-      - transportType
-      - stops
-    Prediction_RateStopArray:
-      type: array
-      description: List of load stops
-      minItems: 2
-      items:
-        $ref: '#/components/schemas/Prediction_RateStop'
-      example:
-      - order: 0
-        country: US
-        city: Chicago
-        state: IL
-        zip: '60611'
-      - order: 1
-        country: US
-        city: Dallas
-        state: TX
-        zip: '75204'
-    Prediction_PredictionBatchRatesRequest:
-      type: object
-      properties:
-        requests:
-          type: array
-          description: List of prediction requests
-          maxItems: 1000
-          items:
-            $ref: '#/components/schemas/Prediction_PredictionRatesRequest'
-      required:
-      - requests
-    Prediction_PredictionBatchRatesResponse:
-      type: object
-      properties:
-        responses:
-          type: array
-          description: List of prediction responses
-          items:
-            $ref: '#/components/schemas/Prediction_PredictionBatchRatesObject'
-      required:
-      - responses
-    Prediction_PredictionBatchRatesObject:
-      allOf:
-      - $ref: '#/components/schemas/Prediction_PredictionRatesObject'
-      - type: object
-        properties:
-          status:
-            type: string
-            enum:
-            - OK
-            - ERROR
-            description: Prediction status
-            example: OK
-          errorObject:
-            $ref: '#/components/schemas/Prediction_ErrorObject'
-      required:
-      - status
     Prediction_Error422UnprocessableEntityMulti:
       type: object
       properties:
@@ -888,219 +1112,6 @@ components:
       - httpCode
       - code
       - message
-    Prediction_PredictionLongTermRatesObject:
-      type: object
-      x-parent: true
-      properties:
-        tag:
-          type: string
-          description: 'Tag for prediction identification.
-
-
-            If you passed a tag parameter in the request, it will have the same value.
-
-            If not, then it will be generated by us.
-
-            '
-          example: 78206219-883b-4e1a-bd42-4010d3cc21c1
-        distance:
-          type: number
-          description: Total distance of the trip (in miles)
-          example: 289
-        currency:
-          type: string
-          description: The currency that the prediction values are in (ISO 4217 format)
-          example: USD
-        companyForecast:
-          $ref: '#/components/schemas/Prediction_PredictionLongTermForecast'
-        gsNetworkForecast:
-          $ref: '#/components/schemas/Prediction_PredictionLongTermForecast'
-        history:
-          $ref: '#/components/schemas/Prediction_PredictionLongTermHistory'
-      required:
-      - tag
-    Prediction_PredictionLongTermBatchRatesObject:
-      allOf:
-      - $ref: '#/components/schemas/Prediction_PredictionLongTermRatesObject'
-      - type: object
-        properties:
-          status:
-            type: string
-            enum:
-            - OK
-            - ERROR
-            description: Prediction status
-            example: OK
-          errorObject:
-            $ref: '#/components/schemas/Prediction_ErrorObject'
-        required:
-        - status
-    Prediction_RateStop:
-      type: object
-      description: Load stop data
-      properties:
-        order:
-          type: integer
-          description: Stop order, starting from 0
-          example: 0
-        country:
-          type: string
-          description: Two letter country code in ISO 3166-1 alpha-2 format
-          example: US
-        city:
-          type: string
-          description: City name
-          example: Chicago
-        state:
-          type: string
-          description: Two letter state code
-          example: IL
-        zip:
-          type: string
-          description: "Zip code. \n\n*Not required, but should be provided if possible, as it will improve prediction accuracy.*\n"
-          example: '60636'
-      example:
-        order: 0
-        country: US
-        city: Chicago
-        state: IL
-        zip: '60611'
-      required:
-      - order
-      - city
-      - state
-    Prediction_PredictionLongTermHistory:
-      type: object
-      description: 'Actual historical statistics for a lane (returned when `historicalDataType` is `ACTUAL`).
-
-        Each series is a monthly time series ordered newest first.
-
-        '
-      properties:
-        company:
-          $ref: '#/components/schemas/Prediction_PredictionLongTermHistorySeries'
-        market:
-          $ref: '#/components/schemas/Prediction_PredictionLongTermHistorySeries'
-    Prediction_PredictionLongTermRatesRequest:
-      type: object
-      x-parent: true
-      properties:
-        transportType:
-          $ref: '#/components/schemas/Prediction_TransportType'
-        stops:
-          $ref: '#/components/schemas/Prediction_RateStopArray'
-        commodity:
-          type: string
-          description: Commodity description in free form
-          example: Racks
-        tag:
-          type: string
-          description: 'An optional parameter that can be used to identify the prediction response
-
-            '
-          example: Pro#1234
-        currency:
-          type: string
-          description: 'Code of the currency that you want the response to be in.
-
-            Format is ISO 4217.
-
-
-            If not provided, defaults to the currency set in the profile of currently authenticated user.
-
-            '
-          example: USD
-      required:
-      - transportType
-      - stops
-    Prediction_PredictionLongTermForecast:
-      type: object
-      description: Long term forecast for a single lane (company or full network)
-      properties:
-        current:
-          type: number
-          description: Current month predicted target rate
-          example: 2.24
-        forecast:
-          type: array
-          items:
-            type: number
-          description: Forecasted target rates for the next 12 months
-          example:
-          - 2.25
-          - 2.2
-          - 2.5
-          - 2.5
-          - 2.6
-          - 2.9
-          - 2.4
-          - 2.41
-          - 2.3
-          - 2.3
-          - 2.34
-          - 2.31
-        historicalPredicted:
-          type: array
-          items:
-            type: number
-          description: 'Historical predicted target rates for the past months, starting from the previous month.
-
-            '
-      required:
-      - current
-      - forecast
-    Prediction_TransportType:
-      type: string
-      enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-      example: VAN
-    Prediction_RateNotes:
-      type: object
-      description: "Map of notes about the rate. \nThis is used to return additional information (notes/comments) about the rate, \nthat is difficult to convey otherwise.\n\nIf a property of this object is present and it's value is not null \nthen the note is considered applicable\n"
-      properties:
-        shortHaulRateInaccurate:
-          type: object
-          description: "Signifies that the predicted rate might be inaccurate \nbecause short hauls, are not supported well\n"
-          properties:
-            distanceLessThan:
-              type: number
-              description: "A load is considered a Short Haul \nif it's mileage is lower than this number\n"
-              example: 30
-          required:
-          - distanceLessThan
-        multistopDistanceOutlierRateInaccurate:
-          type: object
-          description: "Signifies that the predicted rate might be inaccurate \nbecause multistop hauls with distance much bigger or less than \nthe distance for the same lane single stop haul, are not supported well\n"
-          properties:
-            allowedDistanceDifferenceRange:
-              type: object
-              description: "Describes the range of distance values that should not trigger this warning.\nAnything outside the minimum and the maximum \nwill be considered inaccurate. And will trigger this warning as a result\n"
-              properties:
-                minimumPercentage:
-                  type: number
-                  description: "Minimum distance difference percentage \nallowed for the prediction to be considered accurate.\nIf not present then there is no lower bound\n"
-                  example: 0
-                maximumPercentage:
-                  type: number
-                  description: 'Maximum distance difference percentage
-
-                    allowed for the prediction to be considered accurate.
-
-                    If not present then there is no upper bound
-
-                    '
-                  example: 100
-            singleStopDistance:
-              type: number
-              description: Distance (in miles) of a single stop haul for the same lane
-              example: 570
-          required:
-          - allowedDistanceDifferenceRange
-          - singleStopDistance
     Prediction_PredictionRatesObject:
       type: object
       x-parent: true
@@ -1179,17 +1190,6 @@ components:
       - acceptanceRates
       - tag
       - currency
-    Prediction_PredictionHistoryResponse:
-      type: object
-      description: Contains a list of prediction requests and their responses
-      properties:
-        items:
-          type: array
-          description: List of prediction requests and their responses
-          items:
-            $ref: '#/components/schemas/Prediction_PredictionHistoryResponseItem'
-      required:
-      - items
   parameters:
     Prediction_UserHeader:
       in: header

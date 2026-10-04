@@ -486,6 +486,15 @@ paths:
         source: "<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => \"https://testapi.greenscreens.ai/v1/analytics/lane-triumph-carriers?transportType=VAN&originMarketCode=NY_ALB&destinationMarketCode=NY_ALB&originState=NY&originCity=Schenectady&originZip=12345&destinationState=IL&destinationCity=Chicago&destinationZip=60636&responseGranularity=KMA_LANE&pageSize=SOME_INTEGER_VALUE&pageNumber=SOME_INTEGER_VALUE\",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_ENCODING => \"\",\n  CURLOPT_MAXREDIRS => 10,\n  CURLOPT_TIMEOUT => 30,\n  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,\n  CURLOPT_CUSTOMREQUEST => \"GET\",\n  CURLOPT_HTTPHEADER => [\n    \"Authorization: Bearer REPLACE_BEARER_TOKEN\"\n  ],\n]);\n\n$response = curl_exec($curl);\n$err = curl_error($curl);\n\ncurl_close($curl);\n\nif ($err) {\n  echo \"cURL Error #:\" . $err;\n} else {\n  echo $response;\n}"
 components:
   schemas:
+    Analytics_TransportType:
+      type: string
+      enum:
+      - VAN
+      - REEFER
+      - FLATBED
+      - HOTSHOT
+      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
+      example: VAN
     Analytics_Pagination:
       type: object
       description: Response pagination data
@@ -512,64 +521,13 @@ components:
       required:
       - pageNumber
       - pageSize
-    Analytics_MarketCode:
-      type: string
-      description: Machine readable code of a market area
-      example: NY_ALB
-    Analytics_TransportType:
+    Analytics_ResponseGranularity:
       type: string
       enum:
-      - VAN
-      - REEFER
-      - FLATBED
-      - HOTSHOT
-      description: "Transport type\n\nIf you would like Hotshot predictions, reach out to your CSM and DA. \nThe model will not work properly without your hotshot data effectively filtered and imported into the model.\n"
-      example: VAN
-    Analytics_AnalyticsLaneTriumphCarriersResponse:
-      type: object
-      description: Analytics lane carriers response
-      properties:
-        responseGranularity:
-          $ref: '#/components/schemas/Analytics_ResponseGranularity'
-        originMarketCode:
-          $ref: '#/components/schemas/Analytics_MarketCode'
-        destinationMarketCode:
-          $ref: '#/components/schemas/Analytics_MarketCode'
-        originCity:
-          type: string
-          description: Origin city
-          example: Chicago
-        originState:
-          type: string
-          description: Origin state
-          example: IL
-        originZip:
-          type: string
-          description: Origin zip, 3 or 5 digits following requested zip
-          example: '60636'
-        destinationCity:
-          type: string
-          description: Destination city
-          example: Houston
-        destinationState:
-          type: string
-          description: Destination state
-          example: TX
-        destinationZip:
-          type: string
-          description: Destination zip, 3 or 5 digits following requested zip
-          example: '73264'
-        transportType:
-          $ref: '#/components/schemas/Analytics_TransportType'
-        items:
-          type: array
-          description: List of carriers
-          items:
-            $ref: '#/components/schemas/Analytics_AnalyticsLaneTriumphCarrierItem'
-        pagination:
-          $ref: '#/components/schemas/Analytics_Pagination'
-      required:
-      - items
+      - KMA_LANE
+      - EXACT_LANE
+      description: "The granularity level to determine lanes at. \nKMA_LANE will search and return lanes by their KMA. \nEXACT_LANE will return lanes by their city/state/zip.\n"
+      example: KMA_LANE
     Analytics_PerformanceMetricsObject:
       type: object
       description: Performance metrics
@@ -610,58 +568,6 @@ components:
           type: string
           description: Last Delivered At Date
           example: '2026-04-28'
-    Analytics_AnalyticsLaneTriumphCarrierItem:
-      type: object
-      properties:
-        carrierName:
-          type: string
-          description: Carrier Name
-          example: Eagle One Delivery
-        carrierPhone:
-          type: string
-          description: Carrier phone
-          example: '121331343'
-        carrierEmail:
-          type: string
-          description: Carrier email
-          example: test@carrier.com
-        carrierMC:
-          type: string
-          description: Motor Carrier number of this carrier
-          example: MC00334234
-        carrierDOT:
-          type: string
-          description: Department of Transportation number of this carrier
-          example: USDOT33136
-        performanceMetrics:
-          $ref: '#/components/schemas/Analytics_PerformanceMetricsObject'
-        transportTypes:
-          type: array
-          description: List of transport types this carrier is known to support
-          items:
-            $ref: '#/components/schemas/Analytics_TransportType'
-      required:
-      - carrierName
-      - performanceMetrics
-    Analytics_ResponseGranularity:
-      type: string
-      enum:
-      - KMA_LANE
-      - EXACT_LANE
-      description: "The granularity level to determine lanes at. \nKMA_LANE will search and return lanes by their KMA. \nEXACT_LANE will return lanes by their city/state/zip.\n"
-      example: KMA_LANE
-    Analytics_AnalyticsLaneCarriersResponse:
-      type: object
-      description: Analytics lane carriers response
-      properties:
-        items:
-          type: array
-          description: List of carriers
-          maxItems: 10
-          items:
-            $ref: '#/components/schemas/Analytics_AnalyticsLaneCarrierItem'
-      required:
-      - items
     Analytics_AnalyticsLaneCarrierItem:
       type: object
       properties:
@@ -759,6 +665,100 @@ components:
       - maxCarrierFlatRate
       - averageCarrierMarginPercent
       - currency
+    Analytics_AnalyticsLaneCarriersResponse:
+      type: object
+      description: Analytics lane carriers response
+      properties:
+        items:
+          type: array
+          description: List of carriers
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/Analytics_AnalyticsLaneCarrierItem'
+      required:
+      - items
+    Analytics_AnalyticsLaneTriumphCarriersResponse:
+      type: object
+      description: Analytics lane carriers response
+      properties:
+        responseGranularity:
+          $ref: '#/components/schemas/Analytics_ResponseGranularity'
+        originMarketCode:
+          $ref: '#/components/schemas/Analytics_MarketCode'
+        destinationMarketCode:
+          $ref: '#/components/schemas/Analytics_MarketCode'
+        originCity:
+          type: string
+          description: Origin city
+          example: Chicago
+        originState:
+          type: string
+          description: Origin state
+          example: IL
+        originZip:
+          type: string
+          description: Origin zip, 3 or 5 digits following requested zip
+          example: '60636'
+        destinationCity:
+          type: string
+          description: Destination city
+          example: Houston
+        destinationState:
+          type: string
+          description: Destination state
+          example: TX
+        destinationZip:
+          type: string
+          description: Destination zip, 3 or 5 digits following requested zip
+          example: '73264'
+        transportType:
+          $ref: '#/components/schemas/Analytics_TransportType'
+        items:
+          type: array
+          description: List of carriers
+          items:
+            $ref: '#/components/schemas/Analytics_AnalyticsLaneTriumphCarrierItem'
+        pagination:
+          $ref: '#/components/schemas/Analytics_Pagination'
+      required:
+      - items
+    Analytics_AnalyticsLaneTriumphCarrierItem:
+      type: object
+      properties:
+        carrierName:
+          type: string
+          description: Carrier Name
+          example: Eagle One Delivery
+        carrierPhone:
+          type: string
+          description: Carrier phone
+          example: '121331343'
+        carrierEmail:
+          type: string
+          description: Carrier email
+          example: test@carrier.com
+        carrierMC:
+          type: string
+          description: Motor Carrier number of this carrier
+          example: MC00334234
+        carrierDOT:
+          type: string
+          description: Department of Transportation number of this carrier
+          example: USDOT33136
+        performanceMetrics:
+          $ref: '#/components/schemas/Analytics_PerformanceMetricsObject'
+        transportTypes:
+          type: array
+          description: List of transport types this carrier is known to support
+          items:
+            $ref: '#/components/schemas/Analytics_TransportType'
+      required:
+      - carrierName
+      - performanceMetrics
+    Analytics_MarketCode:
+      type: string
+      description: Machine readable code of a market area
+      example: NY_ALB
 externalDocs:
   description: Triumph Intelligence
   url: https://intelligence.triumph.io
