@@ -1,0 +1,12 @@
+{
+ "url": "https://connect.greenscreens.ai/openapi.yaml",
+ "requested_url": "https://connect.greenscreens.ai/openapi.yaml",
+ "status": 200,
+ "content_type": "application/yaml",
+ "bytes": 627191,
+ "sha256": "08ed5fdd482baf9fc5a870ac8ab8e2c0e719f73ba7d4d51b4b1d0d8bc398d1f7",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
