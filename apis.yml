@@ -233,6 +233,8 @@ apis:
   - type: Documentation
     url: https://connect.greenscreens.ai/marketintelligence/v1/swagger/index.html
 common:
+- type: FinOps
+  url: finops/green-screens-ai-finops.yml
 - type: Overlay
   url: overlays/green-screens-ai-marketintelligence-overlay.yaml
 - type: Overlay
