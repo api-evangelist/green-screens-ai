@@ -1,20 +1,44 @@
-generated: '2026-07-15'
+generated: '2026-09-23'
 method: generated
-source: openapi/green-screens-ai-openapi.yml
+source: openapi/green-screens-ai-analytics-api-openapi.yml, openapi/green-screens-ai-auth-api-openapi.yml,
+  openapi/green-screens-ai-bids-api-openapi.yml, openapi/green-screens-ai-history-api-openapi.yml,
+  openapi/green-screens-ai-market-intelligence-api-openapi.yml, openapi/green-screens-ai-prediction-api-openapi.yml,
+  openapi/green-screens-ai-pricing-api-openapi.yml, openapi/green-screens-ai-quotes-api-openapi.yml,
+  openapi/green-screens-ai-tms-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 40
+  operations: 54
   by_action_class:
-    acting: 28
-    connected: 12
+    connected: 18
+    acting: 36
   by_consequence:
-    write: 25
-    read: 12
+    read: 18
+    write: 33
     physical: 3
   human_in_the_loop_required: 0
 operations:
+- path: /analytics/lane-top-carriers
+  method: get
+  operationId: analyticsLaneTopCarriers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /analytics/lane-triumph-carriers
+  method: get
+  operationId: analyticsLaneTriumphCarriers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /auth/token
   method: post
   operationId: authToken
@@ -31,16 +55,6 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /analytics/lane-top-carriers
-  method: get
-  operationId: analyticsLaneTopCarriers
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /bids
   method: post
   operationId: saveBid
@@ -279,6 +293,22 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /prediction/long-term/batch-rates
+  method: post
+  operationId: predictionLongTermBatchRates
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /pricing/priority-rules
   method: post
   operationId: pricingPriorityRulesCreate
@@ -415,6 +445,74 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /pricing/threshold-rules
+  method: post
+  operationId: pricingThresholdRulesCreate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pricing/threshold-rules
+  method: get
+  operationId: pricingThresholdRulesGetAll
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pricing/threshold-rules/{ruleId}
+  method: get
+  operationId: pricingThresholdRuleGet
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pricing/threshold-rules/{ruleId}
+  method: put
+  operationId: pricingThresholdRuleUpdate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pricing/threshold-rules/{ruleId}
+  method: delete
+  operationId: pricingThresholdRuleDelete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /pricing/tpl-pricing
   method: post
   operationId: pricingTplPricing
@@ -435,6 +533,26 @@ operations:
   method: post
   operationId: pricingMarketplaceMyBrokerPartners
   x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /quotes
+  method: get
+  operationId: quotesGetAll
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /quotes
+  method: post
+  operationId: saveQuote
+  x-agentic-access:
     action-class: acting
     consequence: write
     subject: required
@@ -447,16 +565,6 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /quotes
-  method: get
-  operationId: quotesGetAll
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /quotes/import
   method: post
   operationId: quotesImport
@@ -489,6 +597,90 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /quotes/accept
+  method: post
+  operationId: acceptQuote
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /quotes/reject
+  method: post
+  operationId: rejectQuote
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /quotes/{quoteId}
+  method: patch
+  operationId: updateQuote
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /quotes/{quoteId}
+  method: delete
+  operationId: deleteQuote
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /quotes/shippers
+  method: get
+  operationId: shipperInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /quotes/lane-top-quotes
+  method: get
+  operationId: laneTopQuotes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /tms/import-load
   method: post
   operationId: tmsImportLoad
