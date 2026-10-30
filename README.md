@@ -1,4 +1,4 @@
-# Green Screens AI (green-screens-ai)
+# Green Screens AI
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,59 +64,165 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Green Screens AI provides predictive freight rate and capacity intelligence APIs, offering real-time market insights and price predictions for transportation and logistics.
+Green Screens AI — now sold as Triumph Intelligence following its acquisition by Triumph Financial — publishes predictive freight rate, capacity and pricing intelligence APIs for truckload brokers and shippers across the United States and Canada. The estate spans eleven versioned services behind one OAuth2 client-credentials gateway: lane rate prediction (spot, network and long-term batch), market intelligence and negotiation advice, carrier and lane analytics keyed on SCAC, MC and USDOT identifiers, historical rates, pricing rules, quotes, a carrier bid cycle, and a TMS connector for importing loads, carriers and shippers. Twelve first-party OpenAPI 3.0.2 documents, 36 paths and 47 operations are published openly at connect.greenscreens.ai; the callable production host is api.greenscreens.ai. A CDN-distributed browser widget bundle and a Chrome extension are the only client libraries.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/green-screens-ai/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/green-screens-ai/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Freight · Logistics · Machine Learning · Pricing · Transportation
 
-## Scope
+## Green Screens AI on APIs.io
 
-- **Type:** Index
+Everything profiled for Green Screens AI is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/green-screens-ai/](https://apis.io/providers/green-screens-ai/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (9)
 
-- AI
-- Freight
-- Logistics
-- Machine Learning
-- Pricing
-- Transportation
+- [Green Screens AI Prediction API](https://apis.io/apis/green-screens-ai/green-screens-ai-prediction-api/) — Prediction service v3 — lane rate prediction, batch rates, network rates, long-term batch rates and prediction history. Spec version 3.8.0, 6 paths. The…
+- [Green Screens AI Auth API](https://apis.io/apis/green-screens-ai/green-screens-ai-auth-api/) — Authentication service. OAuth 2.0 client_credentials grant (RFC 6749) issuing a Keycloak JWT that is presented as an RFC 6750 bearer token on every other…
+- [Green Screens AI Analytics API](https://apis.io/apis/green-screens-ai/green-screens-ai-analytics-api/) — Analytics service v1 — lane top carriers and lane Triumph carriers, returned with SCAC, FMCSA MC and USDOT identifiers. The only paginated collection in the…
+- [Green Screens AI Bids API](https://apis.io/apis/green-screens-ai/green-screens-ai-bids-api/) — Carrier bids service v1 — save, read, update and delete bids, search carriers, accept a bid, and send a bid request to an external carrier. Spec version…
+- [Green Screens AI History API](https://apis.io/apis/green-screens-ai/green-screens-ai-history-api/) — Historical rate data and similar lanes analysis v1 — load history and recent rates. Spec version 1.0.0, 2 paths.
+- [Green Screens AI Pricing API](https://apis.io/apis/green-screens-ai/green-screens-ai-pricing-api/) — Pricing service v1 — priority rules, combination rules and threshold rules (full CRUD each), 3PL pricing, and marketplace broker partners. Spec version…
+- [Green Screens AI Quotes API](https://apis.io/apis/green-screens-ai/green-screens-ai-quotes-api/) — Quotes service v2 — list quotes, import and batch import. Spec version 2.0.0, 3 paths. NOT a superset of v1: the accept, reject, update, delete,…
+- [Green Screens AI TMS API](https://apis.io/apis/green-screens-ai/green-screens-ai-tms-api/) — TmsConnector service v2 — import loads, carriers and shippers, singly or in batches, from a broker transportation management system. Spec version 2.18.6, 6…
+- [Green Screens AI Market Intelligence API](https://apis.io/apis/green-screens-ai/green-screens-ai-market-intelligence-api/) — Market Intelligence service v1 View separately Try it in swagger
 
-## Timestamps
+### Published properties
 
-- **Created:** 2024-07-02
-- **Modified:** 2026-04-28
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (1)
 
-### Green Screens AI Prediction API
+Model Context Protocol servers that expose the API to agents.
 
-Predictive freight rate and capacity intelligence for transportation and logistics. Provides real-time market rate predictions, lane pricing, and capacity insights.
+- [green-screens-ai-mcp.yml](https://apis.io/servers/green-screens-ai/green-screens-ai-mcp-yml/)
 
-- **Human URL:** [https://connect.greenscreens.ai/prediction/v3/swagger/index.html](https://connect.greenscreens.ai/prediction/v3/swagger/index.html)
-- **Base URL:** `https://connect.greenscreens.ai/prediction/v3`
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- AI
-- Freight
-- Logistics
-- Pricing
+- [Green Screens Ai Agentic Access](https://apis.io/agentic-access/green-screens-ai/green-screens-ai-agentic-access/)
 
-#### Properties
+#### Collections (10)
 
-- [Documentation](https://connect.greenscreens.ai/prediction/v3/swagger/index.html)
-- [Portal](https://www.greenscreens.ai)
-- [Postman Collection](collections/green-screens-ai.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/green-screens-ai.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Postman and Open Collection request collections.
 
-## Common Properties
+- [Triumph Intelligence Connect](https://apis.io/collections/green-screens-ai/open-green-screens-ai/)
+- [Triumph Intelligence Connect Analytics API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-analytics-api/)
+- [Triumph Intelligence Connect Analytics Auth API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-auth-api/)
+- [Triumph Intelligence Connect Analytics Bids API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-bids-api/)
+- [Triumph Intelligence Connect Analytics History API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-history-api/)
+- [Triumph Intelligence Connect Analytics MarketIntelligence API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-marketintelligence-api/)
+- [Triumph Intelligence Connect Analytics Prediction API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-prediction-api/)
+- [Triumph Intelligence Connect Analytics Pricing API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-pricing-api/)
+- [Triumph Intelligence Connect Analytics Quotes API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-quotes-api/)
+- [Triumph Intelligence Connect Analytics TMS API](https://apis.io/collections/green-screens-ai/open-green-screens-ai-tms-api/)
 
-- [LinkedIn](https://www.linkedin.com/company/greenscreensai)
-- [Website](https://www.greenscreens.ai)
-- [Portal](https://www.greenscreens.ai)
-- [Documentation](https://connect.greenscreens.ai/prediction/v3/swagger/index.html)
+#### Overlays (12)
 
-## Maintainers
+OpenAPI overlays, including conversational phrasing for each operation.
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+- [Green Screens Ai Analytics Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-analytics-overlay/)
+- [Green Screens Ai Auth Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-auth-overlay/)
+- [Green Screens Ai Bids Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-bids-overlay/)
+- [Green Screens Ai Datalake Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-datalake-overlay/)
+- [Green Screens Ai History Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-history-overlay/)
+- [Green Screens Ai Marketintelligence Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-marketintelligence-overlay/)
+- [Green Screens Ai Prediction V2 Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-prediction-v2-overlay/)
+- [Green Screens Ai Prediction V3 Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-prediction-v3-overlay/)
+- [Green Screens Ai Pricing Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-pricing-overlay/)
+- [Green Screens Ai Quotes V1 Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-quotes-v1-overlay/)
+- [Green Screens Ai Quotes V2 Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-quotes-v2-overlay/)
+- [Green Screens Ai Tms Overlay](https://apis.io/overlays/green-screens-ai/green-screens-ai-tms-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Green Screens Ai Authentication](https://apis.io/security/green-screens-ai/green-screens-ai-authentication/)
+- [Green Screens Ai Domain Security](https://apis.io/security/green-screens-ai/green-screens-ai-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Green Screens Ai Plans Pricing](https://apis.io/plans/green-screens-ai/green-screens-ai-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Green Screens Ai Rate Limits](https://apis.io/rate-limits/green-screens-ai/green-screens-ai-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Green Screens Ai Finops](https://apis.io/finops/green-screens-ai/green-screens-ai-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://triumph.io/solutions/rates/)
+- [Documentation](https://connect.greenscreens.ai/)
+- [Getting started](https://intelligencehelp.triumph.io/en/collections/8387516-partners-and-integrations)
+- [API reference](https://connect.greenscreens.ai/)
+- [Support](https://triumph.io/support/)
+- [Changelog](https://intelligencehelp.triumph.io/en/articles/8520083-what-s-new)
+- [Blog](https://triumph.io/blog/broker/)
+- [Terms of service](https://triumph.io/terms-of-service/)
+- [Privacy policy](https://triumph.io/privacy-policy/)
+- [Status](https://triumph.statuspage.io/)
+
+## API Evangelist rating
+
+**Kin Score 43.6** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 46.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 73.2 |
+| Access clarity | 27.6 |
+
+**Agent readiness 29.4** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 22.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/green-screens-ai/](https://apis.io/providers/green-screens-ai/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Green Screens AI: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/green-screens-ai/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
